@@ -7,3 +7,6 @@
 	     '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
+;; Short answers to questions
+(defalias 'yes-or-no-p 'y-or-n-p)
+
