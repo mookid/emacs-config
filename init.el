@@ -26,5 +26,11 @@
       '(kill-ring search-ring regexp-search-ring))
 
 ;; Color theme
+(message "Loading color theme...")
 (load-theme 'tango-dark)
+
+;; Evil mode
+(message "Loading evil mode...")
+(require 'evil)
+(evil-mode)
 
