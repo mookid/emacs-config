@@ -1,3 +1,9 @@
+;; Remove gui elements
+(tooltip-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode 1)
+
 ;; Move backup files to a subdirectory of ~/.emacs.d
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
