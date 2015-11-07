@@ -34,3 +34,10 @@
 (require 'evil)
 (evil-mode)
 
+;; Powerline
+(message "Setup powerline...")
+(require 'smart-mode-line)
+(require 'smart-mode-line-powerline-theme)
+(setq sml/no-confirm-load-theme t) ; avoids a question at every startup
+(setq sml/theme 'powerline)
+(sml/setup)
