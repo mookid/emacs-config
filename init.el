@@ -24,3 +24,7 @@
 (setq savehist-save-minibuffer-history t)
 (setq savehist-additional-variables
       '(kill-ring search-ring regexp-search-ring))
+
+;; Color theme
+(load-theme 'tango-dark)
+
