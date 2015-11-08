@@ -112,3 +112,12 @@
 	     rainbow-blocks-depth-3-face
 	     rainbow-blocks-depth-6-face
 	     rainbow-blocks-depth-9-face)))))
+
+(with-message
+ "Loading company mode"
+ (require 'company)
+ (setq company-idle-delay 0.5)
+ (setq company-tooltip-limit 5)
+ (setq company-minimum-prefix-length 2)
+ (setq company-tooltip-flip-when-above t)
+ (global-company-mode 1))
