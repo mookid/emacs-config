@@ -59,7 +59,7 @@
  (define-key evil-normal-state-map (kbd "C-M-S-<f2>") 'evil-numbers/dec-at-pt))
 
 (with-message
- "Setting up powerline"
+ "Loading powerline"
  (require 'smart-mode-line-powerline-theme)
  (setq sml/no-confirm-load-theme t) ; avoids a question at every startup
  (setq sml/theme 'powerline)
@@ -75,7 +75,7 @@
  (setq show-paren-delay 0))
 
 (with-message
- "Setting up rainbow delimiters and blocks"
+ "Loading rainbow delimiters and blocks"
  (require 'rainbow-delimiters)
  (require 'rainbow-blocks)
  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
