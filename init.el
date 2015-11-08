@@ -1,6 +1,10 @@
 ;; Common lisp functionalities
 (require 'cl)
 
+;; A useful macro for loading packages
+(defmacro with-message (msg &rest body)
+  `(unwind-protect (progn (message ,msg) ,@body) (message "ok")))
+
 ;; Remove gui elements
 (tooltip-mode -1)
 (tool-bar-mode -1)
