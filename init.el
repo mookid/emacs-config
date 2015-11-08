@@ -46,8 +46,8 @@
 
 ;; Evil numbers
 (require 'evil-numbers)
-(define-key evil-normal-state-map (kbd "C-A") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-S-A") 'evil-numbers/dec-at-pt)
+(define-key evil-normal-state-map (kbd "C-M-S-<f1>") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-M-S-<f2>") 'evil-numbers/dec-at-pt)
 
 ;; Powerline
 (message "Setting up powerline...")
