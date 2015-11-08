@@ -53,3 +53,11 @@
 (setq sml/no-confirm-load-theme t) ; avoids a question at every startup
 (setq sml/theme 'powerline)
 (sml/setup)
+
+;; Parenthesis
+(require 'paren)
+(electric-pair-mode t)
+(setq electric-pair-pairs '((?\{ . ?\})))
+(show-paren-mode t)
+(set-face-background 'show-paren-match "deep pink")
+(setq show-paren-delay 0)
