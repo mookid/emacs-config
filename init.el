@@ -41,6 +41,11 @@
 (setq evil-replace-state-cursor '("pink" box))
 (setq evil-motion-state-cursor '("gray" box))
 
+;; Evil numbers
+(require 'evil-numbers)
+(define-key evil-normal-state-map (kbd "C-A") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-S-A") 'evil-numbers/dec-at-pt)
+
 ;; Powerline
 (message "Setting up powerline...")
 (require 'smart-mode-line)
