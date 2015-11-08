@@ -1,3 +1,6 @@
+;; Common lisp functionalities
+(require 'cl)
+
 ;; Remove gui elements
 (tooltip-mode -1)
 (tool-bar-mode -1)
@@ -61,3 +64,31 @@
 (show-paren-mode t)
 (set-face-background 'show-paren-match "deep pink")
 (setq show-paren-delay 0)
+
+;; Rainbow delimiters
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                    :foreground "red"
+                    :inherit 'error
+                    :box t)
+(cl-flet ((set-bold (face-name color-name-str)
+		    (set-face-attribute face-name nil
+					:weight 'extra-bold
+					:foreground color-name-str)))
+  (let ((colors '("green" "violet" "orange red")))
+    (mapc (lambda (face-name)
+	    (set-bold face-name (nth 0 colors)))
+	  '(rainbow-delimiters-depth-1-face
+	    rainbow-delimiters-depth-4-face
+	    rainbow-delimiters-depth-7-face))
+    (mapc (lambda (face-name)
+	    (set-bold face-name (nth 1 colors)))
+	  '(rainbow-delimiters-depth-2-face
+	    rainbow-delimiters-depth-5-face
+	    rainbow-delimiters-depth-8-face))
+    (mapc (lambda (face-name)
+	    (set-bold face-name (nth 2 colors)))
+	  '(rainbow-delimiters-depth-3-face
+	    rainbow-delimiters-depth-6-face
+	    rainbow-delimiters-depth-9-face))))
