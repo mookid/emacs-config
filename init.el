@@ -3,7 +3,9 @@
 
 ;; A useful macro for loading packages
 (defmacro with-message (msg &rest body)
-  `(unwind-protect (progn (message ,msg) ,@body) (message "ok")))
+  `(condition-case nil
+       (progn (message (format "*** %s" ,msg)) ,@body )
+  (error (message (format "Error during phase called \"%s\"" ,msg)))))
 
 ;; Remove gui elements
 (tooltip-mode -1)
