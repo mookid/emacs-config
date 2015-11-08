@@ -18,7 +18,7 @@
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
 (with-message
- "Laoding packages list"
+ "Loading packages list"
  (require 'package)
  (add-to-list 'package-archives
 	      '("melpa" . "http://melpa.org/packages/"))
@@ -76,7 +76,6 @@
 
 (with-message
  "Setting up rainbow delimiters and blocks"
- ;; Rainbow delimiters and blocks
  (require 'rainbow-delimiters)
  (require 'rainbow-blocks)
  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
