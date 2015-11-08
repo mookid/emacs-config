@@ -73,11 +73,11 @@
                     :foreground "red"
                     :inherit 'error
                     :box t)
-(cl-flet ((set-bold (face-name color-name-str)
-		    (set-face-attribute face-name nil
-					:weight 'extra-bold
-					:foreground color-name-str)))
-  (let ((colors '("green" "violet" "orange red")))
+(let ((colors '("green" "violet" "orange red")))
+  (cl-flet ((set-bold (fname cname)
+		      (set-face-attribute fname nil
+					  :weight 'extra-bold
+					  :foreground cname)))
     (mapc (lambda (face-name)
 	    (set-bold face-name (nth 0 colors)))
 	  '(rainbow-delimiters-depth-1-face
