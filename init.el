@@ -32,7 +32,14 @@
 ;; Evil mode
 (message "Loading evil mode...")
 (require 'evil)
+(require 'evil-visualstar)
 (evil-mode)
+(setq evil-emacs-state-cursor  '("purple" box))
+(setq evil-normal-state-cursor '("yellow" box))
+(setq evil-visual-state-cursor '("green" box))
+(setq evil-insert-state-cursor '("red" bar))
+(setq evil-replace-state-cursor '("pink" box))
+(setq evil-motion-state-cursor '("gray" box))
 
 ;; Powerline
 (message "Setting up powerline...")
