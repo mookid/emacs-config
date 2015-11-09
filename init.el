@@ -135,4 +135,24 @@
  (require 'helm)
  (global-set-key (kbd "M-x") 'helm-M-x)
  (global-set-key (kbd "C-x C-m") 'helm-M-x)
- (global-set-key (kbd "C-x C-b") 'helm-buffers-list))
+ (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+ (helm-mode))
+
+(with-message
+ "Setting up unicode"
+ (set-default-coding-systems 'utf-8)
+ (add-to-list 'default-frame-alist
+              '(font . "DejaVu Sans Mono-11"))
+ (dolist (pair
+          '(("<>"       . ?≠)
+            ("!="       . ?≢)
+            ("=="       . ?≡)
+            ("lambda"   . ?λ)
+            ("fun"      . ?λ)
+            ("function" . ?λ)
+            ("->"       . ?➝)
+            (">="       . ?≥)
+            ("<="       . ?≤)
+            ))
+   (cl-pushnew pair prettify-symbols-alist))
+ (global-prettify-symbols-mode 1))
