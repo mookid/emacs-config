@@ -43,7 +43,6 @@
 (with-message
  "Loading evil mode"
  (require 'evil)
- (require 'evil-visualstar)
  (evil-mode)
  (setq evil-emacs-state-cursor  '("purple" box))
  (setq evil-normal-state-cursor '("yellow" box))
@@ -51,6 +50,10 @@
  (setq evil-insert-state-cursor '("red" bar))
  (setq evil-replace-state-cursor '("pink" box))
  (setq evil-motion-state-cursor '("gray" box)))
+
+(with-message
+ "Loading evil visualstar"
+ (require 'evil-visualstar))
 
 (with-message
  "Loading evil numbers"
