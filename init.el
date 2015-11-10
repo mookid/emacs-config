@@ -156,3 +156,7 @@
             ))
    (cl-pushnew pair prettify-symbols-alist))
  (global-prettify-symbols-mode 1))
+
+(with-message
+ "Loading private settings"
+ (load "~/.emacs.d/private.el"))

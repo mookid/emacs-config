@@ -3,6 +3,7 @@ backups/*
 elpa/*
 savehist
 
+private.el
 places
 abbrev_defs
 recentf
