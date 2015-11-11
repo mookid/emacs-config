@@ -202,3 +202,8 @@
 	     (brace   . "{")
 	     (squote  . "'")
 	     (dquote  . "\""))))
+
+(with-message
+ "Setting up flycheck"
+ (require 'flycheck)
+ (global-set-key (kbd "C-<next>") 'flycheck-next-error))
