@@ -159,4 +159,6 @@
 
 (with-message
  "Loading private settings"
- (load "~/.emacs.d/private.el"))
+ (let ((f "~/.emacs.d/private.el"))
+   (when (file-exists-p f)
+     (load f))))
