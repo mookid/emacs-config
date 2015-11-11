@@ -7,6 +7,10 @@
        (progn (message (format "*** %s" ,msg)) ,@body )
   (error (message (format "Error during phase called \"%s\"" ,msg)))))
 
+;; Display line and column numbers
+(setq line-number-mode t)
+(setq column-number-mode t)
+
 (with-message
  "Remove gui elements"
  (tooltip-mode -1)
