@@ -1,12 +1,21 @@
+;;; init.el --- configuration file for emacs!
+
+;;; Commentary:
+;; My emacs config, with simple options.
+
+;;; Code:
+
 ;; Common lisp functionalities
-(require 'cl)
+(with-no-warnings (require 'cl)) ; useless warning
 
 ;; Useful macros for loading packages
 (defmacro with-message (msg &rest body)
   `(condition-case nil
        (progn (message (format "*** %s" ,msg)) ,@body 'ok)
-  (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
+     (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
 (defmacro ignore-args (&rest _) nil)
+(defmacro define-and-set (name value)
+  `(progn ((defvar ,name) (setq ,name ,value))))
 
 ;; Display line and column numbers
 (setq line-number-mode t)
@@ -49,7 +58,7 @@
  "Loading evil mode"
  (require 'evil)
  (evil-mode)
- (setq evil-emacs-state-cursor  '("purple" box))
+ (setq evil-emacs-state-cursor '("purple" box))
  (setq evil-normal-state-cursor '("yellow" box))
  (setq evil-visual-state-cursor '("green" box))
  (setq evil-insert-state-cursor '("red" bar))
