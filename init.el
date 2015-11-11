@@ -4,8 +4,8 @@
 ;; Useful macros for loading packages
 (defmacro with-message (msg &rest body)
   `(condition-case nil
-       (progn (message (format "*** %s" ,msg)) ,@body )
-  (error (message (format "Error during phase called \"%s\"" ,msg)))))
+       (progn (message (format "*** %s" ,msg)) ,@body 'ok)
+  (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
 (defmacro ignore-args (&rest _) nil)
 
 ;; Display line and column numbers
