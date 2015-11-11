@@ -1,11 +1,12 @@
 ;; Common lisp functionalities
 (require 'cl)
 
-;; A useful macro for loading packages
+;; Useful macros for loading packages
 (defmacro with-message (msg &rest body)
   `(condition-case nil
        (progn (message (format "*** %s" ,msg)) ,@body )
   (error (message (format "Error during phase called \"%s\"" ,msg)))))
+(defmacro ignore-args (&rest _) nil)
 
 ;; Display line and column numbers
 (setq line-number-mode t)
@@ -130,7 +131,7 @@
  (setq company-tooltip-flip-when-above t)
  (global-company-mode 1))
 
-(with-message
+(ignore-args
  "Loading paredit mode"
  (require 'paredit)
  (paredit-mode))
@@ -147,18 +148,18 @@
  "Setting up unicode"
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist
-              '(font . "DejaVu Sans Mono-11"))
+	      '(font . "DejaVu Sans Mono-11"))
  (dolist (pair
-          '(("<>"       . ?≠)
-            ("!="       . ?≢)
-            ("=="       . ?≡)
-            ("lambda"   . ?λ)
-            ("fun"      . ?λ)
-            ("function" . ?λ)
-            ("->"       . ?➝)
-            (">="       . ?≥)
-            ("<="       . ?≤)
-            ))
+	  '(("<>"       . ?≠)
+	    ("!="       . ?≢)
+	    ("=="       . ?≡)
+	    ("lambda"   . ?λ)
+	    ("fun"      . ?λ)
+	    ("function" . ?λ)
+	    ("->"       . ?➝)
+	    (">="       . ?≥)
+	    ("<="       . ?≤)
+	    ))
    (cl-pushnew pair prettify-symbols-alist))
  (global-prettify-symbols-mode 1))
 
@@ -167,3 +168,12 @@
  (let ((f "~/.emacs.d/private.el"))
    (when (file-exists-p f)
      (load f))))
+
+(with-message
+ "Loading smartparens"
+ (require 'smartparens-config)
+ (show-smartparens-global-mode nil)
+ (setq sp-autoskip-closing-pair 'always)
+ (setq sp-hybrid-kill-entire-symbol nil)
+ (sp-use-paredit-bindings)
+ (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp))
