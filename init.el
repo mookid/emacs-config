@@ -176,4 +176,26 @@
  (setq sp-autoskip-closing-pair 'always)
  (setq sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
- (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp))
+ (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp) 
+ (defmacro def-pairs (pairs)
+   `(progn
+      ,@(cl-loop for (key . val) in pairs
+		 collect
+		 `(progn
+		    ;; definition of wrap-with-( ...
+		    (defun ,(read (concat
+				   "wrap-with-"
+				   (prin1-to-string key)
+				   "s"))
+			(&optional arg)
+		      (interactive "p")
+		      (sp-wrap-with-pair ,val))
+		    ;; binding to C-c (
+		    (global-set-key (kbd ,(concat "C-c "val))
+				    ,(read (concat
+					    "'wrap-with-"
+					    (prin1-to-string key)
+					    "s")))))))
+ (def-pairs ((paren   . "(")
+	     (bracket . "[")
+	     (brace   . "{"))))
