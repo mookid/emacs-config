@@ -177,6 +177,7 @@
  (setq sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
  (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp) 
+ (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
  (defmacro def-pairs (pairs)
    `(progn
       ,@(cl-loop for (key . val) in pairs
@@ -198,4 +199,6 @@
 					    "s")))))))
  (def-pairs ((paren   . "(")
 	     (bracket . "[")
-	     (brace   . "{"))))
+	     (brace   . "{")
+	     (squote  . "'")
+	     (dquote  . "\""))))
