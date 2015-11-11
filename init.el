@@ -53,7 +53,8 @@
 
 (with-message
  "Loading evil visualstar"
- (require 'evil-visualstar))
+ (require 'evil-visualstar)
+ (global-evil-visualstar-mode t))
 
 (with-message
  "Loading evil numbers"
