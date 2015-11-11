@@ -15,7 +15,7 @@
      (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
 (defmacro ignore-args (&rest _) nil)
 (defmacro define-and-set (name value)
-  `(progn ((defvar ,name) (setq ,name ,value))))
+  `(progn (defvar ,name) (setq ,name ,value)))
 
 ;; Display line and column numbers
 (setq line-number-mode t)
@@ -58,12 +58,12 @@
  "Loading evil mode"
  (require 'evil)
  (evil-mode)
- (setq evil-emacs-state-cursor '("purple" box))
- (setq evil-normal-state-cursor '("yellow" box))
- (setq evil-visual-state-cursor '("green" box))
- (setq evil-insert-state-cursor '("red" bar))
- (setq evil-replace-state-cursor '("pink" box))
- (setq evil-motion-state-cursor '("gray" box)))
+ (define-and-set evil-emacs-state-cursor '("purple" box))
+ (define-and-set evil-normal-state-cursor '("yellow" box))
+ (define-and-set evil-visual-state-cursor '("green" box))
+ (define-and-set evil-insert-state-cursor '("red" bar))
+ (define-and-set evil-replace-state-cursor '("pink" box))
+ (define-and-set evil-motion-state-cursor '("gray" box)))
 
 (with-message
  "Loading evil visualstar"
@@ -73,24 +73,26 @@
 (with-message
  "Loading evil numbers"
  (require 'evil-numbers)
+ (defvar evil-normal-state-map)
  (define-key evil-normal-state-map (kbd "C-M-S-<f1>") 'evil-numbers/inc-at-pt)
  (define-key evil-normal-state-map (kbd "C-M-S-<f2>") 'evil-numbers/dec-at-pt))
 
 (with-message
  "Loading powerline"
  (require 'smart-mode-line-powerline-theme)
- (setq sml/no-confirm-load-theme t) ; avoids a question at every startup
- (setq sml/theme 'powerline)
+ (define-and-set sml/no-confirm-load-theme t)
+ ;; avoids a question at every startup
+ (define-and-set sml/theme 'powerline)
  (sml/setup))
 
 (with-message
  "Configuring parenthesis settings"
  (require 'paren)
  (electric-pair-mode t)
- (setq electric-pair-pairs '((?\{ . ?\})))
+ (define-and-set electric-pair-pairs '((?\{ . ?\})))
  (show-paren-mode t)
  (set-face-background 'show-paren-match "deep pink")
- (setq show-paren-delay 0))
+ (define-and-set show-paren-delay 0))
 
 (with-message
  "Loading rainbow delimiters and blocks"
@@ -134,10 +136,10 @@
 (with-message
  "Loading company mode"
  (require 'company)
- (setq company-idle-delay 0.5)
- (setq company-tooltip-limit 5)
- (setq company-minimum-prefix-length 2)
- (setq company-tooltip-flip-when-above t)
+ (define-and-set company-idle-delay 0.5)
+ (define-and-set company-tooltip-limit 5)
+ (define-and-set company-minimum-prefix-length 2)
+ (define-and-set company-tooltip-flip-when-above t)
  (global-company-mode 1))
 
 (ignore-args
@@ -182,8 +184,8 @@
  "Loading smartparens"
  (require 'smartparens-config)
  (show-smartparens-global-mode nil)
- (setq sp-autoskip-closing-pair 'always)
- (setq sp-hybrid-kill-entire-symbol nil)
+ (define-and-set sp-autoskip-closing-pair 'always)
+ (define-and-set sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
  (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp) 
  (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
@@ -216,3 +218,7 @@
  "Setting up flycheck"
  (require 'flycheck)
  (global-set-key (kbd "C-<next>") 'flycheck-next-error))
+
+(provide 'init)
+;;; init.el ends here
+
