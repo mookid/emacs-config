@@ -219,6 +219,20 @@
  (require 'flycheck)
  (global-set-key (kbd "C-S-<next>") 'flycheck-next-error))
 
+(with-message
+ "Setting up selective display."
+ (defvar selective-display 0)
+ (defun toggle-selective-display ()
+   (interactive)
+   (set-selective-display (unless selective-display selective-display-indent)))
+ (global-set-key (kbd "<f6>") 'toggle-selective-display)
+ (defun change-selective-display (offset)
+   (setq selective-display-indent (+ selective-display-indent offset))
+   (set-selective-display selective-display-indent))
+ (defun inc-selective-display () (interactive) (change-selective-display 1))
+ (defun dec-selective-display () (interactive) (change-selective-display -1))
+ (global-set-key (kbd "C-<f6>") 'inc-selective-display)
+ (global-set-key (kbd "S-<f6>") 'dec-selective-display))
 
 (provide 'init)
 ;;; init.el ends here
