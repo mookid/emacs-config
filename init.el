@@ -13,7 +13,6 @@
   `(condition-case nil
        (progn (message (format "*** %s" ,msg)) ,@body 'ok)
      (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
-(defmacro ignore-args (&rest _) nil)
 (defmacro define-and-set (name value)
   `(progn (defvar ,name) (setq ,name ,value)))
 
@@ -142,7 +141,7 @@
  (define-and-set company-tooltip-flip-when-above t)
  (global-company-mode 1))
 
-(ignore-args
+(ignore
  "Loading paredit mode"
  (require 'paredit)
  (paredit-mode))
