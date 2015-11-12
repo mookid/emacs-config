@@ -41,13 +41,13 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Save history between sessions
-(setq savehist-file "~/.emacs.d/savehist")
+(define-and-set savehist-file "~/.emacs.d/savehist")
 (savehist-mode t)
 (setq history-length t) ; no maximum
 (setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history t)
-(setq savehist-additional-variables
-      '(kill-ring search-ring regexp-search-ring))
+(define-and-set savehist-save-minibuffer-history t)
+(define-and-set savehist-additional-variables
+  '(kill-ring search-ring regexp-search-ring))
 
 (with-message
  "Loading color theme"
@@ -186,27 +186,25 @@
  (define-and-set sp-autoskip-closing-pair 'always)
  (define-and-set sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
- (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp) 
+ (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
  (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
  (defmacro def-pairs (pairs)
    `(progn
-      ,@(cl-loop for (key . val) in pairs
-		 collect
-		 `(progn
-		    ;; definition of wrap-with-( ...
-		    (defun ,(read (concat
-				   "wrap-with-"
-				   (prin1-to-string key)
-				   "s"))
-			(&optional arg)
-		      (interactive "p")
-		      (sp-wrap-with-pair ,val))
-		    ;; binding to C-c (
-		    (global-set-key (kbd ,(concat "C-c "val))
-				    ,(read (concat
-					    "'wrap-with-"
-					    (prin1-to-string key)
-					    "s")))))))
+      ,@(cl-loop
+	 for (key . val) in pairs
+	 collect
+	 `(progn
+	    ;; definition of wrap-with-( ...
+	    (defun ,(read (concat "wrap-with-" (prin1-to-string key) "s"))
+		(&optional arg)
+	      (interactive "p")
+	      (sp-wrap-with-pair ,val))
+	    ;; binding to C-c (
+	    (global-set-key (kbd ,(concat "C-c "val))
+			    ,(read (concat
+				    "'wrap-with-"
+				    (prin1-to-string key)
+				    "s")))))))
  (def-pairs ((paren   . "(")
 	     (bracket . "[")
 	     (brace   . "{")
@@ -220,7 +218,7 @@
 
 (with-message
  "Setting up selective display."
- (defvar selective-display 0)
+ (define-and-set selective-display 0)
  (defun toggle-selective-display ()
    (interactive)
    (set-selective-display (unless selective-display selective-display-indent)))
@@ -235,4 +233,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-
