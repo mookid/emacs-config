@@ -217,7 +217,8 @@
 (with-message
  "Setting up flycheck"
  (require 'flycheck)
- (global-set-key (kbd "C-<next>") 'flycheck-next-error))
+ (global-set-key (kbd "C-S-<next>") 'flycheck-next-error))
+
 
 (provide 'init)
 ;;; init.el ends here
