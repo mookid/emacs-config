@@ -1,6 +1,7 @@
 auto-save-list/*
 backups/*
 elpa/*
+url/*
 savehist
 
 private.el
