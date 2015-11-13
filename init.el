@@ -8,7 +8,7 @@
 ;; Common lisp functionalities
 (with-no-warnings (require 'cl)) ; useless warning
 
-;; Useful macros for loading packages
+;;; Useful macros for loading packages
 (defmacro with-message (msg &rest body)
   `(condition-case nil
        (progn (message (format "*** %s" ,msg)) ,@body 'ok)
@@ -16,9 +16,21 @@
 (defmacro define-and-set (name value)
   `(progn (defvar ,name) (setq ,name ,value)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Naked emacs configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set color theme
+(load-theme 'tango-dark)
+
+;; Move backup files to a subdirectory of ~/.emacs.d
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
+
+;; Short answers to questions
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 (with-message
  "Remove gui elements"
@@ -26,19 +38,6 @@
  (tool-bar-mode -1)
  (menu-bar-mode -1)
  (scroll-bar-mode 1))
-
-;; Move backup files to a subdirectory of ~/.emacs.d
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-
-(with-message
- "Loading packages list"
- (require 'package)
- (add-to-list 'package-archives
-	      '("melpa" . "http://melpa.org/packages/"))
- (package-initialize))
-
-;; Short answers to questions
-(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Save history between sessions
 (define-and-set savehist-file "~/.emacs.d/savehist")
@@ -50,9 +49,56 @@
   '(kill-ring search-ring regexp-search-ring))
 
 (with-message
- "Loading color theme"
- (load-theme 'tango-dark))
+ "Setting up selective display."
+ (define-and-set selective-display-indent 1)
+ (defun toggle-selective-display ()
+   (interactive)
+   (set-selective-display (unless selective-display selective-display-indent)))
+ (global-set-key (kbd "<f6>") 'toggle-selective-display)
+ (defun change-selective-display (offset)
+   (setq selective-display-indent (+ selective-display-indent offset))
+   (set-selective-display selective-display-indent))
+ (defun inc-selective-display () (interactive) (change-selective-display 1))
+ (defun dec-selective-display () (interactive) (change-selective-display -1))
+ (global-set-key (kbd "C-<f6>") 'inc-selective-display)
+ (global-set-key (kbd "S-<f6>") 'dec-selective-display))
 
+(with-message
+ "Loading packages list"
+ (require 'package)
+ (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+ (package-initialize))
+
+(with-message
+ "Configuring parenthesis settings"
+ (require 'paren)
+ (electric-pair-mode t)
+ (define-and-set electric-pair-pairs '((?\{ . ?\})))
+ (show-paren-mode t)
+ (set-face-background 'show-paren-match "deep pink")
+ (define-and-set show-paren-delay 0))
+
+(with-message
+ "Setting up unicode"
+ (set-default-coding-systems 'utf-8)
+ (add-to-list 'default-frame-alist
+	      '(font . "DejaVu Sans Mono-11"))
+ (dolist (pair
+	  '(("<>"       . ?≠)
+	    ("!="       . ?≢)
+	    ("=="       . ?≡)
+	    ("lambda"   . ?λ)
+	    ("fun"      . ?λ)
+	    ("function" . ?λ)
+	    ("->"       . ?➝)
+	    (">="       . ?≥)
+	    ("<="       . ?≤)
+	    ))
+   (cl-pushnew pair prettify-symbols-alist))
+ (global-prettify-symbols-mode 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; package loading and settings
 (with-message
  "Loading evil mode"
  (require 'evil)
@@ -83,15 +129,6 @@
  ;; avoids a question at every startup
  (define-and-set sml/theme 'powerline)
  (sml/setup))
-
-(with-message
- "Configuring parenthesis settings"
- (require 'paren)
- (electric-pair-mode t)
- (define-and-set electric-pair-pairs '((?\{ . ?\})))
- (show-paren-mode t)
- (set-face-background 'show-paren-match "deep pink")
- (define-and-set show-paren-delay 0))
 
 (with-message
  "Loading rainbow delimiters and blocks"
@@ -139,31 +176,6 @@
  (helm-mode))
 
 (with-message
- "Setting up unicode"
- (set-default-coding-systems 'utf-8)
- (add-to-list 'default-frame-alist
-	      '(font . "DejaVu Sans Mono-11"))
- (dolist (pair
-	  '(("<>"       . ?≠)
-	    ("!="       . ?≢)
-	    ("=="       . ?≡)
-	    ("lambda"   . ?λ)
-	    ("fun"      . ?λ)
-	    ("function" . ?λ)
-	    ("->"       . ?➝)
-	    (">="       . ?≥)
-	    ("<="       . ?≤)
-	    ))
-   (cl-pushnew pair prettify-symbols-alist))
- (global-prettify-symbols-mode 1))
-
-(with-message
- "Loading private settings"
- (let ((f "~/.emacs.d/private.el"))
-   (when (file-exists-p f)
-     (load f))))
-
-(with-message
  "Loading smartparens"
  (require 'smartparens-config)
  (show-smartparens-global-mode nil)
@@ -184,7 +196,7 @@
 	      (interactive "p")
 	      (sp-wrap-with-pair ,val))
 	    ;; binding to C-c (
-	    (global-set-key (kbd ,(concat "C-c "val))
+	    (global-set-key (kbd ,(concat "C-c " val))
 			    ,(read (concat
 				    "'wrap-with-"
 				    (prin1-to-string key)
@@ -201,19 +213,10 @@
  (global-set-key (kbd "C-S-<next>") 'flycheck-next-error))
 
 (with-message
- "Setting up selective display."
- (define-and-set selective-display 0)
- (defun toggle-selective-display ()
-   (interactive)
-   (set-selective-display (unless selective-display selective-display-indent)))
- (global-set-key (kbd "<f6>") 'toggle-selective-display)
- (defun change-selective-display (offset)
-   (setq selective-display-indent (+ selective-display-indent offset))
-   (set-selective-display selective-display-indent))
- (defun inc-selective-display () (interactive) (change-selective-display 1))
- (defun dec-selective-display () (interactive) (change-selective-display -1))
- (global-set-key (kbd "C-<f6>") 'inc-selective-display)
- (global-set-key (kbd "S-<f6>") 'dec-selective-display))
+ "Loading private settings"
+ (let ((f "~/.emacs.d/private.el"))
+   (when (file-exists-p f)
+     (load f))))
 
 (provide 'init)
 ;;; init.el ends here
