@@ -28,6 +28,13 @@
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
+(defun adjust-columns ()
+  (interactive)
+  (adjust-window-trailing-edge
+   (selected-window)
+   (- 81 (window-width)) t))
+(global-set-key (kbd "C-M-=") 'adjust-columns)
+(global-set-key (kbd "C-+") 'balance-windows)
 
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
