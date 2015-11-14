@@ -74,17 +74,21 @@ See `dec-selective-display' to decrease it."
    (interactive)
    (set-selective-display (unless selective-display selective-display-indent)))
  (global-set-key (kbd "<f6>") 'toggle-selective-display)
- (defun change-selective-display (offset)
+ (defun alter-selective-display (offset)
    (setq selective-display-indent (+ selective-display-indent offset))
    (set-selective-display selective-display-indent))
- (defun inc-selective-display ()
-   "Increase the cap for `toogle-selective-display'."
+ (defun increase-selective-display ()
+   "Increase the cap for `toogle-selective-display'.
+
+See `toggle-selective-display' and `dec-selective-display'."
    (interactive)
-   (change-selective-display 1))
- (defun dec-selective-display ()
-   "Decrease the cap for `toogle-selective-display'."
+   (alter-selective-display 1))
+ (defun decrease-selective-display ()
+   "Decrease the cap for `toogle-selective-display'.
+
+See `toggle-selective-display' and `inc-selective-display'."
    (interactive)
-   (change-selective-display -1))
+   (alter-selective-display -1))
  (global-set-key (kbd "C-<f6>") 'inc-selective-display)
  (global-set-key (kbd "S-<f6>") 'dec-selective-display))
 
