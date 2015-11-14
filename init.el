@@ -29,6 +29,7 @@
 (setq line-number-mode t)
 (setq column-number-mode t)
 (defun adjust-columns ()
+  "Clemence est la plus belle!"
   (interactive)
   (adjust-window-trailing-edge
    (selected-window)
@@ -194,24 +195,22 @@
  (sp-use-paredit-bindings)
  (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
  (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
- (defmacro def-pairs (pairs)
-   `(progn
-      ,@(cl-loop
-	 for (key . val) in pairs
-	 collect
-	 `(progn
-	    ;; definition of wrap-with-( ...
-	    (defun ,(read (concat "wrap-with-" (prin1-to-string key) "s"))
-		(&optional arg)
-	      (interactive "p")
-	      (sp-wrap-with-pair ,val))
-	    ;; binding to C-c (
-	    (global-set-key (kbd ,(concat "C-c " val))
-			    ,(read (concat
-				    "'wrap-with-"
-				    (prin1-to-string key)
-				    "s")))))))
- (def-pairs ((paren   . "(")
+ (defun def-pairs (pairs)
+   (eval
+    (cl-loop for (key . val) in pairs do
+     `(progn
+	;; definition of wrap-with-( ...
+	(defun ,(read (concat "wrap-with-" (prin1-to-string key) "s"))
+	    (&optional arg)
+	  (interactive "p")
+	  (sp-wrap-with-pair ,val))
+	;; binding to C-c (
+	(global-set-key (kbd ,(concat "C-c " val))
+			,(read (concat
+				"'wrap-with-"
+				(prin1-to-string key)
+				"s")))))))
+ (def-pairs '((paren   . "(")
 	     (bracket . "[")
 	     (brace   . "{")
 	     (squote  . "'")
