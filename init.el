@@ -227,5 +227,13 @@
    (when (file-exists-p f)
      (load f))))
 
+(with-message
+ "Loading evil-search-highlight-persist"
+ (require 'evil-search-highlight-persist)
+ (global-evil-search-highlight-persist t)
+ (set-face-attribute 'evil-search-highlight-persist-highlight-face nil
+		     :weight 'extra-bold
+		     :background "orange"))
+
 (provide 'init)
 ;;; init.el ends here
