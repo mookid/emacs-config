@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;; init.el --- configuration file for emacs!
 
 ;;; Commentary:
@@ -65,32 +66,34 @@ The return value reports success or failure."
 
 (with-message
  "Setting up selective display."
- (define-and-set selective-display-indent 1)
- (defun toggle-selective-display ()
-   "Hide lines starting with a lot of spaces.
+ (let ((selective-display-indent 1))
+   (defun toggle-selective-display ()
+     "Hide lines starting with a lot of spaces.
 
-See `inc-selective-display' to increase the number of spaces.
-See `dec-selective-display' to decrease it."
-   (interactive)
-   (set-selective-display (unless selective-display selective-display-indent)))
- (global-set-key (kbd "<f6>") 'toggle-selective-display)
- (defun alter-selective-display (offset)
-   (setq selective-display-indent (+ selective-display-indent offset))
-   (set-selective-display selective-display-indent))
- (defun increase-selective-display ()
-   "Increase the cap for `toogle-selective-display'.
+See `increase-selective-display' to increase the number of spaces.
+See `decrease-selective-display' to decrease it."
+     (interactive)
+     (set-selective-display (unless selective-display selective-display-indent)))
+   (global-set-key (kbd "<f6>") 'toggle-selective-display)
+   (cl-flet ((g (offset)
+		;;(defun alter-selective-display (offset)
+		(setq selective-display-indent (+ selective-display-indent offset))
+		(set-selective-display selective-display-indent)))
+     (defun increase-selective-display ()
+       "Increase the cap for `toogle-selective-display'.
 
-See `toggle-selective-display' and `dec-selective-display'."
-   (interactive)
-   (alter-selective-display 1))
- (defun decrease-selective-display ()
-   "Decrease the cap for `toogle-selective-display'.
+See `toggle-selective-display' and `decrease-selective-display'."
+       (interactive)
+       (g 1))
+     (defun decrease-selective-display ()
+       "Decrease the cap for `toogle-selective-display'.
 
-See `toggle-selective-display' and `inc-selective-display'."
-   (interactive)
-   (alter-selective-display -1))
- (global-set-key (kbd "C-<f6>") 'inc-selective-display)
- (global-set-key (kbd "S-<f6>") 'dec-selective-display))
+See `toggle-selective-display' and `increase-selective-display'."
+       (interactive)
+       ;;(alter-selective-display -1))
+       (g -1))
+     (global-set-key (kbd "C-<f6>") 'increase-selective-display)
+     (global-set-key (kbd "S-<f6>") 'decrease-selective-display))))
 
 (with-message
  "Loading packages list"
