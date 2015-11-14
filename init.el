@@ -230,10 +230,15 @@
 (with-message
  "Loading evil-search-highlight-persist"
  (require 'evil-search-highlight-persist)
- (global-evil-search-highlight-persist t)
- (set-face-attribute 'evil-search-highlight-persist-highlight-face nil
-		     :weight 'extra-bold
-		     :background "orange"))
+ (mapc (lambda (fname)
+	 (set-face-attribute fname nil
+			     :weight 'extra-bold
+			     :foreground "blue"
+			     :background "yellow1"))
+       '(evil-search-highlight-persist-highlight-face
+	 isearch
+	 lazy-highlight))
+ (global-evil-search-highlight-persist t))
 
 (provide 'init)
 ;;; init.el ends here
