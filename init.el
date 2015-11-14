@@ -29,6 +29,11 @@ The return value reports success or failure."
 ;; Set color theme
 (load-theme 'tango-dark)
 
+;; Open another window on startup with messages, and disable startup screen
+(define-and-set inhibit-startup-message t)
+(split-window-right)
+(switch-to-buffer "*Messages*")
+
 ;; Move backup files to a subdirectory of ~/.emacs.d
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
@@ -43,6 +48,9 @@ The return value reports success or failure."
    (- 80 (window-width)) t))
 (global-set-key (kbd "C-M-=") 'adjust-columns)
 (global-set-key (kbd "C-+") 'balance-windows)
+
+;; No tabs
+(setq-default indent-tabs-mode nil)
 
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
