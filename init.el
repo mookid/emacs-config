@@ -94,7 +94,7 @@
 	      '(font . "DejaVu Sans Mono-11"))
  (global-prettify-symbols-mode 1))
 
-(with-message
+(ignore-all
  "Loading hl line mode"
  (global-hl-line-mode)
  (set-face-attribute 'hl-line nil :background "RoyalBlue3"))
