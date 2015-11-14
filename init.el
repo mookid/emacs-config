@@ -15,6 +15,7 @@
      (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
 (defmacro define-and-set (name value)
   `(progn (defvar ,name) (setq ,name ,value)))
+(defmacro ignore-all (&rest _) nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked emacs configuration
@@ -29,7 +30,6 @@
 (setq line-number-mode t)
 (setq column-number-mode t)
 (defun adjust-columns ()
-  "Clemence est la plus belle!"
   (interactive)
   (adjust-window-trailing-edge
    (selected-window)
@@ -173,7 +173,7 @@
  (define-and-set company-tooltip-flip-when-above t)
  (global-company-mode 1))
 
-(ignore
+(ignore-all
  "Loading paredit mode"
  (require 'paredit)
  (paredit-mode))
@@ -195,26 +195,22 @@
  (sp-use-paredit-bindings)
  (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
  (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
- (defun def-pairs (pairs)
-   (eval
-    (cl-loop for (key . val) in pairs do
-     `(progn
-	;; definition of wrap-with-( ...
-	(defun ,(read (concat "wrap-with-" (prin1-to-string key) "s"))
-	    (&optional arg)
-	  (interactive "p")
-	  (sp-wrap-with-pair ,val))
-	;; binding to C-c (
-	(global-set-key (kbd ,(concat "C-c " val))
-			,(read (concat
-				"'wrap-with-"
-				(prin1-to-string key)
-				"s")))))))
- (def-pairs '((paren   . "(")
-	     (bracket . "[")
-	     (brace   . "{")
-	     (squote  . "'")
-	     (dquote  . "\""))))
+ (cl-loop for (key . val) in '((paren   . "(")
+			       (bracket . "[")
+			       (brace   . "{")
+			       (squote  . "'")
+			       (dquote  . "\""))
+	  for fname = (concat "wrap-with-" (prin1-to-string key) "s")
+	  for kbinding = (concat "C-c " val)
+	  do
+	  ;; definition of wrap-with-( ...
+	  (eval `(defun ,(read fname) ()
+		   (interactive)
+		   (sp-wrap-with-pair ,val)))
+	  do
+	  ;; binding to C-c (
+	  (eval `(global-set-key (kbd ,kbinding)
+				 ,(read (concat "'" fname))))))
 
 (with-message
  "Setting up flycheck"
