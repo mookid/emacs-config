@@ -155,9 +155,11 @@
 					     :foreground color))
 	       (set-level (lvl color)
 			  (when (< 0 lvl 10)
-			    (mapc (lambda (face)
+			    (mapc (lambda (kind)
 				    (set-bold
-				     (read (concat "rainbow-delimiters-depth-"
+				     (read (concat "rainbow-"
+						   kind
+						   "-depth-"
 						   (prin1-to-string lvl)
 						   "-face"))
 				     color))
@@ -234,7 +236,7 @@
      (load f))))
 
 (with-message
- "Loading evil-search-highlight-persist"
+ "Loading evil search highlight persist"
  (require 'evil-search-highlight-persist)
  (mapc (lambda (face)
 	 (set-face-attribute face nil
