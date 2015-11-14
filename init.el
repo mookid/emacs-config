@@ -91,18 +91,6 @@
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist
 	      '(font . "DejaVu Sans Mono-11"))
- (dolist (pair
-	  '(("<>"       . ?≠)
-	    ("!="       . ?≢)
-	    ("=="       . ?≡)
-	    ("lambda"   . ?λ)
-	    ("fun"      . ?λ)
-	    ("function" . ?λ)
-	    ("->"       . ?➝)
-	    (">="       . ?≥)
-	    ("<="       . ?≤)
-	    ))
-   (cl-pushnew pair prettify-symbols-alist))
  (global-prettify-symbols-mode 1))
 
 (with-message
