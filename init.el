@@ -10,12 +10,17 @@
 
 ;;; Useful macros for loading packages
 (defmacro with-message (msg &rest body)
+  "Prints MSG before evaluating BODY, and report problems.
+
+Warnings are still displayed, and errors are catched.
+The return value reports success or failure."
   `(condition-case nil
        (progn (message (format "*** %s" ,msg)) ,@body 'ok)
      (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
 (defmacro define-and-set (name value)
+  "The same effect as (setq NAME VALUE), but prevents warnings."
   `(progn (defvar ,name) (setq ,name ,value)))
-(defmacro ignore-all (&rest _) nil)
+(defmacro ignore-all (&rest body) "Ignore BODY, which is not evaluated." nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked emacs configuration
@@ -30,6 +35,7 @@
 (setq line-number-mode t)
 (setq column-number-mode t)
 (defun adjust-columns ()
+  "Adjust the window, so that the width is 80 characters."
   (interactive)
   (adjust-window-trailing-edge
    (selected-window)
@@ -61,14 +67,24 @@
  "Setting up selective display."
  (define-and-set selective-display-indent 1)
  (defun toggle-selective-display ()
+   "Hide lines starting with a lot of spaces.
+
+See `inc-selective-display' to increase the number of spaces.
+See `dec-selective-display' to decrease it."
    (interactive)
    (set-selective-display (unless selective-display selective-display-indent)))
  (global-set-key (kbd "<f6>") 'toggle-selective-display)
  (defun change-selective-display (offset)
    (setq selective-display-indent (+ selective-display-indent offset))
    (set-selective-display selective-display-indent))
- (defun inc-selective-display () (interactive) (change-selective-display 1))
- (defun dec-selective-display () (interactive) (change-selective-display -1))
+ (defun inc-selective-display ()
+   "Increase the cap for `toogle-selective-display'."
+   (interactive)
+   (change-selective-display 1))
+ (defun dec-selective-display ()
+   "Decrease the cap for `toogle-selective-display'."
+   (interactive)
+   (change-selective-display -1))
  (global-set-key (kbd "C-<f6>") 'inc-selective-display)
  (global-set-key (kbd "S-<f6>") 'dec-selective-display))
 
@@ -205,7 +221,10 @@
 	  do
 	  ;; definition of wrap-with-( ...
 	  (eval `(defun ,(read fname) ()
-		   (interactive)
+		   ,(concat
+		     "Wrap the next form (or the selection)"
+		     " using `sp-wrap-with-pair'.")
+		   (interactive "P")
 		   (sp-wrap-with-pair ,val)))
 	  do
 	  ;; binding to C-c (
