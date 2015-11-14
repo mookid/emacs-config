@@ -149,18 +149,24 @@
 		     :inherit 'error
 		     :box t)
  (let ((colors '("green" "violet" "orange red")))
-   (cl-flet ((set-bold (fname cname)
-		       (set-face-attribute fname nil
-					   :weight 'extra-bold
-					   :foreground cname)))
-     (defun set-level (lvl color)
-       (when (< 0 lvl 10)
-	 (set-bold
-	  (read (concat "rainbow-delimiters-depth-"
-			(prin1-to-string lvl)
-			"-face"))
-	  color)))
-     (dotimes (j 9) (set-level (+ 1 j) (nth (mod j 3) colors))))))
+   (cl-labels ((set-bold (face color)
+			 (set-face-attribute face nil
+					     :weight 'extra-bold
+					     :foreground color))
+	       (set-level (lvl color)
+			  (when (< 0 lvl 10)
+			    (mapc (lambda (face)
+				    (set-bold
+				     (read (concat "rainbow-delimiters-depth-"
+						   (prin1-to-string lvl)
+						   "-face"))
+				     color))
+				  '("delimiters" "blocks")))))
+     (cl-loop
+      with ncolors = (length colors)
+      for lvl from 1 upto 9
+      for icolor = (mod (- lvl 1) ncolors)
+      do (set-level lvl (nth icolor colors))))))
 
 (with-message
  "Loading company mode"
@@ -230,8 +236,8 @@
 (with-message
  "Loading evil-search-highlight-persist"
  (require 'evil-search-highlight-persist)
- (mapc (lambda (fname)
-	 (set-face-attribute fname nil
+ (mapc (lambda (face)
+	 (set-face-attribute face nil
 			     :weight 'extra-bold
 			     :foreground "blue"
 			     :background "yellow1"))
