@@ -1,5 +1,5 @@
-;;; init.el --- configuration file for emacs!
 ;; -*- lexical-binding: t -*-
+;;; init.el --- configuration file for emacs!
 
 ;;; Commentary:
 ;; My emacs config, with simple options.
@@ -21,7 +21,7 @@ The return value reports success or failure."
 (defmacro define-and-set (name value)
   "The same effect as (setq NAME VALUE), but prevents warnings."
   `(progn (defvar ,name) (setq ,name ,value)))
-(defmacro ignore-all (&rest body) "Ignore BODY, which is not evaluated." nil)
+(defmacro ignore-all (&rest _) "Ignore arguments, which are not evaluated." nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked emacs configuration
@@ -226,7 +226,7 @@ See `toggle-selective-display' and `increase-selective-display'."
          "Wrap the next form (or the selection) using `sp-wrap-with-pair'."
          (interactive "P")
          (sp-wrap-with-pair ,val)))
-  do (eval `(global-set-key (kbd kbinding) ',symb))))
+  do (eval `(global-set-key (kbd ,kbinding) ',symb))))
 
 (with-message
  "Setting up flycheck"
