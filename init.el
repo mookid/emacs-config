@@ -76,7 +76,6 @@ See `decrease-selective-display' to decrease it."
      (set-selective-display (unless selective-display depth)))
    (global-set-key (kbd "<f6>") 'toggle-selective-display)
    (cl-flet ((g (offset)
-		;;(defun alter-selective-display (offset)
 		(setq depth (+ depth offset))
 		(set-selective-display depth)))
      (defun increase-selective-display ()
@@ -90,7 +89,6 @@ See `toggle-selective-display' and `decrease-selective-display'."
 
 See `toggle-selective-display' and `increase-selective-display'."
        (interactive)
-       ;;(alter-selective-display -1))
        (g -1))
      (global-set-key (kbd "C-<f6>") 'increase-selective-display)
      (global-set-key (kbd "S-<f6>") 'decrease-selective-display))))
@@ -231,7 +229,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 		   ,(concat
 		     "Wrap the next form (or the selection)"
 		     " using `sp-wrap-with-pair'.")
-		   (interactive "P")
+		   (interactive "p")
 		   (sp-wrap-with-pair ,val)))
 	  do
 	  ;; binding to C-c (
