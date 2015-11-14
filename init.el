@@ -76,8 +76,8 @@ See `decrease-selective-display' to decrease it."
      (set-selective-display (unless selective-display depth)))
    (global-set-key (kbd "<f6>") 'toggle-selective-display)
    (cl-flet ((g (offset)
-		(setq depth (+ depth offset))
-		(set-selective-display depth)))
+                (setq depth (+ depth offset))
+                (set-selective-display depth)))
      (defun increase-selective-display ()
        "Increase the cap for `toogle-selective-display'.
 
@@ -112,7 +112,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Setting up unicode"
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist
-	      '(font . "DejaVu Sans Mono-11"))
+              '(font . "DejaVu Sans Mono-11"))
  (global-prettify-symbols-mode 1))
 
 (ignore-all
@@ -160,24 +160,21 @@ See `toggle-selective-display' and `increase-selective-display'."
  (require 'rainbow-blocks)
  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-		     :foreground "red"
-		     :inherit 'error
-		     :box t)
+                     :foreground "red"
+                     :inherit 'error
+                     :box t)
  (let ((colors '("green" "violet" "orange red")))
    (cl-labels ((set-bold (face color)
-			 (set-face-attribute face nil
-					     :weight 'extra-bold
-					     :foreground color))
+                         (set-face-attribute face nil
+                                             :weight 'extra-bold
+                                             :foreground color))
+	       (mk-symb (kind lvl)
+			(intern (concat "rainbow-" kind "-depth-"
+					(prin1-to-string lvl) "-face")))
 	       (set-level (lvl color)
-			  (when (< 0 lvl 10)
-			    (mapc (lambda (kind)
-				    (set-bold
-				     (read (concat "rainbow-"
-						   kind
-						   "-depth-"
-						   (prin1-to-string lvl)
-						   "-face"))
-				     color))
+                          (when (< 0 lvl 10)
+                            (mapc (lambda (kind)
+                                    (set-bold (mk-symb kind lvl) color))
 				  '("delimiters" "blocks")))))
      (cl-loop
       with ncolors = (length colors)
@@ -218,17 +215,17 @@ See `toggle-selective-display' and `increase-selective-display'."
  (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
  (cl-loop
   for (key . val) in '((paren   . "(")
-		       (bracket . "[")
-		       (brace   . "{")
-		       (squote  . "'")
-		       (dquote  . "\""))
+                       (bracket . "[")
+                       (brace   . "{")
+                       (squote  . "'")
+                       (dquote  . "\""))
   for symb = (intern (concat "wrap-with-" (prin1-to-string key) "s"))
   for kbinding = (concat "C-c " val)
   do (eval
       `(defun ,symb (&optional arg)
-	 "Wrap the next form (or the selection) using `sp-wrap-with-pair'."
-	 (interactive "P")
-	 (sp-wrap-with-pair ,val)))
+         "Wrap the next form (or the selection) using `sp-wrap-with-pair'."
+         (interactive "P")
+         (sp-wrap-with-pair ,val)))
   do (eval `(global-set-key (kbd kbinding) ',symb))))
 
 (with-message
@@ -246,13 +243,13 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Loading evil search highlight persist"
  (require 'evil-search-highlight-persist)
  (mapc (lambda (face)
-	 (set-face-attribute face nil
-			     :weight 'extra-bold
-			     :foreground "blue"
-			     :background "yellow1"))
+         (set-face-attribute face nil
+                             :weight 'extra-bold
+                             :foreground "blue"
+                             :background "yellow1"))
        '(evil-search-highlight-persist-highlight-face
-	 isearch
-	 lazy-highlight))
+         isearch
+         lazy-highlight))
  (global-evil-search-highlight-persist t))
 
 (provide 'init)
