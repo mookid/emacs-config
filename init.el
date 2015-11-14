@@ -105,18 +105,23 @@
    (cl-pushnew pair prettify-symbols-alist))
  (global-prettify-symbols-mode 1))
 
+(with-message
+ "Loading hl line mode"
+ (global-hl-line-mode)
+ (set-face-attribute 'hl-line nil :background "RoyalBlue3"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; package loading and settings
+;;; Package loading and settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (with-message
  "Loading evil mode"
  (require 'evil)
  (evil-mode)
  (define-and-set evil-emacs-state-cursor '("purple" box))
- (define-and-set evil-normal-state-cursor '("yellow" box))
+ (define-and-set evil-normal-state-cursor '("grey" box))
  (define-and-set evil-visual-state-cursor '("green" box))
  (define-and-set evil-insert-state-cursor '("red" bar))
- (define-and-set evil-replace-state-cursor '("pink" box))
+ (define-and-set evil-replace-state-cursor '("deep pink" box))
  (define-and-set evil-motion-state-cursor '("gray" box)))
 
 (with-message
