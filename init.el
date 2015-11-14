@@ -163,19 +163,21 @@ See `toggle-selective-display' and `increase-selective-display'."
                      :foreground "red"
                      :inherit 'error
                      :box t)
- (let ((colors '("green" "violet" "orange red")))
+ (let ((colors '("green" "violet" "orange red"))
+       (kinds '(delimiters blocks)))
    (cl-labels ((set-bold (face color)
                          (set-face-attribute face nil
                                              :weight 'extra-bold
                                              :foreground color))
 	       (mk-symb (kind lvl)
-			(intern (concat "rainbow-" kind "-depth-"
+			(intern (concat "rainbow-"
+					(prin1-to-string kind) "-depth-"
 					(prin1-to-string lvl) "-face")))
 	       (set-level (lvl color)
                           (when (< 0 lvl 10)
                             (mapc (lambda (kind)
                                     (set-bold (mk-symb kind lvl) color))
-				  '("delimiters" "blocks")))))
+				  kinds))))
      (cl-loop
       with ncolors = (length colors)
       for lvl from 1 upto 9
