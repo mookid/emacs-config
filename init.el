@@ -225,11 +225,11 @@ See `toggle-selective-display' and `increase-selective-display'."
 	  for kbinding = (concat "C-c " val)
 	  do
 	  ;; definition of wrap-with-( ...
-	  (eval `(defun ,(read fname) ()
+	  (eval `(defun ,(read fname) (&optional arg)
 		   ,(concat
 		     "Wrap the next form (or the selection)"
 		     " using `sp-wrap-with-pair'.")
-		   (interactive "p")
+		   (interactive "P")
 		   (sp-wrap-with-pair ,val)))
 	  do
 	  ;; binding to C-c (
