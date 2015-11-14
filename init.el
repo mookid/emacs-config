@@ -1,5 +1,5 @@
-;; -*- lexical-binding: t -*-
 ;;; init.el --- configuration file for emacs!
+;; -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; My emacs config, with simple options.
@@ -66,19 +66,19 @@ The return value reports success or failure."
 
 (with-message
  "Setting up selective display."
- (let ((selective-display-indent 1))
+ (let ((depth 1))
    (defun toggle-selective-display ()
      "Hide lines starting with a lot of spaces.
 
 See `increase-selective-display' to increase the number of spaces.
 See `decrease-selective-display' to decrease it."
      (interactive)
-     (set-selective-display (unless selective-display selective-display-indent)))
+     (set-selective-display (unless selective-display depth)))
    (global-set-key (kbd "<f6>") 'toggle-selective-display)
    (cl-flet ((g (offset)
 		;;(defun alter-selective-display (offset)
-		(setq selective-display-indent (+ selective-display-indent offset))
-		(set-selective-display selective-display-indent)))
+		(setq depth (+ depth offset))
+		(set-selective-display depth)))
      (defun increase-selective-display ()
        "Increase the cap for `toogle-selective-display'.
 
