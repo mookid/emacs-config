@@ -232,8 +232,8 @@ See `toggle-selective-display' and `increase-selective-display'."
  (define-and-set sp-autoskip-closing-pair 'always)
  (define-and-set sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
- (global-set-key (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
- (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
+ (define-key evil-insert-state-map (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
+ (define-key evil-insert-state-map (kbd "M-[") 'sp-backward-unwrap-sexp)
  (cl-loop
   for (key . val) in '((paren   . "(")
                        (bracket . "[")
@@ -247,12 +247,13 @@ See `toggle-selective-display' and `increase-selective-display'."
          "Wrap the next form (or the selection) using `sp-wrap-with-pair'."
          (interactive "P")
          (sp-wrap-with-pair ,val)))
-  do (eval `(global-set-key (kbd ,kbinding) ',symb))))
+  do (eval `(define-key evil-insert-state-map (kbd ,kbinding) ',symb))))
 
 (with-message
  "Setting up flycheck"
  (require 'flycheck)
- (global-set-key (kbd "C-S-<next>") 'flycheck-next-error))
+ (defvar flycheck-mode-map)
+ (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
 
 (with-message
  "Loading private settings"
