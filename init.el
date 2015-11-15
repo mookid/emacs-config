@@ -18,6 +18,17 @@ The return value reports success or failure."
   `(condition-case nil
        (progn (message (format "*** %s" ,msg)) ,@body 'ok)
      (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
+(defmacro with-title (msg &rest body)
+  "Prints MSG before evaluating BODY, and report problems.
+
+Warnings are still displayed, and errors are catched.
+The return value reports success or failure."
+  `(condition-case nil
+       (progn (message (format "[%s]" ,msg))
+              ,@body
+              (message (format "[end]"))
+              'ok)
+     (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
 (defmacro define-and-set (name value)
   "The same effect as (setq NAME VALUE), but prevents warnings."
   `(progn (defvar ,name) (setq ,name ,value)))
@@ -130,34 +141,55 @@ See `toggle-selective-display' and `increase-selective-display'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Package loading and settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(with-message
- "Loading evil mode"
- (require 'evil)
- (evil-mode)
- (defvar evil-emacs-state-map)
- (defvar evil-motion-state-map)
- (defvar evil-insert-state-map)
- (defvar evil-visual-state-map)
- (defvar evil-normal-state-map)
- (defvar evil-replace-state-map)
- (defvar evil-operator-state-map)
- (define-and-set evil-emacs-state-cursor '("purple" box))
- (define-and-set evil-normal-state-cursor '("grey" box))
- (define-and-set evil-visual-state-cursor '("green" box))
- (define-and-set evil-insert-state-cursor '("red" bar))
- (define-and-set evil-replace-state-cursor '("deep pink" box))
- (define-and-set evil-motion-state-cursor '("gray" box)))
 
-(with-message
- "Loading evil visualstar"
- (require 'evil-visualstar)
- (global-evil-visualstar-mode t))
+(with-title
+ "Evil related packages"
 
-(with-message
- "Loading evil numbers"
- (require 'evil-numbers)
- (define-key evil-normal-state-map (kbd "C-M-S-<f1>") 'evil-numbers/inc-at-pt)
- (define-key evil-normal-state-map (kbd "C-M-S-<f2>") 'evil-numbers/dec-at-pt))
+ (with-message
+  "Loading evil mode"
+  (require 'evil)
+  (evil-mode)
+  (defvar evil-emacs-state-map)
+  (defvar evil-motion-state-map)
+  (defvar evil-insert-state-map)
+  (defvar evil-visual-state-map)
+  (defvar evil-normal-state-map)
+  (defvar evil-replace-state-map)
+  (defvar evil-operator-state-map)
+  (define-and-set evil-emacs-state-cursor '("purple" box))
+  (define-and-set evil-normal-state-cursor '("grey" box))
+  (define-and-set evil-visual-state-cursor '("green" box))
+  (define-and-set evil-insert-state-cursor '("red" bar))
+  (define-and-set evil-replace-state-cursor '("deep pink" box))
+  (define-and-set evil-motion-state-cursor '("gray" box)))
+
+ (with-message
+  "Loading evil visualstar"
+  (require 'evil-visualstar)
+  (global-evil-visualstar-mode t))
+
+ (with-message
+  "Loading evil search highlight persist"
+  (require 'evil-search-highlight-persist)
+  (mapc (lambda (face)
+          (set-face-attribute face nil
+                              :weight 'extra-bold
+                              :foreground "blue"
+                              :background "yellow1"))
+        '(evil-search-highlight-persist-highlight-face
+          isearch
+          lazy-highlight))
+  (global-evil-search-highlight-persist t))
+
+ (with-message
+  "Loading evil numbers"
+  (require 'evil-numbers)
+  (cl-loop
+   for (key . val) in '((<f1> . evil-numbers/inc-at-pt)
+                        (<f2> . evil-numbers/dec-at-pt))
+   do (define-key evil-normal-state-map
+        (kbd (concat "C-M-S-" (symbol-name key)))
+        val))))
 
 (with-message
  "Loading powerline"
@@ -211,21 +243,24 @@ See `toggle-selective-display' and `increase-selective-display'."
  (require 'paredit)
  (paredit-mode))
 
-(with-message
- "Loading helm"
- (require 'helm)
- (global-set-key (kbd "M-x") 'helm-M-x)
- (global-set-key (kbd "C-x C-m") 'helm-M-x)
- (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
- (helm-mode))
+(with-title
+ "Helm related packages"
+
+ (with-message
+  "Loading helm"
+  (require 'helm)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-m") 'helm-M-x)
+  (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+  (helm-mode))
+
+ (with-message
+  "Loading helm swoop"
+  (require 'helm-swoop)
+  (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search)))
 
 (with-message
- "Loading helm swoop"
- (require 'helm-swoop)
- (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search))
-
-(with-message
- "Ltesting smartparens"
+ "Loading smartparens"
  (require 'smartparens-config)
  (show-smartparens-global-mode nil)
  (define-and-set sp-autoskip-closing-pair 'always)
@@ -259,19 +294,6 @@ See `toggle-selective-display' and `increase-selective-display'."
  (let ((f "~/.emacs.d/private.el"))
    (when (file-exists-p f)
      (load f))))
-
-(with-message
- "Loading evil search highlight persist"
- (require 'evil-search-highlight-persist)
- (mapc (lambda (face)
-         (set-face-attribute face nil
-                             :weight 'extra-bold
-                             :foreground "blue"
-                             :background "yellow1"))
-       '(evil-search-highlight-persist-highlight-face
-         isearch
-         lazy-highlight))
- (global-evil-search-highlight-persist t))
 
 (provide 'init)
 ;;; init.el ends here
