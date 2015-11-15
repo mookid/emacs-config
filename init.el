@@ -295,5 +295,11 @@ See `toggle-selective-display' and `increase-selective-display'."
    (when (file-exists-p f)
      (load f))))
 
+(when (memq window-system '(mac ns))
+  (with-message
+   "Setting up path"
+   (require 'exec-path-from-shell)
+   (exec-path-from-shell-initialize)))
+
 (provide 'init)
 ;;; init.el ends here
