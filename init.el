@@ -29,9 +29,8 @@ The return value reports success or failure."
 ;; Set color theme
 (load-theme 'tango-dark)
 
-;; Open another window on startup with messages, and disable startup screen
+;; Switch to messages buffer at startup
 (define-and-set inhibit-startup-message t)
-(split-window-right)
 (switch-to-buffer "*Messages*")
 
 ;; Move backup files to a subdirectory of ~/.emacs.d
