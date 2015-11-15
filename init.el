@@ -135,6 +135,13 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Loading evil mode"
  (require 'evil)
  (evil-mode)
+ (defvar evil-emacs-state-map)
+ (defvar evil-motion-state-map)
+ (defvar evil-insert-state-map)
+ (defvar evil-visual-state-map)
+ (defvar evil-normal-state-map)
+ (defvar evil-replace-state-map)
+ (defvar evil-operator-state-map)
  (define-and-set evil-emacs-state-cursor '("purple" box))
  (define-and-set evil-normal-state-cursor '("grey" box))
  (define-and-set evil-visual-state-cursor '("green" box))
@@ -150,7 +157,6 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Loading evil numbers"
  (require 'evil-numbers)
- (defvar evil-normal-state-map)
  (define-key evil-normal-state-map (kbd "C-M-S-<f1>") 'evil-numbers/inc-at-pt)
  (define-key evil-normal-state-map (kbd "C-M-S-<f2>") 'evil-numbers/dec-at-pt))
 
@@ -215,7 +221,12 @@ See `toggle-selective-display' and `increase-selective-display'."
  (helm-mode))
 
 (with-message
- "Loading smartparens"
+ "Loading helm swoop"
+ (require 'helm-swoop)
+ (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search))
+
+(with-message
+ "Ltesting smartparens"
  (require 'smartparens-config)
  (show-smartparens-global-mode nil)
  (define-and-set sp-autoskip-closing-pair 'always)
