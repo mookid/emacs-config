@@ -37,6 +37,9 @@ The return value reports success or failure."
 ;; Set color theme
 (load-theme 'tango-dark)
 
+;; Define an alias for dabbrev-expand
+(global-set-key (kbd "<tab>") 'dabbrev-expand)
+
 ;; Switch to messages buffer at startup
 (define-and-set inhibit-startup-message t)
 (switch-to-buffer "*Messages*")
@@ -232,8 +235,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (define-and-set company-idle-delay 0.5)
  (define-and-set company-tooltip-limit 5)
  (define-and-set company-minimum-prefix-length 2)
- (define-and-set company-tooltip-flip-when-above t)
- (global-company-mode 1))
+ (define-and-set company-tooltip-flip-when-above t))
 
 (ignore-all
  "Loading paredit mode"
