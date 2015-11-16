@@ -70,6 +70,8 @@ The return value reports success or failure."
  (scroll-bar-mode 1)
  (define-and-set blink-cursor-mode nil))
 
+(global-set-key (kbd "<f12>") 'recompile)
+
 ;; Save history between sessions
 (define-and-set savehist-file "~/.emacs.d/savehist")
 (savehist-mode t)
