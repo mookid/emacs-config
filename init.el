@@ -24,7 +24,7 @@ The return value reports success or failure."
 Warnings are still displayed, and errors are catched.
 The return value reports success or failure."
   `(condition-case nil
-       (progn (message (format "[%s]" ,msg))
+       (progn (message (format "[%s]" (propertize ,msg 'face '(:foreground "green"))))
               ,@body
               (message (format "[end]"))
               'ok)
@@ -267,7 +267,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (define-and-set sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
  (define-key evil-insert-state-map (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
- (define-key evil-insert-state-map (kbd "M-[") 'sp-backward-unwrap-sexp)
+ (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
  (cl-loop
   for (key . val) in '((paren   . "(")
                        (bracket . "[")
