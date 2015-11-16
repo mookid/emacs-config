@@ -16,19 +16,16 @@
 Warnings are still displayed, and errors are catched.
 The return value reports success or failure."
   `(condition-case nil
-       (progn (message (format "*** %s" ,msg)) ,@body 'ok)
-     (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
+       (progn (message "*** %s" ,msg) ,@body 'ok)
+     (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 (defmacro with-title (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
 
 Warnings are still displayed, and errors are catched.
 The return value reports success or failure."
   `(condition-case nil
-       (progn (message (format "[%s]" (propertize ,msg 'face '(:foreground "green"))))
-              ,@body
-              (message (format "[end]"))
-              'ok)
-     (error (message (format "Error during phase called \"%s\"" ,msg)) 'fail)))
+       (progn (message "[%s]" ,msg) ,@body (message "[end]") 'ok)
+     (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 (defmacro define-and-set (name value)
   "The same effect as (setq NAME VALUE), but prevents warnings."
   `(progn (defvar ,name) (setq ,name ,value)))
