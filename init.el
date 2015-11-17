@@ -40,6 +40,9 @@ The return value reports success or failure."
 ;; Define an alias for dabbrev-expand
 (global-set-key (kbd "<tab>") 'dabbrev-expand)
 
+;; Easy switch from one window to another
+(windmove-default-keybindings)
+
 ;; Switch to messages buffer at startup
 (define-and-set inhibit-startup-message t)
 (switch-to-buffer "*Messages*")
@@ -285,7 +288,7 @@ See `toggle-selective-display' and `increase-selective-display'."
          "Wrap the next form (or the selection) using `sp-wrap-with-pair'."
          (interactive "P")
          (sp-wrap-with-pair ,val)))
-  do (eval `(define-key evil-insert-state-map (kbd ,kbinding) ',symb))))
+  do (eval `(global-set-key (kbd ,kbinding) ',symb))))
 
 (with-message
  "Setting up flycheck"
