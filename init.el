@@ -62,6 +62,9 @@ The return value reports success or failure."
 ;; No tabs
 (setq-default indent-tabs-mode nil)
 
+;; Delete trailing whitespaces when saving a file
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -290,17 +293,17 @@ See `toggle-selective-display' and `increase-selective-display'."
  (defvar flycheck-mode-map)
  (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
 
-(with-message
- "Loading private settings"
- (let ((f "~/.emacs.d/private.el"))
-   (when (file-exists-p f)
-     (load f))))
-
 (when (memq window-system '(mac ns))
   (with-message
    "Setting up path"
    (require 'exec-path-from-shell)
    (exec-path-from-shell-initialize)))
+
+(with-message
+ "Loading private settings"
+ (let ((f "~/.emacs.d/private.el"))
+   (when (file-exists-p f)
+     (load f))))
 
 (provide 'init)
 ;;; init.el ends here
