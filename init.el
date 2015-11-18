@@ -93,6 +93,9 @@ The return value reports success or failure."
 (with-message
  "Setting up selective display."
  (let ((depth 1))
+   (global-set-key (kbd "<f6>") 'toggle-selective-display)
+   (global-set-key (kbd "C-<f6>") 'increase-selective-display)
+   (global-set-key (kbd "S-<f6>") 'decrease-selective-display)
    (defun toggle-selective-display ()
      "Hide lines starting with a lot of spaces.
 
@@ -100,7 +103,6 @@ See `increase-selective-display' to increase the number of spaces.
 See `decrease-selective-display' to decrease it."
      (interactive)
      (set-selective-display (unless selective-display depth)))
-   (global-set-key (kbd "<f6>") 'toggle-selective-display)
    (cl-flet ((g (offset)
                 (setq depth (+ depth offset))
                 (set-selective-display depth)))
@@ -115,9 +117,7 @@ See `toggle-selective-display' and `decrease-selective-display'."
 
 See `toggle-selective-display' and `increase-selective-display'."
        (interactive)
-       (g -1))
-     (global-set-key (kbd "C-<f6>") 'increase-selective-display)
-     (global-set-key (kbd "S-<f6>") 'decrease-selective-display))))
+       (when (> offset 0) (g -1))))))
 
 (with-message
  "Loading packages list"
@@ -304,9 +304,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (with-message
  "Loading private settings"
- (let ((f "~/.emacs.d/private.el"))
-   (when (file-exists-p f)
-     (load f))))
+ (let ((f "~/.emacs.d/private.el")) (when (file-exists-p f) (load f))))
 
 (provide 'init)
 ;;; init.el ends here
