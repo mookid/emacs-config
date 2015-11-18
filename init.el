@@ -117,7 +117,7 @@ See `toggle-selective-display' and `decrease-selective-display'."
 
 See `toggle-selective-display' and `increase-selective-display'."
        (interactive)
-       (when (> offset 0) (g -1))))))
+       (when (> depth 0) (g -1))))))
 
 (with-message
  "Loading packages list"
