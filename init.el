@@ -196,8 +196,7 @@ See `toggle-selective-display' and `increase-selective-display'."
    for (key . val) in '((<f1> . evil-numbers/inc-at-pt)
                         (<f2> . evil-numbers/dec-at-pt))
    do (define-key evil-normal-state-map
-        (kbd (concat "C-M-S-" (symbol-name key)))
-        val))))
+        (kbd (concat "C-M-S-" (symbol-name key))) val))))
 
 (with-message
  "Loading powerline"
@@ -295,6 +294,15 @@ See `toggle-selective-display' and `increase-selective-display'."
  (require 'flycheck)
  (defvar flycheck-mode-map)
  (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
+
+(with-message
+ "Setting up avy"
+ (require 'avy)
+ (setq avy-all-windows 'all-frames)
+ (mapc (lambda (map) (eval `(define-key ,map (kbd "s") 'avy-goto-word-or-subword-1)))
+       '(evil-motion-state-map
+         evil-visual-state-map
+         evil-normal-state-map)))
 
 (when (memq window-system '(mac ns))
   (with-message
