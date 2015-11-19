@@ -187,6 +187,7 @@ See `toggle-selective-display' and `increase-selective-display'."
         '(evil-search-highlight-persist-highlight-face
           isearch
           lazy-highlight))
+  (setq evil-search-highlight-string-min-len 5)
   (global-evil-search-highlight-persist t))
 
  (with-message
