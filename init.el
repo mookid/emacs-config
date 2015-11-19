@@ -264,7 +264,8 @@ See `toggle-selective-display' and `increase-selective-display'."
  (with-message
   "Loading helm swoop"
   (require 'helm-swoop)
-  (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search)))
+  (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search)
+  (define-key isearch-mode-map (kbd "C-\\") 'helm-swoop-from-isearch)))
 
 (with-message
  "Loading smartparens"
@@ -296,7 +297,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (defvar flycheck-mode-map)
  (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
 
-(ignore
+(with-message
  "Setting up avy"
  (require 'avy)
  (setq avy-all-windows 'all-frames)
@@ -305,7 +306,7 @@ See `toggle-selective-display' and `increase-selective-display'."
          evil-visual-state-map
          evil-normal-state-map)))
 
-(with-message
+(ignore-all
  "Loading ace-isearch"
  (require 'ace-isearch)
  (global-ace-isearch-mode +1)
