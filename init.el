@@ -71,7 +71,8 @@ The return value reports success or failure."
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(with-message "Remove gui elements"
+(with-message
+ "Remove gui elements"
  (tooltip-mode -1)
  (tool-bar-mode -1)
  (menu-bar-mode -1)
@@ -89,7 +90,8 @@ The return value reports success or failure."
 (define-and-set savehist-additional-variables
   '(kill-ring search-ring regexp-search-ring))
 
-(with-message "Setting up selective display."
+(with-message
+ "Setting up selective display."
  (let ((depth 1))
    (global-set-key (kbd "<f6>") 'toggle-selective-display)
    (global-set-key (kbd "C-<f6>") 'increase-selective-display)
@@ -117,12 +119,14 @@ See `toggle-selective-display' and `increase-selective-display'."
        (interactive)
        (when (> depth 0) (g -1))))))
 
-(with-message "Loading packages list"
+(with-message
+ "Loading packages list"
  (require 'package)
  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
  (package-initialize))
 
-(with-message "Configuring parenthesis settings"
+(with-message
+ "Configuring parenthesis settings"
  (require 'paren)
  (electric-pair-mode t)
  (define-and-set electric-pair-pairs '((?\{ . ?\})))
@@ -130,7 +134,8 @@ See `toggle-selective-display' and `increase-selective-display'."
  (set-face-background 'show-paren-match "deep pink")
  (define-and-set show-paren-delay 0))
 
-(with-message "Setting up unicode"
+(with-message
+ "Setting up unicode"
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist
               '(font . "DejaVu Sans Mono-11"))
@@ -145,9 +150,11 @@ See `toggle-selective-display' and `increase-selective-display'."
 ;;; Package loading and settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(with-title "Evil related packages"
+(with-title
+ "Evil related packages"
 
- (with-message "Loading evil mode"
+ (with-message
+  "Loading evil mode"
   (require 'evil)
   (evil-mode)
   (defvar evil-emacs-state-map)
@@ -164,11 +171,13 @@ See `toggle-selective-display' and `increase-selective-display'."
   (define-and-set evil-replace-state-cursor '("deep pink" box))
   (define-and-set evil-motion-state-cursor '("gray" box)))
 
- (with-message "Loading evil visualstar"
+ (with-message
+  "Loading evil visualstar"
   (require 'evil-visualstar)
   (global-evil-visualstar-mode t))
 
- (with-message "Loading evil search highlight persist"
+ (with-message
+  "Loading evil search highlight persist"
   (require 'evil-search-highlight-persist)
   (mapc (lambda (face)
           (set-face-attribute face nil
@@ -181,7 +190,8 @@ See `toggle-selective-display' and `increase-selective-display'."
   (setq evil-search-highlight-string-min-len 5)
   (global-evil-search-highlight-persist t))
 
- (with-message "Loading evil numbers"
+ (with-message
+  "Loading evil numbers"
   (require 'evil-numbers)
   (cl-loop
    for (key . val) in '((<f1> . evil-numbers/inc-at-pt)
@@ -189,14 +199,16 @@ See `toggle-selective-display' and `increase-selective-display'."
    do (define-key evil-normal-state-map
         (kbd (concat "C-M-S-" (symbol-name key))) val))))
 
-(with-message "Loading powerline"
+(with-message
+ "Loading powerline"
  (require 'smart-mode-line-powerline-theme)
  (define-and-set sml/no-confirm-load-theme t)
  ;; avoids a question at every startup
  (define-and-set sml/theme 'powerline)
  (sml/setup))
 
-(with-message "Loading rainbow delimiters and blocks"
+(with-message
+ "Loading rainbow delimiters and blocks"
  (require 'rainbow-delimiters)
  (require 'rainbow-blocks)
  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
@@ -225,31 +237,37 @@ See `toggle-selective-display' and `increase-selective-display'."
       for icolor = (mod (- lvl 1) ncolors)
       do (set-level lvl (nth icolor colors))))))
 
-(with-message "Loading company mode"
+(with-message
+ "Loading company mode"
  (require 'company)
  (define-and-set company-idle-delay 0.5)
  (define-and-set company-tooltip-limit 5)
  (define-and-set company-minimum-prefix-length 2)
  (define-and-set company-tooltip-flip-when-above t))
 
-(ignore-all "Loading paredit mode"
+(ignore-all
+ "Loading paredit mode"
  (require 'paredit)
  (paredit-mode))
 
-(with-title "Helm related packages"
+(with-title
+ "Helm related packages"
 
- (with-message "Loading helm"
+ (with-message
+  "Loading helm"
   (require 'helm)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x C-m") 'helm-M-x)
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
   (helm-mode))
 
- (with-message "Loading helm swoop"
+ (with-message
+  "Loading helm swoop"
   (require 'helm-swoop)
   (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search)))
 
-(with-message "Loading smartparens"
+(with-message
+ "Loading smartparens"
  (require 'smartparens-config)
  (show-smartparens-global-mode nil)
  (define-and-set sp-autoskip-closing-pair 'always)
@@ -272,12 +290,14 @@ See `toggle-selective-display' and `increase-selective-display'."
          (sp-wrap-with-pair ,val)))
   do (eval `(global-set-key (kbd ,kbinding) ',symb))))
 
-(with-message "Setting up flycheck"
+(with-message
+ "Setting up flycheck"
  (require 'flycheck)
  (defvar flycheck-mode-map)
  (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
 
-(ignore-all "Setting up avy"
+(ignore
+ "Setting up avy"
  (require 'avy)
  (setq avy-all-windows 'all-frames)
  (mapc (lambda (map) (eval `(define-key ,map (kbd "s") 'avy-goto-word-or-subword-1)))
@@ -285,17 +305,20 @@ See `toggle-selective-display' and `increase-selective-display'."
          evil-visual-state-map
          evil-normal-state-map)))
 
-(with-message "Loading ace-isearch"
+(with-message
+ "Loading ace-isearch"
  (require 'ace-isearch)
  (global-ace-isearch-mode +1)
  (define-and-set ace-isearch-function 'avy-goto-char))
 
 (when (memq window-system '(mac ns))
-  (with-message "Setting up path"
+  (with-message
+   "Setting up path"
    (require 'exec-path-from-shell)
    (exec-path-from-shell-initialize)))
 
-(with-message "Loading private settings"
+(with-message
+ "Loading private settings"
  (let ((f "~/.emacs.d/private.el")) (when (file-exists-p f) (load f))))
 
 (provide 'init)
