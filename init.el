@@ -43,6 +43,9 @@ The return value reports success or failure."
 ;; Easy switch from one window to another
 (windmove-default-keybindings)
 
+;; Fixed size mini-window
+(define-and-set resize-mini-windows nil)
+
 ;; Switch to messages buffer at startup
 (define-and-set inhibit-startup-message t)
 (switch-to-buffer "*Messages*")
