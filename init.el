@@ -295,7 +295,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (defvar flycheck-mode-map)
  (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
 
-(with-message
+(ignore
  "Setting up avy"
  (require 'avy)
  (setq avy-all-windows 'all-frames)
@@ -303,6 +303,12 @@ See `toggle-selective-display' and `increase-selective-display'."
        '(evil-motion-state-map
          evil-visual-state-map
          evil-normal-state-map)))
+
+(with-message
+ "Loading ace-isearch"
+ (require 'ace-isearch)
+ (global-ace-isearch-mode +1)
+ (define-and-set ace-isearch-function 'avy-goto-char))
 
 (when (memq window-system '(mac ns))
   (with-message
