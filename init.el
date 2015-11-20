@@ -82,7 +82,12 @@ The return value reports success or failure."
  (scroll-bar-mode 1)
  (define-and-set blink-cursor-mode nil))
 
-(global-set-key (kbd "<f12>") 'recompile)
+(defun save-all-and-recompile ()
+  "Save any modified buffer and recompile."
+  (interactive)
+  (save-some-buffers 1)
+  (recompile))
+(global-set-key (kbd "<f12>") 'save-all-and-recompile)
 
 ;; Save history between sessions
 (define-and-set savehist-file "~/.emacs.d/savehist")
