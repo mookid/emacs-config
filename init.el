@@ -270,6 +270,7 @@ See `toggle-selective-display' and `increase-selective-display'."
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x C-m") 'helm-M-x)
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+  (global-set-key (kbd "C-M-h") 'helm-recentf)
   (helm-mode))
 
  (with-message
