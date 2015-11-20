@@ -53,6 +53,9 @@ The return value reports success or failure."
 ;; Move backup files to a subdirectory of ~/.emacs.d
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
+;; Auto revert
+(global-auto-revert-mode 1)
+
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
