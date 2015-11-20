@@ -274,6 +274,14 @@ See `toggle-selective-display' and `increase-selective-display'."
   (helm-mode))
 
  (with-message
+  "Loading shackle"
+  (require 'shackle)
+  (define-and-set helm-display-function #'pop-to-buffer)
+  (define-and-set shackle-rules
+    '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.33)))
+  (shackle-mode))
+
+ (with-message
   "Loading helm swoop"
   (require 'helm-swoop)
   (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search)
