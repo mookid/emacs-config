@@ -284,8 +284,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (with-message
   "Loading helm swoop"
   (require 'helm-swoop)
-  (define-key evil-motion-state-map (kbd "\\") 'helm-swoop-from-evil-search)
-  (define-key isearch-mode-map (kbd "C-\\") 'helm-swoop-from-isearch)))
+  (global-set-key (kbd "C-\\") 'helm-swoop-from-evil-search)))
 
 (with-message
  "Loading smartparens"
