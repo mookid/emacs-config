@@ -334,6 +334,16 @@ See `toggle-selective-display' and `increase-selective-display'."
  (global-ace-isearch-mode +1)
  (define-and-set ace-isearch-function 'avy-goto-char))
 
+(with-title
+ "OCaml config"
+
+ (with-message
+  "Configure tuareg mode"
+  (require 'tuareg)
+  (setq auto-mode-alist
+        (append '(("\\.ml[ily]?$" . tuareg-mode))
+                auto-mode-alist))))
+
 (when (memq window-system '(mac ns))
   (with-message
    "Setting up path"
