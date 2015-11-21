@@ -342,7 +342,12 @@ See `toggle-selective-display' and `increase-selective-display'."
   (require 'tuareg)
   (setq auto-mode-alist
         (append '(("\\.ml[ily]?$" . tuareg-mode))
-                auto-mode-alist))))
+                auto-mode-alist)))
+
+ (with-message
+  "Configure ocp indent"
+  (require 'ocp-indent)
+  (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer)))
 
 (when (memq window-system '(mac ns))
   (with-message
