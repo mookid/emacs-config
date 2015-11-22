@@ -347,7 +347,17 @@ See `toggle-selective-display' and `increase-selective-display'."
  (with-message
   "Configure ocp indent"
   (require 'ocp-indent)
-  (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer)))
+  (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
+
+ (with-message
+  "Configuring merlin"
+  (require 'merlin)
+  (add-hook 'tuareg-mode-hook 'merlin-mode t)
+  (setq merlin-use-auto-complete-mode 'easy)
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends
+                 'merlin-company-backend))
+  (add-hook 'merlin-mode-hook 'company-mode)))
 
 (when (memq window-system '(mac ns))
   (with-message
