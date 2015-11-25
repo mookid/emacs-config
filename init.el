@@ -183,7 +183,16 @@ See `toggle-selective-display' and `increase-selective-display'."
   (define-and-set evil-visual-state-cursor '("green" box))
   (define-and-set evil-insert-state-cursor '("red" bar))
   (define-and-set evil-replace-state-cursor '("deep pink" box))
-  (define-and-set evil-motion-state-cursor '("gray" box)))
+  (define-and-set evil-motion-state-cursor '("gray" box))
+  (define-key evil-normal-state-map
+    (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+  (define-key evil-normal-state-map
+    (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+  (define-key evil-motion-state-map
+    (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+  (define-key evil-motion-state-map
+    (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+  (setq-default evil-cross-lines t))
 
  (with-message
   "Loading evil visualstar"
@@ -236,15 +245,15 @@ See `toggle-selective-display' and `increase-selective-display'."
                          (set-face-attribute face nil
                                              :weight 'extra-bold
                                              :foreground color))
-	       (mk-symb (kind lvl)
-			(intern (concat "rainbow-"
-					(prin1-to-string kind) "-depth-"
-					(prin1-to-string lvl) "-face")))
-	       (set-level (lvl color)
+               (mk-symb (kind lvl)
+                        (intern (concat "rainbow-"
+                                        (prin1-to-string kind) "-depth-"
+                                        (prin1-to-string lvl) "-face")))
+               (set-level (lvl color)
                           (when (< 0 lvl 10)
                             (mapc (lambda (kind)
                                     (set-bold (mk-symb kind lvl) color))
-				  kinds))))
+                                  kinds))))
      (cl-loop
       with ncolors = (length colors)
       for lvl from 1 upto 9
