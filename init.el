@@ -26,9 +26,7 @@ The return value reports success or failure."
   `(condition-case nil
        (progn (message "[%s]" ,msg) ,@body (message "[end]") 'ok)
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
-(defmacro define-and-set (name value)
-  "The same effect as (setq NAME VALUE), but prevents warnings."
-  `(progn (defvar ,name) (setq ,name ,value)))
+
 (defmacro ignore-all (&rest _) "Ignore arguments, which are not evaluated." nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -44,10 +42,10 @@ The return value reports success or failure."
 (windmove-default-keybindings)
 
 ;; Fixed size mini-window
-(define-and-set resize-mini-windows nil)
+(setq-default resize-mini-windows nil)
 
 ;; Switch to messages buffer at startup
-(define-and-set inhibit-startup-message t)
+(setq-default inhibit-startup-message t)
 (switch-to-buffer "*Messages*")
 
 ;; Move backup files to a subdirectory of ~/.emacs.d
@@ -83,7 +81,7 @@ The return value reports success or failure."
  (tool-bar-mode -1)
  (menu-bar-mode -1)
  (scroll-bar-mode 1)
- (define-and-set blink-cursor-mode nil))
+ (setq-default blink-cursor-mode nil))
 
 (with-message
  "Compilation settings"
@@ -96,12 +94,12 @@ The return value reports success or failure."
  (global-set-key (kbd "C-<next>") 'next-error))
 
 ;; Save history between sessions
-(define-and-set savehist-file "~/.emacs.d/savehist")
+(setq-default savehist-file "~/.emacs.d/savehist")
 (savehist-mode t)
 (setq history-length t) ; no maximum
 (setq history-delete-duplicates t)
-(define-and-set savehist-save-minibuffer-history t)
-(define-and-set savehist-additional-variables
+(setq-default savehist-save-minibuffer-history t)
+(setq-default savehist-additional-variables
   '(kill-ring search-ring regexp-search-ring))
 
 (with-message
@@ -143,10 +141,10 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Configuring parenthesis settings"
  (require 'paren)
  (electric-pair-mode t)
- (define-and-set electric-pair-pairs '((?\{ . ?\})))
+ (setq-default electric-pair-pairs '((?\{ . ?\})))
  (show-paren-mode t)
  (set-face-background 'show-paren-match "deep pink")
- (define-and-set show-paren-delay 0))
+ (setq-default show-paren-delay 0))
 
 (with-message
  "Setting up unicode"
@@ -178,12 +176,12 @@ See `toggle-selective-display' and `increase-selective-display'."
   (defvar evil-normal-state-map)
   (defvar evil-replace-state-map)
   (defvar evil-operator-state-map)
-  (define-and-set evil-emacs-state-cursor '("purple" box))
-  (define-and-set evil-normal-state-cursor '("grey" box))
-  (define-and-set evil-visual-state-cursor '("green" box))
-  (define-and-set evil-insert-state-cursor '("red" bar))
-  (define-and-set evil-replace-state-cursor '("deep pink" box))
-  (define-and-set evil-motion-state-cursor '("gray" box))
+  (setq-default evil-emacs-state-cursor '("purple" box))
+  (setq-default evil-normal-state-cursor '("grey" box))
+  (setq-default evil-visual-state-cursor '("green" box))
+  (setq-default evil-insert-state-cursor '("red" bar))
+  (setq-default evil-replace-state-cursor '("deep pink" box))
+  (setq-default evil-motion-state-cursor '("gray" box))
   (define-key evil-normal-state-map
     (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
   (define-key evil-normal-state-map
@@ -225,9 +223,9 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Loading powerline"
  (require 'smart-mode-line-powerline-theme)
- (define-and-set sml/no-confirm-load-theme t)
+ (setq-default sml/no-confirm-load-theme t)
  ;; avoids a question at every startup
- (define-and-set sml/theme 'powerline)
+ (setq-default sml/theme 'powerline)
  (sml/setup))
 
 (with-message
@@ -263,10 +261,10 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Loading company mode"
  (require 'company)
- (define-and-set company-idle-delay 0.5)
- (define-and-set company-tooltip-limit 5)
- (define-and-set company-minimum-prefix-length 2)
- (define-and-set company-tooltip-flip-when-above t))
+ (setq-default company-idle-delay 0.5)
+ (setq-default company-tooltip-limit 5)
+ (setq-default company-minimum-prefix-length 2)
+ (setq-default company-tooltip-flip-when-above t))
 
 (ignore-all
  "Loading paredit mode"
@@ -288,8 +286,8 @@ See `toggle-selective-display' and `increase-selective-display'."
  (with-message
   "Loading shackle"
   (require 'shackle)
-  (define-and-set helm-display-function #'pop-to-buffer)
-  (define-and-set shackle-rules
+  (setq-default helm-display-function #'pop-to-buffer)
+  (setq-default shackle-rules
     '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.33)))
   (shackle-mode))
 
@@ -302,8 +300,8 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Loading smartparens"
  (require 'smartparens-config)
  (show-smartparens-global-mode nil)
- (define-and-set sp-autoskip-closing-pair 'always)
- (define-and-set sp-hybrid-kill-entire-symbol nil)
+ (setq-default sp-autoskip-closing-pair 'always)
+ (setq-default sp-hybrid-kill-entire-symbol nil)
  (sp-use-paredit-bindings)
  (define-key evil-insert-state-map (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
  (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
@@ -341,7 +339,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Loading ace-isearch"
  (require 'ace-isearch)
  (global-ace-isearch-mode +1)
- (define-and-set ace-isearch-function 'avy-goto-char))
+ (setq-default ace-isearch-function 'avy-goto-char))
 
 (with-title
  "OCaml config"
