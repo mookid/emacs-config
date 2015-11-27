@@ -54,6 +54,21 @@ The return value reports success or failure."
 ;; Auto revert
 (global-auto-revert-mode 1)
 
+(with-message
+ "Setting autosave"
+ (defadvice switch-to-buffer (before save-buffer-now activate)
+   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+ (defadvice other-window (before other-window-now activate)
+   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+ (defadvice windmove-up (before other-window-now activate)
+   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+ (defadvice windmove-down (before other-window-now activate)
+   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+ (defadvice windmove-left (before other-window-now activate)
+   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+ (defadvice windmove-right (before other-window-now activate)
+   (when (and buffer-file-name (buffer-modified-p)) (save-buffer))))
+
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -100,7 +115,7 @@ The return value reports success or failure."
 (setq history-delete-duplicates t)
 (setq-default savehist-save-minibuffer-history t)
 (setq-default savehist-additional-variables
-  '(kill-ring search-ring regexp-search-ring))
+              '(kill-ring search-ring regexp-search-ring))
 
 (with-message
  "Setting up selective display."
@@ -288,7 +303,7 @@ See `toggle-selective-display' and `increase-selective-display'."
   (require 'shackle)
   (setq-default helm-display-function #'pop-to-buffer)
   (setq-default shackle-rules
-    '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.33)))
+                '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.33)))
   (shackle-mode))
 
  (with-message
