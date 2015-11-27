@@ -96,7 +96,7 @@ The return value reports success or failure."
  (tool-bar-mode -1)
  (menu-bar-mode -1)
  (scroll-bar-mode 1)
- (setq-default blink-cursor-mode nil))
+ (blink-cursor-mode -1))
 
 (with-message
  "Compilation settings"
