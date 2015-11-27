@@ -100,12 +100,25 @@ The return value reports success or failure."
 
 (with-message
  "Compilation settings"
- (defun save-all-and-recompile ()
-   "Save any modified buffer and recompile."
-   (interactive)
-   (save-some-buffers 1)
-   (recompile))
- (global-set-key (kbd "<f12>") 'save-all-and-recompile)
+ (setq-default compilation-ask-about-save nil)
+ (setq-default compilation-always-kill t)
+ (setq-default compilation-scroll-output 'first-error)
+ (defun bury-compile-buffer-if-successful (buffer string)
+   "Bury a compilation buffer if succeeded without warnings "
+   (if (and
+        (string-match "compilation" (buffer-name buffer))
+        (string-match "finished" string)
+        (not
+         (with-current-buffer buffer
+           (goto-char (point-min))
+           (search-forward "warning" nil t))))
+       (run-with-timer 3 nil
+                       (lambda (buf)
+                         (bury-buffer buf)
+                         (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+                       buffer)))
+ (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
+ (global-set-key (kbd "<f12>") 'recompile)
  (global-set-key (kbd "C-<next>") 'next-error))
 
 ;; Save history between sessions
