@@ -18,6 +18,7 @@ The return value reports success or failure."
   `(condition-case nil
        (progn (message "*** %s" ,msg) ,@body 'ok)
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
+
 (defmacro with-title (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
 
@@ -133,7 +134,7 @@ The return value reports success or failure."
                '(kill-ring search-ring regexp-search-ring))
 
  (with-message
-  "Setting up selective display."
+  "Setting up selective display"
   (let ((depth 1))
     (global-set-key (kbd "<f6>") 'toggle-selective-display)
     (global-set-key (kbd "C-<f6>") 'increase-selective-display)
@@ -238,7 +239,7 @@ See `toggle-selective-display' and `increase-selective-display'."
         '(evil-search-highlight-persist-highlight-face
           isearch
           lazy-highlight))
-  (setq evil-search-highlight-string-min-len 5)
+  (setq-default evil-search-highlight-string-min-len 5)
   (global-evil-search-highlight-persist t))
 
  (with-message
@@ -359,7 +360,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Setting up avy"
  (require 'avy)
- (setq avy-all-windows 'all-frames)
+ (setq-default avy-all-windows 'all-frames)
  (mapc (lambda (map) (eval `(define-key ,map (kbd "s") 'avy-goto-word-or-subword-1)))
        '(evil-motion-state-map
          evil-visual-state-map
