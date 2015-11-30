@@ -30,9 +30,6 @@ The return value reports success or failure."
 
 (defmacro ignore-all (&rest _) "Ignore arguments, which are not evaluated." nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Naked emacs configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (with-title
  "Naked emacs configuration"
  ;; Set color theme
