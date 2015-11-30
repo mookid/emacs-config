@@ -404,7 +404,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (define-key c-mode-base-map (kbd "C-c C-c") 'compile))
 
 (with-message
- "Configuring highlight colunm"
+ "Configuring highlight column"
  (require 'highlight-indentation)
  (set-face-background 'highlight-indentation-face "light steel blue")
  (set-face-background 'highlight-indentation-current-column-face "sienna4"))
