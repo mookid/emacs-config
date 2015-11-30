@@ -384,7 +384,7 @@ See `toggle-selective-display' and `increase-selective-display'."
   (require 'ocp-indent)
   (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
 
- (with-message
+ (ignore-all
   "Configuring merlin"
   (require 'merlin)
   (add-hook 'tuareg-mode-hook 'merlin-mode t)
@@ -393,6 +393,12 @@ See `toggle-selective-display' and `increase-selective-display'."
     (add-to-list 'company-backends
                  'merlin-company-backend))
   (add-hook 'merlin-mode-hook 'company-mode)))
+
+(with-message
+ "C settings"
+ (require 'cc-mode)
+ (setq-default c-default-style "linux" c-basic-offset 8)
+ (define-key c-mode-base-map (kbd "C-c C-c") 'compile))
 
 (when (memq window-system '(mac ns))
   (with-message
