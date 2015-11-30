@@ -403,6 +403,12 @@ See `toggle-selective-display' and `increase-selective-display'."
  (setq-default c-default-style "linux" c-basic-offset 8)
  (define-key c-mode-base-map (kbd "C-c C-c") 'compile))
 
+(with-message
+ "Configuring highlight colunm"
+ (require 'highlight-indentation)
+ (set-face-background 'highlight-indentation-face "light steel blue")
+ (set-face-background 'highlight-indentation-current-column-face "sienna4"))
+
 (when (memq window-system '(mac ns))
   (with-message
    "Setting up path"
