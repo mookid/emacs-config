@@ -226,6 +226,11 @@ See `toggle-selective-display' and `increase-selective-display'."
   (global-evil-visualstar-mode t))
 
  (with-message
+  "Loading evil jumper"
+  (require 'evil-jumper)
+  (evil-jumper-mode t))
+
+ (with-message
   "Loading evil search highlight persist"
   (require 'evil-search-highlight-persist)
   (mapc (lambda (face)
