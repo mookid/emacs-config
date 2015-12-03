@@ -44,6 +44,10 @@ The return value reports success or failure."
  ;; Fixed size mini-window
  (setq-default resize-mini-windows nil)
 
+ ;; Default behaviour for newlines
+ (setq require-final-newline t)
+ (setq next-line-add-newlines nil)
+
  ;; Switch to messages buffer at startup
  (setq-default inhibit-startup-message t)
  (switch-to-buffer "*Messages*")
