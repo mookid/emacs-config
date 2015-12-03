@@ -222,7 +222,9 @@ See `toggle-selective-display' and `increase-selective-display'."
     (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
   (define-key evil-motion-state-map
     (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-  (setq-default evil-cross-lines t))
+  (setq-default evil-cross-lines t)
+  (defun ex-substitute () (interactive) (evil-ex "%s/"))
+  (define-key evil-normal-state-map (kbd "g s") 'ex-substitute))
 
  (with-message
   "Loading evil visualstar"
