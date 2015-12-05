@@ -90,6 +90,9 @@ The return value reports success or failure."
  ;; Short answers to questions
  (defalias 'yes-or-no-p 'y-or-n-p)
 
+ ;; Enable region narrowing
+ (put 'narrow-to-region 'disabled nil)
+
  (with-message
   "Remove gui elements"
   (tooltip-mode -1)
