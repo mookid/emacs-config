@@ -405,12 +405,6 @@ See `toggle-selective-display' and `increase-selective-display'."
  (set-face-background 'highlight-indentation-face "light steel blue")
  (set-face-background 'highlight-indentation-current-column-face "sienna4"))
 
-(when (memq window-system '(mac ns))
-  (with-message
-   "Setting up path"
-   (require 'exec-path-from-shell)
-   (exec-path-from-shell-initialize)))
-
 (with-message
  "Loading private settings"
  (let ((f "~/.emacs.d/private.el")) (when (file-exists-p f) (load f))))
