@@ -44,6 +44,10 @@ The return value reports success or failure."
  ;; Fixed size mini-window
  (setq-default resize-mini-windows nil)
 
+ ;; Default behaviour for newlines
+ (setq require-final-newline t)
+ (setq next-line-add-newlines nil)
+
  ;; Switch to messages buffer at startup
  (setq-default inhibit-startup-message t)
  (switch-to-buffer "*Messages*")
@@ -106,21 +110,6 @@ The return value reports success or failure."
   (setq-default compilation-ask-about-save nil)
   (setq-default compilation-always-kill t)
   (setq-default compilation-scroll-output 'first-error)
-  (defun bury-compile-buffer-if-successful (buffer string)
-    "Bury a compilation buffer if succeeded without warnings "
-    (if (and
-         (string-match "compilation" (buffer-name buffer))
-         (string-match "finished" string)
-         (not
-          (with-current-buffer buffer
-            (goto-char (point-min))
-            (search-forward "warning" nil t))))
-        (run-with-timer 3 nil
-                        (lambda (buf)
-                          (bury-buffer buf)
-                          (switch-to-prev-buffer (get-buffer-window buf) 'kill))
-                        buffer)))
-  (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
   (global-set-key (kbd "<f12>") 'recompile)
   (global-set-key (kbd "C-<next>") 'next-error))
 
@@ -221,7 +210,9 @@ See `toggle-selective-display' and `increase-selective-display'."
     (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
   (define-key evil-motion-state-map
     (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-  (setq-default evil-cross-lines t))
+  (setq-default evil-cross-lines t)
+  (defun ex-substitute () (interactive) (evil-ex "%s/"))
+  (define-key evil-normal-state-map (kbd "g s") 'ex-substitute))
 
  (with-message
   "Loading evil visualstar"
