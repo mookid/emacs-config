@@ -1,10 +1,11 @@
 ;; -*- lexical-binding: t -*-
-;;; naked-emacs-config.el --- configuration file for emacs!
+;;; mookid-naked-emacs-config.el --- configuration file for emacs!
 
 ;;; Commentary:
 ;; Configuration of emacs that does not depend on third party packages.
 
 ;;; Code:
+(require 'mookid-macros)
 
 ;; Set color theme
 (load-theme 'tango-dark)
@@ -151,5 +152,5 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Loading hl line mode"
  (global-hl-line-mode)
  (set-face-attribute 'hl-line nil :background "RoyalBlue3"))
-(provide 'naked-emacs-config)
-;;; naked-emacs-config.el ends here
+(provide 'mookid-naked-emacs-config)
+;;; mookid-naked-emacs-config.el ends here
