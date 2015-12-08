@@ -28,12 +28,7 @@
 (with-message "Setting up flycheck" (require 'mookid-flycheck))
 (ignore-all "Loading ace-isearch" (require 'mookid-ace-isearch))
 (with-title "OCaml config" (require 'mookid-ocaml))
-
-(with-message
- "C settings"
- (require 'cc-mode)
- (setq-default c-default-style "linux" c-basic-offset 8)
- (define-key c-mode-base-map (kbd "C-c C-c") 'compile))
+(with-message "C settings" (require 'mookid-c))
 
 (with-message
  "Configuring highlight column"
