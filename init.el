@@ -25,11 +25,7 @@
 (with-title "Helm related packages" (require 'mookid-helm))
 (with-message "Loading smartparens" (require 'mookid-smartparens))
 (with-message "Setting up avy" (require 'mookid-avy))
-(with-message
- "Setting up flycheck"
- (require 'flycheck)
- (defvar flycheck-mode-map)
- (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error))
+(with-message "Setting up flycheck" (require 'mookid-flycheck))
 
 (ignore-all
  "Loading ace-isearch"
