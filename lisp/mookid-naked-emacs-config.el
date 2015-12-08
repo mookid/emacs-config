@@ -1,11 +1,12 @@
 ;; -*- lexical-binding: t -*-
-;;; mookid-naked-emacs-config.el --- configuration file for emacs!
+;;; mookid-naked-emacs-config.el --- Configuration of naked emacs
 
 ;;; Commentary:
-;; Configuration of emacs that does not depend on third party packages.
+;; Configuration of emacs that does not depend on external packages.
 
 ;;; Code:
-(require 'mookid-macros)
+(autoload 'with-message "mookid-macros")
+(autoload 'ignore-all "mookid-macros")
 
 ;; Set color theme
 (load-theme 'tango-dark)
