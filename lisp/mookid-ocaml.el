@@ -15,7 +15,9 @@
  "Configure ocp indent"
  (require 'ocp-indent)
  (defvar tuareg-mode-map)
- (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
+ (add-hook 'tuareg-mode-hook
+           (lambda ()
+             (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))))
 
 (ignore-all
  "Configuring merlin"
