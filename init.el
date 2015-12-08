@@ -26,12 +26,7 @@
 (with-message "Loading smartparens" (require 'mookid-smartparens))
 (with-message "Setting up avy" (require 'mookid-avy))
 (with-message "Setting up flycheck" (require 'mookid-flycheck))
-
-(ignore-all
- "Loading ace-isearch"
- (require 'ace-isearch)
- (global-ace-isearch-mode +1)
- (setq-default ace-isearch-function 'avy-goto-char))
+(ignore-all "Loading ace-isearch" (require 'mookid-ace-isearch))
 
 (with-title
  "OCaml config"
