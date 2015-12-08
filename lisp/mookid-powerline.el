@@ -1,5 +1,7 @@
 ;;; mookid-powerline --- Powerline configuration
+
 ;;; Commentary:
+
 ;;; Code:
 (require 'smart-mode-line-powerline-theme)
 
