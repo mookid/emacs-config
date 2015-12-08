@@ -24,17 +24,8 @@
 (ignore-all "Loading paredit mode" (require 'mookid-paredit))
 (with-title "Helm related packages" (require 'mookid-helm))
 (with-message "Loading smartparens" (require 'mookid-smartparens))
-
 (with-message "Setting up flycheck" (require 'flycheck))
-
-(with-message
- "Setting up avy"
- (require 'avy)
- (setq-default avy-all-windows 'all-frames)
- (mapc (lambda (map) (eval `(define-key ,map (kbd "s") 'avy-goto-word-or-subword-1)))
-       '(evil-motion-state-map
-         evil-visual-state-map
-         evil-normal-state-map)))
+(with-message "Setting up avy" (require 'mookid-avy))
 
 (ignore-all
  "Loading ace-isearch"
