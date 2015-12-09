@@ -13,21 +13,22 @@
 
 (with-message
  "Configure ocp indent"
- (require 'ocp-indent)
  (defvar tuareg-mode-map)
- (add-hook 'tuareg-mode-hook
-           (lambda ()
-             (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))))
+ (defun ocp-indent-setup ()
+   (require 'ocp-indent)
+   (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
+ (add-hook 'tuareg-mode-hook 'ocp-indent-setup))
 
 (ignore-all
  "Configuring merlin"
- (require 'merlin)
- (add-hook 'tuareg-mode-hook 'merlin-mode t)
- (setq-default merlin-use-auto-complete-mode 'easy)
- (defvar company-backends)
- (with-eval-after-load 'company
-   (add-to-list 'company-backends 'merlin-company-backend))
- (add-hook 'merlin-mode-hook 'company-mode))
+ (defun merlin-load () (require 'merlin) (merlin-mode))
+ (add-hook 'tuareg-mode-hook 'merlin-load t)
+ (defun merlin-setup ()
+   (setq-default merlin-use-auto-complete-mode 'easy)
+   (defvar company-backends)
+   (with-eval-after-load 'company
+     (add-to-list 'company-backends 'merlin-company-backend)))
+ (add-hook 'merlin-mode-hook 'merlin-setup))
 
 (provide 'mookid-ocaml)
 ;;; mookid-ocaml.el ends here
