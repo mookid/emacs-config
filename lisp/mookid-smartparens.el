@@ -4,13 +4,14 @@
 
 ;;; Code:
 (require 'smartparens-config)
+
 (show-smartparens-global-mode nil)
 (setq-default sp-autoskip-closing-pair 'always)
 (setq-default sp-hybrid-kill-entire-symbol nil)
 (sp-use-paredit-bindings)
 (define-key evil-insert-state-map (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
 (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
-(cl-loop
+(loop
  for (key . val) in '((paren   . "(")
                       (bracket . "[")
                       (brace   . "{")
