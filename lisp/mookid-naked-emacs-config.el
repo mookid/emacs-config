@@ -145,8 +145,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Setting up unicode"
  (set-default-coding-systems 'utf-8)
- (add-to-list 'default-frame-alist
-              '(font . "DejaVu Sans Mono-11"))
+ (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11"))
  (global-prettify-symbols-mode 1))
 
 (ignore-all
