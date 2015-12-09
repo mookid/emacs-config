@@ -10,8 +10,7 @@
  (require 'helm)
  (global-set-key (kbd "M-x") 'helm-M-x)
  (global-set-key (kbd "C-x C-m") 'helm-M-x)
- (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
- (global-set-key (kbd "C-M-h") 'helm-recentf)
+ (global-set-key (kbd "C-x m") 'helm-M-x)
  (helm-mode))
 
 (with-message
