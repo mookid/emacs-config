@@ -28,5 +28,14 @@
     (require 'helm-swoop)
     (global-set-key (kbd "C-\\") 'helm-swoop-from-evil-search)))
 
+(eval-after-load 'helm
+  '(with-message
+    "Loading helm projectile"
+    (require 'helm-projectile)
+    (projectile-global-mode)
+    (setq-default projectile-indexing-method 'native)
+    (setq-default projectile-enable-caching t)
+    (global-set-key (kbd "<f5>") 'helm-projectile)))
+
 (provide 'mookid-helm)
 ;;; mookid-helm.el ends here
