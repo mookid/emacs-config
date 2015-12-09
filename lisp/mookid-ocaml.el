@@ -8,8 +8,8 @@
 
 (with-message
  "Configure tuareg mode"
- (require 'tuareg)
- (add-to-list auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode)))
+ (autoload 'tuareg-mode "tuareg")
+ (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode)))
 
 (with-message
  "Configure ocp indent"
