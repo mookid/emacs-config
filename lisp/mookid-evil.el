@@ -11,13 +11,8 @@
  "Loading evil mode"
  (require 'evil)
  (evil-mode)
- (defvar evil-emacs-state-map)
  (defvar evil-motion-state-map)
- (defvar evil-insert-state-map)
- (defvar evil-visual-state-map)
  (defvar evil-normal-state-map)
- (defvar evil-replace-state-map)
- (defvar evil-operator-state-map)
  (setq-default evil-emacs-state-cursor '("purple" box))
  (setq-default evil-normal-state-cursor '("grey" box))
  (setq-default evil-visual-state-cursor '("green" box))
