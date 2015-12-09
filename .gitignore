@@ -9,3 +9,5 @@ places
 abbrev_defs
 recentf
 projectile*
+
+*.elc
