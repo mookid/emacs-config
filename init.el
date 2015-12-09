@@ -29,12 +29,7 @@
 (ignore-all "Loading ace-isearch" (require 'mookid-ace-isearch))
 (with-title "OCaml config" (require 'mookid-ocaml))
 (with-message "C settings" (require 'mookid-c))
-
-(with-message
- "Configuring highlight column"
- (require 'highlight-indentation)
- (set-face-background 'highlight-indentation-face "light steel blue")
- (set-face-background 'highlight-indentation-current-column-face "sienna4"))
+(with-message "Configuring highlight column" (require 'mookid-highlight-column))
 
 (with-message
  "Loading private settings"
