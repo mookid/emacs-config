@@ -1,10 +1,10 @@
-;; -*- lexical-binding: t -*-
 ;;; mookid-naked-emacs-config.el --- Configuration of naked emacs
 
 ;;; Commentary:
 ;; Configuration of emacs that does not depend on external packages.
 
 ;;; Code:
+;; -*- lexical-binding: t -*-
 (autoload 'with-message "mookid-macros")
 (autoload 'ignore-all "mookid-macros")
 
@@ -59,7 +59,7 @@
 (put 'narrow-to-region 'disabled nil)
 
 ;; Save all buffers when focus is lost
-(defun save-all-buffers () (save-some-buffers t))
+(defun save-all-buffers () "Save all buffers." (save-some-buffers t))
 (add-hook 'focus-out-hook 'save-all-buffers)
 
 (with-message
