@@ -34,21 +34,6 @@
 ;; Auto revert
 (global-auto-revert-mode 1)
 
-(with-message
- "Setting autosave"
- (defadvice switch-to-buffer (before save-buffer-now activate)
-   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
- (defadvice other-window (before other-window-now activate)
-   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
- (defadvice windmove-up (before other-window-now activate)
-   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
- (defadvice windmove-down (before other-window-now activate)
-   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
- (defadvice windmove-left (before other-window-now activate)
-   (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
- (defadvice windmove-right (before other-window-now activate)
-   (when (and buffer-file-name (buffer-modified-p)) (save-buffer))))
-
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -72,6 +57,10 @@
 
 ;; Enable region narrowing
 (put 'narrow-to-region 'disabled nil)
+
+;; Save all buffers when focus is lost
+(defun save-all-buffers () (save-some-buffers t))
+(add-hook 'focus-out-hook 'save-all-buffers)
 
 (with-message
  "Remove gui elements"
