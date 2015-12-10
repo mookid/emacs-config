@@ -9,7 +9,11 @@
 (with-message
  "Configure tuareg mode"
  (autoload 'tuareg-mode "tuareg")
- (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode)))
+ (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
+ (defun remove-some-prettifiers ()
+   (dolist (str '("||" "&&" "not"))
+     (assq-delete-all str prettify-symbols-alist)))
+ (add-hook 'tuareg-mode 'remove-some-prettifiers))
 
 (with-message
  "Configure ocp indent"
