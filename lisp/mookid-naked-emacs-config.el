@@ -15,7 +15,7 @@
 (global-set-key (kbd "<tab>") 'dabbrev-expand)
 
 ;; No transient mark mode; use visual mode of evil instead
-(transient-mark-mode -1)
+(transient-mark-mode nil)
 
 ;; Easy switch from one window to another
 (windmove-default-keybindings)
