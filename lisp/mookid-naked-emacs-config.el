@@ -81,7 +81,7 @@
 ;; Save history between sessions
 (setq-default savehist-file "~/.emacs.d/savehist")
 (savehist-mode t)
-(setq history-length t) ; no maximum
+(setq history-length 16384)
 (setq history-delete-duplicates t)
 (setq-default savehist-save-minibuffer-history t)
 (setq-default savehist-additional-variables
