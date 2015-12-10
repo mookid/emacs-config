@@ -107,14 +107,12 @@ See `decrease-selective-display' to decrease it."
        "Increase the cap for `toogle-selective-display'.
 
 See `toggle-selective-display' and `decrease-selective-display'."
-       (interactive)
-       (g 1))
+       (interactive) (when (< depth 20) (g 1)))
      (defun decrease-selective-display ()
        "Decrease the cap for `toogle-selective-display'.
 
 See `toggle-selective-display' and `increase-selective-display'."
-       (interactive)
-       (when (> depth 0) (g -1))))))
+       (interactive) (when (> depth 1) (g -1))))))
 
 (with-message
  "Loading packages list"
