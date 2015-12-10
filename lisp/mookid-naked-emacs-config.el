@@ -14,6 +14,9 @@
 ;; Define an alias for dabbrev-expand
 (global-set-key (kbd "<tab>") 'dabbrev-expand)
 
+;; No transient mark mode; use visual mode of evil instead
+(transient-mark-mode -1)
+
 ;; Easy switch from one window to another
 (windmove-default-keybindings)
 
