@@ -18,14 +18,14 @@
 (windmove-default-keybindings)
 
 ;; Fixed size mini-window
-(setq-default resize-mini-windows nil)
+(setq resize-mini-windows nil)
 
 ;; Default behaviour for newlines
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
 
 ;; Switch to messages buffer at startup
-(setq-default inhibit-startup-message t)
+(setq inhibit-startup-message t)
 (switch-to-buffer "*Messages*")
 
 ;; Move backup files to a subdirectory of ~/.emacs.d
@@ -47,7 +47,7 @@
 (global-set-key (kbd "C-+") 'balance-windows)
 
 ;; No tabs
-(setq-default indent-tabs-mode nil)
+(setq indent-tabs-mode nil)
 
 ;; Delete trailing whitespaces when saving a file
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -72,7 +72,7 @@
 
 (with-message
  "Compilation settings"
- (setq-default compilation-ask-about-save nil)
+ (setq compilation-ask-about-save nil)
  (setq-default compilation-always-kill t)
  (setq-default compilation-scroll-output 'first-error)
  (global-set-key (kbd "<f12>") 'recompile)
