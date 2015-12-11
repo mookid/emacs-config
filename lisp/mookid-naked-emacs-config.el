@@ -15,7 +15,11 @@
 (global-set-key (kbd "<tab>") 'dabbrev-expand)
 
 ;; No transient mark mode; use visual mode of evil instead
-(defun disable-transient-mark () (transient-mark-mode -1))
+(defun disable-transient-mark ()
+  "Disable transient mode.
+
+I add this hook because it seems that some package activates flycheck."
+  (transient-mark-mode -1))
 (add-hook 'after-init-hook 'disable-transient-mark)
 
 ;; Easy switch from one window to another
