@@ -32,6 +32,7 @@
   '(with-message
     "Loading helm projectile"
     (require 'helm-projectile)
+    (require 'projectile)
     (projectile-global-mode)
     (setq-default projectile-indexing-method 'native)
     (setq-default projectile-enable-caching t)
