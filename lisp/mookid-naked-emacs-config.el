@@ -1,10 +1,10 @@
+;; -*- lexical-binding: t -*-
 ;;; mookid-naked-emacs-config.el --- Configuration of naked emacs
 
 ;;; Commentary:
 ;; Configuration of emacs that does not depend on external packages.
 
 ;;; Code:
-;; -*- lexical-binding: t -*-
 (autoload 'with-message "mookid-macros")
 (autoload 'ignore-all "mookid-macros")
 
