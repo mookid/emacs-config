@@ -7,6 +7,11 @@
 (autoload 'with-title "mookid-macros")
 (autoload 'ignore-all "mookid-macros")
 
+(defun restore-etags-bindings ()
+  "Restore bindings concerning etags."
+  (global-set-key (kbd "M-.") 'xref-find-definitions))
+(add-hook 'after-load-hook 'restore-etags-bindings)
+
 (with-message
  "Loading evil mode"
  (require 'evil)
