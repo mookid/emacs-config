@@ -28,7 +28,9 @@
  (define-key evil-motion-state-map
    (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
  (setq-default evil-cross-lines t)
- (defun ex-substitute () (interactive) (evil-ex "%s/"))
+ (defun ex-substitute ()
+   "Call ex with the substitute prefix."
+   (interactive) (evil-ex "%s/"))
  (define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
  (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
 

@@ -5,7 +5,7 @@
 ;;; Code:
 (defvar c-mode-base-map)
 (defun c-setup ()
-  "My setup for C mode."
+  "My setup for C."
   (setq-default c-default-style "linux" c-basic-offset 8)
   (define-key c-mode-base-map (kbd "C-c C-c") 'compile))
 (add-hook 'c-initialization-hook 'c-setup)

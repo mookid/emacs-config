@@ -18,7 +18,7 @@
 (defun disable-transient-mark ()
   "Disable transient mode.
 
-I add this hook because it seems that some package activates flycheck."
+I add this hook because it seems that some package activates it."
   (transient-mark-mode -1))
 (add-hook 'after-init-hook 'disable-transient-mark)
 
