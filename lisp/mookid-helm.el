@@ -15,7 +15,7 @@
 
 (with-message "Loading shackle" (require 'mookid-shackle))
 (with-message "Loading helm swoop" (require 'mookid-helm-swoop))
-(with-message "Loading helm projectile" (require mookid-helm-projectile))
+(with-message "Loading helm projectile" (require 'mookid-helm-projectile))
 
 (provide 'mookid-helm)
 ;;; mookid-helm.el ends here
