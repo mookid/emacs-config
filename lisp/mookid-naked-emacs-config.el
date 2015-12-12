@@ -12,7 +12,7 @@
 (load-theme 'leuven)
 
 ;; Define an alias for dabbrev-expand
-(global-set-key (kbd "<tab>") 'dabbrev-expand)
+(global-set-key (kbd "C-<tab>") 'dabbrev-expand)
 
 ;; No transient mark mode; use visual mode of evil instead
 (defun disable-transient-mark ()
