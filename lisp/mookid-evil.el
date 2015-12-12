@@ -34,21 +34,21 @@
  (define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
  (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
 
-(with-eval-after-load 'evil
-  (with-message
-   "Loading evil visualstar"
+(with-message
+ "Loading evil visualstar"
+ (with-eval-after-load 'evil
    (require 'evil-visualstar)
    (global-evil-visualstar-mode t)))
 
-(with-eval-after-load 'evil
-  (with-message
-   "Loading evil jumper"
+(with-message
+ "Loading evil jumper"
+ (with-eval-after-load 'evil
    (require 'evil-jumper)
    (evil-jumper-mode t)))
 
-(with-eval-after-load 'evil
-  (with-message
-   "Loading evil search highlight persist"
+(with-message
+ "Loading evil search highlight persist"
+ (with-eval-after-load 'evil
    (require 'evil-search-highlight-persist)
    (mapc (lambda (face)
 	   (set-face-attribute face nil
@@ -61,9 +61,9 @@
    (setq-default evil-search-highlight-string-min-len 5)
    (global-evil-search-highlight-persist t)))
 
-(with-eval-after-load 'evil
-  (with-message
-   "Loading evil numbers"
+(with-message
+ "Loading evil numbers"
+ (with-eval-after-load 'evil
    (require 'evil-numbers)
    (cl-loop
     for (key . val) in '((<f1> . evil-numbers/inc-at-pt)

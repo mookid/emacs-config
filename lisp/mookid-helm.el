@@ -13,24 +13,24 @@
  (global-set-key (kbd "C-x m") 'helm-M-x)
  (helm-mode))
 
-(with-eval-after-load 'helm
-  (with-message
-   "Loading shackle"
+(with-message
+ "Loading shackle"
+ (with-eval-after-load 'helm
    (require 'shackle)
    (setq-default helm-display-function #'pop-to-buffer)
    (setq-default shackle-rules
 		 '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.33)))
    (with-eval-after-load "init" (shackle-mode))))
 
-(with-eval-after-load 'helm
-  (with-message
-   "Loading helm swoop"
+(with-message
+ "Loading helm swoop"
+ (with-eval-after-load 'helm
    (require 'helm-swoop)
    (global-set-key (kbd "C-\\") 'helm-swoop-from-evil-search)))
 
-(with-eval-after-load 'helm
-  (with-message
-   "Loading helm projectile"
+(with-message
+ "Loading helm projectile"
+ (with-eval-after-load 'helm
    (require 'helm-projectile)
    (require 'projectile)
    (projectile-global-mode)
