@@ -7,11 +7,6 @@
 (autoload 'with-title "mookid-macros")
 (autoload 'ignore-all "mookid-macros")
 
-(defun restore-etags-bindings ()
-  "Restore bindings concerning etags."
-  (global-set-key (kbd "M-.") 'xref-find-definitions))
-(add-hook 'after-load-hook 'restore-etags-bindings)
-
 (with-message
  "Loading evil mode"
  (require 'evil)
@@ -34,7 +29,8 @@
    (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
  (setq-default evil-cross-lines t)
  (defun ex-substitute () (interactive) (evil-ex "%s/"))
- (define-key evil-normal-state-map (kbd "g s") 'ex-substitute))
+ (define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
+ (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions))
 
 (with-eval-after-load 'evil
   (with-message
