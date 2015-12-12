@@ -21,10 +21,13 @@
 (with-message "Loading powerline" (require 'mookid-powerline))
 (with-message "Loading rainbow parameters" (require 'mookid-rainbow))
 (with-message "Loading company mode" (require 'mookid-company))
+
+;; helm related packages
 (with-message "Loading helm" (require 'mookid-helm))
 (with-message "Loading shackle" (require 'mookid-shackle))
 (with-message "Loading helm swoop" (require 'mookid-helm-swoop))
 (with-message "Loading helm projectile" (require 'mookid-helm-projectile))
+
 (with-message "Loading smartparens" (require 'mookid-smartparens))
 (with-message "Setting up avy" (require 'mookid-avy))
 (with-message "Setting up flycheck" (require 'mookid-flycheck))
