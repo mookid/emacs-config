@@ -36,42 +36,42 @@
  (defun ex-substitute () (interactive) (evil-ex "%s/"))
  (define-key evil-normal-state-map (kbd "g s") 'ex-substitute))
 
-(eval-after-load 'evil
-  '(with-message
-    "Loading evil visualstar"
-    (require 'evil-visualstar)
-    (global-evil-visualstar-mode t)))
+(with-eval-after-load 'evil
+  (with-message
+   "Loading evil visualstar"
+   (require 'evil-visualstar)
+   (global-evil-visualstar-mode t)))
 
-(eval-after-load 'evil
-  '(with-message
-    "Loading evil jumper"
-    (require 'evil-jumper)
-    (evil-jumper-mode t)))
+(with-eval-after-load 'evil
+  (with-message
+   "Loading evil jumper"
+   (require 'evil-jumper)
+   (evil-jumper-mode t)))
 
-(eval-after-load 'evil
-  '(with-message
-    "Loading evil search highlight persist"
-    (require 'evil-search-highlight-persist)
-    (mapc (lambda (face)
-            (set-face-attribute face nil
-                                :weight 'extra-bold
-                                :foreground "blue"
-                                :background "yellow1"))
-          '(evil-search-highlight-persist-highlight-face
-            isearch
-            lazy-highlight))
-    (setq-default evil-search-highlight-string-min-len 5)
-    (global-evil-search-highlight-persist t)))
+(with-eval-after-load 'evil
+  (with-message
+   "Loading evil search highlight persist"
+   (require 'evil-search-highlight-persist)
+   (mapc (lambda (face)
+	   (set-face-attribute face nil
+			       :weight 'extra-bold
+			       :foreground "blue"
+			       :background "yellow1"))
+	 '(evil-search-highlight-persist-highlight-face
+	   isearch
+	   lazy-highlight))
+   (setq-default evil-search-highlight-string-min-len 5)
+   (global-evil-search-highlight-persist t)))
 
-(eval-after-load 'evil
-  '(with-message
-    "Loading evil numbers"
-    (require 'evil-numbers)
-    (cl-loop
-     for (key . val) in '((<f1> . evil-numbers/inc-at-pt)
-                          (<f2> . evil-numbers/dec-at-pt))
-     do (define-key evil-normal-state-map
-          (kbd (concat "C-" (symbol-name key))) val))))
+(with-eval-after-load 'evil
+  (with-message
+   "Loading evil numbers"
+   (require 'evil-numbers)
+   (cl-loop
+    for (key . val) in '((<f1> . evil-numbers/inc-at-pt)
+			 (<f2> . evil-numbers/dec-at-pt))
+    do (define-key evil-normal-state-map
+	 (kbd (concat "C-" (symbol-name key))) val))))
 
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
