@@ -5,7 +5,6 @@
 ;;; Code:
 (autoload 'with-message "mookid-macros")
 (autoload 'with-title "mookid-macros")
-(autoload 'ignore-all "mookid-macros")
 
 (with-message
  "Loading evil mode"

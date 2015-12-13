@@ -24,7 +24,5 @@ The return value reports success or failure."
        (progn (message "[%s]" ,msg) ,@body (message "[end]") 'ok)
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 
-(defmacro ignore-all (&rest _) "Ignore arguments, which are not evaluated." nil)
-
 (provide 'mookid-macros)
 ;;; mookid-macros.el ends here

@@ -6,7 +6,6 @@
 
 ;;; Code:
 (autoload 'with-message "mookid-macros")
-(autoload 'ignore-all "mookid-macros")
 
 ;; Set color theme
 (load-theme 'leuven)
@@ -143,9 +142,5 @@ See `toggle-selective-display' and `increase-selective-display'."
  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-11"))
  (global-prettify-symbols-mode 1))
 
-(ignore-all
- "Loading hl line mode"
- (global-hl-line-mode)
- (set-face-attribute 'hl-line nil :background "RoyalBlue3"))
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
