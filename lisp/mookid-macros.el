@@ -26,9 +26,11 @@ Otherwise, nothing happens."
   (let* ((name   (symbol-name symb))
 	 (prefix mookid-prefix)
 	 (prefix-length (length prefix)))
-    (when (and (> (length name) prefix-length)
+    (if (and (> (length name) prefix-length)
 	       (string-equal (substring name 0 prefix-length) prefix))
-      (with-message (format "Loading %s" (substring name prefix-length))))))
+	(with-message (format "Loading %s" (substring name prefix-length))
+		      (require symb))
+      (message "** ERROR: %s does not start with %s" name mookid-prefix))))
 
 (provide 'mookid-macros)
 ;;; mookid-macros.el ends here
