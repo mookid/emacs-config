@@ -2,6 +2,7 @@
 ;; -*- lexical-binding: t -*-
 
 ;;; Commentary:
+
 ;; My emacs config, with simple options.
 
 ;;; Code:
@@ -17,7 +18,16 @@
 (setq load-path (cons "~/.emacs.d/modules/" load-path))
 
 (with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
-(with-title "Evil related packages" (require 'mookid-evil))
+
+;; evil related packages
+(with-title "Loading evil" (require 'mookid-evil))
+(with-title "Loading evil-numbers" (require 'mookid-evil-numbers))
+(with-title "Loading evil-visualstar" (require 'mookid-evil-visualstar))
+(with-title "Loading evil-jumper" (require 'mookid-evil-jumper))
+(with-title "Loading evil-search-highlight-persist"
+	    (require 'mookid-highlight-persist))
+;; end
+
 (with-message "Loading powerline" (require 'mookid-powerline))
 (with-message "Loading rainbow parameters" (require 'mookid-rainbow))
 (with-message "Loading company mode" (require 'mookid-company))
