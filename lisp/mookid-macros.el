@@ -9,6 +9,15 @@
 (defvar mookid-prefix  "mookid-"
   "The prefix common to packages of my configuration.")
 
+(defmacro with-title (msg &rest body)
+  "Prints MSG before evaluating BODY, and report problems.
+
+Warnings are still displayed, and errors are catched.
+The return value reports success or failure."
+  `(condition-case nil
+       (progn (message "[%s]" ,msg) ,@body (message "[end]") 'ok)
+     (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
+
 (defmacro with-message (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
 
