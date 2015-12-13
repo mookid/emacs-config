@@ -27,11 +27,18 @@
 (with-message "Loading shackle" (require 'mookid-shackle))
 (with-message "Loading helm swoop" (require 'mookid-helm-swoop))
 (with-message "Loading helm projectile" (require 'mookid-helm-projectile))
+;; end
 
 (with-message "Loading smartparens" (require 'mookid-smartparens))
 (with-message "Setting up avy" (require 'mookid-avy))
 (with-message "Setting up flycheck" (require 'mookid-flycheck))
-(with-title "OCaml config" (require 'mookid-ocaml))
+
+;; ocaml settings
+(with-message "Configuring tuareg mode" (require 'mookid-tuareg))
+(with-message "Configuring ocp-indent" (require 'mookid-ocp-indent))
+;; (with-message "Configuring merlin" (require 'mookid-merlin))
+;; end
+
 (with-message "C settings" (require 'mookid-c))
 (with-message "Configuring highlight column" (require 'mookid-highlight-column))
 
