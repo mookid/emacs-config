@@ -20,12 +20,12 @@
 (with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
 
 ;; evil related packages
-(with-title "Loading evil" (require 'mookid-evil))
-(with-title "Loading evil-numbers" (require 'mookid-evil-numbers))
-(with-title "Loading evil-visualstar" (require 'mookid-evil-visualstar))
-(with-title "Loading evil-jumper" (require 'mookid-evil-jumper))
-(with-title "Loading evil-search-highlight-persist"
-	    (require 'mookid-highlight-persist))
+(with-message "Loading evil" (require 'mookid-evil))
+(with-message "Loading evil-numbers" (require 'mookid-evil-numbers))
+(with-message "Loading evil-visualstar" (require 'mookid-evil-visualstar))
+(with-message "Loading evil-jumper" (require 'mookid-evil-jumper))
+(with-message "Loading evil-search-highlight-persist"
+	      (require 'mookid-highlight-persist))
 ;; end
 
 (with-message "Loading powerline" (require 'mookid-powerline))
