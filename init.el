@@ -11,10 +11,11 @@
 (with-no-warnings (require 'cl)) ; useless warning
 
 (setq load-path (cons "~/.emacs.d/lisp/" load-path))
-
 (autoload 'with-message "mookid-macros")
 (autoload 'with-title "mookid-macros")
 (autoload 'ignore-all "mookid-macros")
+
+(setq load-path (cons "~/.emacs.d/modules/" load-path))
 
 (with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
 (with-title "Evil related packages" (require 'mookid-evil))
