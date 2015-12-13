@@ -133,7 +133,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (electric-pair-mode t)
  (setq-default electric-pair-pairs '((?\{ . ?\})))
  (show-paren-mode t)
- ;; (set-face-background 'show-paren-match "deep pink")
+ (set-face-background 'show-paren-match "deep pink")
  (setq-default show-paren-delay 0))
 
 (with-message
