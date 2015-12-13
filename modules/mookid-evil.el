@@ -3,8 +3,6 @@
 ;;; Commentary:
 
 ;;; Code:
-(autoload 'with-message "mookid-macros")
-
 (require 'evil)
 (evil-mode)
 (defvar evil-motion-state-map)

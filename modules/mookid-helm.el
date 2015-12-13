@@ -3,8 +3,6 @@
 ;;; Commentary:
 
 ;;; Code:
-(autoload 'with-message "mookid-macros")
-
 (require 'helm)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-m") 'helm-M-x)
