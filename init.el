@@ -20,37 +20,36 @@
 (with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
 
 ;; evil related packages
-(with-message "Loading evil" (require 'mookid-evil))
-(with-message "Loading evil-numbers" (require 'mookid-evil-numbers))
-(with-message "Loading evil-visualstar" (require 'mookid-evil-visualstar))
-(with-message "Loading evil-jumper" (require 'mookid-evil-jumper))
-(with-message "Loading evil-search-highlight-persist"
-	      (require 'mookid-highlight-persist))
+(init-load (require 'mookid-evil))
+(init-load (require 'mookid-evil-numbers))
+(init-load (require 'mookid-evil-visualstar))
+(init-load (require 'mookid-evil-jumper))
+(init-load (require 'mookid-highlight-persist))
 ;; end
 
-(with-message "Loading powerline" (require 'mookid-powerline))
-(with-message "Loading rainbow parameters" (require 'mookid-rainbow))
-(with-message "Loading company mode" (require 'mookid-company))
+(init-load (require 'mookid-powerline))
+(init-load (require 'mookid-rainbow))
+(init-load (require 'mookid-company))
 
 ;; helm related packages
-(with-message "Loading helm" (require 'mookid-helm))
-(with-message "Loading shackle" (require 'mookid-shackle))
-(with-message "Loading helm swoop" (require 'mookid-helm-swoop))
-(with-message "Loading helm projectile" (require 'mookid-helm-projectile))
+(init-load (require 'mookid-helm))
+(init-load (require 'mookid-shackle))
+(init-load (require 'mookid-helm-swoop))
+(init-load (require 'mookid-helm-projectile))
 ;; end
 
-(with-message "Loading smartparens" (require 'mookid-smartparens))
-(with-message "Setting up avy" (require 'mookid-avy))
-(with-message "Setting up flycheck" (require 'mookid-flycheck))
+(init-load (require 'mookid-smartparens))
+(init-load (require 'mookid-avy))
+(init-load (require 'mookid-flycheck))
 
 ;; ocaml settings
-(with-message "Configuring tuareg mode" (require 'mookid-tuareg))
-(with-message "Configuring ocp-indent" (require 'mookid-ocp-indent))
-;; (with-message "Configuring merlin" (require 'mookid-merlin))
+(init-load (require 'mookid-tuareg))
+(init-load (require 'mookid-ocp-indent))
+;; (init-load (require 'mookid-merlin))
 ;; end
 
-(with-message "C settings" (require 'mookid-c))
-(with-message "Configuring highlight column" (require 'mookid-highlight-column))
+(init-load (require 'mookid-c))
+(init-load (require 'mookid-highlight-column))
 
 (with-message
  "Loading private settings"
