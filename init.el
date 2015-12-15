@@ -14,6 +14,7 @@
 (setq load-path (cons "~/.emacs.d/lisp/" load-path))
 (autoload 'with-message "mookid-macros")
 (autoload 'with-title "mookid-macros")
+(autoload 'init-load "mookid-macros")
 
 (setq load-path (cons "~/.emacs.d/modules/" load-path))
 
