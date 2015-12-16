@@ -26,6 +26,7 @@
   "Call ex with the substitute prefix."
   (interactive) (evil-ex "%s/"))
 (define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
+(define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
 (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
 
 (provide 'mookid-evil)
