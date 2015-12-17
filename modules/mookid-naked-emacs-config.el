@@ -163,6 +163,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 	    (set-window-start w2 s1)))))
 
  (defun toggle-window-split ()
+   "When there are two windows, convert horizontal to vertical and vice versa."
    (interactive)
    (when (= (count-windows) 2)
      (let* ((this-win-buffer (window-buffer))
