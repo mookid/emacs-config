@@ -7,7 +7,7 @@
 (evil-mode)
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
-(setq-default evil-emacs-state-cursor '("purple" box))
+(setq-default evil-emacs-state-cursor '("purple" bar))
 (setq-default evil-normal-state-cursor '("grey" box))
 (setq-default evil-visual-state-cursor '("green" box))
 (setq-default evil-insert-state-cursor '("red" bar))
