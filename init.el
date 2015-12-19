@@ -27,7 +27,6 @@
 
 ;; evil related packages
 (init-load 'mookid-evil)
-
 (init-load 'mookid-evil-numbers)
 (init-load 'mookid-evil-visualstar)
 (init-load 'mookid-evil-jumper)
@@ -41,6 +40,7 @@
 ;; ivy related packages
 (init-load 'mookid-ivy)
 (init-load 'mookid-find-file-in-project)
+;; end
 
 ;; helm related packages
 ;;(init-load 'mookid-helm)
