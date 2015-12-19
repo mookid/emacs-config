@@ -33,7 +33,7 @@
 (init-load 'mookid-highlight-persist)
 ;; end
 
-(init-load 'mookid-powerline)
+;;(init-load 'mookid-powerline)
 (init-load 'mookid-rainbow)
 (init-load 'mookid-company)
 
