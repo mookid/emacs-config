@@ -9,7 +9,7 @@
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
 
-(require cl-lib)
+(require 'cl-lib)
 (cl-macrolet
     ((f (key color shape black-fg?)
 	(let ((color (prin1-to-string color)))
@@ -23,15 +23,12 @@
 				      ,(if (eq black-fg? :light)
 					   "black"
 					 "grey"))))))))
-  (cl-loop
-   for (key color shape black-fg?) in
-   '((insert red bar :light)
-     (motion gray box :light)
-     (replace pink box :dark)
-     (emacs purple box :dark)
-     (visual green box :light)
-     (normal grey box :light))
-   do (f key color shape black-fg?)))
+  (f insert red bar :light)
+  (f motion gray box :light)
+  (f replace pink box :dark)
+  (f emacs purple box :dark)
+  (f visual green box :light)
+  (f normal grey box :light))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
