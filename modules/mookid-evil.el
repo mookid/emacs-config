@@ -12,11 +12,11 @@
 (require 'cl-lib)
 (cl-macrolet
     ((customize (key color shape black-fg?)
-		(let ((color (prin1-to-string color)))
+		(let ((color (symbol-name color)))
 		  `(setq ,(intern (format "evil-%S-state-cursor" key))
 			 ',(list color shape)
 			 ,(intern (format "evil-%S-state-tag" key))
-			 (propertize ,(prin1-to-string key)
+			 (propertize ,(symbol-name key)
 				     'face '((:background
 					      ,color
 					      :foreground
