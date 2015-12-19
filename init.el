@@ -16,7 +16,7 @@
 (defvar mookid-modules-dir "~/.emacs.d/modules"
   "This is where are the compiled lisp files.")
 
-(setq load-path (cons mookid-lisp-dir load-path))
+(add-to-list 'load-path mookid-lisp-dir)
 (autoload 'with-message "mookid-macros")
 (autoload 'with-title "mookid-macros")
 (autoload 'init-load "mookid-macros")
@@ -38,9 +38,12 @@
 (init-load 'mookid-rainbow)
 (init-load 'mookid-company)
 
+;; ivy related packages
+(init-load 'mookid-ivy)
+(init-load 'mookid-find-file-in-project)
+
 ;; helm related packages
-;;(init-load 'mookid-ivy)
-(init-load 'mookid-helm)
+;;(init-load 'mookid-helm)
 (init-load 'mookid-shackle)
 (init-load 'mookid-helm-swoop)
 (init-load 'mookid-helm-projectile)
