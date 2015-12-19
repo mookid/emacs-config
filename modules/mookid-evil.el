@@ -9,25 +9,29 @@
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
 
-(defmacro mookid-customize-evil-colors (key color shape black-fg?)
-  (let ((color (prin1-to-string color)))
-    `(setq ,(intern (format "evil-%S-state-cursor" key))
-	   ',(list color shape)
-	   ,(intern (format "evil-%S-state-tag" key))
-	   (propertize ,(prin1-to-string key)
-		       'face '((:background
-				,color
-				:foreground
-				,(if (eq black-fg? :light)
-				     "black"
-				   "grey")))))))
-
-(mookid-customize-evil-colors insert red bar :light)
-(mookid-customize-evil-colors motion gray box :light)
-(mookid-customize-evil-colors replace pink box :dark)
-(mookid-customize-evil-colors emacs purple box :dark)
-(mookid-customize-evil-colors visual green box :light)
-(mookid-customize-evil-colors normal grey box :light)
+(require cl-lib)
+(cl-macrolet
+    ((f (key color shape black-fg?)
+	(let ((color (prin1-to-string color)))
+	  `(setq ,(intern (format "evil-%S-state-cursor" key))
+		 ',(list color shape)
+		 ,(intern (format "evil-%S-state-tag" key))
+		 (propertize ,(prin1-to-string key)
+			     'face '((:background
+				      ,color
+				      :foreground
+				      ,(if (eq black-fg? :light)
+					   "black"
+					 "grey"))))))))
+  (cl-loop
+   for (key color shape black-fg?) in
+   '((insert red bar :light)
+     (motion gray box :light)
+     (replace pink box :dark)
+     (emacs purple box :dark)
+     (visual green box :light)
+     (normal grey box :light))
+   do (f key color shape black-fg?)))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
