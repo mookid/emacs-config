@@ -11,20 +11,22 @@
 (sp-use-paredit-bindings)
 (define-key evil-insert-state-map (kbd "C-<right>") 'sp-slurp-hybrid-sexp)
 (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
-(loop
- for (key . val) in '((paren   . "(")
-                      (bracket . "[")
-                      (brace   . "{")
-                      (squote  . "'")
-                      (dquote  . "\""))
- for symb = (intern (concat "wrap-with-" (prin1-to-string key) "s"))
- for kbinding = (concat "C-c " val)
- do (eval
-     `(defun ,symb (&optional arg)
-        "Wrap the next form (or the selection) using `sp-wrap-with-pair'."
-        (interactive "P")
-        (sp-wrap-with-pair ,val)))
- do (eval `(global-set-key (kbd ,kbinding) ',symb)))
+(require 'cl-lib)
+(cl-macrolet
+ ((customize (key val)
+	  (let ((symb (intern (format "wrap-with-%Ss" key)))
+		(kbinding (format "C-c %s" val)))
+	    (progn
+	      `(defun ,symb (&optional arg)
+		 "Wrap the next form (or selection) using `sp-wrap-with-pair'."
+		 (interactive "P")
+		 (sp-wrap-with-pair ,val))
+	      `(global-set-key (kbd ,kbinding) ',symb)))
+	   (customize paren    "(")
+	   (customize bracket  "[")
+	   (customize brace    "{")
+	   (customize squote   "'")
+	   (customize dquote   "\""))))
 
 (provide 'mookid-smartparens)
 ;;; mookid-smartparens.el ends here
