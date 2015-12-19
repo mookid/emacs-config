@@ -14,7 +14,7 @@
     ((customize (key color shape black-fg?)
 		(let ((color (symbol-name color)))
 		  `(setq ,(intern (format "evil-%S-state-cursor" key))
-			 '`(,color ,shape)
+			 ',(list color shape)
 			 ,(intern (format "evil-%S-state-tag" key))
 			 (propertize ,(symbol-name key)
 				     'face '((:background
