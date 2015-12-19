@@ -11,5 +11,3 @@
 
 (provide 'mookid-evil-numbers)
 ;;; mookid-evil-numbers.el ends here
-
-(format )
