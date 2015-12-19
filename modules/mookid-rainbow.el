@@ -15,16 +15,16 @@
                         (set-face-attribute face nil
                                             :weight 'extra-bold
                                             :foreground color))
-              (mk-symb (kind lvl)
-                       (intern (concat "rainbow-"
-                                       (prin1-to-string kind)
-                                       "-depth-"
-                                       (prin1-to-string lvl)
-                                       "-face")))
-              (set-level (lvl color)
-                         (when (< 0 lvl 10)
-                           (mapc (lambda (kind)
-                                   (set-bold (mk-symb kind lvl) color))
+	      (symb (kind lvl)
+		    (intern (concat "rainbow-"
+				    (prin1-to-string kind)
+				    "-depth-"
+				    (prin1-to-string lvl)
+				    "-face")))
+	      (set-level (lvl color)
+			 (when (< 0 lvl 10)
+			   (mapc (lambda (kind)
+				   (set-bold (symb kind lvl) color))
                                  kinds))))
     (cl-loop
      with ncolors = (length colors)
