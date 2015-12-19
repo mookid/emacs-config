@@ -5,6 +5,7 @@
 ;;; Code:
 (with-eval-after-load 'evil
   (require 'evil-numbers)
+  (defvar evil-normal-state-map)
   (cl-loop
    for (key . val) in '((<f1> . evil-numbers/inc-at-pt)
 			(<f2> . evil-numbers/dec-at-pt))
