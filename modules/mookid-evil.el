@@ -11,24 +11,24 @@
 
 (require 'cl-lib)
 (cl-macrolet
-    ((f (key color shape black-fg?)
-	(let ((color (prin1-to-string color)))
-	  `(setq ,(intern (format "evil-%S-state-cursor" key))
-		 ',(list color shape)
-		 ,(intern (format "evil-%S-state-tag" key))
-		 (propertize ,(prin1-to-string key)
-			     'face '((:background
-				      ,color
-				      :foreground
-				      ,(if (eq black-fg? :light)
-					   "black"
-					 "grey"))))))))
-  (f insert red bar :light)
-  (f motion gray box :light)
-  (f replace pink box :dark)
-  (f emacs purple box :dark)
-  (f visual green box :light)
-  (f normal grey box :light))
+    ((customize (key color shape black-fg?)
+		(let ((color (prin1-to-string color)))
+		  `(setq ,(intern (format "evil-%S-state-cursor" key))
+			 ',(list color shape)
+			 ,(intern (format "evil-%S-state-tag" key))
+			 (propertize ,(prin1-to-string key)
+				     'face '((:background
+					      ,color
+					      :foreground
+					      ,(if (eq black-fg? :light)
+						   "black"
+						 "grey"))))))))
+  (customize insert red bar :light)
+  (customize motion gray box :light)
+  (customize replace pink box :dark)
+  (customize emacs purple box :dark)
+  (customize visual green box :light)
+  (customize normal grey box :light))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
