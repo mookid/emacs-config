@@ -3,8 +3,8 @@
 ;;; Commentary:
 
 ;;; Code:
-(setq inferior-lisp-program "sbcl")
 (require 'slime-autoloads)
+(setq-default inferior-lisp-program "sbcl")
 
 (provide 'mookid-slime)
 ;;; mookid-slime.el ends here
