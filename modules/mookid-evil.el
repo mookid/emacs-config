@@ -1,4 +1,5 @@
 ;;; mookid-evil.el --- Configuration of emacs that depends on the evil package
+;; -*- lexical-binding: t -*-
 
 ;;; Commentary:
 
@@ -7,12 +8,27 @@
 (evil-mode)
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
-(setq-default evil-emacs-state-cursor '("purple" bar))
-(setq-default evil-normal-state-cursor '("grey" box))
-(setq-default evil-visual-state-cursor '("green" box))
-(setq-default evil-insert-state-cursor '("red" bar))
-(setq-default evil-replace-state-cursor '("deep pink" box))
-(setq-default evil-motion-state-cursor '("gray" box))
+
+(defmacro mookid-customize-evil-colors (key color shape black-fg?)
+  (let ((color (prin1-to-string color)))
+    `(setq ,(intern (format "evil-%S-state-cursor" key))
+	   ',(list color shape)
+	   ,(intern (format "evil-%S-state-tag" key))
+	   (propertize ,(prin1-to-string key)
+		       'face '((:background
+				,color
+				:foreground
+				,(if (eq black-fg? :light)
+				     "black"
+				   "grey")))))))
+
+(mookid-customize-evil-colors insert red bar :light)
+(mookid-customize-evil-colors motion gray box :light)
+(mookid-customize-evil-colors replace pink box :dark)
+(mookid-customize-evil-colors emacs purple box :dark)
+(mookid-customize-evil-colors visual green box :light)
+(mookid-customize-evil-colors normal grey box :light)
+
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-normal-state-map
