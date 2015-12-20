@@ -1,6 +1,8 @@
 ;;; mookid-rainbow --- Rainbow delimiters and blocks configuration
 
 ;;; Commentary:
+;; I enable rainbow delimiters but not rainbow blocks.
+;; To customize: change the list `colors'.
 
 ;;; Code:
 (require 'rainbow-delimiters)
