@@ -17,7 +17,7 @@
       (kinds '(delimiters blocks)))
   (cl-labels ((set-bold (face color)
 			(set-face-attribute face nil
-					    :weight 'ultra-bold
+					    :weight 'semi-light
 					    :foreground color))
 	      (symb (kind lvl)
 		    (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
