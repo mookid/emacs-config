@@ -13,15 +13,14 @@
 (global-set-key (kbd "M-[") 'sp-backward-unwrap-sexp)
 (require 'cl-lib)
 (cl-macrolet
-    ((customize (key val)
-		(let ((symb (intern (format "wrap-with-%Ss" key)))
-		      (kbinding (format "C-c %c" val
-					key)))
+    ((customize (name char)
+		(let ((symb (intern (format "wrap-with-%Ss" name)))
+		      (kbinding (format "C-c %c" char)))
 		  `(progn
 		     (defun ,symb (&optional arg)
 		       "Wrap the next form (or selection) using `sp-wrap-with-pair'."
 		       (interactive "P")
-		       (sp-wrap-with-pair ,val))
+		       (sp-wrap-with-pair ,(format "%c" char)))
 		     (global-set-key (kbd ,kbinding) ',symb)))))
   (customize paren   ?\()
   (customize bracket ?\[)
