@@ -22,13 +22,13 @@
 					      :foreground
 					      ,(if (eq black-fg? :light)
 						   "black"
-						 "grey"))))))))
-  (customize insert  red    bar :light)
-  (customize motion  gray   box :light)
-  (customize replace pink   box :dark)
-  (customize emacs   purple box :dark)
-  (customize visual  green  box :light)
-  (customize normal  grey   box :light))
+						 "white"))))))))
+  (customize insert  red      bar :light)
+  (customize motion  gray     box :light)
+  (customize replace DeepPink box :dark)
+  (customize emacs   purple   box :dark)
+  (customize visual  green    box :light)
+  (customize normal  grey     box :light))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
