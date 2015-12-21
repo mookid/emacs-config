@@ -82,6 +82,7 @@ I add this hook because it seems that some package activates it."
  (setq compilation-ask-about-save nil)
  (setq-default compilation-always-kill t)
  (setq-default compilation-scroll-output 'first-error)
+ (setq-default compilation-auto-jump-to-first-error t)
  (global-set-key (kbd "<f12>") 'recompile)
  (global-set-key (kbd "C-<next>") 'next-error))
 
