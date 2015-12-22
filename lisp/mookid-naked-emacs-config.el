@@ -155,6 +155,13 @@ See `toggle-selective-display' and `increase-selective-display'."
  (global-prettify-symbols-mode 1))
 
 (with-message
+ "Switch parens with brackets"
+ (define-key key-translation-map "(" "[")
+ (define-key key-translation-map ")" "]")
+ (define-key key-translation-map "[" "(")
+ (define-key key-translation-map "]" ")"))
+
+(with-message
  "Window switch bindings"
  (global-set-key (kbd "<f2> <f2>") 'swap-windows)
  (global-set-key (kbd "C-x 4") 'toggle-window-split)
