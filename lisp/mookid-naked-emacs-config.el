@@ -155,7 +155,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (global-prettify-symbols-mode 1))
 
 (with-message
- "Window movements bindings."
+ "Window switch bindings"
  (global-set-key (kbd "<f2> <f2>") 'swap-windows)
  (global-set-key (kbd "C-x 4") 'toggle-window-split)
  (defun swap-windows ()
