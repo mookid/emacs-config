@@ -86,15 +86,7 @@ I add this hook because it seems that some package activates it."
  (defun disable-jump-to-error ()
    (kill-local-variable 'compilation-auto-jump-to-next))
  (add-hook 'grep-mode-hook 'disable-jump-to-error)
- (defun recompile-and-jump-to-first-error ()
-   "Hack to make `compilation-auto-jump-to-first-error' available only during compilation."
-   (interactive)
-   (unwind-protect
-       (progn
-	 (setq-default compilation-auto-jump-to-first-error t)
-	 (recompile))
-     (setq-default compilation-auto-jump-to-first-error nil)))
- (global-set-key (kbd "<f12>") 'recompile-and-jump-to-first-error)
+ (global-set-key (kbd "<f12>") 'recompile)
  (global-set-key (kbd "C-<next>") 'next-error))
 
 ;; Save history between sessions
