@@ -82,6 +82,10 @@ I add this hook because it seems that some package activates it."
  (setq compilation-ask-about-save nil)
  (setq-default compilation-always-kill t)
  (setq-default compilation-scroll-output 'first-error)
+ ;; disable it for grep mode:
+ (defun disable-jump-to-error ()
+   (kill-local-variable 'compilation-auto-jump-to-next))
+ (add-hook 'grep-mode-hook 'disable-jump-to-error)
  (global-set-key (kbd "<f12>") 'recompile)
  (global-set-key (kbd "C-<next>") 'next-error))
 
@@ -143,7 +147,14 @@ See `toggle-selective-display' and `increase-selective-display'."
  (global-prettify-symbols-mode 1))
 
 (with-message
- "Window movements bindings."
+ "Switch parens with brackets"
+ (define-key key-translation-map "(" "[")
+ (define-key key-translation-map ")" "]")
+ (define-key key-translation-map "[" "(")
+ (define-key key-translation-map "]" ")"))
+
+(with-message
+ "Window switch bindings"
  (global-set-key (kbd "<f2> <f2>") 'swap-windows)
  (global-set-key (kbd "C-x 4") 'toggle-window-split)
  (defun swap-windows ()

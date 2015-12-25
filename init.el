@@ -42,6 +42,8 @@
 (init-load 'mookid-find-file-in-project)
 ;; end
 
+(init-load 'mookid-slime)
+
 ;; helm related packages
 ;;(init-load 'mookid-helm)
 (init-load 'mookid-shackle)
