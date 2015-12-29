@@ -8,8 +8,8 @@
   (mapc (lambda (face)
 	  (set-face-attribute face nil
 			      :weight 'extra-bold
-			      :foreground "blue"
-			      :background "yellow1"))
+			      :foreground "White"
+			      :background "RosyBrown"))
 	'(evil-search-highlight-persist-highlight-face
 	  isearch
 	  lazy-highlight))
