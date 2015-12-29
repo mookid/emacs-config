@@ -32,14 +32,10 @@ The return value reports success or failure."
 
 SYMB has to be a name of package starting with the value of `mookid-prefix'.
 Otherwise, nothing happens."
-  (let* ((name   (symbol-name symb))
-	 (prefix mookid-prefix)
-	 (prefix-length (length prefix)))
-    (if (and (> (length name) prefix-length)
-	       (string-equal (substring name 0 prefix-length) prefix))
-	(with-message (format "Loading %s" (substring name prefix-length))
-		      (require symb))
-      (message "** ERROR: %s does not start with %s" name mookid-prefix))))
+  (let* ((name (symbol-name symb))
+	 (symb (intern (concat mookid-prefix name))))
+    (with-message (format "Loading %s" name)
+		  (require symb))))
 
 (provide 'mookid-macros)
 ;;; mookid-macros.el ends here

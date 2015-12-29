@@ -26,43 +26,43 @@
 (with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
 
 ;; evil related packages
-(init-load 'mookid-evil)
-(init-load 'mookid-evil-numbers)
-(init-load 'mookid-evil-visualstar)
-(init-load 'mookid-evil-jumper)
-(init-load 'mookid-highlight-persist)
+(init-load 'evil)
+(init-load 'evil-numbers)
+(init-load 'evil-visualstar)
+(init-load 'evil-jumper)
+(init-load 'highlight-persist)
 ;; end
 
-;;(init-load 'mookid-powerline)
-(init-load 'mookid-rainbow)
-(init-load 'mookid-company)
+;;(init-load 'powerline)
+(init-load 'rainbow)
+(init-load 'company)
 
 ;; ivy related packages
-(init-load 'mookid-ivy)
-(init-load 'mookid-find-file-in-project)
+(init-load 'ivy)
+(init-load 'find-file-in-project)
 ;; end
 
-(init-load 'mookid-slime)
+(init-load 'slime)
 
 ;; helm related packages
-;;(init-load 'mookid-helm)
-(init-load 'mookid-shackle)
-(init-load 'mookid-helm-swoop)
-(init-load 'mookid-helm-projectile)
+;;(init-load 'helm)
+(init-load 'shackle)
+(init-load 'helm-swoop)
+(init-load 'helm-projectile)
 ;; end
 
-(init-load 'mookid-smartparens)
-(init-load 'mookid-avy)
-(init-load 'mookid-flycheck)
+(init-load 'smartparens)
+(init-load 'avy)
+(init-load 'flycheck)
 
 ;; ocaml settings
-(init-load 'mookid-tuareg)
-(init-load 'mookid-ocp-indent)
-;; (init-load 'mookid-merlin)
+(init-load 'tuareg)
+(init-load 'ocp-indent)
+;; (init-load 'merlin)
 ;; end
 
-(init-load 'mookid-c)
-(init-load 'mookid-highlight-column)
+(init-load 'c)
+(init-load 'highlight-column)
 
 (with-message
  "Loading private settings"
