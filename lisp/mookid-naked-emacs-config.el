@@ -10,6 +10,9 @@
 ;; Set color theme
 (load-theme 'leuven)
 
+;; Inhibit welcome message
+(defun display-startup-echo-area-message () ())
+
 ;; Define an alias for dabbrev-expand
 (global-set-key (kbd "C-<tab>") 'dabbrev-expand)
 
