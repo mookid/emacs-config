@@ -41,6 +41,10 @@ I add this hook because it seems that some package activates it."
 ;; Move backup files to a subdirectory of ~/.emacs.d
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
+;; Save open buffers
+(setq-default desktop-dirname "~/.emacs.d")
+(desktop-save-mode 1)
+
 ;; Auto revert
 (global-auto-revert-mode 1)
 
