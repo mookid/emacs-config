@@ -45,6 +45,9 @@ I add this hook because it seems that some package activates it."
 (setq-default desktop-dirname "~/.emacs.d")
 (desktop-save-mode 1)
 
+;; Stop auto save
+(setq auto-save-default nil)
+
 ;; Auto revert
 (global-auto-revert-mode 1)
 
