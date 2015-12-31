@@ -210,8 +210,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 	 (when this-win-2nd (other-window 1)))))))
 
 ;; A few general keybindings:
-(global-set-key "M-9" 'backward-sexp)
-(global-set-key "M-0" 'forward-sexp)
+(global-set-key (kbd "M-9") 'backward-sexp)
+(global-set-key (kbd "M-0") 'forward-sexp)
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
