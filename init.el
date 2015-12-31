@@ -43,6 +43,7 @@
 ;; end
 
 (init-load 'slime)
+(init-load 'expand-region)
 
 ;; helm related packages
 ;;(init-load 'helm)
