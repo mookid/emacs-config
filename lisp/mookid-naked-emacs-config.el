@@ -213,5 +213,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 (global-set-key (kbd "M-9") 'backward-sexp)
 (global-set-key (kbd "M-0") 'forward-sexp)
 
+;; Setting up the order for recenter-top-bottom
+(setq recenter-positions '(top middle bottom))
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
