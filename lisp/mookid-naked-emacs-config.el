@@ -10,8 +10,7 @@
 ;; Set color theme
 (load-theme 'leuven)
 
-;; Inhibit welcome message
-(defun display-startup-echo-area-message () ())
+(defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
 ;; Define an alias for dabbrev-expand
 (global-set-key (kbd "C-<tab>") 'dabbrev-expand)
@@ -172,8 +171,8 @@ See `toggle-selective-display' and `increase-selective-display'."
    (interactive)
    (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
 	 (t
-	  (let* ((w1 (first (window-list)))
-		 (w2 (second (window-list)))
+	  (let* ((w1 (car (window-list)))
+		 (w2 (cadr (window-list)))
 		 (b1 (window-buffer w1))
 		 (b2 (window-buffer w2))
 		 (s1 (window-start w1))
