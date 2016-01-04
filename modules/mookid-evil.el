@@ -46,5 +46,7 @@
 (define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
 (define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
 
+(define-key evil-normal-state-map (kbd "`") (kbd "i RET <escape>"))
+
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
