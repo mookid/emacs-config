@@ -10,7 +10,12 @@
 ;; Set color theme
 (load-theme 'leuven)
 
+;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
+
+;; Use the frame title
+(setq frame-title-format
+      '("%S " (buffer-file-name "%f" (dired-directory dired-directory "%b"))))
 
 ;; Define an alias for dabbrev-expand
 (global-set-key (kbd "C-<tab>") 'dabbrev-expand)
