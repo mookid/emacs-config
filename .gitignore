@@ -1,8 +1,10 @@
 auto-save-list/*
 backups/*
 elpa/*
+eshell/*
 url/*
 savehist
+.emacs.desktop*
 
 private.el
 places
