@@ -26,6 +26,9 @@ I add this hook because it seems that some package activates it."
 ;; Easy switch from one window to another
 (windmove-default-keybindings)
 
+;; Disable the bell
+(setq ring-bell-function 'ignore)
+
 ;; Fixed size mini-window
 (setq resize-mini-windows nil)
 
