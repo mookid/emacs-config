@@ -9,11 +9,21 @@
 ;;; Code:
 (autoload 'tuareg-mode "tuareg")
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
+
 (defun remove-some-prettifiers ()
   "Remove undesirable prettifiers."
   (dolist (str '("||" "&&" "not"))
     (assq-delete-all str prettify-symbols-alist)))
 (add-hook 'tuareg-mode-hook 'remove-some-prettifiers)
+
+(defun tuareg-evil-bindings ()
+  "Bindings for tuareg mode depending on evil mode."
+  (global-set-key (kbd "C-'") 'tuareg-eval-region))
+(defun define-tuareg-bindings ()
+  "Keybindings for tuareg mode."
+  (add-hook 'evil-mode-hook 'tuareg-evil-bindings))
+(add-hook 'tuareg-mode-hook 'remove-some-prettifiers)
+
 
 (provide 'mookid-tuareg)
 ;;; mookid-tuareg.el ends here
