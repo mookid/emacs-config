@@ -22,15 +22,12 @@
   (insert (concat "(*************************************"
 		  "**************************************)")))
 
-(defun tuareg-evil-bindings ()
-  "Bindings for tuareg mode depending on evil mode."
-  (global-set-key (kbd "C-'") 'tuareg-eval-region)
-  (global-set-key (kbd "C-+") 'insert-stars))
 (defun define-tuareg-bindings ()
   "Keybindings for tuareg mode."
-  (add-hook 'evil-mode-hook 'tuareg-evil-bindings))
+  (global-set-key (kbd "C-'") 'tuareg-eval-region)
+  (global-set-key (kbd "C-+") 'insert-stars))
 (add-hook 'tuareg-mode-hook 'remove-some-prettifiers)
-
+(add-hook 'tuareg-mode-hook 'define-tuareg-bindings)
 
 (provide 'mookid-tuareg)
 ;;; mookid-tuareg.el ends here
