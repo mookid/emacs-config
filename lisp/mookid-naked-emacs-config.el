@@ -48,10 +48,6 @@ I add this hook because it seems that some package activates it."
 ;; Move backup files to a subdirectory of ~/.emacs.d
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
-;; Save open buffers
-(setq-default desktop-dirname "~/.emacs.d")
-(desktop-save-mode 1)
-
 ;; Stop auto save
 (setq auto-save-default nil)
 
