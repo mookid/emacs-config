@@ -5,7 +5,6 @@
 ;;; Code:
 (with-eval-after-load 'evil
   (require 'evil-numbers)
-  (defvar evil-normal-state-map)
   (global-set-key (kbd "C-<f1>") 'evil-numbers/inc-at-pt)
   (global-set-key (kbd "C-<f2>") 'evil-numbers/dec-at-pt))
 
