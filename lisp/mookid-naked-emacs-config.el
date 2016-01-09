@@ -143,12 +143,6 @@ See `toggle-selective-display' and `increase-selective-display'."
        (interactive) (when (> depth 1) (g -1))))))
 
 (with-message
- "Loading packages list"
- (require 'package)
- (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
- (package-initialize))
-
-(with-message
  "Configuring parenthesis settings"
  (require 'paren)
  (electric-pair-mode t)
