@@ -30,6 +30,10 @@
   (customize visual  green    box :light)
   (customize normal  grey     box :light))
 
+(with-eval-after-load 'evil
+  (global-set-key (kbd "C-z") 'suspend-emacs)
+  (global-set-key (kbd "C-q") 'evil-emacs-state))
+
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-normal-state-map
