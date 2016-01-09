@@ -61,8 +61,8 @@
 
 (init-load 'c)
 
-(with-message
- "Loading private settings"
- (let ((f "~/.emacs.d/private.el")) (when (file-exists-p f) (load f))))
+(let ((f "~/.emacs.d/private.el"))
+  (when (file-exists-p f)
+    (with-message "Loading private settings" (load f))))
 
 (provide 'init)
