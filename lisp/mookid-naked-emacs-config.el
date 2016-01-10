@@ -8,7 +8,7 @@
 (autoload 'with-message "mookid-macros")
 
 ;; Set color theme
-(load-theme 'leuven)
+(load-theme 'deeper-blue)
 
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
