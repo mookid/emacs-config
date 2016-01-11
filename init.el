@@ -6,8 +6,6 @@
 ;; My emacs config, with simple options.
 
 ;;; Code:
-;;(package-initialize)
-
 ;; Common lisp functionalities
 (require 'cl-lib)
 
