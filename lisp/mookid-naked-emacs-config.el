@@ -215,5 +215,11 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Setting up the order for recenter-top-bottom"
  (setq recenter-positions '(top middle bottom)))
 
+;; Mark dired-ignored
+(set-face-attribute 'dired-ignored nil
+		    :strike-through t
+		    :foreground "red"
+		    :inherit 'error)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
