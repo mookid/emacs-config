@@ -218,8 +218,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 ;; Mark dired-ignored
 (set-face-attribute 'dired-ignored nil
 		    :strike-through t
-		    :foreground "red"
-		    :inherit 'error)
+		    :foreground "green")
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
