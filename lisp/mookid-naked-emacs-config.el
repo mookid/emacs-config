@@ -216,6 +216,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  (setq recenter-positions '(top middle bottom)))
 
 ;; Mark dired-ignored
+(require 'dired)
 (set-face-attribute 'dired-ignored nil
 		    :strike-through t
 		    :foreground "green")
