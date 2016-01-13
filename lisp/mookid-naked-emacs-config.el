@@ -225,5 +225,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
 (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
+;; Wrap long lines
+(global-visual-line-mode 1)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
