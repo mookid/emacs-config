@@ -1,5 +1,4 @@
 ;;; init.el --- configuration file for emacs!
-;; -*- lexical-binding: t -*-
 
 ;;; Commentary:
 
