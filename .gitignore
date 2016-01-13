@@ -2,6 +2,7 @@ auto-save-list/*
 backups/*
 eshell/*
 url/*
+site-lisp/*
 savehist
 .emacs.desktop*
 
