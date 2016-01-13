@@ -220,5 +220,9 @@ See `toggle-selective-display' and `increase-selective-display'."
 		    :strike-through t
 		    :foreground "green")
 
+;; Zoom with the mouse
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
