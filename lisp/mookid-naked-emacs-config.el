@@ -1,5 +1,5 @@
-;;; mookid-naked-emacs-config.el --- Configuration of naked emacs
 ;; -*- lexical-binding: t -*-
+;;; mookid-naked-emacs-config.el --- Configuration of naked emacs
 
 ;;; Commentary:
 ;; Configuration of Emacs that does not depend on external packages.
@@ -57,14 +57,6 @@ I add this hook because it seems that some package activates it."
 ;; Display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
-(defun adjust-columns ()
-  "Adjust the window, so that the width is 80 characters."
-  (interactive)
-  (adjust-window-trailing-edge
-   (selected-window)
-   (- 80 (window-width)) t))
-(global-set-key (kbd "C-M-=") 'adjust-columns)
-(global-set-key (kbd "C-+") 'balance-windows)
 
 ;; No tabs
 (setq indent-tabs-mode nil)
@@ -162,12 +154,13 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (with-message
  "Window switch bindings"
- (global-set-key (kbd "<f2> <f2>") 'swap-windows)
- (global-set-key (kbd "<f2> <f1>") 'toggle-window-split)
+ (global-set-key (kbd "<f2> <f1>") 'swap-windows)
+ (global-set-key (kbd "<f2> <f2>") 'toggle-window-split)
  (defun swap-windows ()
    "If you have 2 windows, it swaps them."
    (interactive)
-   (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
+   (cond ((not (= (count-windows) 2))
+	  (message "You need exactly 2 windows to do this."))
 	 (t
 	  (let* ((w1 (car (window-list)))
 		 (w2 (cadr (window-list)))
@@ -183,28 +176,30 @@ See `toggle-selective-display' and `increase-selective-display'."
  (defun toggle-window-split ()
    "When there are two windows, convert horizontal to vertical and vice versa."
    (interactive)
-   (when (= (count-windows) 2)
-     (let* ((this-win-buffer (window-buffer))
-	    (next-win-buffer (window-buffer (next-window)))
-	    (this-win-edges (window-edges (selected-window)))
-	    (next-win-edges (window-edges (next-window)))
-	    (this-win-2nd (not (and (<= (car this-win-edges)
-					(car next-win-edges))
-				    (<= (cadr this-win-edges)
-					(cadr next-win-edges)))))
-	    (splitter
-	     (if (= (car this-win-edges)
-		    (car next-win-edges))
-		 'split-window-horizontally
-	       'split-window-vertically)))
-       (delete-other-windows)
-       (let ((first-win (selected-window)))
-	 (funcall splitter)
-	 (when this-win-2nd (other-window 1))
-	 (set-window-buffer (selected-window) this-win-buffer)
-	 (set-window-buffer (next-window) next-win-buffer)
-	 (select-window first-win)
-	 (when this-win-2nd (other-window 1)))))))
+   (cond ((not (= (count-windows) 2))
+	  (message "You need exactly 2 windows to do this."))
+	 (t
+	  (let* ((this-win-buffer (window-buffer))
+		 (next-win-buffer (window-buffer (next-window)))
+		 (this-win-edges (window-edges (selected-window)))
+		 (next-win-edges (window-edges (next-window)))
+		 (this-win-2nd (not (and (<= (car this-win-edges)
+					     (car next-win-edges))
+					 (<= (cadr this-win-edges)
+					     (cadr next-win-edges)))))
+		 (splitter
+		  (if (= (car this-win-edges)
+			 (car next-win-edges))
+		      'split-window-horizontally
+		    'split-window-vertically)))
+	    (delete-other-windows)
+	    (let ((first-win (selected-window)))
+	      (funcall splitter)
+	      (when this-win-2nd (other-window 1))
+	      (set-window-buffer (selected-window) this-win-buffer)
+	      (set-window-buffer (next-window) next-win-buffer)
+	      (select-window first-win)
+	      (when this-win-2nd (other-window 1)))))))
 
 (with-message
  "A few general keybindings"
