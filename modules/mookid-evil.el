@@ -33,10 +33,12 @@
      (add-hook 'post-command-hook
 	       (lambda ()
 		 (let* ((colors (cond ,@(gencond mode-colors-alist)))
-			(background (car colors)))
+			(background (car colors))
+			(foreground-opt (cdr colors))
+			)
 		   (set-face-background 'mode-line background)
-		   (when (cdr colors)
-		     (set-face-foreground 'mode-line (cadr colors))))))))
+		   (when foreground-opt
+		     (set-face-foreground 'mode-line (car foreground-opt))))))))
 
 (customize
  ((insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
