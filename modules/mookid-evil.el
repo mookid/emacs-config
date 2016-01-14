@@ -9,23 +9,24 @@
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
 
+(require 'cl-lib)
 (defun gensetq (mode-colors-alist)
-  (loop for (mode . custom) in mode-colors-alist
-	for color = (symbol-name (cdr (assoc :color custom)))
-	for shape = (cdr (assoc :cursor-shape custom))
-	append `(,(intern (format "evil-%S-state-cursor" mode))
-		 ',(list color shape)
-		 ,(intern (format "evil-%S-state-tag" mode))
-		 nil)))
+  (cl-loop for (mode . custom) in mode-colors-alist
+	   for color = (symbol-name (cdr (assoc :color custom)))
+	   for shape = (cdr (assoc :cursor-shape custom))
+	   append `(,(intern (format "evil-%S-state-cursor" mode))
+		    ',(list color shape)
+		    ,(intern (format "evil-%S-state-tag" mode))
+		    nil)))
 
 (defun gencond (mode-colors-alist)
-  (loop for (mode . custom) in mode-colors-alist
-	for color = (symbol-name (cdr (assoc :color custom)))
-	for foreground = (let ((symb (cdr (assoc :foreground custom))))
-			   (when symb (symbol-name symb)))
-	collect
-	`((,(intern (format "evil-%S-state-p" mode)))
-	  '(,color ,foreground))))
+  (cl-loop for (mode . custom) in mode-colors-alist
+	   for color = (symbol-name (cdr (assoc :color custom)))
+	   for foreground = (let ((symb (cdr (assoc :foreground custom))))
+			      (when symb (symbol-name symb)))
+	   collect
+	   `((,(intern (format "evil-%S-state-p" mode)))
+	     '(,color ,foreground))))
 
 (defmacro customize (mode-colors-alist)
   `(progn
@@ -47,6 +48,9 @@
   (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
   (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
   (normal . ((:color . grey) (:foreground . black) (:cursor-shape . box)))))
+
+(gencond
+  '((replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
