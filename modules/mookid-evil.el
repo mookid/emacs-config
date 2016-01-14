@@ -1,5 +1,5 @@
-;;; mookid-evil.el --- Configuration of emacs that depends on the evil package
 ;; -*- lexical-binding: t -*-
+;;; mookid-evil.el --- Configuration of emacs that depends on the evil package
 
 ;;; Commentary:
 
@@ -9,30 +9,42 @@
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
 
-(require 'cl-lib)
-(cl-macrolet
-    ((customize (key color shape black-fg?)
-		(let ((color (symbol-name color)))
-		  `(setq ,(intern (format "evil-%S-state-cursor" key))
-			 ',(list color shape)
-			 ,(intern (format "evil-%S-state-tag" key))
-			 (propertize ,(symbol-name key)
-				     'face '((:background
-					      ,color
-					      :foreground
-					      ,(if (eq black-fg? :light)
-						   "black"
-						 "white"))))))))
-  (customize insert  red      bar :light)
-  (customize motion  gray     box :light)
-  (customize replace DeepPink box :dark)
-  (customize emacs   purple   box :dark)
-  (customize visual  green    box :light)
-  (customize normal  grey     box :light))
+(defun gensetq (mode-colors-alist)
+  (loop for (mode . custom) in mode-colors-alist
+	for color = (symbol-name (cdr (assoc :color custom)))
+	for shape = (cdr (assoc :cursor-shape custom))
+	append `(,(intern (format "evil-%S-state-cursor" mode))
+		 ',(list color shape)
+		 ,(intern (format "evil-%S-state-tag" mode))
+		 nil)))
 
-(with-eval-after-load 'evil
-  (global-set-key (kbd "C-z") 'suspend-emacs)
-  (global-set-key (kbd "C-q") 'evil-emacs-state))
+(defun gencond (mode-colors-alist)
+  (loop for (mode . custom) in mode-colors-alist
+	for color = (symbol-name (cdr (assoc :color custom)))
+	for foreground = (let ((symb (cdr (assoc :foreground custom))))
+			   (when symb (symbol-name symb)))
+	collect
+	`((,(intern (format "evil-%S-state-p" mode)))
+	  '(,color ,foreground))))
+
+(defmacro customize (mode-colors-alist)
+  `(progn
+     (setq ,@(gensetq mode-colors-alist))
+     (add-hook 'post-command-hook
+	       (lambda ()
+		 (let* ((colors (cond ,@(gencond mode-colors-alist)))
+			(background (car colors)))
+		   (set-face-background 'mode-line background)
+		   (when (cdr colors)
+		     (set-face-foreground 'mode-line (cadr colors))))))))
+
+(customize
+ ((insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
+  (motion . ((:color . gray) (:foreground . black) (:cursor-shape . box)))
+  (replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))
+  (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
+  (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
+  (normal . ((:color . grey) (:foreground . black) (:cursor-shape . box)))))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
@@ -42,7 +54,9 @@
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-motion-state-map
   (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+
 (setq-default evil-cross-lines t)
+
 (defun ex-substitute ()
   "Call ex with the substitute prefix."
   (interactive) (evil-ex "%s/"))
