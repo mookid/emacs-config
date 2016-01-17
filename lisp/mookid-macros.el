@@ -6,8 +6,7 @@
 ;; induced by each module.
 
 ;;; Code:
-(defvar mookid-prefix  "mookid-"
-  "The prefix common to packages of my configuration.")
+(autoload 'mookid-prefix "mookid-values")
 
 (defmacro with-title (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
