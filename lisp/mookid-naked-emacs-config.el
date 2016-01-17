@@ -142,8 +142,14 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Setting up unicode"
  (set-default-coding-systems 'utf-8)
- (add-to-list 'default-frame-alist '(font . "DejaVu Sans Bold 11"))
+ (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
  (global-prettify-symbols-mode 1))
+
+(with-message
+ "Customize proportional font"
+ (set-face-attribute 'variable-pitch nil
+		     :family "DejaVu Sans Bold")
+ (add-hook 'prog-mode-hook 'variable-pitch-mode))
 
 (with-message
  "Switch parens with brackets"
