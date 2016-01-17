@@ -30,8 +30,7 @@ The return value reports success or failure."
 (defun init-load (symb)
   "Load a package with log message.
 
-SYMB has to be a name of package starting with the value of `mookid-prefix'.
-Otherwise, nothing happens."
+SYMB has to be a suffix of a package starting with `mookid-prefix'."
   (let* ((name (symbol-name symb))
 	 (symb (intern (concat mookid-prefix name))))
     (with-message (format "Loading %s" name)
