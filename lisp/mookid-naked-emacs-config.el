@@ -47,6 +47,7 @@ I add this hook because it seems that some package activates it."
 (switch-to-buffer "*Messages*")
 
 ;; Move backup files to a subdirectory of the root directory
+(defvar mookid-root-dir)
 (setq backup-directory-alist
       `(("." . ,(expand-file-name "backups" mookid-root-dir))))
 
