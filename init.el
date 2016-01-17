@@ -2,23 +2,26 @@
 
 ;;; Commentary:
 
-;; My emacs config, with simple options.
+;; My Emacs config, with simple options.
 
 ;;; Code:
-;; Common lisp functionalities
-(require 'cl-lib)
+;; The configuration directories
+(defvar mookid-root-dir "~/.emacs.d"
+  "The root directory of the configuration.")
 
-(defvar mookid-lisp-dir "~/.emacs.d/lisp"
-  "This is where are the non compiled lisp files.")
-(defvar mookid-modules-dir "~/.emacs.d/modules"
-  "This is where are the compiled lisp files.")
+(defvar mookid-lisp-dir (expand-file-name "lisp" mookid-root-dir)
+  "This is where the non compiled Lisp files are.")
+
+(defvar mookid-modules-dir (expand-file-name "modules" mookid-root-dir)
+  "This is where the configuration of the Lisp files are.")
+;; end
 
 (add-to-list 'load-path mookid-lisp-dir)
+(add-to-list 'load-path mookid-modules-dir)
+
 (autoload 'with-message "mookid-macros")
 (autoload 'with-title "mookid-macros")
 (autoload 'init-load "mookid-macros")
-
-(add-to-list 'load-path mookid-modules-dir)
 
 (with-message
  "Loading packages list"
@@ -58,8 +61,9 @@
 
 (init-load 'c)
 
-(let ((f "~/.emacs.d/private.el"))
+(let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
     (with-message "Loading private settings" (load f))))
 
 (provide 'init)
+;;; init.el ends here

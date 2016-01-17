@@ -6,6 +6,7 @@
 
 ;;; Code:
 (autoload 'with-message "mookid-macros")
+(autoload 'mookid-root-dir "mookid-values")
 
 ;; Set color theme
 (load-theme 'deeper-blue)
@@ -45,8 +46,9 @@ I add this hook because it seems that some package activates it."
 (setq inhibit-startup-message t)
 (switch-to-buffer "*Messages*")
 
-;; Move backup files to a subdirectory of ~/.emacs.d
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+;; Move backup files to a subdirectory of the root directory
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backups" mookid-root-dir))))
 
 ;; Stop auto save
 (setq auto-save-default nil)
@@ -95,7 +97,8 @@ I add this hook because it seems that some package activates it."
  (global-set-key (kbd "C-<next>") 'next-error))
 
 ;; Save history between sessions
-(setq-default savehist-file "~/.emacs.d/savehist")
+(setq-default savehist-file
+	      (expand-file-name "savehist" mookid-root-dir))
 (savehist-mode t)
 (setq history-length 16384)
 (setq history-delete-duplicates t)
