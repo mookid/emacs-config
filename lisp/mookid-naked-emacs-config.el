@@ -234,5 +234,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 ;; Wrap long lines
 (global-visual-line-mode 1)
 
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
