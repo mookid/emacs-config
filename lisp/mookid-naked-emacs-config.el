@@ -155,8 +155,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Window switch bindings"
  (with-eval-after-load 'init
-   (global-set-key (kbd "<f2> <f1>") 'swap-windows)
-   (global-set-key (kbd "C-M-`") 'toggle-window-split))
+   (global-set-key (kbd "C-M-`") 'swap-windows)
+   (global-set-key (kbd "<f2> <f2>") 'toggle-window-split))
  (defun swap-windows ()
    "If you have 2 windows, it swaps them."
    (interactive)
