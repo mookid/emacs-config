@@ -1,12 +1,12 @@
 ;;; mookid-macros --- Useful macros for emacs initialization
 
 ;;; Commentary:
-;; Macros for emacs configuration.
+;; Macros for Emacs configuration.
 ;; They make sure that the configuration files load, catching errors
 ;; induced by each module.
 
 ;;; Code:
-(autoload 'mookid-prefix "mookid-values")
+(require 'mookid-values) ; mookid-prefix
 
 (defmacro with-title (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
