@@ -16,16 +16,18 @@
     (assq-delete-all str prettify-symbols-alist)))
 (add-hook 'tuareg-mode-hook 'remove-some-prettifiers)
 
-(defun insert-stars ()
+(defvar tuareg-mode-map)
+(defvar ocaml-stars "(***************************************************************************)"
+  "A separator for OCaml code.")
+(defun tuareg-insert-stars ()
   "Insert a line with stars."
   (interactive)
-  (insert (concat "(*************************************"
-		  "**************************************)")))
+  (insert ocaml-stars))
 
 (defun define-tuareg-bindings ()
   "Keybindings for tuareg mode."
-  (global-set-key (kbd "C-'") 'tuareg-eval-region)
-  (global-set-key (kbd "C-+") 'insert-stars))
+  (define-key tuareg-mode-map (kbd "C-'") 'tuareg-eval-region)
+  (define-key tuareg-mode-map (kbd "C-c =") 'tuareg-insert-stars))
 (add-hook 'tuareg-mode-hook 'remove-some-prettifiers)
 (add-hook 'tuareg-mode-hook 'define-tuareg-bindings)
 
