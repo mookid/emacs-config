@@ -42,9 +42,8 @@ I add this hook because it seems that some package activates it."
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
 
-;; Switch to messages buffer at startup
+;; No welcome message
 (setq inhibit-startup-message t)
-(switch-to-buffer "*Messages*")
 
 ;; Move backup files to a subdirectory of the root directory
 (defvar mookid-root-dir)
