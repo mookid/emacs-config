@@ -151,7 +151,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Customize proportional font"
  (set-face-attribute 'variable-pitch nil
-		     :family "DejaVu Sans Bold")
+		     :family "DejaVu Sans")
  (add-hook 'prog-mode-hook 'variable-pitch-mode))
 
 (with-message
