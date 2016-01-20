@@ -6,8 +6,6 @@
 ;; induced by each module.
 
 ;;; Code:
-(require 'mookid-values) ; mookid-prefix
-
 (defmacro with-title (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
 
@@ -27,13 +25,8 @@ The return value reports success or failure."
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 
 (defun init-load (symb)
-  "Load a package with log message.
-
-SYMB has to be a suffix of a package starting with `mookid-prefix'."
-  (let* ((name (symbol-name symb))
-	 (symb (intern (concat mookid-prefix name))))
-    (with-message (format "Loading %s" name)
-		  (require symb))))
+  "Load a package with log message."
+  (with-message (format "Loading %s" (symbol-name symb)) (require symb)))
 
 (provide 'mookid-macros)
 ;;; mookid-macros.el ends here

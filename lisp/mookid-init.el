@@ -11,36 +11,36 @@
 (with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
 
 ;; evil related packages
-(init-load 'evil)
-(init-load 'evil-numbers)
-(init-load 'evil-visualstar)
-(init-load 'evil-jumper)
-(init-load 'highlight-persist)
+(init-load 'mookid-evil)
+(init-load 'mookid-evil-numbers)
+(init-load 'mookid-evil-visualstar)
+(init-load 'mookid-evil-jumper)
+(init-load 'mookid-highlight-persist)
 ;; end
 
-(init-load 'rainbow)
-(init-load 'company)
-(init-load 'elisp-slime-nav)
+(init-load 'mookid-rainbow)
+(init-load 'mookid-company)
+(init-load 'mookid-elisp-slime-nav)
 
 ;; ivy related packages
-(init-load 'ivy)
-(init-load 'find-file-in-project)
+(init-load 'mookid-ivy)
+(init-load 'mookid-find-file-in-project)
 ;; end
 
-(init-load 'slime)
-(init-load 'expand-region)
+(init-load 'mookid-slime)
+(init-load 'mookid-expand-region)
 
-(init-load 'avy)
-(init-load 'ace-window)
-(init-load 'flycheck)
+(init-load 'mookid-avy)
+(init-load 'mookid-ace-window)
+(init-load 'mookid-flycheck)
 
 ;; ocaml settings
-(init-load 'tuareg)
-(init-load 'ocp-indent)
-;; (init-load 'merlin)
+(init-load 'mookid-tuareg)
+(init-load 'mookid-ocp-indent)
+;; (init-load 'mookid-merlin)
 ;; end
 
-(init-load 'c)
+(init-load 'mookid-c)
 
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
