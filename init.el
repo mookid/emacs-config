@@ -41,6 +41,7 @@
 
 (init-load 'rainbow)
 (init-load 'company)
+(init-load 'elisp-slime-nav)
 
 ;; ivy related packages
 (init-load 'ivy)
@@ -51,6 +52,7 @@
 (init-load 'expand-region)
 
 (init-load 'avy)
+(init-load 'ace-window)
 (init-load 'flycheck)
 
 ;; ocaml settings
