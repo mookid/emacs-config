@@ -242,8 +242,5 @@ See `toggle-selective-display' and `increase-selective-display'."
   (interactive)
   (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
 
-;; Smooth scrolling
-(require 'smooth-scrolling)
-
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
