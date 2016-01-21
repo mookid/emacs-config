@@ -15,7 +15,7 @@
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
 ;; Start with a blank scratch buffer
-(setq initial-scratch-message "")
+(setq initial-scratch-message nil)
 
 ;; Use the frame title
 (setq frame-title-format
