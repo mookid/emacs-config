@@ -154,8 +154,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-message
  "Customize proportional font"
  (set-face-attribute 'variable-pitch nil
-		     :family "DejaVu Sans")
- (add-hook 'prog-mode-hook 'variable-pitch-mode))
+		     :family "DejaVu Sans"))
 
 (with-message
  "Switch parens with brackets"
