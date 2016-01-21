@@ -27,6 +27,7 @@
 (init-load 'mookid-find-file-in-project)
 ;; end
 
+(init-load 'mookid-smooth-scrolling)
 (init-load 'mookid-slime)
 (init-load 'mookid-expand-region)
 
