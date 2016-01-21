@@ -14,6 +14,9 @@
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
+;; Start with a blank scratch buffer
+(setq initial-scratch-message "")
+
 ;; Use the frame title
 (setq frame-title-format
       '("%S " (buffer-file-name "%f" (dired-directory dired-directory "%b"))))
