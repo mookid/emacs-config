@@ -49,9 +49,6 @@
   (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
   (normal . ((:color . grey) (:foreground . black) (:cursor-shape . box)))))
 
-(gencond
-  '((replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))))
-
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-normal-state-map
