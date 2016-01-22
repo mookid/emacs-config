@@ -250,5 +250,8 @@ See `toggle-selective-display' and `increase-selective-display'."
     (isearch-mode t nil nil nil)
     (isearch-yank-string selection)))
 
+(define-key isearch-mode-map (kbd "C-<right>") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "C-<left>") 'isearch-repeat-backward)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
