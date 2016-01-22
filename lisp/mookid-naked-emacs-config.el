@@ -245,9 +245,10 @@ See `toggle-selective-display' and `increase-selective-display'."
 (defun search-region (beg end)
   "Search for the text beween BEG and END."
   (interactive "r")
-  (kill-ring-save beg end)
-  (isearch-mode t nil nil nil)
-  (isearch-yank-pop))
+  (let ((selection (buffer-substring-no-properties beg end)))
+    (deactivate-mark)
+    (isearch-mode t nil nil nil)
+    (isearch-yank-string selection)))
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
