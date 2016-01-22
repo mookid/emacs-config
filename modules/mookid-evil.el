@@ -35,8 +35,7 @@
 	       (lambda ()
 		 (let* ((colors (cond ,@(gencond mode-colors-alist)))
 			(background (car colors))
-			(foreground-opt (cdr colors))
-			)
+			(foreground-opt (cdr colors)))
 		   (set-face-background 'mode-line background)
 		   (when foreground-opt
 		     (set-face-foreground 'mode-line (car foreground-opt))))))))
@@ -65,9 +64,8 @@
   (interactive) (evil-ex "%s/"))
 (define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
 (define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
-(define-key evil-normal-state-map (kbd "M-.") 'xref-find-definitions)
 
-(define-key evil-normal-state-map (kbd "`") (kbd "i RET <escape>"))
+(define-key evil-normal-state-map (kbd "`") (insert ?\n))
 
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
