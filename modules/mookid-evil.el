@@ -67,5 +67,7 @@
 
 (define-key evil-normal-state-map (kbd "`") (insert ?\n))
 
+(define-key evil-visual-state-map (kbd "M-s") 'search-region)
+
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here

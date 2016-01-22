@@ -242,5 +242,12 @@ See `toggle-selective-display' and `increase-selective-display'."
   (interactive)
   (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
 
+(defun search-region (beg end)
+  "Search for the text beween BEG and END."
+  (interactive "r")
+  (kill-ring-save beg end)
+  (isearch-mode t nil nil nil)
+  (isearch-yank-pop))
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
