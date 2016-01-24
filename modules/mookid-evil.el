@@ -28,7 +28,7 @@
 	   `((,(intern (format "evil-%S-state-p" mode)))
 	     '(,color ,foreground))))
 
-(defmacro customize (mode-colors-alist)
+(defmacro customize (&rest mode-colors-alist)
   `(progn
      (setq ,@(gensetq mode-colors-alist))
      (add-hook 'post-command-hook
@@ -41,12 +41,12 @@
 		     (set-face-foreground 'mode-line (car foreground-opt))))))))
 
 (customize
- ((insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
-  (motion . ((:color . SteelBlue) (:foreground . black) (:cursor-shape . box)))
-  (replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))
-  (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
-  (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
-  (normal . ((:color . SteelBlue) (:foreground . white) (:cursor-shape . box)))))
+ (insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
+ (motion . ((:color . SteelBlue) (:foreground . black) (:cursor-shape . box)))
+ (replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))
+ (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
+ (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
+ (normal . ((:color . SteelBlue) (:foreground . white) (:cursor-shape . box))))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
