@@ -48,14 +48,8 @@
  (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
  (normal . ((:color . SteelBlue) (:foreground . white) (:cursor-shape . box))))
 
-(define-key evil-normal-state-map
-  (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-(define-key evil-normal-state-map
-  (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-(define-key evil-motion-state-map
-  (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
-(define-key evil-motion-state-map
-  (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+(defalias 'evil-previous-line 'evil-previous-visual-line)
+(defalias 'evil-next-line 'evil-next-visual-line)
 
 (setq-default evil-cross-lines t)
 
