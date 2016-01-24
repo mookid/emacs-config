@@ -163,6 +163,10 @@ See `toggle-selective-display' and `increase-selective-display'."
  (define-key key-translation-map "[" "(")
  (define-key key-translation-map "]" ")"))
 
+;; unbind all keybindings starting with f2
+(cl-dolist (keystr '("<f2> 2" "<f2> b" "<f2> s"))
+  (global-unset-key (kbd keystr)))
+
 (with-message
  "Window switch bindings"
  (with-eval-after-load 'init
