@@ -13,9 +13,8 @@
 ;; evil related packages
 (init-load 'mookid-evil)
 (init-load 'mookid-evil-numbers)
-(init-load 'mookid-evil-visualstar)
 (init-load 'mookid-evil-jumper)
-(init-load 'mookid-highlight-persist)
+(init-load 'mookid-evil-anzu)
 ;; end
 
 (init-load 'mookid-rainbow)
