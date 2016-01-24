@@ -65,7 +65,11 @@
 (define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
 (define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
 
-(define-key evil-normal-state-map (kbd "`") (insert ?\n))
+(define-key evil-normal-state-map (kbd "`")
+  (defun insert-newline ()
+    "That's it."
+    (interactive)
+    (save-excursion (insert ?\n))))
 
 (define-key evil-visual-state-map (kbd "M-s") 'search-region)
 
