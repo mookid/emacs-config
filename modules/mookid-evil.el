@@ -42,11 +42,11 @@
 
 (customize
  ((insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
-  (motion . ((:color . gray) (:foreground . black) (:cursor-shape . box)))
+  (motion . ((:color . SteelBlue) (:foreground . black) (:cursor-shape . box)))
   (replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))
   (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
   (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
-  (normal . ((:color . grey) (:foreground . black) (:cursor-shape . box)))))
+  (normal . ((:color . SteelBlue) (:foreground . white) (:cursor-shape . box)))))
 
 (define-key evil-normal-state-map
   (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
