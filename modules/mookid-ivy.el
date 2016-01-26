@@ -8,7 +8,6 @@
 (setq ivy-use-virtual-buffers t)
 
 (require 'counsel)
-(define-key isearch-mode-map (kbd "M-s") 'swiper-from-isearch)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (define-key ivy-minibuffer-map (kbd "<right>") 'ivy-alt-done)
 (define-key ivy-minibuffer-map (kbd "<left>") 'ivy-backward-delete-char)
