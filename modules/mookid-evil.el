@@ -60,10 +60,7 @@
 (define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
 
 (define-key evil-normal-state-map (kbd "`")
-  (defun insert-newline ()
-    "That's it."
-    (interactive)
-    (save-excursion (insert ?\n))))
+  (defun insert-newline () "That's it." (interactive) (newline)))
 
 (define-key evil-visual-state-map (kbd "M-s") 'search-region)
 
