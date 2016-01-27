@@ -485,7 +485,7 @@
 	   ((:url . "http://elpa.gnu.org/packages/minimap.html")
 	    (:keywords))])
  (multishell .
-	     [(1 0 7)
+	     [(1 0 8)
 	      nil "facilitate multiple local and remote shell buffers" single
 	      ((:url . "https://github.com/kenmanheimer/EmacsMultishell")
 	       (:keywords "processes"))])
@@ -552,7 +552,7 @@
 	     ((:url . "https://github.com/michael-heerdegen/on-screen.el")
 	      (:keywords "convenience"))])
  (org .
-      [(20160118)
+      [(20160125)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
@@ -834,6 +834,8 @@
 	      (:url . "http://github.com/capitaomorte/yasnippet"))])
  (ztree .
 	[(1 0 2)
-	 nil "Text mode directory tree" tar
+	 ((cl-lib
+	   (0)))
+	 "Text mode directory tree" tar
 	 ((:keywords "files" "tools")
 	  (:url . "https://github.com/fourier/ztree"))]))
