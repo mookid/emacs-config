@@ -257,5 +257,7 @@ See `toggle-selective-display' and `increase-selective-display'."
                     (isearch-mode t nil nil nil)
                     (isearch-yank-string selection))))
 
+(winner-mode 1)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
