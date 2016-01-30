@@ -53,10 +53,16 @@
 
 (setq-default evil-cross-lines t)
 
-(defun ex-substitute ()
-  "Call ex with the substitute prefix."
-  (interactive) (evil-ex "%s/"))
-(define-key evil-normal-state-map (kbd "g s") 'ex-substitute)
+(define-key evil-normal-state-map (kbd "g s")
+  (defun ex-substitute ()
+    "Call ex with the substitute prefix."
+    (interactive) (evil-ex "%s/")))
+
+(define-key evil-normal-state-map (kbd "g !")
+ (defun ex-external ()
+    "Call ex with the external command prefix."
+    (interactive) (evil-ex "%!")))
+
 (define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
 
 (define-key evil-normal-state-map (kbd "`")
