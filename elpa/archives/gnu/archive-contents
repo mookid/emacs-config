@@ -445,6 +445,13 @@
 	       nil "keep track of positions even after buffer changes" single
 	       ((:url . "http://github.com/rocky/emacs-loc-changes")
 		(:keywords))])
+ (loccur .
+	 [(1 2 2)
+	  ((cl-lib
+	    (0)))
+	  "Perform an occur-like folding in current buffer" single
+	  ((:url . "https://github.com/fourier/loccur")
+	   (:keywords "matching"))])
  (markchars .
 	    [(0 2 0)
 	     nil "Mark chars fitting certain characteristics" single
@@ -485,10 +492,10 @@
 	   ((:url . "http://elpa.gnu.org/packages/minimap.html")
 	    (:keywords))])
  (multishell .
-	     [(1 0 8)
-	      nil "facilitate multiple local and remote shell buffers" single
-	      ((:url . "https://github.com/kenmanheimer/EmacsMultishell")
-	       (:keywords "processes"))])
+	     [(1 0 9)
+	      nil "facilitate multiple local and remote shell buffers" tar
+	      ((:keywords "processes")
+	       (:url . "https://github.com/kenmanheimer/EmacsMultishell"))])
  (muse .
        [(3 20)
 	nil "Authoring and publishing tool for Emacs" tar
@@ -617,6 +624,11 @@
 		 "Clean-up and Beautify the list of minor-modes." single
 		 ((:url . "https://github.com/Malabarba/rich-minority")
 		  (:keywords "mode-line" "faces"))])
+ (rnc-mode .
+	   [(0 1)
+	    nil "Emacs mode to edit Relax-NG Compact files" single
+	    ((:url . "http://elpa.gnu.org/packages/rnc-mode.html")
+	     (:keywords "xml" "relaxng"))])
  (rudel .
 	[(0 3)
 	 nil "A collaborative editing framework for Emacs" tar
@@ -833,7 +845,7 @@
 	     ((:keywords "convenience" "emulation")
 	      (:url . "http://github.com/capitaomorte/yasnippet"))])
  (ztree .
-	[(1 0 2)
+	[(1 0 3)
 	 ((cl-lib
 	   (0)))
 	 "Text mode directory tree" tar
