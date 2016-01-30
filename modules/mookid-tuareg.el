@@ -22,7 +22,8 @@
 (defun tuareg-insert-stars ()
   "Insert a line with stars."
   (interactive)
-  (insert ocaml-stars))
+  (insert ocaml-stars)
+  (newline))
 
 (defun define-tuareg-bindings ()
   "Keybindings for tuareg mode."
