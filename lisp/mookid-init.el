@@ -17,6 +17,7 @@
 (init-load 'mookid-evil-anzu)
 ;; end
 
+(init-load 'mookid-lispy)
 (init-load 'mookid-rainbow)
 (init-load 'mookid-company)
 (init-load 'mookid-elisp-slime-nav)
