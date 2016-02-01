@@ -246,7 +246,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 (global-set-key (kbd "C-M-;") 'toggle-line-comment)
 (defun toggle-line-comment ()
   (interactive)
-  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
+  (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+  (next-line))
 
 (global-set-key (kbd "M-s")
                 (defun search-region (beg end)
