@@ -241,7 +241,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(global-set-key (kbd "C-M-;") 'toggle-line-comment)
+(with-eval-after-load 'init
+  (global-set-key (kbd "C-M-;") 'toggle-line-comment))
 (defun toggle-line-comment ()
   (interactive)
   (comment-or-uncomment-region (line-beginning-position) (line-end-position))
