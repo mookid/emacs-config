@@ -16,7 +16,6 @@
 (add-hook 'lisp-mode-hook 'lispy-on)
 (add-hook 'emacs-lisp-mode-hook 'lispy-on)
 (add-hook 'lisp-interaction-mode-hook 'lispy-on)
-(add-hook 'tuareg-mode-hook 'lispy-on)
 
 (provide 'mookid-lispy)
 ;;; mookid-lispy.el ends here
