@@ -94,6 +94,7 @@ I add this hook because it seems that some package activates it."
    (kill-local-variable 'compilation-auto-jump-to-next))
  (add-hook 'grep-mode-hook 'disable-jump-to-error)
  (global-set-key (kbd "<f12>") 'recompile)
+ (global-set-key (kbd "C-<prior>") 'previous-error)
  (global-set-key (kbd "C-<next>") 'next-error))
 
 ;; Save history between sessions
