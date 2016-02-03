@@ -218,11 +218,6 @@ See `toggle-selective-display' and `increase-selective-display'."
 	      (when this-win-2nd (other-window 1))))))))
 
 (with-message
- "A few general keybindings"
- (global-set-key (kbd "M-9") 'backward-sexp)
- (global-set-key (kbd "M-0") 'forward-sexp))
-
-(with-message
  "Setting up the order for recenter-top-bottom"
  (setq recenter-positions '(top middle bottom)))
 
