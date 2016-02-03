@@ -250,6 +250,8 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "<C-left>") 'isearch-del-char)
+(define-key isearch-mode-map (kbd "<C-right>") 'isearch-yank-word-or-char)
 (global-set-key (kbd "M-s")
                 (defun search-region (beg end)
                   "Search for the text beween BEG and END."
