@@ -248,8 +248,8 @@ See `toggle-selective-display' and `increase-selective-display'."
   (comment-or-uncomment-region (line-beginning-position) (line-end-position))
   (next-line))
 
-(define-key isearch-mode-map (kbd "C-<left>") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "C-<right>") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
+(define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
 (global-set-key (kbd "M-s")
                 (defun search-region (beg end)
                   "Search for the text beween BEG and END."
