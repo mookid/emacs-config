@@ -242,11 +242,12 @@ See `toggle-selective-display' and `increase-selective-display'."
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (with-eval-after-load 'init
-  (global-set-key (kbd "C-M-;") 'toggle-line-comment))
-(defun toggle-line-comment ()
-  (interactive)
-  (comment-or-uncomment-region (line-beginning-position) (line-end-position))
-  (next-line))
+  (global-set-key
+   (kbd "C-M-;")
+   (defun toggle-line-comment ()
+     (interactive)
+     (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+     (next-line))))
 
 (define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
