@@ -6,7 +6,7 @@
 ;;; Code:
 (require 'elisp-slime-nav)
 
-(add-hook emacs-lisp-mode-hook 'elisp-slime-nav-mode)
+(add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
 (with-eval-after-load 'evil
   (evil-define-key 'normal emacs-lisp-mode-map
     "\"" 'elisp-slime-nav-describe-elisp-thing-at-point))
