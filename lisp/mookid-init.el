@@ -24,7 +24,7 @@
 
 ;; ivy related packages
 (init-load 'mookid-ivy)
-(init-load 'mookid-find-file-in-project)
+(init-load 'mookid-projectile)
 ;; end
 
 (init-load 'mookid-smooth-scrolling)
