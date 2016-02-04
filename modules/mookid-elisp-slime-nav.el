@@ -5,8 +5,11 @@
 
 ;;; Code:
 (require 'elisp-slime-nav)
-(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-  (add-hook hook 'elisp-slime-nav-mode))
+
+(add-hook emacs-lisp-mode-hook 'elisp-slime-nav-mode)
+(with-eval-after-load 'evil
+  (evil-define-key 'normal emacs-lisp-mode-map
+    "\"" 'elisp-slime-nav-describe-elisp-thing-at-point))
 
 (provide 'mookid-elisp-slime-nav)
 ;;; mookid-elisp-slime-nav.el ends here
