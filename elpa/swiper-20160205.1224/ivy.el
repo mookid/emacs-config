@@ -236,6 +236,7 @@ Example:
     (define-key map (kbd "C-'") 'ivy-avy)
     (define-key map (kbd "C-M-a") 'ivy-read-action)
     (define-key map (kbd "C-c C-o") 'ivy-occur)
+    (define-key map (kbd "C-h m") 'ivy-help)
     map)
   "Keymap used in the minibuffer.")
 (autoload 'hydra-ivy/body "ivy-hydra" "" t)
@@ -1873,19 +1874,20 @@ Should be run via minibuffer `post-command-hook'."
 
 (defun ivy--resize-minibuffer-to-fit ()
   "Resize the minibuffer window size to fit the text in the minibuffer."
-  (with-selected-window (minibuffer-window)
-    (if (fboundp 'window-text-pixel-size)
-        (let ((text-height (cdr (window-text-pixel-size)))
-              (body-height (window-body-height nil t)))
+  (unless (frame-root-window-p (minibuffer-window))
+    (with-selected-window (minibuffer-window)
+      (if (fboundp 'window-text-pixel-size)
+          (let ((text-height (cdr (window-text-pixel-size)))
+                (body-height (window-body-height nil t)))
+            (when (> text-height body-height)
+              ;; Note: the size increment needs to be at least frame-char-height,
+              ;; otherwise resizing won't do anything.
+              (let ((delta (max (- text-height body-height) (frame-char-height))))
+                (window-resize nil delta nil t t))))
+        (let ((text-height (count-screen-lines))
+              (body-height (window-body-height)))
           (when (> text-height body-height)
-            ;; Note: the size increment needs to be at least frame-char-height,
-            ;; otherwise resizing won't do anything.
-            (let ((delta (max (- text-height body-height) (frame-char-height))))
-              (window-resize nil delta nil t t))))
-      (let ((text-height (count-screen-lines))
-            (body-height (window-body-height)))
-        (when (> text-height body-height)
-          (window-resize nil (- text-height body-height) nil t))))))
+            (window-resize nil (- text-height body-height) nil t)))))))
 
 (declare-function colir-blend-face-background "ext:colir")
 
@@ -2715,6 +2717,29 @@ EVENT gives the mouse position."
                (selected-window))
               (run-at-time 0.5 nil 'swiper--cleanup))
           (pulse-momentary-highlight-one-line (point)))))))
+
+(defvar ivy-help-file (expand-file-name
+                       "doc/ivy-help.org"
+                       (file-name-directory load-file-name))
+  "The file for `ivy-help'.")
+
+(defun ivy-help ()
+  "Help for `ivy'."
+  (interactive)
+  (let ((buf (get-buffer "*Ivy Help*")))
+    (unless buf
+      (setq buf (get-buffer-create "*Ivy Help*"))
+      (with-current-buffer buf
+        (insert-file-contents ivy-help-file)
+        (org-mode)
+        (view-mode)
+        (goto-char (point-min))))
+    (if (eq this-command 'ivy-help)
+        (switch-to-buffer buf)
+      (with-ivy-window
+        (pop-to-buffer buf)))
+    (view-mode)
+    (goto-char (point-min))))
 
 (provide 'ivy)
 
