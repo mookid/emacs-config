@@ -9,6 +9,7 @@
 
 (require 'counsel)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
+(global-set-key (kbd "M-x") 'counsel-M-x)
 (define-key ivy-minibuffer-map (kbd "<right>") 'ivy-alt-done)
 (define-key ivy-minibuffer-map (kbd "<left>") 'ivy-backward-delete-char)
 
