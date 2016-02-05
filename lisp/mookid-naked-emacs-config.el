@@ -253,8 +253,20 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
-(define-key isearch-mode-map (kbd "<C-left>") 'isearch-del-char)
+(define-key isearch-mode-map (kbd "<C-left>") 'isearch-delete-char)
 (define-key isearch-mode-map (kbd "<C-right>") 'isearch-yank-word-or-char)
+
+(add-hook 'isearch-mode-hook
+          (lambda ()
+            (set (make-local-variable 'isearch-mode-line-face-remap-cookie)
+                 (face-remap-add-relative
+                  'mode-line '((:foreground "black" :background "orange")
+			       mode-line)))))
+
+(add-hook 'isearch-mode-end-hook
+          (lambda ()
+            (face-remap-remove-relative isearch-mode-line-face-remap-cookie)))
+
 (global-set-key (kbd "M-s")
                 (defun search-region (beg end)
                   "Search for the text beween BEG and END."
