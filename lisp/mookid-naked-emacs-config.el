@@ -239,10 +239,17 @@ See `toggle-selective-display' and `increase-selective-display'."
 (with-eval-after-load 'init
   (global-set-key
    (kbd "C-M-;")
-   (defun toggle-line-comment ()
-     (interactive)
-     (comment-or-uncomment-region (line-beginning-position) (line-end-position))
-     (next-line))))
+   (defun toggle-line-comment (p)
+     (interactive "P")
+     (let ((beg (line-beginning-position))
+           (end (line-end-position)))
+       (when p
+         (kill-ring-save beg end))
+       (comment-or-uncomment-region beg end)
+       (when p
+         (next-line)
+         (yank))
+       (next-line)))))
 
 (define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
