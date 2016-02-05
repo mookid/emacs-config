@@ -266,5 +266,10 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (winner-mode 1)
 
+;; Add mouse events
+(require 'mouse-copy)
+(global-set-key (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
+(global-set-key (kbd "<C-S-down-mouse-1>") 'mouse-drag-secondary-moving)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
