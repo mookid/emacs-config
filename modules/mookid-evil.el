@@ -59,7 +59,7 @@
     (interactive) (evil-ex "%s/")))
 
 (define-key evil-normal-state-map (kbd "g !")
- (defun ex-external ()
+  (defun ex-external ()
     "Call ex with the external command prefix."
     (interactive) (evil-ex "%!")))
 
