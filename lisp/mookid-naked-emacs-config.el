@@ -283,5 +283,13 @@ See `toggle-selective-display' and `increase-selective-display'."
 (global-set-key (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
 (global-set-key (kbd "<C-S-down-mouse-1>") 'mouse-drag-secondary-moving)
 
+;; Run Cygwin shell
+(defvar local-cygwin-path "The path to bash on a windows system.")
+(defun cygwin-shell ()
+  "Run cygwin bash in shell mode."
+  (interactive)
+  (let ((explicit-shell-file-name local-cygwin-path))
+    (call-interactively 'shell)))
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
