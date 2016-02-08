@@ -22,6 +22,7 @@
 (defun tuareg-insert-stars ()
   "Insert a line with stars."
   (interactive)
+  (newline)
   (insert ocaml-stars)
   (newline))
 
