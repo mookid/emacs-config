@@ -18,7 +18,7 @@
 (define-key evil-normal-state-map (kbd "C-f") 'counsel-find-file)
 (define-key evil-normal-state-map (kbd "SPC") 'counsel-M-x)
 
-
+(require 'imenu)
 (defun ivy-imenu-get-candidates-from (alist  &optional prefix)
   (cl-loop for elm in alist
            nconc (if (imenu--subalist-p elm)
