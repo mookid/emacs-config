@@ -227,10 +227,6 @@ See `toggle-selective-display' and `increase-selective-display'."
 		    :strike-through t
 		    :foreground "green")
 
-;; Zoom with the mouse
-(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
-(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
-
 ;; Wrap long lines
 (global-visual-line-mode 1)
 
@@ -278,10 +274,14 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (winner-mode 1)
 
-;; Add mouse events
+;; mouse parameters
 (require 'mouse-copy)
 (global-set-key (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
 (global-set-key (kbd "<C-S-down-mouse-1>") 'mouse-drag-secondary-moving)
+(global-set-key (kbd "<S-mouse-1>") 'mouse-set-mark)
+(setq mouse-drag-copy-region t)
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
 ;; Run Cygwin shell
 (defvar local-cygwin-path "The path to bash on a windows system.")
