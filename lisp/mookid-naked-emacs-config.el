@@ -291,5 +291,22 @@ See `toggle-selective-display' and `increase-selective-display'."
   (let ((explicit-shell-file-name local-cygwin-path))
     (call-interactively 'shell)))
 
+;; Insert buffer name
+(defun previous-buffer ()
+  "The previous buffer accessed."
+  (other-buffer (current-buffer) 1))
+
+(global-set-key (kbd "C-c C-v")
+		(defun insert-buffer-name ()
+		  "Insert the previous buffer name. Usefull for compilation."
+		  (interactive)
+		  (insert (buffer-name (previous-buffer)))))
+
+(global-set-key (kbd "C-M-b")
+		(defun switch-previous-buffer ()
+		  "Switch to the last accessed buffer."
+		  (interactive)
+		  (switch-to-buffer (previous-buffer))))
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
