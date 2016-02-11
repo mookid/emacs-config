@@ -79,5 +79,7 @@
 		     evil-normal-state-map)
 	collect `(define-key ,map ,kbd ,fun))))
 
+(global-set-key (kbd "C-s") 'evil-search-forward)
+
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
