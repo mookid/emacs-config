@@ -312,9 +312,10 @@ This doesn't include the margins and the scroll bar."
                               company-eclim company-semantic company-clang
                               company-xcode company-cmake
                               company-capf
+                              company-files
                               (company-dabbrev-code company-gtags company-etags
                                company-keywords)
-                              company-oddmuse company-files company-dabbrev)
+                              company-oddmuse company-dabbrev)
   "The list of active backends (completion engines).
 
 Only one backend is used at a time.  The choice depends on the order of
@@ -1185,7 +1186,11 @@ can retrieve meta-data for them."
                    company-candidates-cache
                    (list (cons prefix
                                (company--preprocess-candidates candidates))))
-             (company-idle-begin buf win tick pt)))))
+             (unwind-protect
+                 (company-idle-begin buf win tick pt)
+               (unless company-candidates
+                 (setq company-backend nil
+                       company-candidates-cache nil)))))))
       ;; FIXME: Relying on the fact that the callers
       ;; will interpret nil as "do nothing" is shaky.
       ;; A throw-catch would be one possible improvement.
