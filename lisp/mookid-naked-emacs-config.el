@@ -158,10 +158,10 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 (with-message
  "Switch parens with brackets"
- (define-key key-translation-map "(" "[")
- (define-key key-translation-map ")" "]")
- (define-key key-translation-map "[" "(")
- (define-key key-translation-map "]" ")"))
+ (define-key input-decode-map (kbd "(") (kbd "["))
+ (define-key input-decode-map (kbd "[") (kbd "("))
+ (define-key input-decode-map (kbd ")") (kbd "]"))
+ (define-key input-decode-map (kbd "]") (kbd ")")))
 
 ;; unbind all keybindings starting with f2
 (cl-dolist (keystr '("<f2> 2" "<f2> b" "<f2> s"))
