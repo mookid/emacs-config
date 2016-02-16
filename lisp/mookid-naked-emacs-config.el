@@ -9,7 +9,7 @@
 (autoload 'mookid-root-dir "mookid-values")
 
 ;; Set color theme
-(load-theme 'tango-dark)
+(load-theme 'tsdh-dark)
 
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
