@@ -247,10 +247,10 @@ See `toggle-selective-display' and `increase-selective-display'."
          (yank))
        (next-line)))))
 
-(define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
-(define-key isearch-mode-map (kbd "<C-left>") 'isearch-delete-char)
-(define-key isearch-mode-map (kbd "<C-right>") 'isearch-yank-word-or-char)
+(define-key isearch-mode-map (kbd "<up>") 'isearch-repeat-backward)
+(define-key isearch-mode-map (kbd "<down>") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "<left>") 'isearch-delete-char)
+(define-key isearch-mode-map (kbd "<right>") 'isearch-yank-word-or-char)
 
 (add-hook 'isearch-mode-hook
           (lambda ()
