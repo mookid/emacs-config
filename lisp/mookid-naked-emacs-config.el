@@ -149,6 +149,7 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Setting up unicode"
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
+ (set-face-attribute 'font-lock-keyword-face nil :family "Fixedsys")
  (global-prettify-symbols-mode 1))
 
 (with-message
