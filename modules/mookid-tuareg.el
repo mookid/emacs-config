@@ -26,6 +26,9 @@
   (insert ocaml-stars)
   (newline))
 
+(with-eval-after-load 'tuareg
+  (set-face-attribute 'tuareg-font-lock-operator-face nil :family "Fixedsys"))
+
 (defun define-tuareg-bindings ()
   "Keybindings for tuareg mode."
   (define-key tuareg-mode-map (kbd "C-'") 'tuareg-eval-region)
