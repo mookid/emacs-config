@@ -18,6 +18,7 @@
   (cl-labels ((set-bold (face color)
 			(set-face-attribute face nil
 					    :weight 'semi-light
+                                            :family "DejaVu Sans Mono"
 					    :foreground color))
 	      (symb (kind lvl)
 		    (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
