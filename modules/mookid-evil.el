@@ -80,6 +80,10 @@
 	collect `(define-key ,map ,kbd ,fun))))
 
 (global-set-key (kbd "C-s") 'evil-search-forward)
+(setq evil-move-beyond-eol t)
+
+(define-key evil-motion-state-map (kbd "C-a") 'evil-first-non-blank)
+(define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
 
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
