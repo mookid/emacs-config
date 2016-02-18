@@ -84,6 +84,10 @@
 
 (define-key evil-motion-state-map (kbd "C-a") 'evil-first-non-blank)
 (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
+(define-key evil-normal-state-map (kbd "C-y") 'yank)
+(progn
+  (setcdr evil-insert-state-map nil)
+  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state))
 
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
