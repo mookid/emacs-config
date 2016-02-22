@@ -67,7 +67,15 @@
 (define-key evil-normal-state-map (kbd "`")
   (defun insert-newline () "That's it." (interactive) (newline)))
 
-(define-key evil-visual-state-map (kbd "M-s") 'search-region)
+(defun search-region (beg end)
+  "Search for the text beween BEG and END."
+  (interactive "r")
+  (let ((selection (buffer-substring-no-properties beg end)))
+    (deactivate-mark)
+    (isearch-mode t nil nil nil)
+    (isearch-yank-string selection)))
+
+(define-key evil-visual-state-map (kbd "M-s .") 'search-region)
 
 (defmacro bind-key-non-insert-mode (kbd fun)
   "Binds the `key-binding' KBD to FUN in modes different to insert mode."
