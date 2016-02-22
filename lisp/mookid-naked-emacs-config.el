@@ -265,15 +265,6 @@ See `toggle-selective-display' and `increase-selective-display'."
           (lambda ()
             (face-remap-remove-relative isearch-mode-line-face-remap-cookie)))
 
-(global-set-key (kbd "M-s")
-                (defun search-region (beg end)
-                  "Search for the text beween BEG and END."
-                  (interactive "r")
-                  (let ((selection (buffer-substring-no-properties beg end)))
-                    (deactivate-mark)
-                    (isearch-mode t nil nil nil)
-                    (isearch-yank-string selection))))
-
 (winner-mode 1)
 
 ;; mouse parameters
