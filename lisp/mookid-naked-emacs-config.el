@@ -10,6 +10,8 @@
 
 ;; Set color theme
 (load-theme 'tsdh-dark)
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "coral")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "violet")
 
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
@@ -149,7 +151,6 @@ See `toggle-selective-display' and `increase-selective-display'."
  "Setting up unicode"
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
- (set-face-attribute 'font-lock-keyword-face nil :family "Fixedsys")
  (global-prettify-symbols-mode 1))
 
 (with-message
