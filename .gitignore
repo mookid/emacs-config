@@ -10,7 +10,8 @@ private.el
 places
 abbrev_defs
 recentf
-projectile*
+projectile-bookmarks*
+projectile.cache
 
 *.elc
 bookmarks
