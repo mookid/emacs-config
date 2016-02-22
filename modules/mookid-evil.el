@@ -1,5 +1,4 @@
-;; -*- lexical-binding: t -*-
-;;; mookid-evil.el --- Configuration of emacs that depends on the evil package
+;;; mookid-evil.el --- Configuration of evil ;; -*- lexical-binding: t -*-
 
 ;;; Commentary:
 
@@ -71,7 +70,7 @@
 (define-key evil-visual-state-map (kbd "M-s") 'search-region)
 
 (defmacro bind-key-non-insert-mode (kbd fun)
-  "Binds the key-binding KBD to FUN in modes different to insert mode."
+  "Binds the `key-binding' KBD to FUN in modes different to insert mode."
   `(progn
      ,@(cl-loop
 	for map in '(evil-motion-state-map
@@ -85,6 +84,9 @@
 (define-key evil-motion-state-map (kbd "C-a") 'evil-first-non-blank)
 (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
 (define-key evil-normal-state-map (kbd "C-y") 'yank)
+(define-key evil-normal-state-map (kbd "(") 'backward-paragraph)
+(define-key evil-normal-state-map (kbd ")") 'forward-paragraph)
+
 (progn
   (setcdr evil-insert-state-map nil)
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state))
