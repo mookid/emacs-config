@@ -84,6 +84,7 @@ I add this hook because it seems that some package activates it."
  (tool-bar-mode -1)
  (menu-bar-mode -1)
  (scroll-bar-mode +1)
+ (setq pop-up-windows nil)
  (blink-cursor-mode -1))
 
 (with-message
