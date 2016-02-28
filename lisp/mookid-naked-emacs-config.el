@@ -1,5 +1,4 @@
-;; -*- lexical-binding: t -*-
-;;; mookid-naked-emacs-config.el --- Configuration of naked emacs
+;;; mookid-naked-emacs-config.el --- -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; Configuration of Emacs that does not depend on external packages.
@@ -263,11 +262,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 
 ;; Run Cygwin shell
 (defvar local-cygwin-path "The path to bash on a windows system.")
-(defun cygwin-shell ()
-  "Run cygwin bash in shell mode."
-  (interactive)
-  (let ((explicit-shell-file-name local-cygwin-path))
-    (call-interactively 'shell)))
+(setq-default explicit-shell-file-name local-cygwin-path)
 
 ;; Insert buffer name
 (defun previous-buffer ()
