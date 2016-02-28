@@ -259,8 +259,7 @@ See `toggle-selective-display' and `increase-selective-display'."
 (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
 ;; Run Cygwin shell
-(defvar local-cygwin-path "The path to bash on a windows system.")
-(setq-default explicit-shell-file-name local-cygwin-path)
+(setq-default explicit-shell-file-name "C:/bin/bash")
 
 ;; Insert buffer name
 (defun previous-buffer ()
