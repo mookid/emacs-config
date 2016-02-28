@@ -7,6 +7,9 @@
 (autoload 'with-message "mookid-macros")
 (autoload 'mookid-root-dir "mookid-values")
 
+;; No fringe
+(fringe-mode 0)
+
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
