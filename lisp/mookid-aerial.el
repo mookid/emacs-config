@@ -92,14 +92,6 @@
                     :bold t
                     :background "#dddddd")
 
-(set-face-attribute 'linum nil
-                   :foreground "#cccccc"
-                   :background "#f9f9f9")
-(set-face-attribute 'linum-highlight-face nil
-                   :weight 'medium
-                   :foreground "#555555"
-                   :background "#f0f0f0")
-
 (set-face-attribute 'highlight nil
                     :background "#f5f5ff")
 (set-face-attribute 'font-lock-comment-face nil
