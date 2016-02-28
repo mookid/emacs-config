@@ -27,8 +27,11 @@
   (newline))
 
 (with-eval-after-load 'tuareg
-  (set-face-attribute 'tuareg-font-lock-governing-face nil :family "Fixedsys")
-  (set-face-attribute 'tuareg-font-lock-operator-face nil :family "Fixedsys"))
+  (set-face-attribute 'tuareg-font-lock-governing-face nil
+                      :weight 'bold)
+  (set-face-attribute 'tuareg-font-lock-operator-face nil
+                      :family "Fixedsys"
+                      :weight 'bold))
 
 (defun define-tuareg-bindings ()
   "Keybindings for tuareg mode."
