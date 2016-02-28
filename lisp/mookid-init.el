@@ -8,7 +8,9 @@
 (autoload 'with-title "mookid-macros")
 (autoload 'init-load "mookid-macros")
 
-(with-title "Naked emacs configuration" (require 'mookid-naked-emacs-config))
+(with-title "Naked emacs configuration"
+            (require 'mookid-naked-emacs-config)
+            (require 'mookid-isearch))
 
 ;; evil related packages
 (init-load 'mookid-evil)
