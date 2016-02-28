@@ -14,12 +14,11 @@
             (init-load 'mookid-selective-display)
             (init-load 'mookid-isearch))
 
-;; evil related packages
-(init-load 'mookid-evil)
-(init-load 'mookid-evil-numbers)
-(init-load 'mookid-evil-anzu)
-(init-load 'mookid-evil-surround)
-;; end
+(with-title "Evil configuration"
+	    (init-load 'mookid-evil)
+	    (init-load 'mookid-evil-numbers)
+	    (init-load 'mookid-evil-anzu)
+	    (init-load 'mookid-evil-surround))
 
 (init-load 'mookid-lispy)
 (init-load 'mookid-rainbow)
@@ -39,11 +38,12 @@
 (init-load 'mookid-ace-window)
 (init-load 'mookid-flycheck)
 
-;; ocaml settings
-(init-load 'mookid-tuareg)
-(init-load 'mookid-ocp-indent)
-;; (init-load 'mookid-merlin)
-;; end
+(with-title "OCaml configuration"
+	    ;; ocaml settings
+	    (init-load 'mookid-tuareg)
+	    (init-load 'mookid-ocp-indent)
+	    ;; (init-load 'mookid-merlin)
+	    )
 
 (init-load 'mookid-c)
 
