@@ -7,11 +7,6 @@
 (autoload 'with-message "mookid-macros")
 (autoload 'mookid-root-dir "mookid-values")
 
-;; Set color theme
-(load-theme 'tsdh-dark)
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "coral")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "violet")
-
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
