@@ -11,6 +11,7 @@
 (with-title "Naked emacs configuration"
             (init-load 'mookid-naked-emacs-config)
             (init-load 'mookid-colors)
+            (init-load 'mookid-selective-display)
             (init-load 'mookid-isearch))
 
 ;; evil related packages
