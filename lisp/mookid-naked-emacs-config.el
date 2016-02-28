@@ -246,9 +246,9 @@ See `toggle-selective-display' and `increase-selective-display'."
          (kill-ring-save beg end))
        (comment-or-uncomment-region beg end)
        (when p
-         (next-line)
+         (next-logical-line)
          (yank))
-       (next-line)))))
+       (next-logical-line)))))
 
 (define-key isearch-mode-map (kbd "<up>") 'isearch-repeat-backward)
 (define-key isearch-mode-map (kbd "<down>") 'isearch-repeat-forward)
