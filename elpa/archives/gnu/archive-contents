@@ -153,14 +153,14 @@
 	   ((:keywords "abbrev" "convenience" "matching")
 	    (:url . "http://company-mode.github.io/"))])
  (company-math .
-	       [(1 0 1)
+	       [(1 1)
 		((company
 		  (0 8 0))
 		 (math-symbol-lists
 		  (1 0)))
-		"Completion backends for unicode math symbols and latex tags" single
-		((:url . "https://github.com/vspinu/company-math")
-		 (:keywords "unicode" "symbols" "completion"))])
+		"Completion backends for unicode math symbols and latex tags" tar
+		((:keywords "unicode" "symbols" "completion")
+		 (:url . "https://github.com/vspinu/company-math"))])
  (company-statistics .
 		     [(0 2 2)
 		      ((emacs
@@ -481,10 +481,10 @@
 	     ((:url . "http://elpa.gnu.org/packages/markchars.html")
 	      (:keywords))])
  (math-symbol-lists .
-		    [(1 0)
-		     nil "Lists of Unicode math symbols and latex commands" single
-		     ((:url . "https://github.com/vspinu/math-symbol-lists")
-		      (:keywords "unicode" "symbols" "mathematics"))])
+		    [(1 1)
+		     nil "Lists of Unicode math symbols and latex commands" tar
+		     ((:keywords "unicode" "symbols" "mathematics")
+		      (:url . "https://github.com/vspinu/math-symbol-lists"))])
  (memory-usage .
 	       [(0 2)
 		nil "Analyze the memory usage of Emacs in various ways" single
@@ -582,7 +582,7 @@
 	     ((:url . "https://github.com/michael-heerdegen/on-screen.el")
 	      (:keywords "convenience"))])
  (org .
-      [(20160222)
+      [(20160229)
        nil "Outline-based notes management and organizer" tar nil])
  (osc .
       [(0 1)
