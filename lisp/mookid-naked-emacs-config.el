@@ -207,15 +207,6 @@ I add this hook because it seems that some package activates it."
 
 (winner-mode 1)
 
-;; mouse parameters
-(require 'mouse-copy)
-(global-set-key (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
-(global-set-key (kbd "<C-S-down-mouse-1>") 'mouse-drag-secondary-moving)
-(global-set-key (kbd "<S-mouse-1>") 'mouse-set-mark)
-(setq mouse-drag-copy-region t)
-(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
-(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
-
 ;; Run Cygwin shell
 (setq-default explicit-shell-file-name "C:/bin/bash")
 
@@ -230,11 +221,12 @@ I add this hook because it seems that some package activates it."
 		  (interactive)
 		  (insert (buffer-name (previous-buffer)))))
 
-(global-set-key (kbd "C-M-b")
-		(defun switch-previous-buffer ()
-		  "Switch to the last accessed buffer."
-		  (interactive)
-		  (switch-to-buffer (previous-buffer))))
+(global-set-key (kbd "C-M-b") 'switch-previous-buffer)
+
+(defun switch-previous-buffer ()
+  "Switch to the last accessed buffer."
+  (interactive)
+  (switch-to-buffer (previous-buffer)))
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
