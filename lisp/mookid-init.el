@@ -12,6 +12,7 @@
             (init-load 'mookid-naked-emacs-config)
             (init-load 'mookid-colors)
             (init-load 'mookid-compile)
+            (init-load 'mookid-mouse)
             (init-load 'mookid-selective-display)
             (init-load 'mookid-isearch))
 
