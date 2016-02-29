@@ -191,21 +191,16 @@ I add this hook because it seems that some package activates it."
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (with-eval-after-load 'init
-  (defun duplicate-current-line ()
-    (let* ((beg (line-beginning-position))
-	   (end (line-end-position))
-	   (region (buffer-substring-no-properties beg end)))
-	(goto-char end)
-	(newline)
-	(insert region)))
-
   (defun toggle-line-comment (p)
     "Comment the current line. If P is non nil, also duplicates it."
     (interactive "P")
     (let ((beg (line-beginning-position))
-	  (end (line-end-position))
-	  region)
-      (when p (duplicate-current-line))
+	  (end (line-end-position)))
+      (when p
+	(let ((region (buffer-substring-no-properties beg end)))
+	  (goto-char end)
+	  (newline)
+	  (insert region)))
       (comment-or-uncomment-region beg end)))
 
   (global-set-key (kbd "C-M-;") 'toggle-line-comment))
