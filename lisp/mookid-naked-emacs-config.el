@@ -84,19 +84,6 @@ I add this hook because it seems that some package activates it."
  (setq pop-up-windows nil)
  (blink-cursor-mode -1))
 
-(with-message
- "Compilation settings"
- (setq compilation-ask-about-save nil)
- (setq-default compilation-always-kill t)
- (setq-default compilation-scroll-output 'first-error)
- ;; disable it for grep mode:
- (defun disable-jump-to-error ()
-   (kill-local-variable 'compilation-auto-jump-to-next))
- (add-hook 'grep-mode-hook 'disable-jump-to-error)
- (global-set-key (kbd "<f12>") 'recompile)
- (global-set-key (kbd "C-<prior>") 'previous-error)
- (global-set-key (kbd "C-<next>") 'next-error))
-
 ;; Save history between sessions
 (setq-default savehist-file
 	      (expand-file-name "savehist" mookid-root-dir))
