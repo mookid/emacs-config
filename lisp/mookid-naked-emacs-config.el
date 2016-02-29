@@ -92,7 +92,7 @@ I add this hook because it seems that some package activates it."
 (setq history-delete-duplicates t)
 (setq-default savehist-save-minibuffer-history t)
 (setq-default savehist-additional-variables
-              '(kill-ring search-ring regexp-search-ring))
+	      '(kill-ring search-ring regexp-search-ring))
 
 (with-message
  "Configuring parenthesis settings"
@@ -191,19 +191,24 @@ I add this hook because it seems that some package activates it."
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (with-eval-after-load 'init
-  (global-set-key
-   (kbd "C-M-;")
-   (defun toggle-line-comment (p)
-     (interactive "P")
-     (let ((beg (line-beginning-position))
-           (end (line-end-position)))
-       (when p
-         (kill-ring-save beg end))
-       (comment-or-uncomment-region beg end)
-       (when p
-         (next-logical-line)
-         (yank))
-       (next-logical-line)))))
+  (defun duplicate-current-line ()
+    (let* ((beg (line-beginning-position))
+	   (end (line-end-position))
+	   (region (buffer-substring-no-properties beg end)))
+	(goto-char end)
+	(newline)
+	(insert region)))
+
+  (defun toggle-line-comment (p)
+    "Comment the current line. If P is non nil, also duplicates it."
+    (interactive "P")
+    (let ((beg (line-beginning-position))
+	  (end (line-end-position))
+	  region)
+      (when p (duplicate-current-line))
+      (comment-or-uncomment-region beg end)))
+
+  (global-set-key (kbd "C-M-;") 'toggle-line-comment))
 
 (winner-mode 1)
 
