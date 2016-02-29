@@ -11,6 +11,7 @@
 (with-title "Naked emacs configuration"
             (init-load 'mookid-naked-emacs-config)
             (init-load 'mookid-colors)
+            (init-load 'mookid-compile)
             (init-load 'mookid-selective-display)
             (init-load 'mookid-isearch))
 
@@ -41,7 +42,7 @@
 (with-title "OCaml configuration"
 	    ;; ocaml settings
 	    (init-load 'mookid-tuareg)
-	    (init-load 'mookid-ocp-indent)
+	    ;; (init-load 'mookid-ocp-indent)
 	    ;; (init-load 'mookid-merlin)
 	    )
 
