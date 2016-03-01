@@ -201,7 +201,9 @@ I add this hook because it seems that some package activates it."
 	  (goto-char end)
 	  (newline)
 	  (insert region)))
-      (comment-or-uncomment-region beg end)))
+      (comment-or-uncomment-region beg end)
+      (unless p
+        (next-logical-line))))
 
   (global-set-key (kbd "C-M-;") 'toggle-line-comment))
 
