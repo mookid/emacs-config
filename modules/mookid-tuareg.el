@@ -33,6 +33,7 @@
                       :foreground "orange")
   (set-face-attribute 'tuareg-font-lock-operator-face nil
                       :family "Fixedsys"
+		      :foreground "ivory1"
                       :weight 'bold))
 
 (defun define-tuareg-bindings ()
