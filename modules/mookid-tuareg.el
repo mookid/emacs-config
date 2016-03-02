@@ -30,7 +30,7 @@
   (set-face-attribute 'tuareg-font-lock-governing-face nil
                       :weight 'bold)
   (set-face-attribute 'tuareg-font-lock-module-face nil
-                      :foreground "orange")
+                      :foreground "pink")
   (set-face-attribute 'tuareg-font-lock-operator-face nil
                       :family "Fixedsys"
 		      :foreground "ivory1"
