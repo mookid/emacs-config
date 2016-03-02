@@ -18,6 +18,7 @@
 
 (with-title "Evil configuration"
 	    (init-load 'mookid-evil)
+	    (init-load 'mookid-evil-nerd-commenter)
 	    (init-load 'mookid-evil-numbers)
 	    (init-load 'mookid-evil-anzu)
 	    (init-load 'mookid-evil-surround))
