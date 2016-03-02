@@ -190,23 +190,6 @@ I add this hook because it seems that some package activates it."
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(with-eval-after-load 'init
-  (defun toggle-line-comment (p)
-    "Comment the current line. If P is non nil, also duplicates it."
-    (interactive "P")
-    (let ((beg (line-beginning-position))
-	  (end (line-end-position)))
-      (when p
-	(let ((region (buffer-substring-no-properties beg end)))
-	  (goto-char end)
-	  (newline)
-	  (insert region)))
-      (comment-or-uncomment-region beg end)
-      (unless p
-        (next-logical-line))))
-
-  (global-set-key (kbd "C-M-;") 'toggle-line-comment))
-
 (winner-mode 1)
 
 ;; Run Cygwin shell
