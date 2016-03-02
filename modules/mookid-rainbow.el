@@ -13,12 +13,11 @@
                     :foreground "red"
                     :inherit 'error
                     :box t)
-(let ((colors '(green violet tomato))
+(let ((colors '("spring green" "orange" "pale violet red"))
       (kinds '(delimiters blocks)))
   (cl-labels ((set-bold (face color)
 			(set-face-attribute face nil
 					    :weight 'semi-light
-                                            :family "DejaVu Sans Mono"
 					    :foreground color))
 	      (symb (kind lvl)
 		    (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
@@ -31,7 +30,7 @@
      with ncolors = (length colors)
      for lvl from 1 upto 9
      for icolor = (mod (- lvl 1) ncolors)
-     do (set-level lvl (symbol-name (nth icolor colors))))))
+     do (set-level lvl (nth icolor colors)))))
 
 (provide 'mookid-rainbow)
 ;;; mookid-rainbow.el ends here
