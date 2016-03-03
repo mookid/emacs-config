@@ -105,8 +105,10 @@ I add this hook because it seems that some package activates it."
 
 (with-message
  "Setting up unicode"
+ (defvar default-font nil "The font used almost everywhere.")
+ (setq default-font "Source Code Pro Light 11")
  (set-default-coding-systems 'utf-8)
- (add-to-list 'default-frame-alist '(font . "Source Code Pro Light 11"))
+ (add-to-list 'default-frame-alist `(font . ,default-font))
  (global-prettify-symbols-mode 1))
 
 (with-message
