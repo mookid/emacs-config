@@ -8,8 +8,11 @@
 (require 'rainbow-delimiters)
 (require 'rainbow-blocks)
 
+(autoload 'default-font "mookid-naked-emacs-config")
+
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+					    :family default-font
                     :foreground "red"
                     :inherit 'error
                     :box t)
@@ -17,6 +20,7 @@
       (kinds '(delimiters blocks)))
   (cl-labels ((set-bold (face color)
 			(set-face-attribute face nil
+					    :family default-font
 					    :weight 'semi-light
 					    :foreground color))
 	      (symb (kind lvl)
