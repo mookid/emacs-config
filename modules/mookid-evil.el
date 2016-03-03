@@ -41,11 +41,11 @@
 
 (customize
  (insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
- (motion . ((:color . SteelBlue) (:foreground . black) (:cursor-shape . box)))
+ (motion . ((:color . cyan) (:foreground . black) (:cursor-shape . box)))
  (replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))
  (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
  (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
- (normal . ((:color . SteelBlue) (:foreground . white) (:cursor-shape . box))))
+ (normal . ((:color . cyan) (:foreground . black) (:cursor-shape . box))))
 
 (defalias 'evil-previous-line 'evil-previous-visual-line)
 (defalias 'evil-next-line 'evil-next-visual-line)
