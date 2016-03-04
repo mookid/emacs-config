@@ -16,9 +16,28 @@
 ;; Start with a blank scratch buffer
 (setq initial-scratch-message nil)
 
-;; Use the frame title
-(setq frame-title-format
-      '("%S " (buffer-file-name "%f" (dired-directory dired-directory "%b"))))
+(with-message
+ "Set header line format"
+ (make-face 'mode-line-folder-face)
+ (make-face 'mode-line-filename-face)
+
+ (set-face-attribute 'mode-line-folder-face nil
+		     :inherit 'font-lock-comment-face)
+ (set-face-attribute 'mode-line-filename-face nil
+		     :foreground "deep pink"
+		     :weight 'bold)
+
+ (setq-default header-line-format
+	       (list
+		"  "
+		'(:propertize
+		  (:eval (when buffer-file-name default-directory))
+		  face mode-line-folder-face)
+		'(:propertize "%b" face mode-line-filename-face)
+		" %n "
+		'(vc-mode vc-mode)
+		"  "
+		"%-")))
 
 ;; No transient mark mode; use visual mode of evil instead
 (defun disable-transient-mark ()
