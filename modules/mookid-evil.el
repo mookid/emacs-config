@@ -47,6 +47,42 @@
  (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
  (normal . ((:color . cyan) (:foreground . black) (:cursor-shape . box))))
 
+
+(make-face 'mode-line-evil-insert-face)
+(make-face 'mode-line-evil-motion-face)
+(make-face 'mode-line-evil-replace-face)
+(make-face 'mode-line-evil-emacs-face)
+(make-face 'mode-line-evil-visual-face)
+(make-face 'mode-line-evil-normal-face)
+
+(set-face-attribute 'mode-line-evil-insert-face nil
+		    :inherit 'mode-line-face
+		    :background "red"
+		    :foreground "white")
+
+(set-face-attribute 'mode-line-evil-normal-face nil
+		    :inherit 'mode-line-face
+		    :background "cyan"
+		    :foreground "black")
+
+(set-face-attribute 'mode-line-evil-replace-face nil
+		    :inherit 'mode-line-face
+		    :background "deep pink"
+		    :foreground "black")
+
+(set-face-attribute 'mode-line-evil-emacs-face nil
+		    :inherit 'mode-line-face
+		    :background "black"
+		    :foreground "white")
+
+(set-face-attribute 'mode-line-evil-visual-face nil
+		    :inherit 'mode-line-face
+		    :background "lawn green"
+		    :foreground "black")
+
+(set-face-attribute 'mode-line-evil-motion-face nil
+		    :inherit 'mode-line-evil-normal-face)
+
 (defalias 'evil-previous-line 'evil-previous-visual-line)
 (defalias 'evil-next-line 'evil-next-visual-line)
 
