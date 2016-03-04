@@ -34,10 +34,21 @@
 		  (:eval (when buffer-file-name default-directory))
 		  face mode-line-folder-face)
 		'(:propertize "%b" face mode-line-filename-face)
-		" %n "
+		"%n"
 		'(vc-mode vc-mode)
 		"  "
 		"%-")))
+
+(with-message
+ "Set mode line format"
+ (with-eval-after-load 'mookid-evil
+   (setq-default mode-line-format
+		 (list
+		  "  "
+		  mode-line-position
+		  mode-line-modes
+		  mode-line-misc-info
+		  "%-"))))
 
 ;; No transient mark mode; use visual mode of evil instead
 (defun disable-transient-mark ()
