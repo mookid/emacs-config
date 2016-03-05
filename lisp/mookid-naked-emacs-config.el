@@ -50,14 +50,6 @@
 		  mode-line-misc-info
 		  "%-"))))
 
-;; No transient mark mode; use visual mode of evil instead
-(defun disable-transient-mark ()
-  "Disable transient mode.
-
-I add this hook because it seems that some package activates it."
-  (transient-mark-mode -1))
-(add-hook 'after-init-hook 'disable-transient-mark)
-
 ;; Easy switch from one window to another
 (windmove-default-keybindings)
 
