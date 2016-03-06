@@ -173,30 +173,29 @@
  (defun toggle-window-split ()
    "When there are two windows, convert horizontal to vertical and vice versa."
    (interactive)
-   (cond ((not (= (count-windows) 2))
-	  (message "You need exactly 2 windows to do this."))
-	 (t
-	  (let* ((this-win-buffer (window-buffer))
-		 (next-win-buffer (window-buffer (next-window)))
-		 (this-win-edges (window-edges (selected-window)))
-		 (next-win-edges (window-edges (next-window)))
-		 (this-win-2nd (not (and (<= (car this-win-edges)
-					     (car next-win-edges))
-					 (<= (cadr this-win-edges)
-					     (cadr next-win-edges)))))
-		 (splitter
-		  (if (= (car this-win-edges)
-			 (car next-win-edges))
-		      'split-window-horizontally
-		    'split-window-vertically)))
-	    (delete-other-windows)
-	    (let ((first-win (selected-window)))
-	      (funcall splitter)
-	      (when this-win-2nd (other-window 1))
-	      (set-window-buffer (selected-window) this-win-buffer)
-	      (set-window-buffer (next-window) next-win-buffer)
-	      (select-window first-win)
-	      (when this-win-2nd (other-window 1))))))))
+   (or (not (= (count-windows) 2))
+       (error "You need exactly 2 windows to do this."))
+   (let* ((this-win-buffer (window-buffer))
+	  (next-win-buffer (window-buffer (next-window)))
+	  (this-win-edges (window-edges (selected-window)))
+	  (next-win-edges (window-edges (next-window)))
+	  (this-win-2nd (not (and (<= (car this-win-edges)
+				      (car next-win-edges))
+				  (<= (cadr this-win-edges)
+				      (cadr next-win-edges)))))
+	  (splitter
+	   (if (= (car this-win-edges)
+		  (car next-win-edges))
+	       'split-window-horizontally
+	     'split-window-vertically)))
+     (delete-other-windows)
+     (let ((first-win (selected-window)))
+       (funcall splitter)
+       (when this-win-2nd (other-window 1))
+       (set-window-buffer (selected-window) this-win-buffer)
+       (set-window-buffer (next-window) next-win-buffer)
+       (select-window first-win)
+       (when this-win-2nd (other-window 1))))))
 
 (with-message
  "Setting up the order for recenter-top-bottom"
