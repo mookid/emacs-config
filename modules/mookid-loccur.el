@@ -5,7 +5,7 @@
 ;;; Code:
 (require 'loccur)
 
-(global-set-key (kbd "M-s p") 'loccur-current)
+(global-set-key (kbd "M-s M-s") 'loccur-current)
 
 (provide 'mookid-loccur)
 ;;; mookid-loccur.el ends here
