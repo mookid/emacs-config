@@ -8,15 +8,5 @@
 (define-key isearch-mode-map (kbd "<left>") 'isearch-delete-char)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-yank-word-or-char)
 
-(add-hook 'isearch-mode-hook
-          (lambda ()
-            (set (make-local-variable 'isearch-mode-line-face-remap-cookie)
-                 (face-remap-add-relative
-                  'mode-line '((:foreground "black" :background "orange")
-			       mode-line)))))
-
-(add-hook 'isearch-mode-end-hook
-          (lambda ()
-            (face-remap-remove-relative isearch-mode-line-face-remap-cookie)))
 (provide 'mookid-isearch)
 ;;; mookid-isearch.el ends here
