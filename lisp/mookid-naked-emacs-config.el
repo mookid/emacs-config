@@ -128,7 +128,7 @@
 (with-message
  "Setting up unicode"
  (defvar default-font nil "The font used almost everywhere.")
- (setq default-font "Source Code Pro Light 11")
+ (setq default-font "Source Code Pro Light")
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist `(font . ,default-font))
  (global-prettify-symbols-mode 1))
