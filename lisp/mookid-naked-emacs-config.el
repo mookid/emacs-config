@@ -173,7 +173,7 @@
  (defun toggle-window-split ()
    "When there are two windows, convert horizontal to vertical and vice versa."
    (interactive)
-   (or (not (= (count-windows) 2))
+   (or (= (count-windows) 2)
        (error "You need exactly 2 windows to do this."))
    (let* ((this-win-buffer (window-buffer))
 	  (next-win-buffer (window-buffer (next-window)))
