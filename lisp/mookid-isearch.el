@@ -8,6 +8,9 @@
 (define-key isearch-mode-map (kbd "<left>") 'isearch-delete-char)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-yank-word-or-char)
 
+(define-key isearch-mode-map (kbd "TAB") 'isearch-complete)
+(define-key minibuffer-local-isearch-map (kbd "TAB") 'isearch-complete-edit)
+
 (define-key isearch-mode-map "\M-<" 'isearch-beginning-of-buffer)
 (define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
 
