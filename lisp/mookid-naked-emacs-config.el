@@ -265,5 +265,23 @@ already narrowed."
 
 (global-set-key (kbd "C-x n n") 'narrow-or-widen-dwim)
 
+(defun substitute-regexp (substitution)
+  "Use s/old/new/g regexp syntax for `query-replace'."
+  (interactive
+   (list
+    (read-from-minibuffer "Substitute regexp: " '("s///g" . 3) nil nil
+                          'query-replace-history nil t)))
+  (if (string-match "^s/\\(.*\\)/\\(.*\\)/\\([gi]*\\)" substitution)
+      (let* ((sregex (match-string 1 substitution))
+             (ssubst (match-string 2 substitution))
+             (sflags (match-string 3 substitution))
+             (case-fold-search (string-match "i" sflags)))
+        (perform-replace
+         sregex ssubst (string-match "g" sflags)
+         t nil nil nil
+         (if (and transient-mark-mode mark-active) (region-beginning))
+         (if (and transient-mark-mode mark-active) (region-end))))
+    (error "Invalid syntax")))
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
