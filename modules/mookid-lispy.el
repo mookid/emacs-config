@@ -14,7 +14,6 @@
 
 (defun lispy-on () "Turn lispy mode on." (lispy-mode 1))
 
-(global-set-key (kbd "M-r") 'lispy-raise-sexp)
 (add-hook 'lisp-mode-hook 'lispy-on)
 (add-hook 'emacs-lisp-mode-hook 'lispy-on)
 (add-hook 'lisp-interaction-mode-hook 'lispy-on)

@@ -16,6 +16,8 @@
 ;; Start with a blank scratch buffer
 (setq initial-scratch-message nil)
 
+(global-set-key (kbd "M-r") 'raise-sexp)
+
 (with-message
  "Set header line format"
  (make-face 'mode-line-folder-face)
