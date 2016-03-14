@@ -26,5 +26,14 @@
   (goto-char (point-max))
   (isearch-repeat-backward))
 
+;; Wrap without failing
+(defadvice isearch-repeat (after isearch-no-fail activate)
+  (unless isearch-success
+    (ad-disable-advice 'isearch-repeat 'after 'isearch-no-fail)
+    (ad-activate 'isearch-repeat)
+    (isearch-repeat (if isearch-forward 'forward))
+    (ad-enable-advice 'isearch-repeat 'after 'isearch-no-fail)
+    (ad-activate 'isearch-repeat)))
+
 (provide 'mookid-isearch)
 ;;; mookid-isearch.el ends here
