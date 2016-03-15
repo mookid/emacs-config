@@ -16,5 +16,12 @@
 
 (set-face-attribute 'error nil :foreground "deep pink")
 
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "white")
+(set-face-attribute 'font-lock-type-face nil :foreground "white")
+(set-face-attribute 'font-lock-string-face nil :foreground "pale green")
+(set-face-attribute 'font-lock-builtin-face nil :foreground "lavender")
+(set-face-attribute 'font-lock-constant-face nil :foreground "light sky blue")
+
 (provide 'mookid-colors)
 ;;; mookid-colors.el ends here
