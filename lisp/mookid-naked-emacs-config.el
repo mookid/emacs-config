@@ -285,8 +285,7 @@ already narrowed."
 
 (require dired-x)
 (with-eval-after-load 'evil
-  (define-key evil-normal-state-map (kbd "g j") 'dired-jump)
-  (define-key dired-mode-map (kbd "j") 'dired-find-file))
+  (define-key evil-normal-state-map (kbd "g j") 'dired-jump))
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
