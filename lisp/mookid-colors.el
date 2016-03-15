@@ -14,5 +14,7 @@
 	    (set-face-foreground face *default-light-color*)))
 	(face-list)))
 
+(set-face-attribute 'error nil :foreground "deep pink")
+
 (provide 'mookid-colors)
 ;;; mookid-colors.el ends here
