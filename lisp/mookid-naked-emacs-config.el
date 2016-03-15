@@ -224,11 +224,11 @@
   "The previous buffer accessed."
   (other-buffer (current-buffer) 1))
 
-(global-set-key (kbd "C-c C-v")
-		(defun insert-buffer-name ()
+(defun insert-buffer-name ()
 		  "Insert the previous buffer name. Usefull for compilation."
 		  (interactive)
-		  (insert (buffer-name (previous-buffer)))))
+		  (insert (buffer-name (previous-buffer))))
+(global-set-key (kbd "C-c C-v") 'insert-buffer-name)
 
 (global-set-key (kbd "C-M-b") 'switch-previous-buffer)
 
