@@ -7,9 +7,6 @@
 (autoload 'with-message "mookid-macros")
 (autoload 'mookid-root-dir "mookid-values")
 
-;; No fringe
-(fringe-mode 0)
-
 ;; Remove silly message
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
@@ -52,14 +49,8 @@
 		  mode-line-misc-info
 		  "%-"))))
 
-;; Easy switch from one window to another
-(windmove-default-keybindings)
-
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
-
-;; Fixed size mini-window
-(setq resize-mini-windows nil)
 
 ;; Default behaviour for newlines
 (setq require-final-newline t)
@@ -69,7 +60,6 @@
 (setq inhibit-startup-message t)
 
 ;; Move backup files to a subdirectory of the root directory
-(defvar mookid-root-dir)
 (setq backup-directory-alist
       `(("." . ,(expand-file-name "backups" mookid-root-dir))))
 
@@ -101,12 +91,14 @@
 
 (with-message
  "Remove gui elements"
- (tooltip-mode -1)
- (tool-bar-mode -1)
- (menu-bar-mode -1)
- (scroll-bar-mode -1)
- (setq pop-up-windows nil)
- (blink-cursor-mode -1))
+ (and (fboundp 'fringe-mode) (fringe-mode 0))
+ (and (fboundp 'tooltip-mode) (tooltip-mode -1))
+ (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+ (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+ (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+ (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
+ (setq pop-up-windows nil))
+
 
 ;; Save history between sessions
 (setq-default savehist-file
