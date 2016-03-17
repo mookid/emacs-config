@@ -50,7 +50,9 @@
 	    ;; (init-load 'mookid-merlin)
 	    )
 
-(init-load 'mookid-c)
+(with-title "C configuration"
+	    (init-load 'mookid-c)
+	    (init-load 'mookid-clang-format))
 
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
