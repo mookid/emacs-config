@@ -3,7 +3,7 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'magit)
+(autoload 'magit-status "magit")
 
 (global-set-key (kbd "<f7>") 'magit-status)
 (provide 'mookid-magit)
