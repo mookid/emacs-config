@@ -18,8 +18,7 @@
   (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
   (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
   (define-key c-mode-base-map (kbd "C-c =") 'c-insert-stars)
-  (setq-default indent-tabs-mode nil)
-  (require 'clang-format))
+  (setq-default indent-tabs-mode nil))
 
 (add-hook 'c-initialization-hook 'c-setup)
 
