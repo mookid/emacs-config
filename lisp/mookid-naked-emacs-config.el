@@ -16,34 +16,20 @@
 (global-set-key (kbd "M-r") 'raise-sexp)
 
 (with-message
- "Set header line format"
- (make-face 'mode-line-folder-face)
- (make-face 'mode-line-filename-face)
-
- (set-face-attribute 'mode-line-folder-face nil
-		     :inherit 'font-lock-comment-face)
- (set-face-attribute 'mode-line-filename-face nil
-		     :foreground "deep pink"
-		     :weight 'bold)
-
- (setq-default header-line-format
-	       (list
-		"  "
-		'(:propertize
-		  (:eval (when buffer-file-name default-directory))
-		  face mode-line-folder-face)
-		'(:propertize "%b" face mode-line-filename-face)
-		"%n"
-		'(vc-mode vc-mode)
-		"  "
-		"%-")))
-
-(with-message
  "Set mode line format"
  (with-eval-after-load 'mookid-evil
+   (make-face 'mode-line-folder-face)
+   (make-face 'mode-line-filename-face)
+   (set-face-attribute 'mode-line-filename-face nil
+		       :weight 'bold)
    (setq-default mode-line-format
 		 (list
 		  "  "
+		  '(:propertize
+		    (:eval (when buffer-file-name default-directory))
+		    face mode-line-folder-face)
+		  '(:propertize "%b" face mode-line-filename-face)
+		  "%n  "
 		  mode-line-position
 		  mode-line-modes
 		  mode-line-misc-info
