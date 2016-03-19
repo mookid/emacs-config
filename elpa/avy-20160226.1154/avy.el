@@ -4,7 +4,7 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/avy
-;; Package-Version: 20160316.548
+;; Package-Version: 20160226.1154
 ;; Version: 0.4.0
 ;; Package-Requires: ((emacs "24.1") (cl-lib "0.5"))
 ;; Keywords: point, location
@@ -157,17 +157,9 @@ When nil, punctuation chars will not be matched.
 \"[!-/:-@[-`{-~]\" will match all printable punctuation chars."
   :type 'regexp)
 
-(defcustom avy-goto-word-0-regexp "\\b\\sw"
-  "Regexp that determines positions for `avy-goto-word-0'."
-  :type '(choice
-          (const :tag "Default" "\\b\\sw")
-          (const :tag "Not whitespace" "[^ \r\n\t]+")
-          (regexp :tag "Regex")))
-
 (defcustom avy-ignored-modes '(image-mode doc-view-mode pdf-view-mode)
   "List of modes to ignore when searching for candidates.
-Typically, these modes don't use the text representation."
-  :type 'list)
+Typically, these modes don't use the text representation.")
 
 (defvar avy-ring (make-ring 20)
   "Hold the window and point history.")
@@ -354,15 +346,12 @@ KEYS is the path from the root of `avy-tree' to LEAF."
 (defun avy-handler-default (char)
   "The default handler for a bad CHAR."
   (let (dispatch)
-    (cond ((setq dispatch (assoc char avy-dispatch-alist))
-           (setq avy-action (cdr dispatch))
-           (throw 'done 'restart))
-          ((memq char '(27 ?\C-g))
-           ;; exit silently
-           (throw 'done 'exit))
-          (t
-           (signal 'user-error (list "No such candidate" char))
-           (throw 'done nil)))))
+    (if (setq dispatch (assoc char avy-dispatch-alist))
+        (progn
+          (setq avy-action (cdr dispatch))
+          (throw 'done 'restart))
+      (signal 'user-error (list "No such candidate" char))
+      (throw 'done nil))))
 
 (defvar avy-handler-function 'avy-handler-default
   "A function to call for a bad `read-key' in `avy-read'.")
@@ -964,7 +953,7 @@ The window scope is determined by `avy-all-windows' (ARG negates it)."
 The window scope is determined by `avy-all-windows' (ARG negates it)."
   (interactive "P")
   (avy-with avy-goto-word-0
-    (avy--generic-jump avy-goto-word-0-regexp arg avy-style)))
+    (avy--generic-jump "\\b\\sw" arg avy-style)))
 
 ;;;###autoload
 (defun avy-goto-word-1 (char &optional arg)
@@ -1095,12 +1084,11 @@ Otherwise, forward to `goto-line' with ARG."
         (goto-char (point-min))
         (forward-line (1- arg)))
     (avy-with avy-goto-line
-      (let* ((avy-handler-old avy-handler-function)
-             (avy-handler-function
+      (let* ((avy-handler-function
               (lambda (char)
                 (if (or (< char ?0)
                         (> char ?9))
-                    (funcall avy-handler-old char)
+                    (avy-handler-default char)
                   (let ((line (read-from-minibuffer
                                "Goto line: " (string char))))
                     (when line
@@ -1229,8 +1217,7 @@ The window scope is determined by `avy-all-windows' or
     '(define-key isearch-mode-map (kbd "C-'") 'avy-isearch)))
 
 (defcustom avy-timeout-seconds 0.5
-  "How many seconds to wait for the second char."
-  :type 'float)
+  "How many seconds to wait for the second char.")
 
 (defun avy--read-candidates ()
   "Read as many chars as possible and return their occurences.
