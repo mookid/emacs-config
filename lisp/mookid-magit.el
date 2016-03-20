@@ -6,5 +6,9 @@
 (autoload 'magit-status "magit")
 
 (global-set-key (kbd "<f7>") 'magit-status)
+
+(require 'fullframe)
+(fullframe magit-status magit-mode-quit-window)
+
 (provide 'mookid-magit)
 ;;; mookid-magit.el ends here
