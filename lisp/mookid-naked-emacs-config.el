@@ -198,23 +198,11 @@
 ;; Run Cygwin shell
 (setq-default explicit-shell-file-name "C:/bin/bash")
 
-;; Insert buffer name
-(defun previous-buffer ()
-  "The previous buffer accessed."
-  (other-buffer (current-buffer) 1))
-
 (defun insert-buffer-name ()
   "Insert the previous buffer name. Usefull for compilation."
   (interactive)
-  (insert (buffer-name (previous-buffer))))
+  (insert (buffer-name (other-buffer (current-buffer) 1))))
 (global-set-key (kbd "C-c C-v") 'insert-buffer-name)
-
-(global-set-key (kbd "C-M-b") 'switch-previous-buffer)
-
-(defun switch-previous-buffer ()
-  "Switch to the last accessed buffer."
-  (interactive)
-  (switch-to-buffer (previous-buffer)))
 
 ;; from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html:
 (defun narrow-or-widen-dwim (p)
