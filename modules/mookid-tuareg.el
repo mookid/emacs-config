@@ -24,7 +24,7 @@
   "Keybindings for tuareg mode."
   (define-key tuareg-mode-map (kbd "C-'") 'tuareg-eval-region)
   (define-key tuareg-mode-map (kbd "C-c =") 'tuareg-insert-stars))
-(add-hook 'tuareg-mode-hook 'remove-some-prettifiers)
+
 (add-hook 'tuareg-mode-hook 'define-tuareg-bindings)
 (with-eval-after-load 'evil
   (setq-default evil-shift-width 2))
