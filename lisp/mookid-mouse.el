@@ -16,9 +16,8 @@
 (defun click-to-isearch (click)
   "Start `isearch-forward-symbol-at-point' on CLICK."
   (interactive "e")
-  (let ((p1 (posn-point (event-start click))))
-    (goto-char p1)
-    (isearch-forward-symbol-at-point)))
+  (goto-char (posn-point (event-start click)))
+  (isearch-forward-symbol-at-point))
 
 (global-set-key (kbd "<mouse-3>") 'click-to-isearch)
 
