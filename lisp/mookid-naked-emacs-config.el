@@ -98,7 +98,6 @@
 
 (with-message
  "Configuring parenthesis settings"
- ;; (require 'paren)
  (electric-pair-mode t)
  (setq-default electric-pair-pairs '((?\{ . ?\})))
  (show-paren-mode t)
@@ -125,30 +124,14 @@
  (define-key input-decode-map (kbd ")") (kbd "]"))
  (define-key input-decode-map (kbd "]") (kbd ")")))
 
-;; unbind all keybindings starting with f2
-(cl-dolist (keystr '("<f2> 2" "<f2> b" "<f2> s"))
-  (global-unset-key (kbd keystr)))
-
 (with-message
  "Window switch bindings"
+ ;; unbind all keybindings starting with f2
+ (cl-dolist (keystr '("<f2> 2" "<f2> b" "<f2> s"))
+   (global-unset-key (kbd keystr)))
+
  (with-eval-after-load 'init
-   (global-set-key (kbd "C-M-`") 'swap-windows)
    (global-set-key (kbd "<f2> <f2>") 'toggle-window-split))
- (defun swap-windows ()
-   "If you have 2 windows, it swaps them."
-   (interactive)
-   (or (= (count-windows) 2)
-       (error "You need exactly 2 windows to do this."))
-   (let* ((w1 (car (window-list)))
-	  (w2 (cadr (window-list)))
-	  (b1 (window-buffer w1))
-	  (b2 (window-buffer w2))
-	  (s1 (window-start w1))
-	  (s2 (window-start w2)))
-     (set-window-buffer w1 b2)
-     (set-window-buffer w2 b1)
-     (set-window-start w1 s2)
-     (set-window-start w2 s1)))
 
  (defun toggle-window-split ()
    "When there are two windows, convert horizontal to vertical and vice versa."
