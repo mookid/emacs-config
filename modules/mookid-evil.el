@@ -123,17 +123,22 @@
 	collect `(define-key ,map ,kbd ,fun))))
 
 (global-set-key (kbd "C-s") 'evil-search-forward)
-(setq evil-move-beyond-eol t)
 
+;; set insert mode = emacs mode
+(setq evil-move-beyond-eol t)
 (define-key evil-motion-state-map (kbd "C-a") 'evil-first-non-blank)
 (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
 (define-key evil-normal-state-map (kbd "C-y") 'yank)
 (define-key evil-normal-state-map (kbd "(") 'backward-paragraph)
 (define-key evil-normal-state-map (kbd ")") 'forward-paragraph)
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
 
-(progn
-  (setcdr evil-insert-state-map nil)
-  (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state))
+;; dired settings
+(require 'dired)
+(define-key evil-normal-state-map (kbd "g j") 'dired-jump)
+(define-key dired-mode-map (kbd "j") 'dired-jump)
+(evil-set-initial-state 'dired-mode 'emacs)
 
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
