@@ -30,10 +30,9 @@
 (init-load 'mookid-company)
 (init-load 'mookid-elisp-slime-nav)
 
-;; ivy related packages
-(init-load 'mookid-ivy)
-(init-load 'mookid-projectile)
-;; end
+(with-title "Ivy configuration"
+	    (init-load 'mookid-ivy)
+	    (init-load 'mookid-projectile))
 
 (init-load 'mookid-smooth-scrolling)
 (init-load 'mookid-slime)
