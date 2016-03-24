@@ -98,7 +98,8 @@
     "Call ex with the external command prefix."
     (interactive) (evil-ex "%!")))
 
-(define-key evil-normal-state-map (kbd "g m") 'evil-goto-mark)
+(define-key evil-normal-state-map (kbd "l") 'evil-repeat-find-char)
+(define-key evil-normal-state-map (kbd ";") 'evil-ex)
 
 (define-key evil-normal-state-map (kbd "`")
   (defun insert-newline () "That's it." (interactive) (newline)))
