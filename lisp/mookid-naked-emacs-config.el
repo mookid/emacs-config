@@ -98,7 +98,7 @@
 
 (with-message
  "Configuring parenthesis settings"
- (require 'paren)
+ ;; (require 'paren)
  (electric-pair-mode t)
  (setq-default electric-pair-pairs '((?\{ . ?\})))
  (show-paren-mode t)
@@ -182,14 +182,15 @@
  (setq recenter-positions '(top middle bottom)))
 
 ;; Mark dired-ignored
-(require 'dired)
-(set-face-attribute 'dired-ignored nil
-		    :strike-through t
-		    :foreground "green")
+(with-eval-after-load 'dired
+  (set-face-attribute 'dired-ignored nil
+		      :strike-through t
+		      :foreground "green"))
 
 ;; Wrap long lines
 (global-visual-line-mode 1)
 
+;; Use ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (winner-mode 1)
@@ -203,9 +204,9 @@
   (other-buffer (current-buffer) 1))
 
 (defun insert-buffer-name ()
-		  "Insert the previous buffer name. Usefull for compilation."
-		  (interactive)
-		  (insert (buffer-name (previous-buffer))))
+  "Insert the previous buffer name. Usefull for compilation."
+  (interactive)
+  (insert (buffer-name (previous-buffer))))
 (global-set-key (kbd "C-c C-v") 'insert-buffer-name)
 
 (global-set-key (kbd "C-M-b") 'switch-previous-buffer)
@@ -248,20 +249,21 @@ already narrowed."
   (interactive
    (list
     (read-from-minibuffer "Substitute regexp: " '("s///g" . 3) nil nil
-                          'query-replace-history nil t)))
+			  'query-replace-history nil t)))
   (if (string-match "^s/\\(.*\\)/\\(.*\\)/\\([gi]*\\)" substitution)
       (let* ((sregex (match-string 1 substitution))
-             (ssubst (match-string 2 substitution))
-             (sflags (match-string 3 substitution))
-             (case-fold-search (string-match "i" sflags)))
-        (perform-replace
-         sregex ssubst (string-match "g" sflags)
-         t nil nil nil
-         (if (and transient-mark-mode mark-active) (region-beginning))
-         (if (and transient-mark-mode mark-active) (region-end))))
+	     (ssubst (match-string 2 substitution))
+	     (sflags (match-string 3 substitution))
+	     (case-fold-search (string-match "i" sflags)))
+	(perform-replace
+	 sregex ssubst (string-match "g" sflags)
+	 t nil nil nil
+	 (if (and transient-mark-mode mark-active) (region-beginning))
+	 (if (and transient-mark-mode mark-active) (region-end))))
     (error "Invalid syntax")))
 
 (with-eval-after-load 'mookid-evil
+  (require 'dired)
   (define-key evil-normal-state-map (kbd "g j") 'dired-jump)
   (define-key dired-mode-map (kbd "j") 'dired-jump)
   (evil-set-initial-state 'dired-mode 'emacs))
