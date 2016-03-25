@@ -5,6 +5,11 @@
 ;;; Code:
 (require 'evil)
 (evil-mode)
+
+(with-eval-after-load 'undo-tree
+  (require 'diminish)
+  (diminish 'undo-tree-mode))
+
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
 

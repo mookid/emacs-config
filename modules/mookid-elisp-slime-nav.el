@@ -5,6 +5,8 @@
 
 ;;; Code:
 (require 'elisp-slime-nav)
+(require 'diminish)
+(diminish 'elisp-slime-nav-mode)
 
 (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
 (add-hook 'lisp-interaction-mode 'elisp-slime-nav-mode)
