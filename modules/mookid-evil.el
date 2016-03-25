@@ -44,14 +44,12 @@ The currently used CUSTOMIZATIONS are:
 	  (setq ,@(gensetq mode-colors-alist))
 	  (add-hook 'post-command-hook
 		    (lambda ()
-		      (while-no-input
-			(redisplay)
-			(let* ((colors (cond ,@(gencond mode-colors-alist)))
+		      (let* ((colors (cond ,@(gencond mode-colors-alist)))
 			       (background (car colors))
 			       (foreground-opt (cdr colors)))
 			  (set-face-background 'mode-line background)
 			  (when foreground-opt
-			    (set-face-foreground 'mode-line (car foreground-opt))))))))))
+			    (set-face-foreground 'mode-line (car foreground-opt)))))))))
 
 (customize
  (insert . ((:color . "red") (:foreground . white) (:cursor-shape . bar)))
