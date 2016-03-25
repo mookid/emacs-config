@@ -24,7 +24,7 @@ The currently used CUSTOMIZATIONS are:
 * cursor shape"
      (cl-flet ((gensetq (mode-colors-alist)
 			(cl-loop for (mode . custom) in mode-colors-alist
-				 for color = (symbol-name (cdr (assoc :color custom)))
+				 for color = (cdr (assoc :color custom))
 				 for shape = (cdr (assoc :cursor-shape custom))
 				 append `(,(intern (format "evil-%S-state-cursor" mode))
 					  ',(list color shape)
@@ -33,7 +33,7 @@ The currently used CUSTOMIZATIONS are:
 
 	       (gencond (mode-colors-alist)
 			(cl-loop for (mode . custom) in mode-colors-alist
-				 for color = (symbol-name (cdr (assoc :color custom)))
+				 for color = (cdr (assoc :color custom))
 				 for foreground = (let ((symb (cdr (assoc :foreground custom))))
 						    (when symb (symbol-name symb)))
 				 collect
@@ -43,20 +43,22 @@ The currently used CUSTOMIZATIONS are:
 	  (setq ,@(gensetq mode-colors-alist))
 	  (add-hook 'post-command-hook
 		    (lambda ()
-		      (let* ((colors (cond ,@(gencond mode-colors-alist)))
-			     (background (car colors))
-			     (foreground-opt (cdr colors)))
-			(set-face-background 'mode-line background)
-			(when foreground-opt
-			  (set-face-foreground 'mode-line (car foreground-opt)))))))))
+		      (while-no-input
+			(redisplay)
+			(let* ((colors (cond ,@(gencond mode-colors-alist)))
+			       (background (car colors))
+			       (foreground-opt (cdr colors)))
+			  (set-face-background 'mode-line background)
+			  (when foreground-opt
+			    (set-face-foreground 'mode-line (car foreground-opt))))))))))
 
 (customize
- (insert . ((:color . red) (:foreground . white) (:cursor-shape . bar)))
- (motion . ((:color . cyan) (:foreground . black) (:cursor-shape . box)))
- (replace . ((:color . DeepPink) (:foreground . black) (:cursor-shape . hbar)))
- (emacs . ((:color . purple) (:foreground . white) (:cursor-shape . box)))
- (visual . ((:color . green) (:foreground . black) (:cursor-shape . box)))
- (normal . ((:color . cyan) (:foreground . black) (:cursor-shape . box))))
+ (insert . ((:color . "red") (:foreground . white) (:cursor-shape . bar)))
+ (motion . ((:color . "cyan") (:foreground . black) (:cursor-shape . box)))
+ (replace . ((:color . "deep pink") (:foreground . white) (:cursor-shape . hbar)))
+ (emacs . ((:color . "purple") (:foreground . white) (:cursor-shape . box)))
+ (visual . ((:color . "green") (:foreground . black) (:cursor-shape . box)))
+ (normal . ((:color . "cyan") (:foreground . black) (:cursor-shape . box))))
 
 
 (make-face 'mode-line-evil-insert-face)
