@@ -22,23 +22,24 @@ Expects MODE-COLORS-ALIST with elements of the form (MODE . CUSTOMIZATIONS).
 The currently used CUSTOMIZATIONS are:
 * color
 * cursor shape"
-     (cl-flet ((gensetq (mode-colors-alist)
-			(cl-loop for (mode . custom) in mode-colors-alist
-				 for color = (cdr (assoc :color custom))
-				 for shape = (cdr (assoc :cursor-shape custom))
-				 append `(,(intern (format "evil-%S-state-cursor" mode))
-					  ',(list color shape)
-					  ,(intern (format "evil-%S-state-tag" mode))
-					  nil)))
+     (cl-flet
+	 ((gensetq (mode-colors-alist)
+		   (cl-loop for (mode . custom) in mode-colors-alist
+			    for color = (cdr (assoc :color custom))
+			    for shape = (cdr (assoc :cursor-shape custom))
+			    append `(,(intern (format "evil-%S-state-cursor" mode))
+				     ',(list color shape)
+				     ,(intern (format "evil-%S-state-tag" mode))
+				     nil)))
 
-	       (gencond (mode-colors-alist)
-			(cl-loop for (mode . custom) in mode-colors-alist
-				 for color = (cdr (assoc :color custom))
-				 for foreground = (let ((symb (cdr (assoc :foreground custom))))
-						    (when symb (symbol-name symb)))
-				 collect
-				 `((,(intern (format "evil-%S-state-p" mode)))
-				   '(,color ,foreground)))))
+	  (gencond (mode-colors-alist)
+		   (cl-loop for (mode . custom) in mode-colors-alist
+			    for color = (cdr (assoc :color custom))
+			    for foreground = (let ((symb (cdr (assoc :foreground custom))))
+					       (when symb (symbol-name symb)))
+			    collect
+			    `((,(intern (format "evil-%S-state-p" mode)))
+			      '(,color ,foreground)))))
        `(progn
 	  (setq ,@(gensetq mode-colors-alist))
 	  (add-hook 'post-command-hook
@@ -60,42 +61,6 @@ The currently used CUSTOMIZATIONS are:
  (visual . ((:color . "green") (:foreground . black) (:cursor-shape . box)))
  (normal . ((:color . "cyan") (:foreground . black) (:cursor-shape . box))))
 
-
-(make-face 'mode-line-evil-insert-face)
-(make-face 'mode-line-evil-motion-face)
-(make-face 'mode-line-evil-replace-face)
-(make-face 'mode-line-evil-emacs-face)
-(make-face 'mode-line-evil-visual-face)
-(make-face 'mode-line-evil-normal-face)
-
-(set-face-attribute 'mode-line-evil-insert-face nil
-		    :inherit 'mode-line-face
-		    :background "red"
-		    :foreground "white")
-
-(set-face-attribute 'mode-line-evil-normal-face nil
-		    :inherit 'mode-line-face
-		    :background "cyan"
-		    :foreground "black")
-
-(set-face-attribute 'mode-line-evil-replace-face nil
-		    :inherit 'mode-line-face
-		    :background "deep pink"
-		    :foreground "black")
-
-(set-face-attribute 'mode-line-evil-emacs-face nil
-		    :inherit 'mode-line-face
-		    :background "black"
-		    :foreground "white")
-
-(set-face-attribute 'mode-line-evil-visual-face nil
-		    :inherit 'mode-line-face
-		    :background "lawn green"
-		    :foreground "black")
-
-(set-face-attribute 'mode-line-evil-motion-face nil
-		    :inherit 'mode-line-evil-normal-face)
-
 (defalias 'evil-previous-line 'evil-previous-visual-line)
 (defalias 'evil-next-line 'evil-next-visual-line)
 
@@ -116,16 +81,6 @@ The currently used CUSTOMIZATIONS are:
 
 (define-key evil-normal-state-map (kbd "`")
   (defun insert-newline () "That's it." (interactive) (newline)))
-
-(defun search-region (beg end)
-  "Search for the text beween BEG and END."
-  (interactive "r")
-  (let ((selection (buffer-substring-no-properties beg end)))
-    (deactivate-mark)
-    (isearch-mode t nil nil nil)
-    (isearch-yank-string selection)))
-
-(define-key evil-visual-state-map (kbd "M-s .") 'search-region)
 
 (defmacro bind-key-non-insert-mode (kbd fun)
   "Binds the `key-binding' KBD to FUN in modes different to insert mode."
