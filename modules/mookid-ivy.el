@@ -4,6 +4,9 @@
 
 ;;; Code:
 (require 'ivy)
+(require 'diminish)
+(diminish 'ivy-mode)
+
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 

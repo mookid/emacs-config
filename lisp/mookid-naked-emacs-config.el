@@ -172,6 +172,8 @@
 
 ;; Wrap long lines
 (global-visual-line-mode 1)
+(require 'diminish)
+(diminish 'visual-line-mode)
 
 ;; Use ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
