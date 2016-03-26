@@ -2,10 +2,6 @@
 
 ;;; Commentary:
 
-;; With prettify-symbols-mode on, there is by default some ugly prettifiers.
-;; I remove them.  Customizations is possible by editing the list in the
-;; remove-some-prettifiers function.
-
 ;;; Code:
 (autoload 'tuareg-mode "tuareg")
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
@@ -28,6 +24,15 @@
 (add-hook 'tuareg-mode-hook 'define-tuareg-bindings)
 (with-eval-after-load 'evil
   (setq-default evil-shift-width 2))
+
+(with-eval-after-load 'caml
+  (mapc (lambda (face)
+	  (when (string-prefix-p "caml-types" (face-name face))
+	    (set-face-attribute face nil
+				:background "deep pink"
+				:weight 'bold
+				:foreground "white")))
+	(face-list)))
 
 (provide 'mookid-tuareg)
 ;;; mookid-tuareg.el ends here
