@@ -37,12 +37,13 @@
    (setq-default mode-line-format
 		 (list
 		  "  "
+		  mode-line-position
 		  '(:propertize
-		    (:eval (when buffer-file-name (shorten-path default-directory)))
+		    (:eval (when buffer-file-name
+			     (shorten-path default-directory)))
 		    face mode-line-folder-face)
 		  '(:propertize "%b" face mode-line-filename-face)
 		  "%n  "
-		  mode-line-position
 		  mode-line-modes
 		  mode-line-misc-info
 		  "%-"))))
