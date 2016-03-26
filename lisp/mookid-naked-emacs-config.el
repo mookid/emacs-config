@@ -15,6 +15,18 @@
 
 (global-set-key (kbd "M-r") 'raise-sexp)
 
+(defun last-2 (list)
+  "Remove all the elements of LIST except the last two."
+  (let ((lst list))
+    (while (caddr lst)
+      (setq lst (cdr lst)))
+    lst))
+
+(defun shorten-path (path)
+  "Shortens the string representing a PATH for the modeline."
+  (let ((r (string-join (cons "..." (last-2 (split-string path "/"))) "/")))
+    (if (< (length r) (length path)) r path)))
+
 (with-message
  "Set mode line format"
  (with-eval-after-load 'mookid-evil
@@ -26,7 +38,7 @@
 		 (list
 		  "  "
 		  '(:propertize
-		    (:eval (when buffer-file-name default-directory))
+		    (:eval (when buffer-file-name (shorten-path default-directory)))
 		    face mode-line-folder-face)
 		  '(:propertize "%b" face mode-line-filename-face)
 		  "%n  "
