@@ -137,7 +137,7 @@
    "When there are two windows, convert horizontal to vertical and vice versa."
    (interactive)
    (or (= (count-windows) 2)
-       (error "You need exactly 2 windows to do this."))
+       (error "You need exactly 2 windows to do this"))
    (let* ((this-win-buffer (window-buffer))
 	  (next-win-buffer (window-buffer (next-window)))
 	  (this-win-edges (window-edges (selected-window)))
@@ -184,7 +184,7 @@
 (setq-default explicit-shell-file-name "C:/bin/bash")
 
 (defun insert-buffer-name ()
-  "Insert the previous buffer name. Usefull for compilation."
+  "Insert the previous buffer name.  Usefull for compilation."
   (interactive)
   (insert (buffer-name (other-buffer (current-buffer) 1))))
 (global-set-key (kbd "C-c C-v") 'insert-buffer-name)
@@ -193,7 +193,7 @@
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
 Dwim means: region, org-src-block, org-subtree, or defun,
-whichever applies first. Narrowing to org-src-block actually
+whichever applies first.  Narrowing to org-src-block actually
 calls `org-edit-src-code'.
 
 With prefix P, don't widen, just narrow even if buffer is
@@ -216,24 +216,6 @@ already narrowed."
 	(t (narrow-to-defun))))
 
 (global-set-key (kbd "C-x n n") 'narrow-or-widen-dwim)
-
-(defun substitute-regexp (substitution)
-  "Use s/old/new/g regexp syntax for `query-replace'."
-  (interactive
-   (list
-    (read-from-minibuffer "Substitute regexp: " '("s///g" . 3) nil nil
-			  'query-replace-history nil t)))
-  (if (string-match "^s/\\(.*\\)/\\(.*\\)/\\([gi]*\\)" substitution)
-      (let* ((sregex (match-string 1 substitution))
-	     (ssubst (match-string 2 substitution))
-	     (sflags (match-string 3 substitution))
-	     (case-fold-search (string-match "i" sflags)))
-	(perform-replace
-	 sregex ssubst (string-match "g" sflags)
-	 t nil nil nil
-	 (if (and transient-mark-mode mark-active) (region-beginning))
-	 (if (and transient-mark-mode mark-active) (region-end))))
-    (error "Invalid syntax")))
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
