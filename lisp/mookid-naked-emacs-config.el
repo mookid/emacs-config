@@ -94,7 +94,15 @@
   buffer-face-mode
   (lambda () (variable-pitch-mode 1)))
 
+(defun turn-off-variable-pitch-mode ()
+  (make-local-variable 'variable-pitch)
+  (variable-pitch-mode -1))
+
 (global-variable-pitch-mode 1)
+
+;; Disable them for specific modes
+(add-hook 'dired-mode-hook 'turn-off-variable-pitch-mode)
+(add-hook 'package-menu-mode-hook 'turn-off-variable-pitch-mode)
 
 (with-message
  "Remove gui elements"
