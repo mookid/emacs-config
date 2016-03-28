@@ -1,25 +1,24 @@
-EMACS=\
-emacs -Q --no-init --batch \
---eval "(package-initialize)" \
---eval "(require 'cl)" \
---eval "(add-to-list 'load-path \"~/.emacs.d/elpa/\")" \
---eval "(add-to-list 'load-path \"~/.emacs.d/modules/\")" \
-
 EMACSD=~/.emacs.d
 EMACSELPA=~/.emacs.d/elpa
 EMACSMODULES=~/.emacs.d/modules
 
-.PHONY: modules elpa clean
+EMACS=\
+emacs -Q --no-init --batch \
+--eval "(package-initialize)" \
+--eval "(require 'cl)" \
+--eval "(add-to-list 'load-path \"${EMACSELPA}\")" \
+--eval "(add-to-list 'load-path \"${EMACSMODULES}\")" \
+
+.PHONY: modules elpa clean all
+
+all: modules elpa
 
 modules:
-	cd $(EMACSMODULES);\
-	$(EMACS) --eval "(byte-recompile-directory \"~/.emacs.d/modules\" 0 t)";\
-	cd $(EMACSD);\
+	$(EMACS) --eval "(byte-recompile-directory \"${EMACSMODULES}\" 0 t)"
 
 elpa:
-	$(EMACS) --eval "(byte-recompile-directory \"~/.emacs.d/elpa\" 0 t)";\
+	$(EMACS) --eval "(byte-recompile-directory \"${EMACSELPA}\" 0 t)"
 
 clean:
-	cd $(EMACSMODULES);\
-	rm -f *.elc; \
-	cd $(EMACSD);\
+	cd $(EMACSMODULES) && rm -f *.elc; \
+	cd $(EMACSELPA) && rm -f *.elc;
