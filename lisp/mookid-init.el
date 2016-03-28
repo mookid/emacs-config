@@ -25,6 +25,7 @@
 	    (init-load 'mookid-evil-surround))
 
 (init-load 'mookid-lispy)
+(init-load 'mookid-popwin)
 (init-load 'mookid-magit)
 (init-load 'mookid-loccur)
 (init-load 'mookid-rainbow)
