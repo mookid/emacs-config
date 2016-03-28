@@ -88,6 +88,14 @@
 (defun save-all-buffers () "Save all buffers." (save-some-buffers t))
 (add-hook 'focus-out-hook 'save-all-buffers)
 
+;; Use proportional fonts
+(define-globalized-minor-mode
+  global-variable-pitch-mode
+  buffer-face-mode
+  (lambda () (variable-pitch-mode 1)))
+
+(global-variable-pitch-mode 1)
+
 (with-message
  "Remove gui elements"
  (and (fboundp 'fringe-mode) (fringe-mode 0))
