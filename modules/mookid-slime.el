@@ -3,6 +3,8 @@
 ;;; Commentary:
 
 ;;; Code:
+(defvar slime-mode-map nil)
+
 (require 'slime-autoloads)
 (setq-default inferior-lisp-program "sbcl")
 (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
