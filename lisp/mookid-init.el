@@ -27,7 +27,6 @@
 (init-load 'mookid-lispy)
 (init-load 'mookid-popwin)
 (init-load 'mookid-magit)
-(init-load 'mookid-loccur)
 (init-load 'mookid-rainbow)
 (init-load 'mookid-company)
 (init-load 'mookid-elisp-slime-nav)
