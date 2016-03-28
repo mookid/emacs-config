@@ -17,6 +17,7 @@ modules:
 	$(EMACS) --eval "(byte-recompile-directory \"${EMACSMODULES}\" 0 t)"
 
 elpa:
+	rm -rf $(EMACSELPA) && git reset --hard &&\
 	$(EMACS) --eval "(byte-recompile-directory \"${EMACSELPA}\" 0 t)"
 
 clean:
