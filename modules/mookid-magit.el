@@ -4,6 +4,7 @@
 
 ;;; Code:
 (autoload 'magit-status "magit")
+(autoload 'magit-mode-quit-window "magit")
 
 (global-set-key (kbd "<f7>") 'magit-status)
 
