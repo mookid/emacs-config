@@ -4,14 +4,13 @@
 
 ;;; Code:
 (require 'ace-window)
-(autoload 'bind-key-non-insert-mode "mookid-evil")
 (defun mookid-other-window ()
   "Call `other-window' with argument 1."
   (interactive)
   (other-window 1))
 
 (with-eval-after-load 'evil
-  (bind-key-non-insert-mode (kbd "'") 'ace-window)
+  (define-key evil-normal-state-map (kbd "'") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (setq aw-dispatch-always t)
   (setq aw-dispatch-alist (cons '(?v evil-window-vsplit) aw-dispatch-alist))
