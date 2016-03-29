@@ -80,15 +80,6 @@ The currently used CUSTOMIZATIONS are:
 (define-key evil-normal-state-map (kbd "`")
   (defun insert-newline () "That's it." (interactive) (newline)))
 
-(defmacro bind-key-non-insert-mode (kbd fun)
-  "Binds the `key-binding' KBD to FUN in modes different to insert mode."
-  `(progn
-     ,@(cl-loop
-	for map in '(evil-motion-state-map
-		     evil-visual-state-map
-		     evil-normal-state-map)
-	collect `(define-key ,map ,kbd ,fun))))
-
 (global-set-key (kbd "C-s") 'evil-search-forward)
 
 ;; set insert mode = emacs mode
