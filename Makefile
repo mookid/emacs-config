@@ -1,6 +1,7 @@
 EMACSD=~/.emacs.d
 EMACSELPA=~/.emacs.d/elpa
 EMACSMODULES=~/.emacs.d/modules
+EMACSLISP=~/.emacs.d/lisp
 
 EMACS=\
 emacs -Q --no-init --batch \
@@ -22,4 +23,5 @@ elpa:
 
 clean:
 	cd $(EMACSMODULES) && rm -f *.elc; \
+	cd $(EMACSLISP) && rm -f *.elc; \
 	cd $(EMACSELPA) && rm -f *.elc;
