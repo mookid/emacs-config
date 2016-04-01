@@ -102,6 +102,7 @@
 
 ;; Disable them for specific modes
 (add-hook 'dired-mode-hook 'turn-off-variable-pitch-mode)
+(add-hook 'ibuffer-mode-hook 'turn-off-variable-pitch-mode)
 (add-hook 'package-menu-mode-hook 'turn-off-variable-pitch-mode)
 
 (with-message
