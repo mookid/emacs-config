@@ -207,6 +207,11 @@
 
 ;; Use ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(require 'fullframe)
+(fullframe ibuffer ibuffer-quit)
+
+;; Use fullframe the packages
+(fullframe list-packages quit-window)
 
 (winner-mode 1)
 
