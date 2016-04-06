@@ -250,9 +250,6 @@ already narrowed."
 	;;  (LaTeX-narrow-to-environment))
 	(t (narrow-to-defun))))
 
-(autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-
 (global-set-key (kbd "C-x n n") 'narrow-or-widen-dwim)
 
 (provide 'mookid-naked-emacs-config)

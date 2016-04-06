@@ -91,6 +91,9 @@ The currently used CUSTOMIZATIONS are:
 (setcdr evil-insert-state-map nil)
 (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
 
+(autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
+(define-key evil-normal-state-map (kbd "z") 'zap-up-to-char)
+
 ;; dired settings
 (require 'dired)
 (define-key evil-normal-state-map (kbd "g j") 'dired-jump)
