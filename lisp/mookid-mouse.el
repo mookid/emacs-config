@@ -29,5 +29,11 @@
 
 (define-key isearch-mode-map (kbd "<mouse-3>") 'isearch-repeat-forward)
 
+(global-set-key (kbd "<mode-line> <down-mouse-1>") 'enlarge-window)
+
+(global-unset-key (kbd "<mode-line> <mouse-2>"))
+(global-set-key (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
+
+
 (provide 'mookid-mouse)
 ;;; mookid-mouse.el ends here
