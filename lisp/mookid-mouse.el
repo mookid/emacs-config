@@ -9,6 +9,8 @@
 (setq mouse-drag-copy-region t)
 (setq mouse-yank-at-point t)
 
+(setq mouse-autoselect-window t)
+
 (require 'mouse-copy)
 (global-set-key (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
 (global-set-key (kbd "<C-S-down-mouse-1>") 'mouse-drag-secondary-moving)
