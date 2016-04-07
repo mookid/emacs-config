@@ -23,5 +23,7 @@
 (define-key evil-normal-state-map (kbd "<C-return>") 'counsel-find-file)
 (define-key evil-normal-state-map (kbd "SPC") 'counsel-M-x)
 
+(define-key grep-mode-map (kbd "RET") 'ivy-switch-buffer)
+
 (provide 'mookid-ivy)
 ;;; mookid-ivy.el ends here
