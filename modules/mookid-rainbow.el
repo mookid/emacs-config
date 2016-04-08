@@ -11,6 +11,9 @@
 (autoload 'default-font "mookid-naked-emacs-config")
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(add-hook 'shell-mode-hook (lambda () (rainbow-delimiters-mode -1)))
+
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
 					    :family default-font
                     :foreground "red"
