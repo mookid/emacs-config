@@ -29,6 +29,11 @@
     (if (< (length r) (length path)) r path)))
 
 (with-message
+ "Define zap-up-to-char"
+ (autoload 'zap-up-to-char "misc")
+ (define-key global-map (kbd "M-z") 'zap-up-to-char))
+
+(with-message
  "Set mode line format"
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
