@@ -13,7 +13,7 @@
 ;; Start with a blank scratch buffer
 (setq initial-scratch-message nil)
 
-(global-set-key (kbd "M-r") 'raise-sexp)
+(define-key global-map (kbd "M-r") 'raise-sexp)
 
 (defun last-2 (list)
   "Remove all the elements of LIST except the last two."
@@ -167,7 +167,7 @@
    (global-unset-key (kbd keystr)))
 
  (with-eval-after-load 'init
-   (global-set-key (kbd "<f2> <f2>") 'toggle-window-split))
+   (define-key global-map (kbd "<f2> <f2>") 'toggle-window-split))
 
  (defun toggle-window-split ()
    "When there are two windows, convert horizontal to vertical and vice versa."
@@ -213,7 +213,7 @@
 
 ;; Use ibuffer
 (require 'ibuffer)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(define-key global-map (kbd "C-x C-b") 'ibuffer)
 (require 'fullframe)
 (fullframe ibuffer ibuffer-quit)
 
@@ -229,7 +229,7 @@
   "Insert the previous buffer name.  Usefull for compilation."
   (interactive)
   (insert (buffer-name (other-buffer (current-buffer) 1))))
-(global-set-key (kbd "C-c C-v") 'insert-buffer-name)
+(define-key global-map (kbd "C-c C-v") 'insert-buffer-name)
 
 ;; from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html:
 (defun narrow-or-widen-dwim (p)
@@ -257,7 +257,7 @@ already narrowed."
 	;;  (LaTeX-narrow-to-environment))
 	(t (narrow-to-defun))))
 
-(global-set-key (kbd "C-x n n") 'narrow-or-widen-dwim)
+(define-key global-map (kbd "C-x n n") 'narrow-or-widen-dwim)
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here

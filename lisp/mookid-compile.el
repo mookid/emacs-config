@@ -12,9 +12,9 @@
 (defun disable-jump-to-error ()
   (kill-local-variable 'compilation-auto-jump-to-next))
 (add-hook 'grep-mode-hook 'disable-jump-to-error)
-(global-set-key (kbd "<f12>") 'recompile)
-(global-set-key (kbd "C-<prior>") 'previous-error)
-(global-set-key (kbd "C-<next>") 'next-error)
+(define-key global-map (kbd "<f12>") 'recompile)
+(define-key global-map (kbd "C-<prior>") 'previous-error)
+(define-key global-map (kbd "C-<next>") 'next-error)
 
 (provide 'mookid-compile)
 ;;; mookid-compile.el ends here
