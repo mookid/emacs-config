@@ -6,10 +6,6 @@
 (require 'evil)
 (evil-mode)
 
-(with-eval-after-load 'undo-tree
-  (require 'diminish)
-  (diminish 'undo-tree-mode))
-
 (defvar evil-motion-state-map)
 (defvar evil-normal-state-map)
 
@@ -90,15 +86,6 @@ The currently used CUSTOMIZATIONS are:
 (define-key evil-normal-state-map (kbd ")") 'forward-paragraph)
 (setcdr evil-insert-state-map nil)
 (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
-
-(autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
-(define-key evil-normal-state-map (kbd "z") 'zap-up-to-char)
-
-;; dired settings
-(require 'dired)
-(define-key evil-normal-state-map (kbd "g j") 'dired-jump)
-(define-key dired-mode-map (kbd "j") 'dired-jump)
-(evil-set-initial-state 'dired-mode 'emacs)
 
 (provide 'mookid-evil)
 ;;; mookid-evil.el ends here
