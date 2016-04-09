@@ -16,12 +16,6 @@
             (init-load 'mookid-selective-display)
             (init-load 'mookid-isearch))
 
-(with-title "Evil configuration"
-	    (init-load 'mookid-evil)
-	    (init-load 'mookid-evil-highlight-persist)
-	    (init-load 'mookid-evil-numbers)
-	    (init-load 'mookid-evil-anzu))
-
 (init-load 'mookid-evil-nerd-commenter)
 (init-load 'mookid-anzu)
 (init-load 'mookid-lispy)
