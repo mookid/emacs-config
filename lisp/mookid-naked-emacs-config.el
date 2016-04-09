@@ -18,10 +18,11 @@
 (defun last-2 (list)
   "Remove all the elements of LIST except the last two."
   (let ((lst list))
-    (while (caddr lst)
+    (while (cl-caddr lst)
       (setq lst (cdr lst)))
     lst))
 
+(require 'subr-x)
 (defun shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
   (let ((r (string-join (cons "..." (last-2 (split-string path "/"))) "/")))
@@ -207,6 +208,7 @@
 (diminish 'visual-line-mode)
 
 ;; Use ibuffer
+(require 'ibuffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (require 'fullframe)
 (fullframe ibuffer ibuffer-quit)
