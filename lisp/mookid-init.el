@@ -37,7 +37,6 @@
 (init-load 'mookid-flycheck)
 
 (with-title "OCaml configuration"
-	    ;; ocaml settings
 	    (init-load 'mookid-tuareg)
 	    ;; (init-load 'mookid-ocp-indent)
 	    ;; (init-load 'mookid-merlin)
