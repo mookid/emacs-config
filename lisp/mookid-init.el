@@ -21,11 +21,9 @@
 	    (init-load 'mookid-evil-highlight-persist)
 	    (init-load 'mookid-evil-nerd-commenter)
 	    (init-load 'mookid-evil-numbers)
-	    (init-load 'mookid-evil-anzu)
-	    (init-load 'mookid-evil-surround))
+	    (init-load 'mookid-evil-anzu))
 
 (init-load 'mookid-lispy)
-(init-load 'mookid-popwin)
 (init-load 'mookid-magit)
 (init-load 'mookid-rainbow)
 (init-load 'mookid-company)
