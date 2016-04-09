@@ -23,6 +23,7 @@
 	    (init-load 'mookid-evil-numbers)
 	    (init-load 'mookid-evil-anzu))
 
+(init-load 'mookid-anzu)
 (init-load 'mookid-lispy)
 (init-load 'mookid-magit)
 (init-load 'mookid-rainbow)
