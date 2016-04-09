@@ -12,10 +12,10 @@
 (define-key global-map (kbd "M-p") 'ace-window)
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 (setq aw-dispatch-always t)
-(setq aw-dispatch-alist (cons '(?v split-window-right) aw-dispatch-alist))
-(setq aw-dispatch-alist (cons '(?p mookid-other-window) aw-dispatch-alist))
-(setq aw-dispatch-alist (cons '(?b split-window-below) aw-dispatch-alist))
-(setq aw-dispatch-alist (cons '(?c delete-window) aw-dispatch-alist))
+(add-to-list 'aw-dispatch-alist '(?v split-window-right))
+(add-to-list 'aw-dispatch-alist '(?p mookid-other-window))
+(add-to-list 'aw-dispatch-alist '(?b split-window-below))
+(add-to-list 'aw-dispatch-alist '(?c delete-window))
 
 ;; Auto balance windows:
 (mapc (lambda (fun) (advice-add fun :after #'balance-windows))
