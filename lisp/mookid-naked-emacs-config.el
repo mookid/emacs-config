@@ -30,24 +30,23 @@
 
 (with-message
  "Set mode line format"
- (with-eval-after-load 'mookid-evil
-   (make-face 'mode-line-folder-face)
-   (make-face 'mode-line-filename-face)
-   (set-face-attribute 'mode-line-filename-face nil
-		       :weight 'bold)
-   (setq-default mode-line-format
-		 (list
-		  "  "
-		  mode-line-position
-		  '(:propertize
-		    (:eval (when buffer-file-name
-			     (shorten-path default-directory)))
-		    face mode-line-folder-face)
-		  '(:propertize "%b" face mode-line-filename-face)
-		  "%n  "
-		  mode-line-modes
-		  mode-line-misc-info
-		  "%-"))))
+ (make-face 'mode-line-folder-face)
+ (make-face 'mode-line-filename-face)
+ (set-face-attribute 'mode-line-filename-face nil
+		     :weight 'bold)
+ (setq-default mode-line-format
+	       (list
+		"  "
+		mode-line-position
+		'(:propertize
+		  (:eval (when buffer-file-name
+			   (shorten-path default-directory)))
+		  face mode-line-folder-face)
+		'(:propertize "%b" face mode-line-filename-face)
+		"%n  "
+		mode-line-modes
+		mode-line-misc-info
+		"%-")))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
