@@ -19,12 +19,11 @@
 
 (defun ocp-index-setup ()
   "My setup for ocp-index."
-  (with-eval-after-load 'evil
-    (define-key evil-normal-state-map (kbd "C-c t") 'caml-types-show-type)
-    (define-key evil-normal-state-map (kbd "C-.")
-      'ocp-index-jump-to-definition-at-point-maybe-other-window)
-    (define-key evil-normal-state-map (kbd "C-,")
-      'ocp-index-jump-to-sig-at-point-maybe-other-window)))
+  (define-key global-map (kbd "C-c t") 'caml-types-show-type)
+  (define-key global-map (kbd "C-.")
+    'ocp-index-jump-to-definition-at-point-maybe-other-window)
+  (define-key global-map (kbd "C-,")
+    'ocp-index-jump-to-sig-at-point-maybe-other-window))
 
 (add-hook 'tuareg-mode-hook 'ocp-index-setup)
 
