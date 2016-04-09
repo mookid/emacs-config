@@ -104,6 +104,7 @@
 (add-hook 'dired-mode-hook 'turn-off-variable-pitch-mode)
 (add-hook 'ibuffer-mode-hook 'turn-off-variable-pitch-mode)
 (add-hook 'package-menu-mode-hook 'turn-off-variable-pitch-mode)
+(add-hook 'help-mode-hook 'turn-off-variable-pitch-mode)
 
 (with-message
  "Remove gui elements"
