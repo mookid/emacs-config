@@ -8,31 +8,31 @@
 (require 'rainbow-delimiters)
 (require 'rainbow-blocks)
 
-(autoload 'default-font "mookid-naked-emacs-config")
+(autoload 'mookid-default-font "mookid-naked-emacs-config")
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (add-hook 'shell-mode-hook (lambda () (rainbow-delimiters-mode -1)))
 
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-					    :family default-font
+                    :family mookid-default-font
                     :foreground "red"
                     :inherit 'error
                     :box t)
 (let ((colors '("PaleGreen2" "orange" "pale violet red"))
       (kinds '(delimiters blocks)))
   (cl-labels ((set-bold (face color)
-			(set-face-attribute face nil
-					    :family default-font
-					    :weight 'semi-light
-					    :foreground color))
-	      (symb (kind lvl)
-		    (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
-	      (set-level (lvl color)
-			 (when (< 0 lvl 10)
-			   (mapc (lambda (kind)
-				   (set-bold (symb kind lvl) color))
-				 kinds))))
+                        (set-face-attribute face nil
+                                            :family mookid-default-font
+                                            :weight 'semi-light
+                                            :foreground color))
+              (symb (kind lvl)
+                    (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
+              (set-level (lvl color)
+                         (when (< 0 lvl 10)
+                           (mapc (lambda (kind)
+                                   (set-bold (symb kind lvl) color))
+                                 kinds))))
     (cl-loop
      with ncolors = (length colors)
      for lvl from 1 upto 9
