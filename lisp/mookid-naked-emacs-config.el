@@ -159,12 +159,14 @@
  (set-face-attribute 'variable-pitch nil
                      :family "DejaVu Sans"))
 
-(with-message
- "Switch parens with brackets"
- (define-key input-decode-map (kbd "(") (kbd "["))
- (define-key input-decode-map (kbd "[") (kbd "("))
- (define-key input-decode-map (kbd ")") (kbd "]"))
- (define-key input-decode-map (kbd "]") (kbd ")")))
+;; Keyboard translations
+(with-message "Keyboard translations"
+              (keyboard-translate ?\( ?\[)
+              (keyboard-translate ?\[ ?\()
+              (keyboard-translate ?\) ?\])
+              (keyboard-translate ?\] ?\))
+              (keyboard-translate ?\C-h ?\C-p)
+              (keyboard-translate ?\C-p ?\C-h))
 
 (with-message
  "Window switch bindings"
