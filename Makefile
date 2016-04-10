@@ -18,10 +18,11 @@ modules:
 	$(EMACS) --eval "(byte-recompile-directory \"${EMACSMODULES}\" 0 t)"
 
 elpa:
-	rm -rf $(EMACSELPA) && git reset --hard &&\
+	find $(EMACSELPA) -name *.elc | xargs rm; \
 	$(EMACS) --eval "(byte-recompile-directory \"${EMACSELPA}\" 0 t)"
 
 clean:
-	cd $(EMACSMODULES) && rm -f *.elc; \
-	cd $(EMACSLISP) && rm -f *.elc; \
-	cd $(EMACSELPA) && rm -f *.elc;
+	find $(EMACSELPA) -type d -empty | xargs rm;
+	find $(EMACSELPA) -name *.elc | xargs rm;
+	find $(EMACSLISP) -name *.elc | xargs rm;
+	find $(EMACSMODULES) -name *.elc | xargs rm;
