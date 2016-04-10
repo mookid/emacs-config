@@ -15,7 +15,7 @@
 
 (define-key global-map (kbd "M-r") 'raise-sexp)
 
-(defun last-2 (list)
+(defun mookid-last-2 (list)
   "Remove all the elements of LIST except the last two."
   (let ((lst list))
     (while (cl-caddr lst)
@@ -25,7 +25,7 @@
 (require 'subr-x)
 (defun mookid-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
-  (let ((r (string-join (cons "..." (last-2 (split-string path "/"))) "/")))
+  (let ((r (string-join (cons "..." (mookid-last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
 
 (with-message
@@ -90,30 +90,33 @@
 (put 'narrow-to-region 'disabled nil)
 
 ;; Save all buffers when focus is lost
-(defun save-all-buffers () "Save all buffers." (save-some-buffers t))
-(add-hook 'focus-out-hook 'save-all-buffers)
+(defun mookid-save-all-buffers () "Save all buffers." (save-some-buffers t))
+(add-hook 'focus-out-hook 'mookid-save-all-buffers)
 
+(require 'face-remap)
 ;; Use proportional fonts
 (define-globalized-minor-mode
-  global-variable-pitch-mode
+  mookid-prop-fonts-mode
   buffer-face-mode
   (lambda () (variable-pitch-mode 1)))
 
-(defun turn-off-variable-pitch-mode ()
-  (make-local-variable 'variable-pitch)
+(diminish 'buffer-face-mode)
+
+(defun mookid-prop-fonts-mode-off ()
+  "Turn it off."
   (variable-pitch-mode -1))
 
-(global-variable-pitch-mode 1)
+(mookid-prop-fonts-mode 1)
 
 ;; Disable them for specific modes
-(add-hook 'dired-mode-hook 'turn-off-variable-pitch-mode)
-(add-hook 'ibuffer-mode-hook 'turn-off-variable-pitch-mode)
-(add-hook 'package-menu-mode-hook 'turn-off-variable-pitch-mode)
-(add-hook 'help-mode-hook 'turn-off-variable-pitch-mode)
+(add-hook 'dired-mode-hook 'mookid-prop-fonts-mode-off)
+(add-hook 'ibuffer-mode-hook 'mookid-prop-fonts-mode-off)
+(add-hook 'package-menu-mode-hook 'mookid-prop-fonts-mode-off)
+(add-hook 'help-mode-hook 'mookid-prop-fonts-mode-off)
 
 (with-message
  "Remove gui elements"
- (and (fboundp 'fringe-mode) (fringe-mode 0))
+ (and (fboundp 'fringe-mode) (fringe-mode -1))
  (and (fboundp 'tooltip-mode) (tooltip-mode -1))
  (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
  (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -141,11 +144,11 @@
  (setq-default show-paren-delay 0))
 
 (with-message
- "Setting up unicode"
- (defvar default-font nil "The font used almost everywhere.")
- (setq default-font "Source Code Pro Light")
+ "Setting up fonts"
+ (defvar mookid-default-font nil "The font used almost everywhere.")
+ (setq mookid-default-font "Source Code Pro Light")
  (set-default-coding-systems 'utf-8)
- (add-to-list 'default-frame-alist `(font . ,default-font))
+ (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
  (global-prettify-symbols-mode 1))
 
 (with-message
@@ -167,9 +170,9 @@
    (global-unset-key (kbd keystr)))
 
  (with-eval-after-load 'init
-   (define-key global-map (kbd "<f2> <f2>") 'toggle-window-split))
+   (define-key global-map (kbd "<f2> <f2>") 'mookid-toggle-window-split))
 
- (defun toggle-window-split ()
+ (defun mookid-toggle-window-split ()
    "When there are two windows, convert horizontal to vertical and vice versa."
    (interactive)
    (or (= (count-windows) 2)
@@ -225,11 +228,11 @@
 ;; Run Cygwin shell
 (setq-default explicit-shell-file-name "C:/bin/bash")
 
-(defun insert-buffer-name ()
+(defun mookid-insert-buffer-name ()
   "Insert the previous buffer name.  Usefull for compilation."
   (interactive)
   (insert (buffer-name (other-buffer (current-buffer) 1))))
-(define-key global-map (kbd "C-c C-v") 'insert-buffer-name)
+(define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
 
 ;; from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html:
 (defun narrow-or-widen-dwim (p)
