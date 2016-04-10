@@ -37,21 +37,20 @@
  "Set mode line format"
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
- (set-face-attribute 'mode-line-filename-face nil
-		     :weight 'bold)
+ (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
  (setq-default mode-line-format
-	       (list
-		"  "
-		mode-line-position
-		'(:propertize
-		  (:eval (when buffer-file-name
-			   (mookid-shorten-path default-directory)))
-		  face mode-line-folder-face)
-		'(:propertize "%b" face mode-line-filename-face)
-		"%n  "
-		mode-line-modes
-		mode-line-misc-info
-		"%-")))
+               (list
+                "  "
+                mode-line-position
+                '(:propertize
+                  (:eval (when buffer-file-name
+                           (mookid-shorten-path default-directory)))
+                  face mode-line-folder-face)
+                '(:propertize "%b" face mode-line-filename-face)
+                "%n  "
+                mode-line-modes
+                mode-line-misc-info
+                "%-")))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -79,7 +78,10 @@
 
 ;; No tabs
 (setq indent-tabs-mode nil)
-(add-hook 'before-save-hook #'untabify)
+(defun mookid-untabify-all ()
+  (unless (derived-mode-p 'makefile-mode)
+    (untabify (point-min) (point-max))))
+(add-hook 'before-save-hook #'mookid-untabify-all)
 
 ;; Delete trailing whitespaces when saving a file
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
@@ -128,13 +130,13 @@
 
 ;; Save history between sessions
 (setq-default savehist-file
-	      (expand-file-name "savehist" mookid-root-dir))
+              (expand-file-name "savehist" mookid-root-dir))
 (savehist-mode t)
 (setq history-length 16384)
 (setq history-delete-duplicates t)
 (setq-default savehist-save-minibuffer-history t)
 (setq-default savehist-additional-variables
-	      '(kill-ring search-ring regexp-search-ring))
+              '(kill-ring search-ring regexp-search-ring))
 
 (with-message
  "Configuring parenthesis settings"
@@ -155,7 +157,7 @@
 (with-message
  "Customize proportional font"
  (set-face-attribute 'variable-pitch nil
-		     :family "DejaVu Sans"))
+                     :family "DejaVu Sans"))
 
 (with-message
  "Switch parens with brackets"
@@ -179,18 +181,18 @@
    (or (= (count-windows) 2)
        (error "You need exactly 2 windows to do this"))
    (let* ((this-win-buffer (window-buffer))
-	  (next-win-buffer (window-buffer (next-window)))
-	  (this-win-edges (window-edges (selected-window)))
-	  (next-win-edges (window-edges (next-window)))
-	  (this-win-2nd (not (and (<= (car this-win-edges)
-				      (car next-win-edges))
-				  (<= (cadr this-win-edges)
-				      (cadr next-win-edges)))))
-	  (splitter
-	   (if (= (car this-win-edges)
-		  (car next-win-edges))
-	       'split-window-horizontally
-	     'split-window-vertically)))
+          (next-win-buffer (window-buffer (next-window)))
+          (this-win-edges (window-edges (selected-window)))
+          (next-win-edges (window-edges (next-window)))
+          (this-win-2nd (not (and (<= (car this-win-edges)
+                                      (car next-win-edges))
+                                  (<= (cadr this-win-edges)
+                                      (cadr next-win-edges)))))
+          (splitter
+           (if (= (car this-win-edges)
+                  (car next-win-edges))
+               'split-window-horizontally
+             'split-window-vertically)))
      (delete-other-windows)
      (let ((first-win (selected-window)))
        (funcall splitter)
@@ -207,8 +209,8 @@
 ;; Mark dired-ignored
 (with-eval-after-load 'dired
   (set-face-attribute 'dired-ignored nil
-		      :strike-through t
-		      :foreground "green"))
+                      :strike-through t
+                      :foreground "green"))
 
 ;; Wrap long lines
 (global-visual-line-mode 1)
@@ -247,19 +249,19 @@ already narrowed."
   (interactive "P")
   (declare (interactive-only))
   (cond ((and (buffer-narrowed-p) (not p)) (widen))
-	((region-active-p)
-	 (narrow-to-region (region-beginning) (region-end)))
-	;; ((derived-mode-p 'org-mode)
-	;;  ;; `org-edit-src-code' is not a real narrowing
-	;;  ;; command. Remove this first conditional if you
-	;;  ;; don't want it.
-	;;  (cond ((ignore-errors (org-edit-src-code))
-	;;         (delete-other-windows))
-	;;        ((ignore-errors (org-narrow-to-block) t))
-	;;        (t (org-narrow-to-subtree))))
-	;; ((derived-mode-p 'latex-mode)
-	;;  (LaTeX-narrow-to-environment))
-	(t (narrow-to-defun))))
+        ((region-active-p)
+         (narrow-to-region (region-beginning) (region-end)))
+        ;; ((derived-mode-p 'org-mode)
+        ;;  ;; `org-edit-src-code' is not a real narrowing
+        ;;  ;; command. Remove this first conditional if you
+        ;;  ;; don't want it.
+        ;;  (cond ((ignore-errors (org-edit-src-code))
+        ;;         (delete-other-windows))
+        ;;        ((ignore-errors (org-narrow-to-block) t))
+        ;;        (t (org-narrow-to-subtree))))
+        ;; ((derived-mode-p 'latex-mode)
+        ;;  (LaTeX-narrow-to-environment))
+        (t (narrow-to-defun))))
 
 (define-key global-map (kbd "C-x n n") 'mookid-narrow-dwim)
 
