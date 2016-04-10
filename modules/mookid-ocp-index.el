@@ -11,13 +11,13 @@
       (ocp-index-jump-to-definition-at-point-other-window)
     (ocp-index-jump-to-definition-at-point)))
 
-(defun ocp-index-jump-to-sig-at-point-maybe-other-window (p)
+(defun ocp-index-jump-to-sig-at-point (p)
   (interactive "P")
   (if p
       (ocp-index-jump-to-sig-at-point-other-window)
     (ocp-index-jump-to-sig-at-point)))
 
-(defun ocp-index-setup ()
+(defun mookid-ocp-index-setup ()
   "My setup for ocp-index."
   (define-key global-map (kbd "C-c t") 'caml-types-show-type)
   (define-key global-map (kbd "C-.")
@@ -25,7 +25,7 @@
   (define-key global-map (kbd "C-,")
     'ocp-index-jump-to-sig-at-point-maybe-other-window))
 
-(add-hook 'tuareg-mode-hook 'ocp-index-setup)
+(add-hook 'tuareg-mode-hook 'mookid-ocp-index-setup)
 
 (provide 'mookid-ocp-index)
 ;;; mookid-ocp-index.el ends here
