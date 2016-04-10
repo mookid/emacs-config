@@ -23,7 +23,7 @@
     lst))
 
 (require 'subr-x)
-(defun shorten-path (path)
+(defun mookid-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
   (let ((r (string-join (cons "..." (last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
@@ -45,7 +45,7 @@
 		mode-line-position
 		'(:propertize
 		  (:eval (when buffer-file-name
-			   (shorten-path default-directory)))
+			   (mookid-shorten-path default-directory)))
 		  face mode-line-folder-face)
 		'(:propertize "%b" face mode-line-filename-face)
 		"%n  "
