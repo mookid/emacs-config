@@ -235,7 +235,7 @@
 (define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
 
 ;; from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html:
-(defun narrow-or-widen-dwim (p)
+(defun mookid-narrow-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
 Dwim means: region, org-src-block, org-subtree, or defun,
 whichever applies first.  Narrowing to org-src-block actually
@@ -260,7 +260,7 @@ already narrowed."
 	;;  (LaTeX-narrow-to-environment))
 	(t (narrow-to-defun))))
 
-(define-key global-map (kbd "C-x n n") 'narrow-or-widen-dwim)
+(define-key global-map (kbd "C-x n n") 'mookid-narrow-dwim)
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
