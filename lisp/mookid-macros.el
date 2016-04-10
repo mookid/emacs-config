@@ -24,7 +24,7 @@ The return value reports success or failure."
        (progn (message "*** %s" ,msg) ,@body 'ok)
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 
-(defun init-load (symb)
+(defun mookid-load (symb)
   "Load a package with log message."
   (with-message (format "Loading %s" (symbol-name symb)) (require symb)))
 

@@ -9,9 +9,9 @@
 (setq-default compilation-scroll-output 'first-error)
 
 ;; disable it for grep mode:
-(defun disable-jump-to-error ()
+(defun mookid-disable-jump-to-error ()
   (kill-local-variable 'compilation-auto-jump-to-next))
-(add-hook 'grep-mode-hook 'disable-jump-to-error)
+(add-hook 'grep-mode-hook 'mookid-disable-jump-to-error)
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)

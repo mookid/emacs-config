@@ -19,13 +19,13 @@
 (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
 (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)
 
-(defun click-to-isearch (click)
+(defun mookid-mouse-isearch (click)
   "Start `isearch-forward-symbol-at-point' on CLICK."
   (interactive "e")
   (goto-char (posn-point (event-start click)))
   (isearch-forward-symbol-at-point))
 
-(define-key global-map (kbd "<mouse-3>") 'click-to-isearch)
+(define-key global-map (kbd "<mouse-3>") 'mookid-mouse-isearch)
 
 (define-key isearch-mode-map (kbd "<mouse-3>") 'isearch-repeat-forward)
 
@@ -35,11 +35,11 @@
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
 (require 'mouse-drag)
-(defun mouse-drag-throw-vertically (start-event)
+(defun mookid-mouse-drag-throw (start-event)
   "Similar to `mouse-drag-throw' but only vertically.
 
 To test this function, evaluate:
-    (define-key global-map [down-mouse-2] \\='mouse-drag-throw-vertically)"
+    (define-key global-map [down-mouse-2] \\='mookid-mouse-drag-throw)"
   (interactive "e")
   (save-selected-window
     (let* ((start-posn (event-start start-event))

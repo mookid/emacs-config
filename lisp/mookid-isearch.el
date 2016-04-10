@@ -11,16 +11,16 @@
 (define-key isearch-mode-map (kbd "TAB") 'isearch-complete)
 (define-key minibuffer-local-isearch-map (kbd "TAB") 'isearch-complete-edit)
 
-(define-key isearch-mode-map "\M-<" 'isearch-beginning-of-buffer)
-(define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
+(define-key isearch-mode-map "\M-<" 'mookid-isearch-beginning-of-buffer)
+(define-key isearch-mode-map "\M->" 'mookid-isearch-end-of-buffer)
 
-(defun isearch-beginning-of-buffer ()
+(defun mookid-isearch-beginning-of-buffer ()
   "Move isearch point to the beginning of the buffer."
   (interactive)
   (goto-char (point-min))
   (isearch-repeat-forward))
 
-(defun isearch-end-of-buffer ()
+(defun mookid-isearch-end-of-buffer ()
   "Move isearch point to the end of the buffer."
   (interactive)
   (goto-char (point-max))
