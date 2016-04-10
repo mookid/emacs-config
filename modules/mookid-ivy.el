@@ -16,8 +16,7 @@
 
 (define-key global-map (kbd "M-y") 'counsel-yank-pop)
 (define-key global-map (kbd "M-x") 'counsel-M-x)
-(define-key global-map (kbd "C-b") 'ivy-switch-buffer)
-(define-key global-map (kbd "C-f") 'counsel-find-file)
+(define-key global-map (kbd "<M-return>") 'ivy-switch-buffer)
 (define-key global-map (kbd "<C-return>") 'counsel-find-file)
 
 (add-hook 'grep-setup-hook
