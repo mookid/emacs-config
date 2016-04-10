@@ -35,5 +35,17 @@
     (ad-enable-advice 'isearch-repeat 'after 'isearch-no-fail)
     (ad-activate 'isearch-repeat)))
 
+;; Exit at the beginning of the matching string
+(add-hook 'isearch-mode-end-hook
+          #'mookid-isearch-exit-beginning)
+(defun mookid-isearch-exit-beginning ()
+  "Go to the start of current isearch match.
+Use in `isearch-mode-end-hook'."
+  (when (and isearch-forward
+             (number-or-marker-p isearch-other-end)
+             (not mark-active)
+             (not isearch-mode-end-hook-quit))
+    (goto-char isearch-other-end)))
+
 (provide 'mookid-isearch)
 ;;; mookid-isearch.el ends here
