@@ -25,11 +25,11 @@
 
 (with-eval-after-load 'caml
   (mapc (lambda (face)
-	  (when (string-prefix-p "caml-types" (face-name face))
-	    (set-face-attribute face nil
-				:background "deep pink"
-				:foreground "white")))
-	(face-list)))
+          (when (string-prefix-p "caml-types" (face-name face))
+            (set-face-attribute face nil
+                                :background "deep pink"
+                                :foreground "white")))
+        (face-list)))
 
 (provide 'mookid-tuareg)
 ;;; mookid-tuareg.el ends here
