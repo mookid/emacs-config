@@ -79,9 +79,10 @@
 
 ;; No tabs
 (setq indent-tabs-mode nil)
+(add-hook 'before-save-hook #'untabify)
 
 ;; Delete trailing whitespaces when saving a file
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
