@@ -4,26 +4,58 @@
 ;; Configuration of Emacs colors.
 
 ;;; Code:
-(load-theme 'wombat)
-(defvar *default-light-color* nil "Foreground for most faces.")
-(setq *default-light-color* "cornsilk1")
-(let ((theme-default-foreground (face-attribute 'default :foreground)))
-  (mapc (lambda (face)
-	  (when (string= (face-attribute face :foreground)
-			 theme-default-foreground)
-	    (set-face-foreground face *default-light-color*)))
-	(face-list)))
 
-(set-face-attribute 'error nil :foreground "deep pink")
+(defun mookid-remap-attribute (attribute color &optional only-default eql-pred)
+  "Change every mapping of the face ATTRIBUTE to COLOR.
 
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "white")
-(set-face-attribute 'font-lock-type-face nil :foreground "white")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "white")
+When ONLY-DEFAULT is
+* 'rebind: change only values associated to the default face value
+* 'all:    change every face
 
-(set-face-attribute 'font-lock-string-face nil :foreground "pale green")
-(set-face-attribute 'font-lock-builtin-face nil :foreground "lavender")
-(set-face-attribute 'font-lock-constant-face nil :foreground "light sky blue")
+Equality test is done with EQL-PRED.
+
+See `set-face-attribute' for legal ATTRIBUTE values."
+  (let ((default-val (face-attribute 'default attribute))
+	(eql-pred (or eql-pred #'string=))
+	(only-default (or only-default 'rebind)))
+    (mapc (lambda (face)
+	    (when (or (eql 'all only-default)
+		      (funcall eql-pred
+			       (face-attribute face attribute)
+			       default-val))
+	      (set-face-attribute face nil attribute color)))
+	  (face-list))))
+
+(defun mookid-colors-wombat ()
+  "Settings for the wombat color theme."
+  (interactive)
+  (load-theme 'wombat)
+  (defvar *default-light-color* nil "Foreground for most faces.")
+  (mookid-remap-attribute :foreground "cornsilk1")
+
+  (set-face-attribute 'error nil :foreground "deep pink")
+  (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
+  (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
+  (set-face-attribute 'font-lock-type-face nil :foreground "white")
+  (set-face-attribute 'font-lock-keyword-face nil :foreground "white")
+  (set-face-attribute 'font-lock-string-face nil :foreground "pale green")
+  (set-face-attribute 'font-lock-builtin-face nil :foreground "lavender")
+  (set-face-attribute 'font-lock-constant-face nil :foreground "light sky blue"))
+
+(defun mookid-colors-plan9 ()
+  "Settings for the plan9 theme."
+  (interactive)
+  (load-theme 'plan9 t)
+  (mookid-remap-attribute :weight 'light 'all))
+
+(defun mookid-colors-leuven ()
+  "Settings for the leuven color theme."
+  (interactive)
+  (load-theme 'leuven t)
+  (mookid-remap-attribute :background "#FFFFE8")
+  (mookid-remap-attribute :weight 'light 'all))
+
+(mookid-colors-plan9)
 
 (provide 'mookid-colors)
 ;;; mookid-colors.el ends here
