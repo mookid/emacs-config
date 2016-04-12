@@ -6,11 +6,12 @@
 
 ;;; Code:
 (defvar tuareg-mode-map)
-(defun ocp-indent-setup ()
+(defun mookid-ocp-indent-setup ()
+  (interactive)
   "My setup for ocp-indent."
   (require 'ocp-indent)
   (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
-(add-hook 'tuareg-mode-hook 'ocp-indent-setup)
+(add-hook 'tuareg-mode-hook 'mookid-ocp-indent-setup)
 
 (provide 'mookid-ocp-indent)
 ;;; mookid-ocp-indent.el ends here
