@@ -16,15 +16,15 @@ Equality test is done with EQL-PRED.
 
 See `set-face-attribute' for legal ATTRIBUTE values."
   (let ((default-val (face-attribute 'default attribute))
-	(eql-pred (or eql-pred #'string=))
-	(only-default (or only-default 'rebind)))
+        (eql-pred (or eql-pred #'string=))
+        (only-default (or only-default 'rebind)))
     (mapc (lambda (face)
-	    (when (or (eql 'all only-default)
-		      (funcall eql-pred
-			       (face-attribute face attribute)
-			       default-val))
-	      (set-face-attribute face nil attribute color)))
-	  (face-list))))
+            (when (or (eql 'all only-default)
+                      (funcall eql-pred
+                               (face-attribute face attribute)
+                               default-val))
+              (set-face-attribute face nil attribute color)))
+          (face-list))))
 
 (defun mookid-colors-wombat ()
   "Settings for the wombat color theme."
@@ -55,7 +55,19 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   (mookid-remap-attribute :background "#FFFFE8")
   (mookid-remap-attribute :weight 'light 'all))
 
-(mookid-colors-plan9)
+(defun mookid-colors-spacemacs (version)
+  "Settings for the spacemacs light theme. VERSION is 'light or 'dark."
+  (interactive)
+  (let ((theme (cond ((eql version 'light)
+                      'spacemacs-light)
+                     ((eql version 'dark)
+                      'spacemacs-dark)
+                     (t
+                      (error "usage: `version' should be 'light or 'dark")))))
+    (load-theme theme t))
+  (hl-line-mode))
+
+(mookid-colors-spacemacs 'light)
 
 (provide 'mookid-colors)
 ;;; mookid-colors.el ends here
