@@ -56,7 +56,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   (mookid-remap-attribute :weight 'light 'all))
 
 (defun mookid-colors-spacemacs (version)
-  "Settings for the spacemacs light theme. VERSION is 'light or 'dark."
+  "Settings for the spacemacs themes. VERSION is 'light or 'dark."
   (interactive)
   (let ((theme (cond ((eql version 'light)
                       'spacemacs-light)
