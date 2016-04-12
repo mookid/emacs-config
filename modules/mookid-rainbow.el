@@ -19,7 +19,7 @@
                     :foreground "red"
                     :inherit 'error
                     :box t)
-(let ((colors '("PaleGreen2" "orange" "pale violet red"))
+(let ((colors '("green3" "orange" "pale violet red"))
       (kinds '(delimiters blocks)))
   (cl-labels ((set-bold (face color)
                         (set-face-attribute face nil
