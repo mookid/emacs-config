@@ -65,7 +65,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
                      (t
                       (error "usage: `version' should be 'light or 'dark")))))
     (load-theme theme t))
-  (hl-line-mode))
+  (hl-line-mode 1))
 
 (mookid-colors-spacemacs 'light)
 
