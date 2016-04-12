@@ -26,8 +26,8 @@
 (mookid-load 'mookid-elisp-slime-nav)
 
 (with-title "Ivy configuration"
-	    (mookid-load 'mookid-ivy)
-	    (mookid-load 'mookid-projectile))
+            (mookid-load 'mookid-ivy)
+            (mookid-load 'mookid-projectile))
 
 (mookid-load 'mookid-smooth-scrolling)
 (mookid-load 'mookid-slime)
@@ -38,14 +38,14 @@
 (mookid-load 'mookid-flycheck)
 
 (with-title "OCaml configuration"
-	    (mookid-load 'mookid-tuareg)
-	    ;; (mookid-load 'mookid-ocp-indent)
-	    ;; (mookid-load 'mookid-merlin)
-	    )
+            (mookid-load 'mookid-tuareg)
+            ;; (mookid-load 'mookid-ocp-indent)
+            ;; (mookid-load 'mookid-merlin)
+            )
 
 (with-title "C configuration"
-	    (mookid-load 'mookid-c)
-	    (mookid-load 'mookid-clang-format))
+            (mookid-load 'mookid-c)
+            (mookid-load 'mookid-clang-format))
 
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
