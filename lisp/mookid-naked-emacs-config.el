@@ -281,6 +281,20 @@ already narrowed."
 
 (define-key global-map (kbd "C-x n n") 'mookid-narrow-dwim)
 
+(defun mookid-join-line (beg end)
+  "If the range BEG-END is active, group it on one line.
+Otherwise, join the current line with the following."
+  (interactive "r")
+  (cond ((null mark-active)
+         (delete-indentation 1))
+        (t (if mark-active
+               (let ((beg (region-beginning))
+                     (end (copy-marker (region-end))))
+                 (goto-char beg)
+                 (while (< (point) end)
+                   (join-line 1)))))))
+(define-key global-map (kbd "M-j") 'mookid-join-line)
+
 (advice-add 'transpose-chars :before #'forward-char)
 (advice-add 'transpose-chars :after #'backward-char)
 
