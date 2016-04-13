@@ -15,9 +15,14 @@
 (define-key ivy-minibuffer-map (kbd "<left>") 'ivy-backward-delete-char)
 
 (define-key global-map (kbd "C-M-y") 'counsel-yank-pop)
+
 (define-key global-map (kbd "M-x") 'counsel-M-x)
 (define-key global-map (kbd "C-x <return>") 'counsel-M-x)
 (define-key global-map (kbd "M-m") 'counsel-M-x)
+
+(define-key global-map (kbd "M-s p") 'swiper)
+(define-key isearch-mode-map (kbd "M-s p") 'swiper-from-isearch)
+
 (define-key global-map (kbd "<M-return>") 'ivy-switch-buffer)
 (define-key global-map (kbd "<C-return>") 'counsel-find-file)
 
