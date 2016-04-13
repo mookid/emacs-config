@@ -160,13 +160,14 @@
                      :family "DejaVu Sans"))
 
 ;; Keyboard translations
-(with-message "Keyboard translations"
-              (keyboard-translate ?\( ?\[)
-              (keyboard-translate ?\[ ?\()
-              (keyboard-translate ?\) ?\])
-              (keyboard-translate ?\] ?\))
-              (keyboard-translate ?\C-h ?\C-p)
-              (keyboard-translate ?\C-p ?\C-h))
+(with-message
+ "Keyboard translations"
+ (keyboard-translate ?\( ?\[)
+ (keyboard-translate ?\[ ?\()
+ (keyboard-translate ?\) ?\])
+ (keyboard-translate ?\] ?\))
+ (keyboard-translate ?\C-h ?\C-p)
+ (keyboard-translate ?\C-p ?\C-h))
 
 (with-message
  "Window switch bindings"
@@ -233,11 +234,24 @@
 ;; Run Cygwin shell
 (setq-default explicit-shell-file-name "C:/bin/bash")
 
+(defun mookid-previous-buffer ()
+  "Not the current buffer but the buffer before."
+  (other-buffer (current-buffer) 1))
+
 (defun mookid-insert-buffer-name ()
-  "Insert the previous buffer name.  Usefull for compilation."
+  "Insert the previous buffer name.  Useful for compilation."
   (interactive)
-  (insert (buffer-name (other-buffer (current-buffer) 1))))
+  (insert (buffer-name (mookid-previous-buffer))))
 (define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
+
+(defun mookid-insert-buffer-path (arg)
+  (interactive "P")
+  "Insert the previous buffer path.
+
+With a prefix argument, insert `file:' before."
+  (interactive)
+  (insert (concat (if arg "file:" "")
+                  (buffer-file-name (mookid-previous-buffer)))))
 
 ;; from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html:
 (defun mookid-narrow-dwim (p)
