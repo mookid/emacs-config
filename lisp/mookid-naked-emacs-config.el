@@ -281,5 +281,17 @@ already narrowed."
 
 (define-key global-map (kbd "C-x n n") 'mookid-narrow-dwim)
 
+(advice-add 'transpose-chars :before #'forward-char)
+(advice-add 'transpose-chars :after #'backward-char)
+
+(advice-add 'transpose-lines :before #'forward-line)
+(advice-add 'transpose-lines :after #'backward-line)
+(advice-add 'transpose-sexps :before #'forward-sexp)
+(advice-add 'transpose-sexps :after #'backward-sexp)
+
+;; Swap both keybindings
+(define-key global-map (kbd "C-t") #'transpose-lines)
+(define-key ctl-x-map (kbd "C-t") #'transpose-chars)
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
