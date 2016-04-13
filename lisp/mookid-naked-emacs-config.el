@@ -300,6 +300,7 @@ Otherwise, join the current line with the following."
 
 (advice-add 'transpose-lines :before #'forward-line)
 (advice-add 'transpose-lines :after #'backward-line)
+
 (advice-add 'transpose-sexps :before #'forward-sexp)
 (advice-add 'transpose-sexps :after #'backward-sexp)
 
