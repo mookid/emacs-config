@@ -295,9 +295,6 @@ Otherwise, join the current line with the following."
                    (join-line 1)))))))
 (define-key global-map (kbd "M-j") 'mookid-join-line)
 
-(advice-add 'transpose-chars :before #'forward-char)
-(advice-add 'transpose-chars :after #'backward-char)
-
 (advice-add 'transpose-lines :before #'forward-line)
 (advice-add 'transpose-lines :after #'backward-line)
 
