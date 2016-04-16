@@ -305,5 +305,8 @@ Otherwise, join the current line with the following."
 (define-key global-map (kbd "C-t") #'transpose-lines)
 (define-key ctl-x-map (kbd "C-t") #'transpose-chars)
 
+;; Stop exiting with the keyboard
+(global-unset-key (kbd "C-x C-c"))
+
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
