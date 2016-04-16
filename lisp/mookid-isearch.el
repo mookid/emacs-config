@@ -18,6 +18,7 @@
 
 (define-key isearch-mode-map "\M-<" 'mookid-isearch-beginning-of-buffer)
 (define-key isearch-mode-map "\M->" 'mookid-isearch-end-of-buffer)
+(define-key global-map (kbd "C-M-s") 'mookid-isearch-region)
 
 (defun mookid-isearch-beginning-of-buffer ()
   "Move isearch point to the beginning of the buffer."
@@ -40,7 +41,7 @@
     (ad-enable-advice 'isearch-repeat 'after 'isearch-no-fail)
     (ad-activate 'isearch-repeat)))
 
-;; Exit at the beginning of the matching string
+;; Exit isearch at the beginning of the matching string
 (add-hook 'isearch-mode-end-hook
           #'mookid-isearch-exit-beginning)
 (defun mookid-isearch-exit-beginning ()
@@ -51,6 +52,14 @@ Use in `isearch-mode-end-hook'."
              (not mark-active)
              (not isearch-mode-end-hook-quit))
     (goto-char isearch-other-end)))
+
+(defun mookid-isearch-region (beg end)
+  "Send selection between BEG and END to isearch."
+  (interactive "r")
+  (deactivate-mark)
+  (kill-ring-save beg end)
+  (isearch-mode t nil nil nil)
+  (isearch-yank-pop))
 
 (provide 'mookid-isearch)
 ;;; mookid-isearch.el ends here
