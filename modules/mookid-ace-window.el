@@ -9,7 +9,7 @@
   (interactive)
   (other-window 1))
 
-(define-key global-map (kbd "M-p") 'ace-window)
+(define-key global-map (kbd "M-o") 'ace-window)
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 (setq aw-dispatch-always t)
 (add-to-list 'aw-dispatch-alist '(?v mookid-split-window-right))
