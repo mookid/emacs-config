@@ -12,10 +12,13 @@
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
-(add-hook 'shell-mode-hook (lambda () (rainbow-delimiters-mode -1)))
+(defun mookid-rainbow-delimiters-disable ()
+  "Disable rainbow-delimiters mode."
+  (rainbow-delimiters-mode -1))
+
+(add-hook 'shell-mode-hook #'mookid-rainbow-disable)
 
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-                    :family mookid-default-font
                     :foreground "red"
                     :inherit 'error
                     :box t)
@@ -23,8 +26,6 @@
       (kinds '(delimiters blocks)))
   (cl-labels ((set-bold (face color)
                         (set-face-attribute face nil
-                                            :family mookid-default-font
-                                            :weight 'semi-light
                                             :foreground color))
               (symb (kind lvl)
                     (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
