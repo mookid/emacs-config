@@ -165,9 +165,7 @@
  (keyboard-translate ?\( ?\[)
  (keyboard-translate ?\[ ?\()
  (keyboard-translate ?\) ?\])
- (keyboard-translate ?\] ?\))
- (keyboard-translate ?\C-h ?\C-p)
- (keyboard-translate ?\C-p ?\C-h))
+ (keyboard-translate ?\] ?\)))
 
 (with-message
  "Window switch bindings"
