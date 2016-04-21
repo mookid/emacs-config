@@ -16,9 +16,19 @@
 (define-key isearch-mode-map (kbd "TAB") 'isearch-complete)
 (define-key minibuffer-local-isearch-map (kbd "TAB") 'isearch-complete-edit)
 
-(define-key isearch-mode-map "\M-<" 'mookid-isearch-beginning-of-buffer)
-(define-key isearch-mode-map "\M->" 'mookid-isearch-end-of-buffer)
+(define-key isearch-mode-map (kbd "M-<") 'mookid-isearch-beginning-of-buffer)
+(define-key isearch-mode-map (kbd "M->") 'mookid-isearch-end-of-buffer)
 (define-key global-map (kbd "C-M-s") 'mookid-isearch-region)
+
+(define-key isearch-mode-map (kbd "<S-return>") 'mookid-isearch-exit-leave-hl)
+
+(defun mookid-isearch-exit-leave-hl ()
+  "Exit search and leave extra match highlighting."
+  (interactive)
+  (let ((lazy-highlight-cleanup nil))
+    (when isearch-lazy-highlight
+      (isearch-lazy-highlight-new-loop (point-min) (point-max)))
+    (isearch-exit)))
 
 (defun mookid-isearch-beginning-of-buffer ()
   "Move isearch point to the beginning of the buffer."
@@ -42,8 +52,7 @@
     (ad-activate 'isearch-repeat)))
 
 ;; Exit isearch at the beginning of the matching string
-(add-hook 'isearch-mode-end-hook
-          #'mookid-isearch-exit-beginning)
+(add-hook 'isearch-mode-end-hook #'mookid-isearch-exit-beginning)
 (defun mookid-isearch-exit-beginning ()
   "Go to the start of current isearch match.
 Use in `isearch-mode-end-hook'."
@@ -60,6 +69,11 @@ Use in `isearch-mode-end-hook'."
   (kill-ring-save beg end)
   (isearch-mode t nil nil nil)
   (isearch-yank-pop))
+
+(defun mookid-occur-rename-buffer ()
+  "Used to uniquify the occur buffer names."
+  (occur-rename-buffer t))
+(add-hook 'occur-hook #'mookid-occur-rename-buffer)
 
 (provide 'mookid-isearch)
 ;;; mookid-isearch.el ends here
