@@ -26,6 +26,19 @@ See `set-face-attribute' for legal ATTRIBUTE values."
               (set-face-attribute face nil attribute color)))
           (face-list))))
 
+(defun mookid-faces-fix (&optional frame)
+  "Remove undesired faces properties."
+  (interactive)
+  (dolist (face (face-list))
+    (when (face-bold-p face frame)
+      (set-face-attribute face nil
+                          :weight 'normal
+                          :underline t)
+      (set-face-bold face nil frame)
+      (set-face-underline face t frame))))
+
+(add-to-list 'custom-define-hook #'mookid-faces-fix)
+
 (defun mookid-colors-wombat ()
   "Settings for the wombat color theme."
   (interactive)
