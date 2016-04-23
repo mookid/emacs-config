@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'mouse)
+(global-unset-key (kbd "<S-down-mouse-1>"))
 (define-key global-map (kbd "<S-mouse-1>") 'mouse-set-mark)
 (setq mouse-drag-copy-region t)
 (setq mouse-yank-at-point t)
@@ -43,39 +44,39 @@ To test this function, evaluate:
   (interactive "e")
   (save-selected-window
     (let* ((start-posn (event-start start-event))
-	   (start-window (posn-window start-posn))
-	   (start-row (cdr (posn-col-row start-posn)))
-	   (start-col (car (posn-col-row start-posn)))
-	   event end row scroll-delta
-	   have-scrolled
-	   col
-	   (scroll-col-delta 0))
+           (start-window (posn-window start-posn))
+           (start-row (cdr (posn-col-row start-posn)))
+           (start-col (car (posn-col-row start-posn)))
+           event end row scroll-delta
+           have-scrolled
+           col
+           (scroll-col-delta 0))
       (select-window start-window)
       (track-mouse
-	;; Don't change the mouse pointer shape while we drag.
-	(setq track-mouse 'dragging)
-	(while (progn
-		 (setq event (read-event)
-		       end (event-end event)
-		       row (cdr (posn-col-row end))
-		       col (car (posn-col-row end)))
-		 (or (mouse-movement-p event)
-		     (eq (car-safe event) 'switch-frame)))
-	  (when (eq start-window (posn-window end))
-	    (setq scroll-delta (mouse-drag-scroll-delta (- start-row row))))
+        ;; Don't change the mouse pointer shape while we drag.
+        (setq track-mouse 'dragging)
+        (while (progn
+                 (setq event (read-event)
+                       end (event-end event)
+                       row (cdr (posn-col-row end))
+                       col (car (posn-col-row end)))
+                 (or (mouse-movement-p event)
+                     (eq (car-safe event) 'switch-frame)))
+          (when (eq start-window (posn-window end))
+            (setq scroll-delta (mouse-drag-scroll-delta (- start-row row))))
 
-	  (if (or (/= 0 scroll-delta)
-		  (/= 0 scroll-col-delta))
-	      (progn
-		(setq have-scrolled t)
-		(mouse-drag-safe-scroll scroll-delta scroll-col-delta)
-		(mouse-drag-repeatedly-safe-scroll scroll-delta scroll-col-delta))))) ;xxx
+          (if (or (/= 0 scroll-delta)
+                  (/= 0 scroll-col-delta))
+              (progn
+                (setq have-scrolled t)
+                (mouse-drag-safe-scroll scroll-delta scroll-col-delta)
+                (mouse-drag-repeatedly-safe-scroll scroll-delta scroll-col-delta))))) ;xxx
       ;; If it was a click and not a drag, prepare to pass the event on.
       ;; Is there a more correct way to reconstruct the event?
       (if (and (not have-scrolled)
-	       (mouse-drag-events-are-point-events-p start-posn end))
-	  (push (cons (event-basic-type start-event) (cdr start-event))
-		unread-command-events)))))
+               (mouse-drag-events-are-point-events-p start-posn end))
+          (push (cons (event-basic-type start-event) (cdr start-event))
+                unread-command-events)))))
 
 (provide 'mookid-mouse)
 ;;; mookid-mouse.el ends here
