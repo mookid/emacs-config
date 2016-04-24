@@ -55,6 +55,10 @@
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
 
+;; Enable originally disabled functions
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
 ;; Default behaviour for newlines
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
@@ -101,15 +105,19 @@
 (define-globalized-minor-mode
   mookid-prop-fonts-mode
   buffer-face-mode
-  (lambda () (variable-pitch-mode 1)))
+  #'mookid-prop-fonts-mode-on)
 
 (diminish 'buffer-face-mode)
 
 (defun mookid-prop-fonts-mode-off ()
-  "Turn it off."
+  "Turn `mookid-prop-fonts-mode' off."
   (variable-pitch-mode -1))
 
-(mookid-prop-fonts-mode 1)
+(defun mookid-prop-fonts-mode-on ()
+  "Turn `mookid-prop-fonts-mode' on."
+  (variable-pitch-mode +1))
+
+(add-hook 'prog-mode-hook 'mookid-prop-fonts-mode-on)
 
 ;; Disable them for specific modes
 (add-hook 'dired-mode-hook 'mookid-prop-fonts-mode-off)
@@ -120,7 +128,7 @@
 (with-message
  "Remove gui elements"
  (and (fboundp 'fringe-mode) (fringe-mode -1))
- (and (fboundp 'tooltip-mode) (tooltip-mode -1))
+ (and (fboundp 'tooltip-mode) (tooltip-mode +1))
  (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
  (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
  (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -149,7 +157,7 @@
 (with-message
  "Setting up fonts"
  (defvar mookid-default-font nil "The font used almost everywhere.")
- (setq mookid-default-font "Source Code Pro Light")
+ (setq mookid-default-font "Source Code Pro Light 10")
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
  (global-prettify-symbols-mode 1))
@@ -159,7 +167,6 @@
  (set-face-attribute 'variable-pitch nil
                      :family "DejaVu Sans"))
 
-;; Keyboard translations
 (with-message
  "Keyboard translations"
  (keyboard-translate ?\( ?\[)
@@ -215,6 +222,9 @@
 
 ;; Wrap long lines
 (global-visual-line-mode 1)
+(define-key visual-line-mode-map [remap kill-line] nil)
+(define-key visual-line-mode-map [remap move-beginning-of-line] nil)
+(define-key visual-line-mode-map [remap move-end-of-line] nil)
 (require 'diminish)
 (diminish 'visual-line-mode)
 
@@ -294,17 +304,26 @@ Otherwise, join the current line with the following."
 (define-key global-map (kbd "M-j") 'mookid-join-line)
 
 (advice-add 'transpose-lines :before #'forward-line)
-(advice-add 'transpose-lines :after #'backward-line)
-
 (advice-add 'transpose-sexps :before #'forward-sexp)
-(advice-add 'transpose-sexps :after #'backward-sexp)
 
-;; Swap both keybindings
-(define-key global-map (kbd "C-t") #'transpose-lines)
-(define-key ctl-x-map (kbd "C-t") #'transpose-chars)
+;; Swap keybindings
+(define-key global-map (kbd "C-t") 'transpose-lines)
+(define-key global-map (kbd "C-x C-t") 'transpose-chars)
 
 ;; Stop exiting with the keyboard
 (global-unset-key (kbd "C-x C-c"))
+
+(define-key global-map (kbd "<M-left>") 'previous-buffer)
+(define-key global-map (kbd "<M-right>") 'next-buffer)
+
+;; Display page delimiter as a horizontal line
+(aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
+
+(define-key global-map (kbd "C-v") 'yank)
+(define-key global-map (kbd "C-M-v") 'yank-pop)
+
+(define-key global-map (kbd "M-DEL") 'kill-whole-line)
+(advice-add 'kill-whole-line :before #'append-next-kill)
 
 (provide 'mookid-naked-emacs-config)
 ;;; mookid-naked-emacs-config.el ends here
