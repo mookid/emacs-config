@@ -796,11 +796,16 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
  (setq-default projectile-completion-system 'ivy))
 
-(with-message
+(ignore
  "Smooth scrolling"
  (require 'smooth-scrolling)
  (setq smooth-scroll-margin 2)
  (smooth-scrolling-mode 1))
+
+(with-message
+ "Centered cursor"
+ (require 'centered-cursor-mode)
+ (global-centered-cursor-mode +1))
 
 (with-message
  "Slime"
@@ -916,12 +921,15 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (with-message
   "OCP indent"
   (defvar tuareg-mode-map)
+  (defvar caml-mode-map)
   (defun mookid-ocp-indent-setup ()
     (interactive)
     "My setup for ocp-indent."
     (require 'ocp-indent)
-    (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
-  (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-setup))
+    (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer)
+    (define-key caml-mode-map (kbd "C-=") 'ocp-indent-buffer))
+  (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-setup)
+  (add-hook 'caml-mode-hook 'mookid-ocp-indent-setup))
 
  (ignore
   "Merlin"
