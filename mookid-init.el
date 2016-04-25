@@ -804,7 +804,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (setq smooth-scroll-margin 2)
  (smooth-scrolling-mode 1))
 
-(with-message
+(ignore
  "Centered cursor"
  (require 'centered-cursor-mode)
  (global-centered-cursor-mode +1))
