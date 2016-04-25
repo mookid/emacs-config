@@ -38,7 +38,8 @@
 (mookid-load 'mookid-flycheck)
 
 (with-title "OCaml configuration"
-            (mookid-load 'mookid-tuareg)
+            ;; (mookid-load 'mookid-tuareg)
+            (mookid-load 'mookid-caml)
             ;; (mookid-load 'mookid-ocp-indent)
             ;; (mookid-load 'mookid-merlin)
             )
