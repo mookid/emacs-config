@@ -59,6 +59,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   "Settings for the plan9 theme."
   (interactive)
   (load-theme 'plan9 t)
+  (set-foreground-color "DarkGrey")
   (mookid-remap-attribute :weight 'light 'all))
 
 (defun mookid-colors-leuven ()
@@ -68,19 +69,53 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   (mookid-remap-attribute :background "#FFFFE8")
   (mookid-remap-attribute :weight 'light 'all))
 
-(defun mookid-colors-spacemacs (version)
+(defun mookid-colors-spacemacs (light-p)
   "Settings for the spacemacs themes. VERSION is 'light or 'dark."
-  (interactive)
-  (let ((theme (cond ((eql version 'light)
-                      'spacemacs-light)
-                     ((eql version 'dark)
-                      'spacemacs-dark)
-                     (t
-                      (error "usage: `version' should be 'light or 'dark")))))
+  (interactive "r")
+  (let ((theme (if light-p
+                   'spacemacs-light
+                 'spacemacs-dark)))
     (load-theme theme t))
   (global-hl-line-mode 1))
 
-(mookid-colors-spacemacs 'light)
+(defun jurta-colors-dark ()
+  "Set colors suitable for working in the darkness without electricity."
+  (interactive)
+  (setq frame-background-mode 'dark)
+  (set-background-color "black")
+  (set-foreground-color "DarkGrey")
+  (set-face-background 'region "DimGray")
+  (set-face-background 'fringe (face-background 'default))
+  (set-face-foreground 'fringe (face-foreground 'default)))
+
+(defun mookid-colors-nocolor ()
+  "Settings for a custom colorless theme."
+  (interactive)
+  (setq frame-background-mode 'dark)
+  (set-background-color "grey10")
+  (set-foreground-color "dark grey")
+  (mapc (lambda (face)
+          (when (string-prefix-p "font-lock" (face-name face))
+            (set-face-attribute face nil
+                                :foreground nil)))
+        (face-list))
+  (set-face-attribute 'font-lock-comment-face nil
+                      :foreground "dark slate gray"
+                      :background nil)
+  (set-face-attribute 'font-lock-doc-face nil
+                      :foreground "tomato"
+                      :background nil)
+  (set-face-attribute 'region nil
+                        :foreground "cornsilk1"
+                        :background "dim gray")
+  (set-face-attribute 'error nil
+                        :foreground "red"
+                        :background nil)
+  (set-face-attribute 'highlight nil
+                        :foreground "cornsilk1"
+                        :background "dim gray"))
+
+(mookid-colors-nocolor)
 
 (provide 'mookid-colors)
 ;;; mookid-colors.el ends here
