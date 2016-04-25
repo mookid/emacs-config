@@ -810,6 +810,12 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (global-centered-cursor-mode +1))
 
 (with-message
+ "Smooth scroll"
+ (require 'smooth-scroll)
+ (smooth-scroll-mode 1)
+ (setq-default smooth-scroll/vscroll-step-size 5))
+
+(with-message
  "Slime"
  (defvar slime-mode-map nil)
  (require 'slime-autoloads)
