@@ -45,6 +45,8 @@ The return value reports success or failure."
       (setq lst (cdr lst)))
     lst))
 
+(advice-add 'move-beginning-of-line :before #'back-to-indentation)
+
 (require 'subr-x)
 (defun mookid-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
