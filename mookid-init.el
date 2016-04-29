@@ -27,6 +27,10 @@ The return value reports success or failure."
        (progn (message "*** %s" ,msg) ,@body 'ok)
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 
+(defmacro mookid-ignore (&rest _body)
+  "Ignore the arguments.  Use it to enable a part of the file."
+  nil)
+
 
 ;;; Basic configuration
 
@@ -461,8 +465,8 @@ See `set-face-attribute' for legal ATTRIBUTE values."
                       :foreground "cornsilk1"
                       :background "dim gray"))
 
-(mookid-colors-nocolor)
-
+;; (mookid-colors-nocolor)
+(mookid-colors-plan9)
 
 ;;; Dired
 (require 'dired)
@@ -798,23 +802,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
  (setq-default projectile-completion-system 'ivy))
 
-(ignore
- "Smooth scrolling"
- (require 'smooth-scrolling)
- (setq smooth-scroll-margin 2)
- (smooth-scrolling-mode 1))
-
-(ignore
- "Centered cursor"
- (require 'centered-cursor-mode)
- (global-centered-cursor-mode +1))
-
-(with-message
- "Smooth scroll"
- (require 'smooth-scroll)
- (smooth-scroll-mode 1)
- (setq-default smooth-scroll/vscroll-step-size 5))
-
 (with-message
  "Slime"
  (defvar slime-mode-map nil)
@@ -882,17 +869,18 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (with-title
  "OCaml configuration"
-(defvar mookid-ocaml-stars "(***************************************************************************)"
-    "A separator for OCaml code.")
+ (defvar mookid-ocaml-stars "(***************************************************************************)"
+   "A separator for OCaml code.")
 
-(defun mookid-ocaml-insert-stars ()
-    "Insert a line with stars."
-    (interactive)
-    (newline)
-    (insert mookid-ocaml-stars)
-    (newline))
+ (defun mookid-ocaml-insert-stars ()
+   "Insert a line with stars."
+   (interactive)
+   (newline)
+   (insert mookid-ocaml-stars)
+   (newline))
 
- (ignore
+ (with-message
+  "Tuareg"
   (autoload 'tuareg-mode "tuareg")
   (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 
@@ -910,9 +898,16 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
               (set-face-attribute face nil
                                   :background "deep pink"
                                   :foreground "white")))
-          (face-list))))
+          (face-list)))
 
- (with-message
+  (defun mookid-ocp-indent-tuareg-setup ()
+    (interactive)
+    "My setup for ocp-indent."
+    (require 'ocp-indent)
+    (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
+  (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-tuareg-setup))
+
+ (mookid-ignore
   "Caml"
   (require 'caml)
   (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . caml-mode))
@@ -924,22 +919,15 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
   (add-hook 'caml-mode-hook 'mookid-caml-setup)
   (require 'rainbow-blocks)
-  (add-hook 'caml-mode-hook 'rainbow-blocks-mode))
-
- (with-message
-  "OCP indent"
-  (defvar tuareg-mode-map)
-  (defvar caml-mode-map)
-  (defun mookid-ocp-indent-setup ()
+  (add-hook 'caml-mode-hook 'rainbow-blocks-mode)
+  (defun mookid-ocp-indent-caml-setup ()
     (interactive)
     "My setup for ocp-indent."
     (require 'ocp-indent)
-    (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer)
     (define-key caml-mode-map (kbd "C-=") 'ocp-indent-buffer))
-  (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-setup)
-  (add-hook 'caml-mode-hook 'mookid-ocp-indent-setup))
+  (add-hook 'caml-mode-hook 'mookid-ocp-indent-caml-setup))
 
- (ignore
+ (mookid-ignore
   "Merlin"
   (add-hook 'tuareg-mode-hook 'merlin-mode t)
   (defun merlin-setup ()
