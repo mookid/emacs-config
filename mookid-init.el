@@ -243,6 +243,9 @@ The return value reports success or failure."
  "Setting up the order for recenter-top-bottom"
  (setq recenter-positions '(top middle bottom)))
 
+;; Pop mark
+(setq set-mark-command-repeat-pop t)
+
 ;; Mark dired-ignored
 (with-eval-after-load 'dired
   (set-face-attribute 'dired-ignored nil
