@@ -392,7 +392,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
       (set-face-bold face nil frame)
       (set-face-underline face t frame))))
 
-(add-to-list 'custom-define-hook #'mookid-faces-fix)
+;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
 
 (defun mookid-colors-wombat ()
   "Settings for the wombat color theme."
