@@ -414,14 +414,13 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   "Settings for the plan9 theme."
   (interactive)
   (load-theme 'plan9 t)
-  (set-foreground-color "DarkGrey")
   (mookid-remap-attribute :weight 'light 'all))
 
 (defun mookid-colors-leuven ()
   "Settings for the leuven color theme."
   (interactive)
   (load-theme 'leuven t)
-  (mookid-remap-attribute :background "#FFFFE8")
+  (mookid-remap-attribute :background "snow2")
   (mookid-remap-attribute :weight 'light 'all))
 
 (defun mookid-colors-spacemacs (light)
@@ -468,8 +467,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
                       :foreground "cornsilk1"
                       :background "dim gray"))
 
-;; (mookid-colors-nocolor)
-(mookid-colors-plan9)
+(mookid-colors-leuven)
 
 ;;; Dired
 (require 'dired)
