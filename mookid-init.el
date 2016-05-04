@@ -345,6 +345,8 @@ Otherwise, join the current line with the following."
 ;; Stop exiting with the keyboard
 (global-unset-key (kbd "C-x C-c"))
 
+(define-key global-map (kbd "M-g a") 'align-regexp)
+
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 
