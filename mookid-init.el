@@ -147,8 +147,6 @@ The return value reports success or failure."
   "Turn `mookid-prop-fonts-mode' on."
   (variable-pitch-mode +1))
 
-(add-hook 'prog-mode-hook 'mookid-prop-fonts-mode-on)
-
 ;; Disable them for specific modes
 (add-hook 'dired-mode-hook 'mookid-prop-fonts-mode-off)
 (add-hook 'ibuffer-mode-hook 'mookid-prop-fonts-mode-off)
