@@ -422,7 +422,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   "Settings for the leuven color theme."
   (interactive)
   (load-theme 'leuven t)
-  (mookid-remap-attribute :background "snow2")
+  (mookid-remap-attribute :background "#fafdf7")
   (mookid-remap-attribute :weight 'light 'all))
 
 (defun mookid-colors-spacemacs (light)
