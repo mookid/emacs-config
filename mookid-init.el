@@ -723,7 +723,7 @@ Use in `isearch-mode-end-hook'."
                      :inherit 'error
                      :box t)
  (let ((colors '("green3" "orange" "pale violet red"))
-       (kinds '(delimiters blocks)))
+       (kinds '(blocks)))
    (cl-labels ((set-bold (face color)
                          (set-face-attribute face nil
                                              :foreground color))
@@ -738,7 +738,9 @@ Use in `isearch-mode-end-hook'."
       with ncolors = (length colors)
       for lvl from 1 upto 9
       for icolor = (mod (- lvl 1) ncolors)
-      do (set-level lvl (nth icolor colors))))))
+      do (set-level lvl (nth icolor colors)))))
+ (set-face-attribute 'rainbow-delimiters-depth-1-face nil :foreground "green3")
+ )
 
 (with-message
  "Company"
