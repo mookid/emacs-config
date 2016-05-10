@@ -137,7 +137,8 @@ The return value reports success or failure."
   buffer-face-mode
   #'mookid-prop-fonts-mode-on)
 
-(diminish 'buffer-face-mode)
+(with-eval-after-load 'diminish
+  (diminish 'buffer-face-mode))
 
 (defun mookid-prop-fonts-mode-off ()
   "Turn `mookid-prop-fonts-mode' off."
@@ -255,17 +256,18 @@ The return value reports success or failure."
 (define-key visual-line-mode-map [remap kill-line] nil)
 (define-key visual-line-mode-map [remap move-beginning-of-line] nil)
 (define-key visual-line-mode-map [remap move-end-of-line] nil)
-(require 'diminish)
-(diminish 'visual-line-mode)
+(with-eval-after-load 'diminish
+  (diminish 'visual-line-mode))
 
 ;; Use ibuffer
 (require 'ibuffer)
 (define-key global-map (kbd "C-x C-b") 'ibuffer)
-(require 'fullframe)
-(fullframe ibuffer ibuffer-quit)
+(with-eval-after-load 'fullframe
+  (fullframe ibuffer ibuffer-quit))
 
-;; Use fullframe the packages
-(fullframe list-packages quit-window)
+;; Use fullframe
+(with-eval-after-load 'fullframe
+  (fullframe list-packages quit-window))
 
 (winner-mode 1)
 
@@ -667,6 +669,8 @@ Use in `isearch-mode-end-hook'."
 
 ;;; Melpa packages
 
+(require 'fullframe)
+(require 'diminish)
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
