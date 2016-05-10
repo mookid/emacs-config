@@ -511,16 +511,6 @@ See `set-face-attribute' for legal ATTRIBUTE values."
 (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
 (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)
 
-(defun mookid-mouse-isearch (click)
-  "Start `isearch-forward-symbol-at-point' on CLICK."
-  (interactive "e")
-  (goto-char (posn-point (event-start click)))
-  (isearch-forward-symbol-at-point))
-
-(define-key global-map (kbd "<mouse-3>") 'mookid-mouse-isearch)
-
-(define-key isearch-mode-map (kbd "<mouse-3>") 'isearch-repeat-forward)
-
 (define-key global-map (kbd "<mode-line> <down-mouse-1>") 'enlarge-window)
 
 (global-unset-key (kbd "<mode-line> <mouse-2>"))
