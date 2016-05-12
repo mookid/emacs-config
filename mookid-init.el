@@ -891,9 +891,10 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (with-message
  "Images"
- (require 'image+)
- (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
- (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))
+ (with-eval-after-load "image-mode"
+   (require 'image+)
+   (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
+   (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
 
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
