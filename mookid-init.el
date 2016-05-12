@@ -601,7 +601,27 @@ Use in `isearch-mode-end-hook'."
 (add-hook 'occur-hook #'mookid-occur-rename-buffer)
 
 
-;;; Melpa packages
+;;; Windows
+
+(defun mookid-split-window-right ()
+  "Forwards to `split-window-below' and rebalances."
+  (split-window-right))
+
+(defun mookid-split-window-below ()
+  "Forwards to `split-window-below' and rebalances."
+  (split-window-below))
+
+(defun mookid-delete-window ()
+  "Forwards to `delete-window' and rebalances."
+  (delete-window))
+
+(mapc (lambda (fun) (advice-add fun :after #'balance-windows))
+      '(mookid-split-window-right
+        mookid-split-window-below
+        mookid-delete-window))
+
+
+;;; melpa packages
 
 (require 'fullframe)
 (require 'diminish)
@@ -624,7 +644,7 @@ Use in `isearch-mode-end-hook'."
 
 (use-package lispy
   :defer t
-  :init
+  :config
   (progn
     (lispy-set-key-theme '(special))
     (add-hook 'prog-mode-hook 'lispy-mode)))
@@ -638,7 +658,7 @@ Use in `isearch-mode-end-hook'."
 
 (use-package rainbow-delimiters
   :defer t
-  :init
+  :config
   (progn
     (autoload 'mookid-default-font "mookid-naked-emacs-config")
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -654,7 +674,7 @@ Use in `isearch-mode-end-hook'."
 
 (use-package rainbow-blocks
   :defer t
-  :init
+  :config
   (progn
     (let ((colors '("green3" "orange" "pale violet red"))
        (kinds '(blocks)))
@@ -676,7 +696,7 @@ Use in `isearch-mode-end-hook'."
 
 (use-package company
   :defer t
-  :init
+  :config
   (progn
     (setq-default company-idle-delay 0.5)
     (setq-default company-tooltip-limit 5)
@@ -763,12 +783,25 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package ace-window
   :defer t
-  :init
+  :bind
+  (("C-x 0" . mookid-delete-window)
+   ("C-x 1" . mookid-split-window-below)
+   ("C-x 3" . mookid-split-window-right))
+  :bind
+  (("M-o" . ace-window))
+  :config
   (progn
     (defun mookid-other-window ()
       "Forwards to `other-window'."
       (interactive)
-      (other-window 1))))
+      (other-window 1))
+    (setq-default aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    (setq-default aw-dispatch-always t)
+    (defvar aw-dispatch-alist)
+    (add-to-list 'aw-dispatch-alist '(?v mookid-split-window-right))
+    (add-to-list 'aw-dispatch-alist '(?p mookid-other-window))
+    (add-to-list 'aw-dispatch-alist '(?b mookid-split-window-below))
+    (add-to-list 'aw-dispatch-alist '(?c mookid-delete-window))))
 
 (use-package flycheck
   :defer t
