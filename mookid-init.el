@@ -609,48 +609,54 @@ Use in `isearch-mode-end-hook'."
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
-(with-message
- "Nerd commenter"
- (require 'evil-nerd-commenter)
- (define-key global-map (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
- (define-key global-map (kbd "C-c c") 'evilnc-copy-and-comment-lines))
+;;; Use package
+(setq use-package-verbose t)
+(require 'use-package)
 
-(with-message
- "Anzu"
- (require 'anzu)
- (diminish 'anzu-mode)
- (global-anzu-mode +1)
- (global-set-key (kbd "M-%") 'anzu-query-replace-regexp))
+(use-package evil-nerd-commenter
+  :defer t
+  :bind (("M-;" . evilnc-comment-or-uncomment-lines)
+         ("C-c c". evilnc-copy-and-comment-lines)))
 
-(with-message
- "Lispy"
- (require 'lispy)
- (lispy-set-key-theme '(special))
- (add-hook 'prog-mode-hook 'lispy-mode))
+(use-package anzu
+  :defer t
+  :bind (("M-%" . anzu-query-replace-regexp)))
 
-(with-message
- "Magit"
- (autoload 'magit-status "magit")
- (autoload 'magit-mode-quit-window "magit")
- (global-set-key (kbd "<f7>") 'magit-status)
- (fullframe magit-status magit-mode-quit-window))
+(use-package lispy
+  :defer t
+  :init
+  (progn
+    (lispy-set-key-theme '(special))
+    (add-hook 'prog-mode-hook 'lispy-mode)))
 
-(with-message
- "Rainbow modes"
- (require 'rainbow-delimiters)
- (require 'rainbow-blocks)
- (autoload 'mookid-default-font "mookid-naked-emacs-config")
- (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
- (defun mookid-rainbow-delimiters-disable ()
-   "Disable rainbow-delimiters mode."
-   (rainbow-delimiters-mode -1))
+(use-package magit
+  :defer t
+  :bind (("<f7>" . magit-status))
+  :init
+  (progn
+    (fullframe magit-status magit-mode-quit-window)))
 
- ;; (add-hook 'shell-mode-hook #'mookid-rainbow-disable)
- (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+(use-package rainbow-delimiters
+  :defer t
+  :init
+  (progn
+    (autoload 'mookid-default-font "mookid-naked-emacs-config")
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+    (defun mookid-rainbow-delimiters-disable ()
+      "Disable rainbow-delimiters mode."
+      (rainbow-delimiters-mode -1))
+
+    ;; (add-hook 'shell-mode-hook #'mookid-rainbow-disable)
+    (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                      :foreground "red"
                      :inherit 'error
-                     :box t)
- (let ((colors '("green3" "orange" "pale violet red"))
+                     :box t)))
+
+(use-package rainbow-blocks
+  :defer t
+  :init
+  (progn
+    (let ((colors '("green3" "orange" "pale violet red"))
        (kinds '(blocks)))
    (cl-labels ((set-bold (face color)
                          (set-face-attribute face nil
@@ -666,175 +672,137 @@ Use in `isearch-mode-end-hook'."
       with ncolors = (length colors)
       for lvl from 1 upto 9
       for icolor = (mod (- lvl 1) ncolors)
-      do (set-level lvl (nth icolor colors))))))
+      do (set-level lvl (nth icolor colors)))))))
 
-(with-message
- "Company"
- (require 'company)
- (setq-default company-idle-delay 0.5)
- (setq-default company-tooltip-limit 5)
- (setq-default company-minimum-prefix-length 2)
- (setq-default company-tooltip-flip-when-above t))
+(use-package company
+  :defer t
+  :init
+  (progn
+    (setq-default company-idle-delay 0.5)
+    (setq-default company-tooltip-limit 5)
+    (setq-default company-minimum-prefix-length 2)
+    (setq-default company-tooltip-flip-when-above t)))
 
-(with-message
- "Elisp-slime-nav"
- (require 'elisp-slime-nav)
- (diminish 'elisp-slime-nav-mode)
+(use-package elisp-slime-nav
+  :defer t
+  :after diminish
+  :bind (("C-\"" . elisp-slime-nav-find-elisp-thing-at-point))
+  :init
+  (progn
+    (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
+    (add-hook 'lisp-interaction-mode 'elisp-slime-nav-mode)))
 
- (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
- (add-hook 'lisp-interaction-mode 'elisp-slime-nav-mode)
+(use-package ivy
+  :defer t
+  :after diminish
+  :init
+  (progn
+    (ivy-mode 1)
+    (setq-default ivy-use-virtual-buffers t)))
 
- (define-key global-map (kbd "C-\"") 'elisp-slime-nav-find-elisp-thing-at-point))
+(use-package counsel
+  :defer t
+  :after ivy
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x <return>" . counsel-M-x)
+   ("M-m" . counsel-M-x)
+   ("M-s p" . swiper)
+   ("<M-return>" . ivy-switch-buffer)
+   ("<C-return>". counsel-find-file)
+   :map isearch-mode-map
+   ("M-s p" . swiper-from-isearch)
+   :map ivy-minibuffer-map
+   ("<right>" . ivy-alt-done)
+   ("<left>" . ivy-backward-delete-char))
+  :init
+  (progn
+    (add-hook 'grep-setup-hook
+              (lambda () (define-key grep-mode-map (kbd "RET") 'ivy-switch-buffer)))))
 
-(with-title
- "Ivy configuration"
- (require 'ivy)
- (diminish 'ivy-mode)
 
- (ivy-mode 1)
- (setq-default ivy-use-virtual-buffers t)
 
- (require 'counsel)
- (defvar ivy-minibuffer-map)
- (define-key ivy-minibuffer-map (kbd "<right>") 'ivy-alt-done)
- (define-key ivy-minibuffer-map (kbd "<left>") 'ivy-backward-delete-char)
-
- (define-key global-map (kbd "C-M-y") 'counsel-yank-pop)
-
- (define-key global-map (kbd "M-x") 'counsel-M-x)
- (define-key global-map (kbd "C-x <return>") 'counsel-M-x)
- (define-key global-map (kbd "M-m") 'counsel-M-x)
-
- (define-key global-map (kbd "M-s p") 'swiper)
- (define-key isearch-mode-map (kbd "M-s p") 'swiper-from-isearch)
-
- (define-key global-map (kbd "<M-return>") 'ivy-switch-buffer)
- (define-key global-map (kbd "<C-return>") 'counsel-find-file)
-
- (defvar grep-mode-map)
- (add-hook 'grep-setup-hook
-           (lambda () (define-key grep-mode-map (kbd "RET") 'ivy-switch-buffer)))
-
- (require 'projectile)
-
- (projectile-global-mode)
- (setq-default projectile-indexing-method 'native)
- (setq-default projectile-enable-caching t)
- (setq projectile-mode-line '(:eval (concat " <" (projectile-project-name) ">")))
- (defun mookid-projectile (p)
-   "My projectile command.
+(use-package projectile
+  :defer t
+  :after ivy
+  :bind (("<C-S-return>" . mookid-projectile))
+  :init
+  (progn
+    (projectile-global-mode)
+    (setq-default projectile-indexing-method 'native)
+    (setq-default projectile-enable-caching t)
+    (setq projectile-mode-line '(:eval (concat " <" (projectile-project-name) ">")))
+    (defun mookid-projectile (p)
+      "My projectile command.
 
 If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
-   (interactive "P")
-   (if p (projectile-switch-project) (projectile-find-file)))
- (global-set-key (kbd "<C-S-return>") 'mookid-projectile)
+      (interactive "P")
+      (if p (projectile-switch-project) (projectile-find-file)))
+    (setq-default projectile-completion-system 'ivy)))
 
- (setq-default projectile-completion-system 'ivy))
+(use-package slime
+  :defer t
+  :bind (("C-c h" . hyperspec-lookup))
+  :init
+  (progn
+    (require 'slime-autoloads)
+    (setq-default inferior-lisp-program "sbcl")
+    (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
+    (setq-default common-lisp-hyperspec-root "file:///Hyperspec/")))
 
-(with-message
- "Slime"
- (defvar slime-mode-map nil)
- (require 'slime-autoloads)
- (setq-default inferior-lisp-program "sbcl")
- (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
- (setq-default common-lisp-hyperspec-root "file:///Hyperspec/")
- (with-eval-after-load 'slime
-   (define-key slime-mode-map (kbd "C-c h") 'hyperspec-lookup)))
+(use-package expand-region
+  :defer t
+  :bind (("M-`" . er/expand-region)))
 
-(with-message
- "Expand region"
- (require 'expand-region)
- (global-set-key (kbd "M-`") 'er/expand-region))
+(use-package avy
+  :defer t
+  :init
+  (progn
+    (setq-default avy-all-windows 'all-frames)
+    (define-key global-map (kbd "C-:") 'avy-goto-word-or-subword-1)))
 
-(with-message
- "Avy"
- (require 'avy)
- (setq-default avy-all-windows 'all-frames)
- (define-key global-map (kbd "C-:") 'avy-goto-word-or-subword-1))
+(use-package ace-window
+  :defer t
+  :init
+  (progn
+    (defun mookid-other-window ()
+      "Forwards to `other-window'."
+      (interactive)
+      (other-window 1))))
 
-(with-message
- "Ace window"
- (require 'ace-window)
- (defun mookid-other-window ()
-   "Forwards to `other-window'."
-   (interactive)
-   (other-window 1))
-
- (define-key global-map (kbd "M-o") 'ace-window)
- (setq-default aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
- (setq-default aw-dispatch-always t)
- (defvar aw-dispatch-alist)
- (add-to-list 'aw-dispatch-alist '(?v mookid-split-window-right))
- (add-to-list 'aw-dispatch-alist '(?p mookid-other-window))
- (add-to-list 'aw-dispatch-alist '(?b mookid-split-window-below))
- (add-to-list 'aw-dispatch-alist '(?c mookid-delete-window))
-
- ;; Auto balance windows:
- (defun mookid-split-window-right ()
-   "Forwards to `split-window-below' and rebalances."
-   (split-window-right))
-
- (defun mookid-split-window-below ()
-   "Forwards to `split-window-below' and rebalances."
-   (split-window-below))
-
- (defun mookid-delete-window ()
-   "Forwards to `delete-window' and rebalances."
-   (delete-window))
-
- (define-key global-map (kbd "C-x 0") 'mookid-delete-window)
- (define-key global-map (kbd "C-x 2") 'mookid-split-window-below)
- (define-key global-map (kbd "C-x 3") 'mookid-split-window-right)
- (mapc (lambda (fun) (advice-add fun :after #'balance-windows))
-       '(mookid-split-window-right
-         mookid-split-window-below
-         mookid-delete-window)))
-
-(with-message
- "Flycheck"
- (with-eval-after-load 'flycheck
-   (defvar flycheck-mode-map)
-   (define-key flycheck-mode-map (kbd "C-S-<next>") 'flycheck-next-error)))
+(use-package flycheck
+  :defer t
+  :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error)))
 
 (with-title
  "OCaml configuration"
- (defvar mookid-ocaml-stars "(***************************************************************************)"
-   "A separator for OCaml code.")
 
- (defun mookid-ocaml-insert-stars ()
-   "Insert a line with stars."
-   (interactive)
-   (newline)
-   (insert mookid-ocaml-stars)
-   (newline))
+ (use-package tuareg
+   :defer t
+   :mode "\\.ml[ily]?$"
+   :init
+   (progn
+     (defun mookid-ocp-indent-tuareg-setup ()
+       (interactive)
+       "My setup for ocp-indent."
+       (require 'ocp-indent)
+       (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
+     (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-tuareg-setup))
+   :bind (:map tuareg-mode-map
+               ("C-c =" . mookid-ocaml-insert-stars)))
 
- (with-message
-  "Tuareg"
-  (autoload 'tuareg-mode "tuareg")
-  (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
+ (use-package caml
+   :defer t
+   :after tuareg
+   :init
+   (progn
+     (mapc (lambda (face)
+             (when (string-prefix-p "caml-types" (face-name face))
+               (set-face-attribute face nil
+                                   :background "deep pink"
+                                   :foreground "white")))
+           (face-list))))
 
-  (defvar tuareg-mode-map)
-  (defun mookid-tuareg-setup ()
-    "Keybindings for tuareg mode."
-    (define-key tuareg-mode-map (kbd "C-'") 'tuareg-eval-region)
-    (define-key tuareg-mode-map (kbd "C-c =") 'mookid-ocaml-insert-stars))
-
-  (add-hook 'tuareg-mode-hook 'mookid-tuareg-setup)
-
-  (with-eval-after-load 'caml
-    (mapc (lambda (face)
-            (when (string-prefix-p "caml-types" (face-name face))
-              (set-face-attribute face nil
-                                  :background "deep pink"
-                                  :foreground "white")))
-          (face-list)))
-
-  (defun mookid-ocp-indent-tuareg-setup ()
-    (interactive)
-    "My setup for ocp-indent."
-    (require 'ocp-indent)
-    (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
-  (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-tuareg-setup))
 
  (mookid-ignore
   "Caml"
@@ -857,15 +825,15 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (add-hook 'caml-mode-hook 'mookid-ocp-indent-caml-setup))
 
  (mookid-ignore
-  "Merlin"
-  (add-hook 'tuareg-mode-hook 'merlin-mode t)
-  (defun merlin-setup ()
-    "My setup for merlin."
-    (setq-default merlin-use-auto-complete-mode 'easy)
-    (defvar company-backends)
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'merlin-company-backend)))
-  (add-hook 'merlin-mode-hook 'merlin-setup)))
+  (use-package merlin
+    :defer t
+    :after tuareg
+    :init
+    (progn
+      (setq-default merlin-use-auto-complete-mode 'easy)
+      (defvar company-backends)
+      (with-eval-after-load 'company
+        (add-to-list 'company-backends 'merlin-company-backend))))))
 
 (with-title
  "C configuration"
@@ -873,12 +841,12 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (defvar c-indentation 8 "The indentation for C code.")
  (defvar c-stars "/*****************************************************************************/"
    "A separator for C code.")
+
  (defun mookid-c-insert-stars ()
    "Insert the value of `c-stars'."
    (interactive)
    (insert c-stars))
- (require 'find-file)
- (require 'compile)
+
  (defun mookid-c-setup ()
    "My setup for C."
    (setq-default c-default-style "linux" c-basic-offset c-indentation)
@@ -886,8 +854,12 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
    (define-key c-mode-base-map (kbd "C-c =") 'mookid-c-insert-stars)
    (setq-default indent-tabs-mode nil))
+
  (add-hook 'c-initialization-hook 'mookid-c-setup)
- (require 'clang-format))
+
+ (use-package find-file :defer t)
+ (use-package compile :defer t)
+ (use-package clang-format :defer t))
 
 (with-message
  "Images"
@@ -900,18 +872,18 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (when (file-exists-p f)
     (with-message "Loading private settings" (load f))))
 
-(with-title
- "Org mode configuration"
-
- ;; allow for export=>beamer by placing
-
- ;; #+LaTeX_CLASS: beamer in org files
- (unless (boundp 'org-export-latex-classes)
-   (setq org-export-latex-classes nil))
- (add-to-list 'org-export-latex-classes
-              ;; beamer class, for presentations
-              '("beamer"
-                "\\documentclass[11pt]{beamer}\n
+(use-package org
+  :defer t
+  :init
+  (progn
+    ;; allow for export=>beamer by placing
+    ;; #+LaTeX_CLASS: beamer in org files
+    (unless (boundp 'org-export-latex-classes)
+      (setq org-export-latex-classes nil))
+    (add-to-list 'org-export-latex-classes
+                 ;; beamer class, for presentations
+                 '("beamer"
+                   "\\documentclass[11pt]{beamer}\n
       \\mode<{{{beamermode}}}>\n
       \\usetheme{{{{beamertheme}}}}\n
       \\usecolortheme{{{{beamercolortheme}}}}\n
@@ -934,30 +906,28 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
       \\institute{{{{beamerinstitute}}}}\n
        \\subject{{{{beamersubject}}}}\n"
 
-                ("\\section{%s}" . "\\section*{%s}")
+                   ("\\section{%s}" . "\\section*{%s}")
 
-                ("\\begin{frame}[fragile]\\frametitle{%s}"
-                 "\\end{frame}"
-                 "\\begin{frame}[fragile]\\frametitle{%s}"
-                 "\\end{frame}")))
+                   ("\\begin{frame}[fragile]\\frametitle{%s}"
+                    "\\end{frame}"
+                    "\\begin{frame}[fragile]\\frametitle{%s}"
+                    "\\end{frame}")))
 
- ;; letter class, for formal letters
+    ;; letter class, for formal letters
 
- (add-to-list 'org-export-latex-classes
+    (add-to-list 'org-export-latex-classes
 
-              '("letter"
-                "\\documentclass[11pt]{letter}\n
+                 '("letter"
+                   "\\documentclass[11pt]{letter}\n
       \\usepackage[utf8]{inputenc}\n
       \\usepackage[T1]{fontenc}\n
       \\usepackage{color}"
 
-                ("\\section{%s}" . "\\section*{%s}")
-                ("\\subsection{%s}" . "\\subsection*{%s}")
-                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
- )
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))))
 
 (provide 'mookid-init)
 ;;; mookid-init.el ends here
