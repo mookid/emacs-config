@@ -666,9 +666,7 @@ Use in `isearch-mode-end-hook'."
       with ncolors = (length colors)
       for lvl from 1 upto 9
       for icolor = (mod (- lvl 1) ncolors)
-      do (set-level lvl (nth icolor colors)))))
- (set-face-attribute 'rainbow-delimiters-depth-1-face nil :foreground "green3")
- )
+      do (set-level lvl (nth icolor colors))))))
 
 (with-message
  "Company"
