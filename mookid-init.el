@@ -396,78 +396,12 @@ See `set-face-attribute' for legal ATTRIBUTE values."
 
 ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
 
-(defun mookid-colors-wombat ()
-  "Settings for the wombat color theme."
-  (interactive)
-  (load-theme 'wombat)
-  (defvar *default-light-color* nil "Foreground for most faces.")
-  (mookid-remap-attribute :foreground "cornsilk1")
-
-  (set-face-attribute 'error nil :foreground "deep pink")
-  (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
-  (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
-  (set-face-attribute 'font-lock-type-face nil :foreground "white")
-  (set-face-attribute 'font-lock-keyword-face nil :foreground "white")
-  (set-face-attribute 'font-lock-string-face nil :foreground "pale green")
-  (set-face-attribute 'font-lock-builtin-face nil :foreground "lavender")
-  (set-face-attribute 'font-lock-constant-face nil :foreground "light sky blue"))
-
-(defun mookid-colors-plan9 ()
-  "Settings for the plan9 theme."
-  (interactive)
-  (load-theme 'plan9 t)
-  (mookid-remap-attribute :weight 'light 'all))
-
 (defun mookid-colors-leuven ()
   "Settings for the leuven color theme."
   (interactive)
   (load-theme 'leuven t)
   (mookid-remap-attribute :background "#fafdf7")
   (mookid-remap-attribute :weight 'light 'all))
-
-(defun mookid-colors-spacemacs (light)
-  "Settings for the spacemacs themes, LIGHT and dark versions."
-  (interactive "r")
-  (load-theme (if light 'spacemacs-light 'spacemacs-dark) t)
-  (global-hl-line-mode 1))
-
-(defun jurta-colors-dark ()
-  "Set colors suitable for working in the darkness without electricity."
-  (interactive)
-  (setq frame-background-mode 'dark)
-  (set-background-color "black")
-  (set-foreground-color "DarkGrey")
-  (set-face-background 'region "DimGray")
-  (set-face-background 'fringe (face-background 'default))
-  (set-face-foreground 'fringe (face-foreground 'default)))
-
-(defun mookid-colors-nocolor ()
-  "Settings for a custom colorless theme."
-  (interactive)
-  (global-hl-line-mode 1)
-  (setq frame-background-mode 'dark)
-  (set-background-color "grey10")
-  (set-foreground-color "dark grey")
-  (mapc (lambda (face)
-          (when (string-prefix-p "font-lock" (face-name face))
-            (set-face-attribute face nil
-                                :foreground nil)))
-        (face-list))
-  (set-face-attribute 'font-lock-comment-face nil
-                      :foreground "dark slate gray"
-                      :background nil)
-  (set-face-attribute 'font-lock-doc-face nil
-                      :foreground "tomato"
-                      :background nil)
-  (set-face-attribute 'region nil
-                      :foreground "cornsilk1"
-                      :background "dim gray")
-  (set-face-attribute 'error nil
-                      :foreground "red"
-                      :background nil)
-  (set-face-attribute 'highlight nil
-                      :foreground "cornsilk1"
-                      :background "dim gray"))
 
 (mookid-colors-leuven)
 
