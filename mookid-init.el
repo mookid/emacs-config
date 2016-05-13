@@ -612,7 +612,11 @@ Use in `isearch-mode-end-hook'."
  (mapc (lambda (fun) (advice-add fun :after #'balance-windows))
        '(mookid-split-window-right
          mookid-split-window-below
-         mookid-delete-window)))
+         mookid-delete-window))
+
+ (define-key global-map (kdb "C-x 0") 'mookid-delete-window)
+ (define-key global-map (kdb "C-x 2") 'mookid-split-window-below)
+ (define-key global-map (kdb "C-x 3") 'mookid-split-window-right))
 
 
 ;;; melpa packages
@@ -777,10 +781,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package ace-window
   :defer t
-  :bind
-  (("C-x 0" . mookid-delete-window)
-   ("C-x 1" . mookid-split-window-below)
-   ("C-x 3" . mookid-split-window-right))
   :bind
   (("M-o" . ace-window))
   :config
