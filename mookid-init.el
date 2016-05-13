@@ -614,9 +614,9 @@ Use in `isearch-mode-end-hook'."
          mookid-split-window-below
          mookid-delete-window))
 
- (define-key global-map (kdb "C-x 0") 'mookid-delete-window)
- (define-key global-map (kdb "C-x 2") 'mookid-split-window-below)
- (define-key global-map (kdb "C-x 3") 'mookid-split-window-right))
+ (define-key global-map (kbd "C-x 0") 'mookid-delete-window)
+ (define-key global-map (kbd "C-x 2") 'mookid-split-window-below)
+ (define-key global-map (kbd "C-x 3") 'mookid-split-window-right))
 
 
 ;;; melpa packages
@@ -804,11 +804,13 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 (with-message
  "OCaml configuration"
 
+
  (use-package tuareg
    :defer t
-   :config (add-to-list 'auto-mode-alist '(("\\.ml[ily]?$" . tuareg-mode)))
+   :mode "\\.ml[ily]?$"
    :bind (:map tuareg-mode-map
                ("C-c =" . mookid-ocaml-insert-stars)))
+
 
  (use-package ocp-indent
    :defer t
