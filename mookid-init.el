@@ -644,10 +644,7 @@ Use in `isearch-mode-end-hook'."
 
 (use-package anzu
   :init (global-anzu-mode 1)
-  :after diminish
-  :config
-  (progn
-    (diminish 'anzu-mode))
+  :diminish anzu-mode
   :bind (("M-%" . anzu-query-replace-regexp)))
 
 (use-package lispy
@@ -713,16 +710,16 @@ Use in `isearch-mode-end-hook'."
 
 (use-package elisp-slime-nav
   :defer t
-  :after diminish
+  :diminish elisp-slime-nav-mode
   :bind (("C-\"" . elisp-slime-nav-find-elisp-thing-at-point))
   :init
   (progn
-    (diminish 'elisp-slime-nav-mode)
     (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
     (add-hook 'lisp-interaction-mode 'elisp-slime-nav-mode)))
 
 (use-package ivy
   :defer t
+  :diminish ivy-mode
   :bind
   (("M-x" . counsel-M-x)
    ("C-x <return>" . counsel-M-x)
@@ -737,7 +734,6 @@ Use in `isearch-mode-end-hook'."
    ("<left>" . ivy-backward-delete-char))
   :config
   (progn
-    (diminish 'ivy-mode)
     (ivy-mode 1)
     (setq-default ivy-use-virtual-buffers t)
 
