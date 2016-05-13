@@ -406,13 +406,15 @@ See `set-face-attribute' for legal ATTRIBUTE values."
 (mookid-colors-leuven)
 
 ;;; Dired
-(require 'dired)
-(require 'dired-x)
+(autoload 'dired-find-file "dired")
+(defvar dired-mode-map)
+(autoload 'dired-jump "dired-x")
 
-(define-key dired-mode-map (kbd "M-<left>") 'dired-jump)
-(define-key dired-mode-map (kbd "M-<right>") 'dired-find-file)
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
+  (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
 
-(define-key global-map (kbd "C-S-<left>") 'dired-jump)
+(define-key global-map (kbd "M-<up>") 'dired-jump)
 
 
 ;;; Compilation
