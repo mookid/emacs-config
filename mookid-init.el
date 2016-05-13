@@ -728,7 +728,7 @@ Use in `isearch-mode-end-hook'."
 
 (use-package projectile
   :defer t
-  :if (featurep 'ivy)
+  :after ivy
   :bind (("<C-S-return>" . mookid-projectile))
   :config
   (progn
@@ -747,7 +747,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package counsel
   :defer t
-  :if (featurep 'ivy)
+  :after ivy
   :init
   (progn
     (add-hook 'grep-setup-hook
