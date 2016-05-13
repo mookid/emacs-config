@@ -723,16 +723,6 @@ Use in `isearch-mode-end-hook'."
 
 (use-package ivy
   :defer t
-  :after diminish
-  :init
-  (progn
-    (diminish 'ivy-mode)
-    (ivy-mode 1)
-    (setq-default ivy-use-virtual-buffers t)))
-
-(use-package counsel
-  :defer t
-  :after ivy
   :bind
   (("M-x" . counsel-M-x)
    ("C-x <return>" . counsel-M-x)
@@ -745,30 +735,37 @@ Use in `isearch-mode-end-hook'."
    :map ivy-minibuffer-map
    ("<right>" . ivy-alt-done)
    ("<left>" . ivy-backward-delete-char))
-  :init
-  (progn
-    (add-hook 'grep-setup-hook
-              (lambda () (define-key grep-mode-map (kbd "RET")
-                      'ivy-switch-buffer)))))
-
-(use-package projectile
-  :defer t
-  :after ivy
-  :bind (("<C-S-return>" . mookid-projectile))
   :config
   (progn
-    (projectile-global-mode)
-    (setq-default projectile-indexing-method 'native)
-    (setq-default projectile-enable-caching t)
-    (setq projectile-mode-line
-          '(:eval (concat " <" (projectile-project-name) ">")))
-    (defun mookid-projectile (p)
-      "My projectile command.
+    (diminish 'ivy-mode)
+    (ivy-mode 1)
+    (setq-default ivy-use-virtual-buffers t)
+
+    (use-package counsel
+      :defer t
+      :init
+      (progn
+        (add-hook 'grep-setup-hook
+                  (lambda () (define-key grep-mode-map (kbd "RET")
+                          'ivy-switch-buffer)))))
+
+    (use-package projectile
+      :defer t
+      :bind (("<C-S-return>" . mookid-projectile))
+      :config
+      (progn
+        (projectile-global-mode)
+        (setq-default projectile-indexing-method 'native)
+        (setq-default projectile-enable-caching t)
+        (setq projectile-mode-line
+              '(:eval (concat " <" (projectile-project-name) ">")))
+        (defun mookid-projectile (p)
+          "My projectile command.
 
 If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
-      (interactive "P")
-      (if p (projectile-switch-project) (projectile-find-file)))
-    (setq-default projectile-completion-system 'ivy)))
+          (interactive "P")
+          (if p (projectile-switch-project) (projectile-find-file)))
+        (setq-default projectile-completion-system 'ivy)))))
 
 (use-package slime
   :defer t
@@ -904,6 +901,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  "Images"
  (with-eval-after-load "image-mode"
    (require 'image+)
+   (defvar image-mode-map)
    (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
    (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
 
@@ -913,7 +911,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package org
   :defer t
-  :init
+  :config
   (progn
     ;; allow for export=>beamer by placing
     ;; #+LaTeX_CLASS: beamer in org files
