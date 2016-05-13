@@ -652,7 +652,6 @@ Use in `isearch-mode-end-hook'."
     (fullframe magit-status magit-mode-quit-window)))
 
 (use-package rainbow-delimiters
-  :defer t
   :config
   (progn
     (autoload 'mookid-default-font "mookid-naked-emacs-config")
