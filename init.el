@@ -9,6 +9,8 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
+(require 'benchmark-init)
+
 ;; The configuration directories
 (defvar mookid-root-dir "~/.emacs.d"
   "The root directory of the configuration.")
