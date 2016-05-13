@@ -603,22 +603,24 @@ Use in `isearch-mode-end-hook'."
 
 ;;; Windows
 
-(defun mookid-split-window-right ()
-  "Forwards to `split-window-below' and rebalances."
-  (split-window-right))
+(with-message
+ "Windows commands"
+ (defun mookid-split-window-right ()
+   "Forwards to `split-window-below' and rebalances."
+   (split-window-right))
 
-(defun mookid-split-window-below ()
-  "Forwards to `split-window-below' and rebalances."
-  (split-window-below))
+ (defun mookid-split-window-below ()
+   "Forwards to `split-window-below' and rebalances."
+   (split-window-below))
 
-(defun mookid-delete-window ()
-  "Forwards to `delete-window' and rebalances."
-  (delete-window))
+ (defun mookid-delete-window ()
+   "Forwards to `delete-window' and rebalances."
+   (delete-window))
 
-(mapc (lambda (fun) (advice-add fun :after #'balance-windows))
-      '(mookid-split-window-right
-        mookid-split-window-below
-        mookid-delete-window))
+ (mapc (lambda (fun) (advice-add fun :after #'balance-windows))
+       '(mookid-split-window-right
+         mookid-split-window-below
+         mookid-delete-window)))
 
 
 ;;; melpa packages
@@ -639,20 +641,24 @@ Use in `isearch-mode-end-hook'."
          ("C-c c". evilnc-copy-and-comment-lines)))
 
 (use-package anzu
-  :defer t
+  :init (global-anzu-mode 1)
+  :after diminish
+  :config
+  (progn
+    (diminish 'anzu-mode))
   :bind (("M-%" . anzu-query-replace-regexp)))
 
 (use-package lispy
   :defer t
+  :init (add-hook 'prog-mode-hook 'lispy-mode)
   :config
   (progn
-    (lispy-set-key-theme '(special))
-    (add-hook 'prog-mode-hook 'lispy-mode)))
+    (lispy-set-key-theme '(special))))
 
 (use-package magit
   :defer t
   :bind (("<f7>" . magit-status))
-  :init
+  :config
   (progn
     (fullframe magit-status magit-mode-quit-window)))
 
@@ -709,6 +715,7 @@ Use in `isearch-mode-end-hook'."
   :bind (("C-\"" . elisp-slime-nav-find-elisp-thing-at-point))
   :init
   (progn
+    (diminish 'elisp-slime-nav-mode)
     (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
     (add-hook 'lisp-interaction-mode 'elisp-slime-nav-mode)))
 
@@ -717,6 +724,7 @@ Use in `isearch-mode-end-hook'."
   :after diminish
   :init
   (progn
+    (diminish 'ivy-mode)
     (ivy-mode 1)
     (setq-default ivy-use-virtual-buffers t)))
 
@@ -738,20 +746,20 @@ Use in `isearch-mode-end-hook'."
   :init
   (progn
     (add-hook 'grep-setup-hook
-              (lambda () (define-key grep-mode-map (kbd "RET") 'ivy-switch-buffer)))))
-
-
+              (lambda () (define-key grep-mode-map (kbd "RET")
+                      'ivy-switch-buffer)))))
 
 (use-package projectile
   :defer t
   :after ivy
   :bind (("<C-S-return>" . mookid-projectile))
-  :init
+  :config
   (progn
     (projectile-global-mode)
     (setq-default projectile-indexing-method 'native)
     (setq-default projectile-enable-caching t)
-    (setq projectile-mode-line '(:eval (concat " <" (projectile-project-name) ">")))
+    (setq projectile-mode-line
+          '(:eval (concat " <" (projectile-project-name) ">")))
     (defun mookid-projectile (p)
       "My projectile command.
 
@@ -776,10 +784,10 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package avy
   :defer t
-  :init
+  :bind (("C-:" . avy-goto-word-or-subword-1))
+  :config
   (progn
-    (setq-default avy-all-windows 'all-frames)
-    (define-key global-map (kbd "C-:") 'avy-goto-word-or-subword-1)))
+    (setq-default avy-all-windows 'all-frames)))
 
 (use-package ace-window
   :defer t
@@ -799,7 +807,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (setq-default aw-dispatch-always t)
     (defvar aw-dispatch-alist)
     (add-to-list 'aw-dispatch-alist '(?v mookid-split-window-right))
-    (add-to-list 'aw-dispatch-alist '(?p mookid-other-window))
+    (add-to-list 'aw-dispatch-alist '(?o mookid-other-window))
     (add-to-list 'aw-dispatch-alist '(?b mookid-split-window-below))
     (add-to-list 'aw-dispatch-alist '(?c mookid-delete-window))))
 
@@ -813,16 +821,13 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (use-package tuareg
    :defer t
    :mode "\\.ml[ily]?$"
-   :init
-   (progn
-     (defun mookid-ocp-indent-tuareg-setup ()
-       (interactive)
-       "My setup for ocp-indent."
-       (require 'ocp-indent)
-       (define-key tuareg-mode-map (kbd "C-=") 'ocp-indent-buffer))
-     (add-hook 'tuareg-mode-hook 'mookid-ocp-indent-tuareg-setup))
    :bind (:map tuareg-mode-map
                ("C-c =" . mookid-ocaml-insert-stars)))
+
+ (use-package ocp-indent
+   :defer t
+   :after tuareg
+   :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))
 
  (use-package caml
    :defer t
@@ -835,7 +840,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
                                    :background "deep pink"
                                    :foreground "white")))
            (face-list))))
-
 
  (mookid-ignore
   "Caml"
