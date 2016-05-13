@@ -806,7 +806,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
  (use-package tuareg
    :defer t
-   :mode "\\.ml[ily]?$"
+   :config (add-to-list 'auto-mode-alist '(("\\.ml[ily]?$" . tuareg-mode)))
    :bind (:map tuareg-mode-map
                ("C-c =" . mookid-ocaml-insert-stars)))
 
