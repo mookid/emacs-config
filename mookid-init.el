@@ -673,31 +673,31 @@ Use in `isearch-mode-end-hook'."
 
     ;; (add-hook 'shell-mode-hook #'mookid-rainbow-disable)
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-                     :foreground "red"
-                     :inherit 'error
-                     :box t)))
+                        :foreground "red"
+                        :inherit 'error
+                        :box t)))
 
 (use-package rainbow-blocks
   :defer t
   :config
   (progn
     (let ((colors '("green3" "orange" "pale violet red"))
-       (kinds '(blocks)))
-   (cl-labels ((set-bold (face color)
-                         (set-face-attribute face nil
-                                             :foreground color))
-               (symb (kind lvl)
-                     (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
-               (set-level (lvl color)
-                          (when (< 0 lvl 10)
-                            (mapc (lambda (kind)
-                                    (set-bold (symb kind lvl) color))
-                                  kinds))))
-     (cl-loop
-      with ncolors = (length colors)
-      for lvl from 1 upto 9
-      for icolor = (mod (- lvl 1) ncolors)
-      do (set-level lvl (nth icolor colors)))))))
+          (kinds '(blocks)))
+      (cl-labels ((set-bold (face color)
+                            (set-face-attribute face nil
+                                                :foreground color))
+                  (symb (kind lvl)
+                        (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
+                  (set-level (lvl color)
+                             (when (< 0 lvl 10)
+                               (mapc (lambda (kind)
+                                       (set-bold (symb kind lvl) color))
+                                     kinds))))
+        (cl-loop
+         with ncolors = (length colors)
+         for lvl from 1 upto 9
+         for icolor = (mod (- lvl 1) ncolors)
+         do (set-level lvl (nth icolor colors)))))))
 
 (use-package company
   :defer t
@@ -735,33 +735,35 @@ Use in `isearch-mode-end-hook'."
   :config
   (progn
     (ivy-mode 1)
-    (setq-default ivy-use-virtual-buffers t)
+    (setq-default ivy-use-virtual-buffers t)))
 
-    (use-package counsel
-      :defer t
-      :init
-      (progn
-        (add-hook 'grep-setup-hook
-                  (lambda () (define-key grep-mode-map (kbd "RET")
-                          'ivy-switch-buffer)))))
-
-    (use-package projectile
-      :defer t
-      :bind (("<C-S-return>" . mookid-projectile))
-      :config
-      (progn
-        (projectile-global-mode)
-        (setq-default projectile-indexing-method 'native)
-        (setq-default projectile-enable-caching t)
-        (setq projectile-mode-line
-              '(:eval (concat " <" (projectile-project-name) ">")))
-        (defun mookid-projectile (p)
-          "My projectile command.
+(use-package projectile
+  :defer t
+  :if (featurep 'ivy)
+  :bind (("<C-S-return>" . mookid-projectile))
+  :config
+  (progn
+    (projectile-global-mode)
+    (setq-default projectile-indexing-method 'native)
+    (setq-default projectile-enable-caching t)
+    (setq projectile-mode-line
+          '(:eval (concat " <" (projectile-project-name) ">")))
+    (defun mookid-projectile (p)
+      "My projectile command.
 
 If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
-          (interactive "P")
-          (if p (projectile-switch-project) (projectile-find-file)))
-        (setq-default projectile-completion-system 'ivy)))))
+      (interactive "P")
+      (if p (projectile-switch-project) (projectile-find-file)))
+    (setq-default projectile-completion-system 'ivy)))
+
+(use-package counsel
+  :defer t
+  :if (featurep 'ivy)
+  :init
+  (progn
+    (add-hook 'grep-setup-hook
+              (lambda () (define-key grep-mode-map (kbd "RET")
+                      'ivy-switch-buffer)))))
 
 (use-package slime
   :defer t
@@ -836,36 +838,16 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
                                    :foreground "white")))
            (face-list))))
 
- (mookid-ignore
-  "Caml"
-  (require 'caml)
-  (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . caml-mode))
-
-  (defvar caml-mode-map)
-  (defun mookid-caml-setup ()
-    "Keybindings for caml mode."
-    (define-key caml-mode-map (kbd "C-c =") 'mookid-ocaml-insert-stars))
-
-  (add-hook 'caml-mode-hook 'mookid-caml-setup)
-  (require 'rainbow-blocks)
-  (add-hook 'caml-mode-hook 'rainbow-blocks-mode)
-  (defun mookid-ocp-indent-caml-setup ()
-    (interactive)
-    "My setup for ocp-indent."
-    (require 'ocp-indent)
-    (define-key caml-mode-map (kbd "C-=") 'ocp-indent-buffer))
-  (add-hook 'caml-mode-hook 'mookid-ocp-indent-caml-setup))
-
- (mookid-ignore
-  (use-package merlin
-    :defer t
-    :after tuareg
-    :init
-    (progn
-      (setq-default merlin-use-auto-complete-mode 'easy)
-      (defvar company-backends)
-      (with-eval-after-load 'company
-        (add-to-list 'company-backends 'merlin-company-backend))))))
+ (use-package merlin
+   :disabled t
+   :defer t
+   :after tuareg
+   :init
+   (progn
+     (setq-default merlin-use-auto-complete-mode 'easy)
+     (defvar company-backends)
+     (with-eval-after-load 'company
+       (add-to-list 'company-backends 'merlin-company-backend)))))
 
 (with-title
  "C configuration"
