@@ -32,6 +32,8 @@ The return value reports success or failure."
 
 (add-to-list 'completion-styles 'partial-completion)
 
+(setq minibuffer-depth-indicate-mode t)
+
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 
 (defun mookid-last-2 (list)
