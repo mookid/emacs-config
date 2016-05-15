@@ -30,6 +30,8 @@ The return value reports success or failure."
 
 (setq initial-scratch-message nil)
 
+(add-to-list 'completion-styles 'partial-completion)
+
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 
 (defun mookid-last-2 (list)
