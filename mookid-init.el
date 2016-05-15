@@ -30,7 +30,7 @@ The return value reports success or failure."
 
 (setq initial-scratch-message nil)
 
-(define-key global-map (kbd "M-r") 'raise-sexp)
+(define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 
 (defun mookid-last-2 (list)
   "Remove all the elements of LIST except the last two."
