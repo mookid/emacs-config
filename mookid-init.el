@@ -153,6 +153,11 @@ The return value reports success or failure."
  (setq-default show-paren-delay 0))
 
 (with-message
+ "Setting up frame size"
+ (add-to-list 'default-frame-alist '(height . 55))
+ (add-to-list 'default-frame-alist '(width . 80)))
+
+(with-message
  "Setting up fonts"
  (defvar mookid-default-font nil "The font used almost everywhere.")
  (setq mookid-default-font "Source Code Pro Light 10")
