@@ -429,7 +429,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
 (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
 (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)
 
-(define-key global-map (kbd "<mode-line> <down-mouse-1>") 'enlarge-window)
+;; (define-key global-map (kbd "<mode-line> <down-mouse-1>") 'enlarge-window)
 
 (global-unset-key (kbd "<mode-line> <mouse-2>"))
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
