@@ -124,30 +124,6 @@ The return value reports success or failure."
 (defun mookid-save-all-buffers () "Save all buffers." (save-some-buffers t))
 (add-hook 'focus-out-hook #'mookid-save-all-buffers)
 
-(require 'face-remap)
-;; Use proportional fonts
-(define-globalized-minor-mode
-  mookid-prop-fonts-mode
-  buffer-face-mode
-  #'mookid-prop-fonts-mode-on)
-
-(with-eval-after-load 'diminish
-  (diminish 'buffer-face-mode))
-
-(defun mookid-prop-fonts-mode-off ()
-  "Turn `mookid-prop-fonts-mode' off."
-  (variable-pitch-mode -1))
-
-(defun mookid-prop-fonts-mode-on ()
-  "Turn `mookid-prop-fonts-mode' on."
-  (variable-pitch-mode +1))
-
-;; Disable them for specific modes
-(add-hook 'dired-mode-hook 'mookid-prop-fonts-mode-off)
-(add-hook 'ibuffer-mode-hook 'mookid-prop-fonts-mode-off)
-(add-hook 'package-menu-mode-hook 'mookid-prop-fonts-mode-off)
-(add-hook 'help-mode-hook 'mookid-prop-fonts-mode-off)
-
 (with-message
  "Remove gui elements"
  (and (fboundp 'fringe-mode) (fringe-mode -1))
