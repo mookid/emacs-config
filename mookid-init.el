@@ -347,9 +347,6 @@ Otherwise, join the current line with the following."
 ;; Display page delimiter as a horizontal line
 (aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
 
-(define-key global-map (kbd "C-v") 'yank)
-(define-key global-map (kbd "C-M-v") 'yank-pop)
-
 (define-key global-map (kbd "M-DEL") 'kill-whole-line)
 (advice-add 'kill-whole-line :before #'append-next-kill)
 
