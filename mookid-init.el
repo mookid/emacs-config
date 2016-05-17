@@ -654,7 +654,7 @@ Use in `isearch-mode-end-hook'."
       "Disable rainbow-delimiters mode."
       (rainbow-delimiters-mode -1))
 
-    ;; (add-hook 'shell-mode-hook #'mookid-rainbow-disable)
+    (add-hook 'shell-mode-hook #'mookid-rainbow-delimiters-disable)
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                         :foreground "red"
                         :inherit 'error
