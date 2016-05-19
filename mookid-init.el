@@ -704,8 +704,7 @@ Use in `isearch-mode-end-hook'."
   :defer t
   :diminish ivy-mode
   :bind
-  (("M-x" . counsel-M-x)
-   ("C-x <return>" . counsel-M-x)
+  (("C-x <return>" . counsel-M-x)
    ("M-m" . counsel-M-x)
    ("M-s p" . swiper)
    ("<M-return>" . ivy-switch-buffer)
@@ -713,8 +712,7 @@ Use in `isearch-mode-end-hook'."
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
-   ("<right>" . ivy-alt-done)
-   ("<left>" . ivy-backward-delete-char))
+   ("<right>" . ivy-alt-done))
   :config
   (progn
     (ivy-mode 1)
