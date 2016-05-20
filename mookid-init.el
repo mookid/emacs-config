@@ -43,7 +43,22 @@ The return value reports success or failure."
       (setq lst (cdr lst)))
     lst))
 
-(advice-add 'move-beginning-of-line :before #'back-to-indentation)
+(defun mookid-move-beginning-of-line (arg)
+  "Redefinition of `move-beginning-of-line'."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+(global-set-key [remap move-beginning-of-line]
+                'mookid-move-beginning-of-line)
 
 (require 'subr-x)
 (defun mookid-shorten-path (path)
