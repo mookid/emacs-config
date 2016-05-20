@@ -379,9 +379,9 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   (set-face-attribute face nil
                       :foreground "grey"))
 
-;; (set-background-color "#fdf6e3")
-(set-background-color "#F5FFF5")
-(set-foreground-color "#586e75")
+;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
+(add-to-list 'default-frame-alist '(background-color . "#F5FFF5"))
+(add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
 
 ;; (mookid-colors-leuven)
 
