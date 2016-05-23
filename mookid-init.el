@@ -325,13 +325,6 @@ Otherwise, join the current line with the following."
 
 (define-key global-map (kbd "M-j") 'mookid-join-line)
 
-(advice-add 'transpose-lines :before #'forward-line)
-(advice-add 'transpose-sexps :before #'forward-sexp)
-
-;; Swap keybindings
-(define-key global-map (kbd "C-t") 'transpose-lines)
-(define-key global-map (kbd "C-x C-t") 'transpose-chars)
-
 ;; Stop exiting with the keyboard
 (global-unset-key (kbd "C-x C-c"))
 
