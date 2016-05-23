@@ -719,8 +719,7 @@ Use in `isearch-mode-end-hook'."
   :defer t
   :diminish ivy-mode
   :bind
-  (("C-x <return>" . counsel-M-x)
-   ("M-m" . counsel-M-x)
+  (("M-m" . counsel-M-x)
    ("M-s p" . swiper)
    ("<M-return>" . ivy-switch-buffer)
    ("<C-return>". counsel-find-file)
