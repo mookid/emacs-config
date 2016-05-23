@@ -722,7 +722,7 @@ Use in `isearch-mode-end-hook'."
    ("<right>" . ivy-alt-done))
   :config
   (progn
-    (ivy-mode 1)
+    ;; (ivy-mode 1)
     (setq-default ivy-use-virtual-buffers t)))
 
 (use-package projectile
