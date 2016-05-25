@@ -868,6 +868,31 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (when (file-exists-p f)
     (mookid-with-message "Loading private settings" (load f))))
 
+(use-package evil
+  :bind
+  (("C-i" . evil-jump-forward)
+   ("C-o" . evil-jump-backward)
+   :map evil-normal-state-map
+   ("C-y" . yank)
+   ("C-w" . evil-delete)
+   :map evil-visual-state-map
+   ("C-y" . yank)
+   ("C-w" . evil-delete)
+   :map evil-insert-state-map
+   ("C-y" . yank)
+   ("C-w" . evil-delete)
+   ("C-e" . end-of-line)
+   ("C-r" . search-backward))
+ :config
+  (progn
+    (setq evil-default-state 'emacs)
+    (setq evil-emacs-state-modes (append evil-emacs-state-modes
+                                         evil-insert-state-modes
+                                         evil-motion-state-modes))
+    (setq evil-insert-state-modes nil)
+    (setq evil-motion-state-modes nil)
+    (evil-mode 1)))
+
 (use-package org
   :defer t
   :config
