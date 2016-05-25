@@ -718,9 +718,7 @@ Use in `isearch-mode-end-hook'."
    :map ivy-minibuffer-map
    ("<right>" . ivy-alt-done))
   :config
-  (progn
-    ;; (ivy-mode 1)
-    (setq-default ivy-use-virtual-buffers t)))
+  (setq-default ivy-use-virtual-buffers t))
 
 (use-package projectile
   :defer t
