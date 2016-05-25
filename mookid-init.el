@@ -66,9 +66,6 @@ The return value reports success or failure."
   (let ((r (string-join (cons "..." (mookid-last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
 
-(autoload 'zap-up-to-char "misc")
-(define-key global-map (kbd "M-z") 'zap-up-to-char)
-
 (with-message
  "Set mode line format"
  (make-face 'mode-line-folder-face)
