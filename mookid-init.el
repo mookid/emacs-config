@@ -8,7 +8,7 @@
 
 
 ;;; Macros
-(defmacro with-message (msg &rest body)
+(defmacro mookid-with-message (msg &rest body)
   "Prints MSG before evaluating BODY, and report problems.
 
 Warnings are still displayed, and errors are catched.
@@ -66,7 +66,7 @@ The return value reports success or failure."
   (let ((r (string-join (cons "..." (mookid-last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
 
-(with-message
+(mookid-with-message
  "Set mode line format"
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
@@ -136,7 +136,7 @@ The return value reports success or failure."
 (defun mookid-save-all-buffers () "Save all buffers." (save-some-buffers t))
 (add-hook 'focus-out-hook #'mookid-save-all-buffers)
 
-(with-message
+(mookid-with-message
  "Remove gui elements"
  (and (fboundp 'fringe-mode) (fringe-mode -1))
  (and (fboundp 'tooltip-mode) (tooltip-mode +1))
@@ -156,7 +156,7 @@ The return value reports success or failure."
 (setq-default savehist-additional-variables
               '(kill-ring search-ring regexp-search-ring))
 
-(with-message
+(mookid-with-message
  "Configuring parenthesis settings"
  (electric-pair-mode t)
  (setq-default electric-pair-pairs '((?\{ . ?\})))
@@ -164,12 +164,12 @@ The return value reports success or failure."
  (set-face-background 'show-paren-match "turquoise")
  (setq-default show-paren-delay 0))
 
-(with-message
+(mookid-with-message
  "Setting up frame size"
  (add-to-list 'default-frame-alist '(height . 55))
  (add-to-list 'default-frame-alist '(width . 80)))
 
-(with-message
+(mookid-with-message
  "Setting up fonts"
  (defvar mookid-default-font nil "The font used almost everywhere.")
  (setq mookid-default-font "Source Code Pro Light 10")
@@ -177,19 +177,19 @@ The return value reports success or failure."
  (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
  (global-prettify-symbols-mode 1))
 
-(with-message
+(mookid-with-message
  "Customize proportional font"
  (set-face-attribute 'variable-pitch nil
                      :family "DejaVu Sans"))
 
-(with-message
+(mookid-with-message
  "Keyboard translations"
  (keyboard-translate ?\( ?\[)
  (keyboard-translate ?\[ ?\()
  (keyboard-translate ?\) ?\])
  (keyboard-translate ?\] ?\)))
 
-(with-message
+(mookid-with-message
  "Window switch bindings"
  ;; unbind all keybindings starting with f2
  (cl-dolist (keystr '("<f2> 2" "<f2> b" "<f2> s"))
@@ -225,7 +225,7 @@ The return value reports success or failure."
        (select-window first-win)
        (when this-win-2nd (other-window 1))))))
 
-(with-message
+(mookid-with-message
  "Setting up the order for recenter-top-bottom"
  (setq recenter-positions '(top middle bottom)))
 
@@ -590,7 +590,7 @@ Use in `isearch-mode-end-hook'."
 
 ;;; Windows
 
-(with-message
+(mookid-with-message
  "Windows commands"
  (defun mookid-split-window-right ()
    "Forwards to `split-window-below' and rebalances."
@@ -793,7 +793,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   :defer t
   :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error)))
 
-(with-message
+(mookid-with-message
  "OCaml configuration"
 
 
@@ -832,7 +832,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
      (with-eval-after-load 'company
        (add-to-list 'company-backends 'merlin-company-backend)))))
 
-(with-message
+(mookid-with-message
  "C configuration"
  (defvar c-mode-base-map)
  (defvar c-indentation 8 "The indentation for C code.")
@@ -858,7 +858,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (use-package compile :defer t)
  (use-package clang-format :defer t))
 
-(with-message
+(mookid-with-message
  "Images"
  (with-eval-after-load "image-mode"
    (require 'image+)
@@ -868,7 +868,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
-    (with-message "Loading private settings" (load f))))
+    (mookid-with-message "Loading private settings" (load f))))
 
 (use-package org
   :defer t
