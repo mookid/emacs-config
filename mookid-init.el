@@ -877,6 +877,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (evil-mode 1)
     (global-set-key [remap undo-tree-undo] 'undo)
     (undo-tree-mode -1)
+    (setq evil-move-cursor-back nil)
     (setcdr evil-insert-state-map nil)
     (setcdr evil-motion-state-map nil)
     (setcdr evil-normal-state-map nil)
