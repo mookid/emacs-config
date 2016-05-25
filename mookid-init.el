@@ -871,27 +871,16 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 (use-package evil
   :bind
   (("C-i" . evil-jump-forward)
-   ("C-o" . evil-jump-backward)
-   :map evil-normal-state-map
-   ("C-y" . yank)
-   ("C-w" . evil-delete)
-   :map evil-visual-state-map
-   ("C-y" . yank)
-   ("C-w" . evil-delete)
-   :map evil-insert-state-map
-   ("C-y" . yank)
-   ("C-w" . evil-delete)
-   ("C-e" . end-of-line)
-   ("C-r" . search-backward))
- :config
+   ("C-o" . evil-jump-backward))
+  :config
   (progn
-    (setq evil-default-state 'emacs)
-    (setq evil-emacs-state-modes (append evil-emacs-state-modes
-                                         evil-insert-state-modes
-                                         evil-motion-state-modes))
-    (setq evil-insert-state-modes nil)
-    (setq evil-motion-state-modes nil)
-    (evil-mode 1)))
+    (evil-mode 1)
+    (global-set-key [remap undo-tree-undo] 'undo)
+    (undo-tree-mode -1)
+    (setcdr evil-insert-state-map nil)
+    (setcdr evil-motion-state-map nil)
+    (setcdr evil-normal-state-map nil)
+    (setcdr evil-visual-state-map nil)))
 
 (use-package org
   :defer t
