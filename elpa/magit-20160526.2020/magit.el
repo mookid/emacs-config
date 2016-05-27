@@ -1370,10 +1370,12 @@ changes.
            (setq start  (magit-read-starting-point prompt))
            (setq branch (magit-read-string-ns
                          "Branch name"
-                         (and (member start (magit-list-remote-branch-names))
-                              (mapconcat #'identity
-                                         (cdr (split-string start "/"))
-                                         "/")))))
+                         (let ((def (mapconcat #'identity
+                                               (cdr (split-string start "/"))
+                                               "/")))
+                           (and (member start (magit-list-remote-branch-names))
+                                (not (member def (magit-list-local-branch-names)))
+                                def)))))
           (t
            (setq branch (magit-read-string-ns "Branch name"))
            (setq start  (magit-read-starting-point prompt))))
@@ -1531,7 +1533,8 @@ With prefix, forces the rename even if NEW already exists.
   (interactive
    (let ((branch (magit-read-local-branch "Rename branch")))
      (list branch
-           (magit-read-string-ns (format "Rename branch '%s' to" branch))
+           (magit-read-string-ns (format "Rename branch '%s' to" branch)
+                                 nil 'magit-revision-history)
            current-prefix-arg)))
   (unless (string= old new)
     (magit-run-git "branch" (if force "-M" "-m") old new)))
