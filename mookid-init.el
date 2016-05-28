@@ -868,21 +868,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (when (file-exists-p f)
     (mookid-with-message "Loading private settings" (load f))))
 
-(use-package evil
-  :bind
-  (("C-i" . evil-jump-forward)
-   ("C-o" . evil-jump-backward))
-  :config
-  (progn
-    (evil-mode 1)
-    (global-set-key [remap undo-tree-undo] 'undo)
-    (undo-tree-mode -1)
-    (setq evil-move-cursor-back nil)
-    (setcdr evil-insert-state-map nil)
-    (setcdr evil-motion-state-map nil)
-    (setcdr evil-normal-state-map nil)
-    (setcdr evil-visual-state-map nil)))
-
 (use-package org
   :defer t
   :config
