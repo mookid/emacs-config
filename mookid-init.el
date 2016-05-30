@@ -385,7 +385,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
                       :foreground "grey"))
 
 ;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
-(add-to-list 'default-frame-alist '(background-color . "#F5FFF5"))
+(add-to-list 'default-frame-alist '(background-color . "azure1"))
 (add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
 (set-face-attribute 'cursor nil :background "red")
 
