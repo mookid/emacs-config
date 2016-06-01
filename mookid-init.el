@@ -175,7 +175,7 @@ The return value reports success or failure."
 (mookid-with-message
  "Setting up fonts"
  (defvar mookid-default-font nil "The font used almost everywhere.")
- (setq mookid-default-font "Source Code Pro Light 10")
+ (setq mookid-default-font "Consolas")
  (set-default-coding-systems 'utf-8)
  (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
  (global-prettify-symbols-mode 1))
