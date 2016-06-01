@@ -727,7 +727,6 @@ Use in `isearch-mode-end-hook'."
 
 (use-package projectile
   :defer t
-  :after ivy
   :bind (("<C-S-return>" . mookid-projectile))
   :config
   (progn
