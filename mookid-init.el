@@ -60,6 +60,9 @@ The return value reports success or failure."
 (global-set-key [remap move-beginning-of-line]
                 'mookid-move-beginning-of-line)
 
+(define-key global-map (kbd "M-p") 'backward-paragraph)
+(define-key global-map (kbd "M-n") 'forward-paragraph)
+
 (require 'subr-x)
 (defun mookid-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
@@ -166,7 +169,7 @@ The return value reports success or failure."
 
 (mookid-with-message
  "Setting up frame size"
- (add-to-list 'default-frame-alist '(height . 55))
+ ;; (add-to-list 'default-frame-alist '(height . 55))
  (add-to-list 'default-frame-alist '(width . 80)))
 
 (mookid-with-message
@@ -388,6 +391,7 @@ See `set-face-attribute' for legal ATTRIBUTE values."
 (add-to-list 'default-frame-alist '(background-color . "azure1"))
 (add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
 (set-face-attribute 'cursor nil :background "red")
+(set-face-attribute 'region nil :background "#ABDFFA")
 
 ;; (mookid-colors-leuven)
 
