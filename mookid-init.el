@@ -384,13 +384,12 @@ See `set-face-attribute' for legal ATTRIBUTE values."
 
 (cl-dolist (face '(font-lock-comment-face
                    font-lock-comment-delimiter-face))
-  (set-face-attribute face nil
-                      :foreground "grey"))
+  (set-face-attribute face nil :foreground "grey" :slant 'italic))
 
 ;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
 (add-to-list 'default-frame-alist '(background-color . "azure1"))
 (add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
-(set-face-attribute 'cursor nil :background "red")
+(add-to-list 'default-frame-alist '(cursor-color . "red"))
 (set-face-attribute 'region nil :background "#ABDFFA")
 
 ;; (mookid-colors-leuven)
