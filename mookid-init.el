@@ -871,6 +871,18 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (when (file-exists-p f)
     (mookid-with-message "Loading private settings" (load f))))
 
+(use-package powerline
+  :config
+  (setq powerline-display-buffer-size nil)
+  (setq powerline-display-mule-info nil)
+  (setq powerline-display-hud nil)
+  (mapc (lambda (face) (set-face-attribute face nil :foreground "grey"))
+        '(powerline-active1
+          powerline-active2
+          powerline-inactive1
+          powerline-inactive2))
+  (powerline-default-theme))
+
 (use-package org
   :defer t
   :config
