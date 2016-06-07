@@ -69,7 +69,7 @@ The return value reports success or failure."
   (let ((r (string-join (cons "..." (mookid-last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
 
-(mookid-with-message
+(mookid-ignore
  "Set mode line format"
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
@@ -872,8 +872,14 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (when (file-exists-p f)
     (mookid-with-message "Loading private settings" (load f))))
 
+(use-package smart-mode-line
+  :config (progn (setq sml/no-confirm-load-theme t)
+                 (setq powerline-arrow-shape 'curve)
+                 (sml/setup)))
+
 (use-package powerline
   :config
+  :disabled t
   (setq powerline-display-buffer-size nil)
   (setq powerline-display-mule-info nil)
   (setq powerline-display-hud nil)
