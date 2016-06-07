@@ -165,6 +165,7 @@ The return value reports success or failure."
  (setq-default electric-pair-pairs '((?\{ . ?\})))
  (show-paren-mode t)
  (set-face-background 'show-paren-match "turquoise")
+ (set-face-background 'show-paren-mismatch "red")
  (setq-default show-paren-delay 0))
 
 (mookid-with-message
