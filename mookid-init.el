@@ -188,10 +188,15 @@ The return value reports success or failure."
 
 (mookid-with-message
  "Keyboard translations"
- (keyboard-translate ?\( ?\[)
- (keyboard-translate ?\[ ?\()
- (keyboard-translate ?\) ?\])
- (keyboard-translate ?\] ?\)))
+ (define-key key-translation-map (kbd "(") (kbd "["))
+ (define-key key-translation-map (kbd "[") (kbd "("))
+ (define-key key-translation-map (kbd ")") (kbd "]"))
+ (define-key key-translation-map (kbd "]") (kbd ")"))
+
+ (define-key key-translation-map (kbd "C-h") (kbd "C-p"))
+ (define-key key-translation-map (kbd "M-h") (kbd "M-p"))
+ (define-key key-translation-map (kbd "C-p") (kbd "C-h"))
+ (define-key key-translation-map (kbd "M-p") (kbd "M-h")))
 
 (mookid-with-message
  "Window switch bindings"
