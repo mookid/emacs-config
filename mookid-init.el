@@ -186,6 +186,8 @@ The return value reports success or failure."
  (set-face-attribute 'variable-pitch nil
                      :family "DejaVu Sans"))
 
+(define-key global-map (kbd "C-c h") 'help-command)
+
 (mookid-with-message
  "Keyboard translations"
  (define-key key-translation-map (kbd "C-h") (kbd "C-p"))
