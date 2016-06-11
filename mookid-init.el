@@ -156,8 +156,11 @@ The return value reports success or failure."
 (setq history-length 16384)
 (setq history-delete-duplicates t)
 (setq-default savehist-save-minibuffer-history t)
-(setq-default savehist-additional-variables
-              '(kill-ring search-ring regexp-search-ring))
+(mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
+      '(kill-ring
+        search-ring
+        regexp-search-ring
+        compile-command))
 
 (mookid-with-message
  "Configuring parenthesis settings"
