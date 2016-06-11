@@ -762,7 +762,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package expand-region
   :defer t
-  :bind (("M-`" . er/expand-region)))
+  :bind (("C-M-SPC" . er/expand-region)))
 
 (use-package avy
   :defer t
