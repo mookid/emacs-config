@@ -190,6 +190,25 @@ The return value reports success or failure."
 
 (define-key global-map (kbd "C-c h") 'help-command)
 
+(defun mookid-upcase-char (arg)
+  "Applies `upcase-region' to the following ARG characters."
+  (interactive "P")
+  (let ((arg (or arg 1)))
+    (upcase-region
+     (point)
+     (+ (point) arg))))
+
+(defun mookid-downcase-char (arg)
+  "Applies `downcase-region' to the following ARG characters."
+  (interactive "P")
+  (let ((arg (or arg 1)))
+    (downcase-region
+     (point)
+     (+ (point) arg))))
+
+(define-key global-map (kbd "C-c u") 'mookid-upcase-char)
+(define-key global-map (kbd "C-c l") 'mookid-downcase-char)
+
 (mookid-with-message
  "Keyboard translations"
  (define-key key-translation-map (kbd "C-h") (kbd "C-p"))
