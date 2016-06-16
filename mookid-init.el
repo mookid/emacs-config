@@ -824,7 +824,11 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    :defer t
    :mode "\\.ml[ily]?$"
    :bind (:map tuareg-mode-map
-               ("C-c =" . mookid-ocaml-insert-stars)))
+               ("C-c =" . mookid-ocaml-insert-stars))
+   :config
+   (set-face-attribute 'tuareg-font-lock-governing-face nil
+                       :foreground "#ad2bee"
+                       :weight 'normal))
 
 
  (use-package ocp-indent
