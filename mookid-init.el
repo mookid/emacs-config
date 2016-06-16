@@ -751,8 +751,7 @@ Use in `isearch-mode-end-hook'."
   :bind (("<C-S-return>" . mookid-projectile))
   :config
   (progn
-    (projectile-global-mode)
-    (setq-default projectile-indexing-method 'native)
+    (setq-default projectile-indexing-method 'alien)
     (setq-default projectile-enable-caching t)
     (setq projectile-mode-line
           '(:eval (concat " <" (projectile-project-name) ">")))
@@ -762,7 +761,8 @@ Use in `isearch-mode-end-hook'."
 If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
       (interactive "P")
       (if p (projectile-switch-project) (projectile-find-file)))
-    (setq-default projectile-completion-system 'ivy)))
+    (setq-default projectile-completion-system 'ivy)
+    (projectile-global-mode)))
 
 (use-package counsel
   :defer t
