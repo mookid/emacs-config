@@ -785,7 +785,11 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package expand-region
   :defer t
-  :bind (("C-M-SPC" . er/expand-region)))
+  :bind (("C-M-SPC" . er/expand-region))
+  :config
+  (setq expand-region-contract-fast-key "z"
+        expand-region-reset-fast-key "x"
+        expand-region-fast-keys-enabled t))
 
 (use-package avy
   :defer t
