@@ -312,7 +312,7 @@
 		  ((:keywords "convenience")
 		   (:url . "https://github.com/ergoemacs/ergoemacs-mode"))])
  (excorporate .
-	      [(0 7 3)
+	      [(0 7 5)
 	       ((emacs
 		 (24 1))
 		(fsm
