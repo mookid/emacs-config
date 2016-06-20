@@ -404,15 +404,18 @@ See `set-face-attribute' for legal ATTRIBUTE values."
   (load-theme 'leuven t)
   (mookid-remap-attribute :weight 'light 'all))
 
+(load-theme 'plan9 t)
+
 (cl-dolist (face '(font-lock-comment-face
                    font-lock-comment-delimiter-face))
   (set-face-attribute face nil :foreground "grey" :slant 'italic))
 
 ;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
-(add-to-list 'default-frame-alist '(background-color . "azure1"))
+
+;; (add-to-list 'default-frame-alist '(background-color . "azure1"))
 (add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
 (add-to-list 'default-frame-alist '(cursor-color . "red"))
-(set-face-attribute 'region nil :background "#ABDFFA")
+;; (set-face-attribute 'region nil :background "#ABDFFA")
 
 ;; (mookid-colors-leuven)
 
