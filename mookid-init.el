@@ -364,27 +364,6 @@ Otherwise, join the current line with the following."
 
 ;;; Colors
 
-(defun mookid-remap-attribute (attribute color &optional only-default eql-pred)
-  "Change every mapping of the face ATTRIBUTE to COLOR.
-
-When ONLY-DEFAULT is
-* 'rebind: change only values associated to the default face value
-* 'all:    change every face
-
-Equality test is done with EQL-PRED.
-
-See `set-face-attribute' for legal ATTRIBUTE values."
-  (let ((default-val (face-attribute 'default attribute))
-        (eql-pred (or eql-pred #'string=))
-        (only-default (or only-default 'rebind)))
-    (mapc (lambda (face)
-            (when (or (eql 'all only-default)
-                      (funcall eql-pred
-                               (face-attribute face attribute)
-                               default-val))
-              (set-face-attribute face nil attribute color)))
-          (face-list))))
-
 (defun mookid-faces-fix (&optional frame)
   "Remove undesired faces properties in FRAME."
   (interactive)
@@ -397,12 +376,6 @@ See `set-face-attribute' for legal ATTRIBUTE values."
       (set-face-underline face t frame))))
 
 ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
-
-(defun mookid-colors-leuven ()
-  "Settings for the leuven color theme."
-  (interactive)
-  (load-theme 'leuven t)
-  (mookid-remap-attribute :weight 'light 'all))
 
 (load-theme 'plan9 t)
 
