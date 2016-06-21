@@ -282,6 +282,8 @@ The return value reports success or failure."
   (fullframe list-packages quit-window))
 
 (winner-mode 1)
+(define-key global-map (kbd "M-S-<left>") 'winner-undo)
+(define-key global-map (kbd "M-S-<right>") 'winner-redo)
 
 ;; Run Cygwin shell
 (setq-default explicit-shell-file-name "C:/bin/bash")
