@@ -217,6 +217,8 @@ The return value reports success or failure."
  (define-key key-translation-map (kbd "M-h") (kbd "M-p"))
  (define-key global-map (kbd "C-c h") 'help-command))
 
+(define-key global-map (kbd "C-c .") 'repeat)
+
 (mookid-with-message
  "Window switch bindings"
  ;; unbind all keybindings starting with f2
@@ -840,6 +842,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    :mode "\\.ml[ily]?$"
    :config
    (progn
+     (define-key tuareg-mode-map (kbd "C-c .") nil)
      (mapc (lambda (face)
              (set-face-attribute face nil
                                  :foreground 'unspecified
