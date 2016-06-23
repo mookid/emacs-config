@@ -392,18 +392,17 @@ Otherwise, join the current line with the following."
 
 ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
 
-(load-theme 'plan9 t)
-
 (cl-dolist (face '(font-lock-comment-face
                    font-lock-comment-delimiter-face))
   (set-face-attribute face nil :foreground "grey" :slant 'italic))
 
 ;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
 
-;; (add-to-list 'default-frame-alist '(background-color . "azure1"))
+(add-to-list 'default-frame-alist '(background-color . "azure1"))
 (add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
 (add-to-list 'default-frame-alist '(cursor-color . "red"))
-;; (set-face-attribute 'region nil :background "#ABDFFA")
+(setq initial-frame-alist default-frame-alist)
+(set-face-attribute 'region nil :background "#ABDFFA")
 
 ;; (mookid-colors-leuven)
 
