@@ -624,15 +624,15 @@ REGEXP-P is used as in the vanilla Emacs api."
 (mookid-with-message
  "Windows commands"
  (defun mookid-split-window-right ()
-   "Forwards to `split-window-below' and rebalances."
+   "Forwards to `split-window-below'."
    (split-window-right))
 
  (defun mookid-split-window-below ()
-   "Forwards to `split-window-below' and rebalances."
+   "Forwards to `split-window-below'."
    (split-window-below))
 
  (defun mookid-delete-window ()
-   "Forwards to `delete-window' and rebalances."
+   "Forwards to `delete-window'."
    (delete-window))
 
  (define-key global-map (kbd "C-x 0") 'mookid-delete-window)
