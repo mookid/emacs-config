@@ -74,19 +74,19 @@ The return value reports success or failure."
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
  (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
- (setq-default mode-line-format
-               (list
-                "  "
-                mode-line-position
-                '(:propertize
-                  (:eval (when buffer-file-name
-                           (mookid-shorten-path default-directory)))
-                  face mode-line-folder-face)
-                '(:propertize "%b" face mode-line-filename-face)
-                "%n  "
-                mode-line-modes
-                mode-line-misc-info
-                "%-")))
+ (defvar mode-line-format)
+ (setq mode-line-format
+       (list "  "
+             mode-line-position
+             '(:propertize
+               (:eval (when buffer-file-name
+                        (mookid-shorten-path default-directory)))
+               face mode-line-folder-face)
+             '(:propertize "%b" face mode-line-filename-face)
+             "%n  "
+             mode-line-modes
+             mode-line-misc-info
+             "%-")))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -150,12 +150,13 @@ The return value reports success or failure."
  (setq pop-up-windows nil))
 
 ;; Save history between sessions
-(setq-default savehist-file
-              (expand-file-name "savehist" mookid-root-dir))
+(defvar savehist-file)
+(defvar savehist-save-minibuffer-history)
+(setq savehist-file (expand-file-name "savehist" mookid-root-dir))
 (savehist-mode t)
 (setq history-length 16384)
 (setq history-delete-duplicates t)
-(setq-default savehist-save-minibuffer-history t)
+(setq savehist-save-minibuffer-history t)
 (defvar savehist-additional-variables)
 (mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
       '(kill-ring
@@ -165,11 +166,13 @@ The return value reports success or failure."
 
 (mookid-with-message
  "Configuring parenthesis settings"
+ (defvar electric-pair-pairs)
+ (defvar show-paren-delay)
  (electric-pair-mode t)
- (setq-default electric-pair-pairs '((?\{ . ?\})))
+ (setq electric-pair-pairs '((?\{ . ?\})))
+ (setq show-paren-delay 0)
  (show-paren-mode t)
- (set-face-background 'show-paren-match "turquoise")
- (setq-default show-paren-delay 0))
+ (set-face-background 'show-paren-match "turquoise"))
 
 (mookid-with-message
  "Setting up frame size"
@@ -287,7 +290,8 @@ The return value reports success or failure."
 (define-key global-map (kbd "M-S-<right>") 'winner-redo)
 
 ;; Run Cygwin shell
-(setq-default explicit-shell-file-name "C:/bin/bash")
+(defvar explicit-shell-file-name)
+(setq explicit-shell-file-name "C:/bin/bash")
 
 (defun mookid-previous-buffer ()
   "Not the current buffer but the buffer before."
@@ -409,13 +413,17 @@ Otherwise, join the current line with the following."
 
 
 ;;; Compilation
-(setq compilation-ask-about-save nil)
-(setq-default compilation-always-kill t)
-(setq-default compilation-scroll-output 'first-error)
+(defvar compilation-always-kill)
+(defvar compilation-scroll-output)
 
 (defun mookid-disable-jump-to-error ()
   "Disable `compilation-auto-jump-to-next' local variable."
   (kill-local-variable 'compilation-auto-jump-to-next))
+
+(setq compilation-ask-about-save nil)
+(setq compilation-always-kill t)
+(setq compilation-scroll-output 'first-error)
+
 (add-hook 'grep-mode-hook 'mookid-disable-jump-to-error)
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
@@ -642,7 +650,8 @@ REGEXP-P is used as in the vanilla Emacs api."
 (package-initialize)
 
 ;;; Use package
-(setq-default use-package-verbose t)
+(defvar use-package-verbose)
+(setq use-package-verbose t)
 (require 'use-package)
 
 (use-package evil-nerd-commenter
@@ -710,10 +719,14 @@ REGEXP-P is used as in the vanilla Emacs api."
   :defer t
   :config
   (progn
-    (setq-default company-idle-delay 0.5)
-    (setq-default company-tooltip-limit 5)
-    (setq-default company-minimum-prefix-length 2)
-    (setq-default company-tooltip-flip-when-above t)))
+    (defvar company-idle-delay)
+    (defvar company-tooltip-limit)
+    (defvar company-minimum-prefix-length)
+    (defvar company-tooltip-flip-when-above)
+    (setq company-idle-delay 0.)
+    (setq company-tooltip-limit 5)
+    (setq company-minimum-prefix-length 2)
+    (setq company-tooltip-flip-when-above t)))
 
 (use-package elisp-slime-nav
   :defer t
@@ -737,15 +750,17 @@ REGEXP-P is used as in the vanilla Emacs api."
    :map ivy-minibuffer-map
    ("<right>" . ivy-alt-done))
   :config
-  (setq-default ivy-use-virtual-buffers t))
+  (progn
+    (defvar ivy-use-virtual-buffers)
+    (setq ivy-use-virtual-buffers t)))
 
 (use-package projectile
   :defer t
   :bind (("<C-S-return>" . mookid-projectile))
   :config
   (progn
-    (setq-default projectile-indexing-method 'alien)
-    (setq-default projectile-enable-caching t)
+    (setq projectile-indexing-method 'alien)
+    (setq projectile-enable-caching t)
     (setq projectile-mode-line
           '(:eval (concat " <" (projectile-project-name) ">")))
     (defun mookid-projectile (p)
@@ -754,7 +769,7 @@ REGEXP-P is used as in the vanilla Emacs api."
 If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
       (interactive "P")
       (if p (projectile-switch-project) (projectile-find-file)))
-    (setq-default projectile-completion-system 'ivy)
+    (setq projectile-completion-system 'ivy)
     (projectile-global-mode)))
 
 (use-package counsel
@@ -771,10 +786,12 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   :bind (("C-c h" . hyperspec-lookup))
   :init
   (progn
+    (defvar common-lisp-hyperspec-root)
+    (defvar inferior-lisp-program)
     (require 'slime-autoloads)
-    (setq-default inferior-lisp-program "sbcl")
+    (setq inferior-lisp-program "sbcl")
     (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
-    (setq-default common-lisp-hyperspec-root "file:///Hyperspec/")))
+    (setq common-lisp-hyperspec-root "file:///Hyperspec/")))
 
 (use-package expand-region
   :defer t
@@ -789,7 +806,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   :bind (("C-:" . avy-goto-word-or-subword-1))
   :config
   (progn
-    (setq-default avy-all-windows 'all-frames)))
+    (setq avy-all-windows 'all-frames)))
 
 (use-package ace-window
   :defer t
@@ -801,8 +818,10 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
       "Forwards to `other-window'."
       (interactive)
       (other-window 1))
-    (setq-default aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-    (setq-default aw-dispatch-always t)
+    (defvar aw-keys)
+    (defvar aw-dispatch-always)
+    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    (setq aw-dispatch-always t)
     (defvar aw-dispatch-alist)
     (add-to-list 'aw-dispatch-alist '(?v mookid-split-window-right))
     (add-to-list 'aw-dispatch-alist '(?o mookid-other-window))
@@ -856,7 +875,8 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    :after tuareg
    :init
    (progn
-     (setq-default merlin-use-auto-complete-mode 'easy)
+     (defvar merlin-use-auto-complete-mode)
+     (setq merlin-use-auto-complete-mode 'easy)
      (defvar company-backends)
      (with-eval-after-load 'company
        (add-to-list 'company-backends 'merlin-company-backend)))))
@@ -875,11 +895,13 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
  (defun mookid-c-setup ()
    "My setup for C."
-   (setq-default c-default-style "linux" c-basic-offset c-indentation)
+   (defvar c-default-style)
+   (defvar indent-tabs-mode)
+   (setq c-default-style "linux")
+   (setq indent-tabs-mode nil)
    (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
    (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
-   (define-key c-mode-base-map (kbd "C-c =") 'mookid-c-insert-stars)
-   (setq-default indent-tabs-mode nil))
+   (define-key c-mode-base-map (kbd "C-c =") 'mookid-c-insert-stars))
 
  (add-hook 'c-initialization-hook 'mookid-c-setup)
 
@@ -900,9 +922,12 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (mookid-with-message "Loading private settings" (load f))))
 
 (use-package smart-mode-line
-  :config (progn (setq sml/no-confirm-load-theme t)
-                 (setq-default powerline-arrow-shape 'curve)
-                 (sml/setup)))
+  :config (progn
+            (defvar sml/no-confirm-load-theme)
+            (defvar powerline-arrow-shape)
+            (setq sml/no-confirm-load-theme t)
+            (setq powerline-arrow-shape 'curve)
+            (sml/setup)))
 
 (use-package powerline
   :config
