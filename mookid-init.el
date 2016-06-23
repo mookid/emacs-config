@@ -539,10 +539,8 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
 (define-key isearch-mode-map (kbd "<left>") 'isearch-delete-char)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-yank-word-or-char)
 
-(define-key isearch-mode-map (kbd "C-<up>") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "C-<down>") 'isearch-repeat-forward)
-(define-key isearch-mode-map (kbd "C-<left>") 'isearch-delete-char)
-(define-key isearch-mode-map (kbd "C-<right>") 'isearch-yank-word-or-char)
+(define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)
+(define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
 
 (define-key isearch-mode-map (kbd "TAB") 'isearch-complete)
 (define-key minibuffer-local-isearch-map (kbd "TAB") 'isearch-complete-edit)
