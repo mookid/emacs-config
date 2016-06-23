@@ -535,6 +535,7 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
 (define-key isearch-mode-map (kbd "M-<") 'mookid-isearch-beginning-of-buffer)
 (define-key isearch-mode-map (kbd "M->") 'mookid-isearch-end-of-buffer)
 (define-key global-map (kbd "C-M-s") 'mookid-isearch-region)
+(define-key global-map (kbd "C-s") 'mookid-isearch-forward)
 
 (define-key isearch-mode-map (kbd "<S-return>") 'mookid-isearch-exit-leave-hl)
 
@@ -585,6 +586,14 @@ Use in `isearch-mode-end-hook'."
   (kill-ring-save beg end)
   (isearch-mode t nil nil nil)
   (isearch-yank-pop))
+
+(defun mookid-isearch-forward (regexp-p)
+  "Forward to `isearch-forward-regexp' with fancy `whitespace-regexp'.
+
+REGEXP-P is used as in the vanilla Emacs api."
+  (interactive "P")
+  (let ((search-whitespace-regexp ".*?"))
+    (isearch-forward-regexp regexp-p)))
 
 (defun mookid-occur-rename-buffer ()
   "Used to uniquify the occur buffer names."
