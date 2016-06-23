@@ -611,7 +611,8 @@ Use in `isearch-mode-end-hook'."
 
 REGEXP-P is used as in the vanilla Emacs api."
   (interactive "P")
-  (let ((search-whitespace-regexp ".*?"))
+  (let ((isearch-regexp-lax-whitespace t)
+        (search-whitespace-regexp ".*?"))
     (isearch-forward-regexp regexp-p)))
 
 (defun mookid-occur-rename-buffer ()
