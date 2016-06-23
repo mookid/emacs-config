@@ -417,6 +417,11 @@ Otherwise, join the current line with the following."
 (define-key global-map (kbd "M-<up>") 'dired-jump)
 
 
+;;; Find file at point
+(require 'ffap)
+(ffap-bindings)
+
+
 ;;; Compilation
 (defvar compilation-always-kill)
 (defvar compilation-scroll-output)
