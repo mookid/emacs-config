@@ -404,7 +404,6 @@ Otherwise, join the current line with the following."
 (setq initial-frame-alist default-frame-alist)
 (set-face-attribute 'region nil :background "#ABDFFA")
 
-;; (mookid-colors-leuven)
 
 ;;; Dired
 (autoload 'dired-find-file "dired")
@@ -635,11 +634,6 @@ REGEXP-P is used as in the vanilla Emacs api."
  (defun mookid-delete-window ()
    "Forwards to `delete-window' and rebalances."
    (delete-window))
-
- (mapc (lambda (fun) (advice-add fun :after #'balance-windows))
-       '(mookid-split-window-right
-         mookid-split-window-below
-         mookid-delete-window))
 
  (define-key global-map (kbd "C-x 0") 'mookid-delete-window)
  (define-key global-map (kbd "C-x 2") 'mookid-split-window-below)
