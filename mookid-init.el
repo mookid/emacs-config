@@ -192,8 +192,6 @@ The return value reports success or failure."
  (set-face-attribute 'variable-pitch nil
                      :family "DejaVu Sans"))
 
-(define-key global-map (kbd "C-c h") 'help-command)
-
 (defun mookid-upcase-char (arg)
   "Apply `upcase-region' to the following ARG characters."
   (interactive "P")
@@ -216,7 +214,8 @@ The return value reports success or failure."
 (mookid-with-message
  "Keyboard translations"
  (define-key key-translation-map (kbd "C-h") (kbd "C-p"))
- (define-key key-translation-map (kbd "M-h") (kbd "M-p")))
+ (define-key key-translation-map (kbd "M-h") (kbd "M-p"))
+ (define-key global-map (kbd "C-c h") 'help-command))
 
 (mookid-with-message
  "Window switch bindings"
@@ -783,7 +782,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package slime
   :defer t
-  :bind (("C-c h" . hyperspec-lookup))
+  :bind (("C-c y" . hyperspec-lookup))
   :init
   (progn
     (defvar common-lisp-hyperspec-root)
