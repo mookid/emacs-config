@@ -156,6 +156,7 @@ The return value reports success or failure."
 (setq history-length 16384)
 (setq history-delete-duplicates t)
 (setq-default savehist-save-minibuffer-history t)
+(defvar savehist-additional-variables)
 (mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
       '(kill-ring
         search-ring
@@ -191,7 +192,7 @@ The return value reports success or failure."
 (define-key global-map (kbd "C-c h") 'help-command)
 
 (defun mookid-upcase-char (arg)
-  "Applies `upcase-region' to the following ARG characters."
+  "Apply `upcase-region' to the following ARG characters."
   (interactive "P")
   (let ((arg (or arg 1)))
     (upcase-region
@@ -199,7 +200,7 @@ The return value reports success or failure."
      (+ (point) arg))))
 
 (defun mookid-downcase-char (arg)
-  "Applies `downcase-region' to the following ARG characters."
+  "Apply `downcase-region' to the following ARG characters."
   (interactive "P")
   (let ((arg (or arg 1)))
     (downcase-region
@@ -338,6 +339,7 @@ already narrowed."
   "If the range BEG END is active, group it on one line.
 Otherwise, join the current line with the following."
   (interactive "r")
+  (ignore beg end)
   (cond ((null mark-active)
          (delete-indentation 1))
         (t (if mark-active
@@ -411,8 +413,8 @@ Otherwise, join the current line with the following."
 (setq-default compilation-always-kill t)
 (setq-default compilation-scroll-output 'first-error)
 
-;; disable it for grep mode:
 (defun mookid-disable-jump-to-error ()
+  "Disable `compilation-auto-jump-to-next' local variable."
   (kill-local-variable 'compilation-auto-jump-to-next))
 (add-hook 'grep-mode-hook 'mookid-disable-jump-to-error)
 (define-key global-map (kbd "<f12>") 'recompile)
@@ -444,20 +446,25 @@ Otherwise, join the current line with the following."
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
 (require 'mouse-drag)
+(defun mookid-mouse-drag-throw-test ()
+  "Test `mookid-mouse-drag-throw'."
+  (interactive)
+  (define-key global-map [down-mouse-2] 'mookid-mouse-drag-throw))
+
 (defun mookid-mouse-drag-throw (start-event)
   "Similar to `mouse-drag-throw' but only vertically.
 
-To test this function, evaluate:
-    (define-key global-map [down-mouse-2] \\='mookid-mouse-drag-throw)"
+Throw the page according to a mouse drag triggering START-EVENT.
+
+To test this function, evaluate: (mookid-mouse-drag-throw-test)
+and use mouse2."
   (interactive "e")
   (save-selected-window
     (let* ((start-posn (event-start start-event))
            (start-window (posn-window start-posn))
            (start-row (cdr (posn-col-row start-posn)))
-           (start-col (car (posn-col-row start-posn)))
            event end row scroll-delta
            have-scrolled
-           col
            (scroll-col-delta 0))
       (select-window start-window)
       (track-mouse
@@ -466,8 +473,7 @@ To test this function, evaluate:
         (while (progn
                  (setq event (read-event)
                        end (event-end event)
-                       row (cdr (posn-col-row end))
-                       col (car (posn-col-row end)))
+                       row (cdr (posn-col-row end)))
                  (or (mouse-movement-p event)
                      (eq (car-safe event) 'switch-frame)))
           (when (eq start-window (posn-window end))
@@ -636,7 +642,7 @@ REGEXP-P is used as in the vanilla Emacs api."
 (package-initialize)
 
 ;;; Use package
-(setq use-package-verbose t)
+(setq-default use-package-verbose t)
 (require 'use-package)
 
 (use-package evil-nerd-commenter
@@ -895,7 +901,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package smart-mode-line
   :config (progn (setq sml/no-confirm-load-theme t)
-                 (setq powerline-arrow-shape 'curve)
+                 (setq-default powerline-arrow-shape 'curve)
                  (sml/setup)))
 
 (use-package powerline
@@ -917,6 +923,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (progn
     ;; allow for export=>beamer by placing
     ;; #+LaTeX_CLASS: beamer in org files
+    (defvar org-export-latex-classes)
     (unless (boundp 'org-export-latex-classes)
       (setq org-export-latex-classes nil))
     (add-to-list 'org-export-latex-classes
