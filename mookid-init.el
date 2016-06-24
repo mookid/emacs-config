@@ -23,9 +23,6 @@ The return value reports success or failure."
 
 
 ;;; Basic configuration
-
-(defvar mookid-root-dir "~/.emacs.d" "The root directory of the configuration.")
-
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 
 (setq initial-scratch-message nil)
