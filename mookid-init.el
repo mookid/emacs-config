@@ -18,7 +18,7 @@ The return value reports success or failure."
      (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
 
 (defmacro mookid-ignore (&rest _body)
-  "Ignore the arguments.  Use it to enable a part of the file."
+  "Ignore the arguments.  Use it to disable a part of the file."
   nil)
 
 
@@ -226,42 +226,6 @@ class ')'."
 (define-key global-map (kbd "C-c .") 'repeat)
 
 (mookid-with-message
- "Window switch bindings"
- ;; unbind all keybindings starting with f2
- (cl-dolist (keystr '("<f2> 2" "<f2> b" "<f2> s"))
-   (global-unset-key (kbd keystr)))
-
- (with-eval-after-load 'init
-   (define-key global-map (kbd "<f2> <f2>") 'mookid-toggle-window-split))
-
- (defun mookid-toggle-window-split ()
-   "When there are two windows, convert horizontal to vertical and vice versa."
-   (interactive)
-   (or (= (count-windows) 2)
-       (error "You need exactly 2 windows to do this"))
-   (let* ((this-win-buffer (window-buffer))
-          (next-win-buffer (window-buffer (next-window)))
-          (this-win-edges (window-edges (selected-window)))
-          (next-win-edges (window-edges (next-window)))
-          (this-win-2nd (not (and (<= (car this-win-edges)
-                                      (car next-win-edges))
-                                  (<= (cadr this-win-edges)
-                                      (cadr next-win-edges)))))
-          (splitter
-           (if (= (car this-win-edges)
-                  (car next-win-edges))
-               'split-window-horizontally
-             'split-window-vertically)))
-     (delete-other-windows)
-     (let ((first-win (selected-window)))
-       (funcall splitter)
-       (when this-win-2nd (other-window 1))
-       (set-window-buffer (selected-window) this-win-buffer)
-       (set-window-buffer (next-window) next-win-buffer)
-       (select-window first-win)
-       (when this-win-2nd (other-window 1))))))
-
-(mookid-with-message
  "Setting up the order for recenter-top-bottom"
  (setq recenter-positions '(top middle bottom)))
 
@@ -291,10 +255,6 @@ class ')'."
 ;; Use fullframe
 (with-eval-after-load 'fullframe
   (fullframe list-packages quit-window))
-
-(winner-mode 1)
-(define-key global-map (kbd "M-S-<left>") 'winner-undo)
-(define-key global-map (kbd "M-S-<right>") 'winner-redo)
 
 ;; Run Cygwin shell
 (defvar explicit-shell-file-name)
@@ -469,47 +429,6 @@ Otherwise, join the current line with the following."
   (interactive)
   (define-key global-map [down-mouse-2] 'mookid-mouse-drag-throw))
 
-(defun mookid-mouse-drag-throw (start-event)
-  "Similar to `mouse-drag-throw' but only vertically.
-
-Throw the page according to a mouse drag triggering START-EVENT.
-
-To test this function, evaluate: (mookid-mouse-drag-throw-test)
-and use mouse2."
-  (interactive "e")
-  (save-selected-window
-    (let* ((start-posn (event-start start-event))
-           (start-window (posn-window start-posn))
-           (start-row (cdr (posn-col-row start-posn)))
-           event end row scroll-delta
-           have-scrolled
-           (scroll-col-delta 0))
-      (select-window start-window)
-      (track-mouse
-        ;; Don't change the mouse pointer shape while we drag.
-        (setq track-mouse 'dragging)
-        (while (progn
-                 (setq event (read-event)
-                       end (event-end event)
-                       row (cdr (posn-col-row end)))
-                 (or (mouse-movement-p event)
-                     (eq (car-safe event) 'switch-frame)))
-          (when (eq start-window (posn-window end))
-            (setq scroll-delta (mouse-drag-scroll-delta (- start-row row))))
-
-          (if (or (/= 0 scroll-delta)
-                  (/= 0 scroll-col-delta))
-              (progn
-                (setq have-scrolled t)
-                (mouse-drag-safe-scroll scroll-delta scroll-col-delta)
-                (mouse-drag-repeatedly-safe-scroll scroll-delta scroll-col-delta))))) ;xxx
-      ;; If it was a click and not a drag, prepare to pass the event on.
-      ;; Is there a more correct way to reconstruct the event?
-      (if (and (not have-scrolled)
-               (mouse-drag-events-are-point-events-p start-posn end))
-          (push (cons (event-basic-type start-event) (cdr start-event))
-                unread-command-events)))))
-
 
 ;;; Selective display
 (let ((depth 1))
@@ -628,15 +547,99 @@ REGEXP-P is used as in the vanilla Emacs api."
 
 (mookid-with-message
  "Windows commands"
+
+ (defun mookid-mouse-drag-throw (start-event)
+   "Similar to `mouse-drag-throw' but only vertically.
+
+Throw the page according to a mouse drag triggering START-EVENT.
+
+To test this function, evaluate: (mookid-mouse-drag-throw-test)
+and use mouse2."
+   (interactive "e")
+   (save-selected-window
+     (let* ((start-posn (event-start start-event))
+            (start-window (posn-window start-posn))
+            (start-row (cdr (posn-col-row start-posn)))
+            event end row scroll-delta
+            have-scrolled
+            (scroll-col-delta 0))
+       (select-window start-window)
+       (track-mouse
+         ;; Don't change the mouse pointer shape while we drag.
+         (setq track-mouse 'dragging)
+         (while (progn
+                  (setq event (read-event)
+                        end (event-end event)
+                        row (cdr (posn-col-row end)))
+                  (or (mouse-movement-p event)
+                      (eq (car-safe event) 'switch-frame)))
+           (when (eq start-window (posn-window end))
+             (setq scroll-delta (mouse-drag-scroll-delta (- start-row row))))
+
+           (if (or (/= 0 scroll-delta)
+                   (/= 0 scroll-col-delta))
+               (progn
+                 (setq have-scrolled t)
+                 (mouse-drag-safe-scroll scroll-delta scroll-col-delta)
+                 (mouse-drag-repeatedly-safe-scroll scroll-delta
+                                                    scroll-col-delta)))))
+       ;; If it was a click and not a drag, prepare to pass the event on.
+       ;; Is there a more correct way to reconstruct the event?
+       (if (and (not have-scrolled)
+                (mouse-drag-events-are-point-events-p start-posn end))
+           (push (cons (event-basic-type start-event) (cdr start-event))
+                 unread-command-events)))))
+
+ (winner-mode 1)
+ (define-key global-map (kbd "M-S-<left>") 'winner-undo)
+ (define-key global-map (kbd "M-S-<right>") 'winner-redo)
+
+ ;; unbind all keybindings starting with f2
+ (mapc (lambda (keystr) (global-unset-key (kbd keystr)))
+       '("<f2> 2" "<f2> b" "<f2> s"))
+
+ (with-eval-after-load 'init
+   (define-key global-map (kbd "<f2> <f2>") 'mookid-toggle-window-split))
+
+ (defun mookid-toggle-window-split ()
+   "When there are two windows, convert horizontal to vertical and vice versa."
+   (interactive)
+   (or (= (count-windows) 2)
+       (error "You need exactly 2 windows to do this"))
+   (let* ((this-win-buffer (window-buffer))
+          (next-win-buffer (window-buffer (next-window)))
+          (this-win-edges (window-edges (selected-window)))
+          (next-win-edges (window-edges (next-window)))
+          (this-win-2nd (not (and (<= (car this-win-edges)
+                                      (car next-win-edges))
+                                  (<= (cadr this-win-edges)
+                                      (cadr next-win-edges)))))
+          (splitter
+           (if (= (car this-win-edges)
+                  (car next-win-edges))
+               'split-window-horizontally
+             'split-window-vertically)))
+     (delete-other-windows)
+     (let ((first-win (selected-window)))
+       (funcall splitter)
+       (when this-win-2nd (other-window 1))
+       (set-window-buffer (selected-window) this-win-buffer)
+       (set-window-buffer (next-window) next-win-buffer)
+       (select-window first-win)
+       (when this-win-2nd (other-window 1)))))
+
  (defun mookid-split-window-right ()
+   (interactive)
    "Forwards to `split-window-below'."
    (split-window-right))
 
  (defun mookid-split-window-below ()
+   (interactive)
    "Forwards to `split-window-below'."
    (split-window-below))
 
  (defun mookid-delete-window ()
+   (interactive)
    "Forwards to `delete-window'."
    (delete-window))
 
