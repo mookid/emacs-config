@@ -157,6 +157,9 @@ The return value reports success or failure."
         regexp-search-ring
         compile-command))
 
+;; TAB completion
+(define-key global-map (kbd "TAB") 'completion-at-point)
+
 (mookid-with-message
  "Configuring parenthesis settings"
  (defvar electric-pair-pairs)
