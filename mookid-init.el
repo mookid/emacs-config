@@ -468,7 +468,7 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
 (define-key isearch-mode-map (kbd "M-<") 'mookid-isearch-beginning-of-buffer)
 (define-key isearch-mode-map (kbd "M->") 'mookid-isearch-end-of-buffer)
 (define-key global-map (kbd "C-M-s") 'mookid-isearch-region)
-(define-key global-map (kbd "C-s") 'mookid-isearch-forward)
+;; (define-key global-map (kbd "C-s") 'mookid-isearch-forward)
 
 (define-key isearch-mode-map (kbd "<S-return>") 'mookid-isearch-exit-leave-hl)
 
