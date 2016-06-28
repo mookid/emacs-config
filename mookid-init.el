@@ -619,24 +619,7 @@ and use mouse2."
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
 
-(defun mookid-split-window-right ()
-  (interactive)
-  "Forwards to `split-window-below'."
-  (split-window-right))
-
-(defun mookid-split-window-below ()
-  (interactive)
-  "Forwards to `split-window-below'."
-  (split-window-below))
-
-(defun mookid-delete-window ()
-  (interactive)
-  "Forwards to `delete-window'."
-  (delete-window))
-
-(define-key global-map (kbd "C-x 0") 'mookid-delete-window)
-(define-key global-map (kbd "C-x 2") 'mookid-split-window-below)
-(define-key global-map (kbd "C-x 3") 'mookid-split-window-right)
+(define-key global-map (kbd "C-x 1") 'delete-other-windows -vertically)
 
 
 ;;; melpa packages
