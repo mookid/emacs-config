@@ -808,10 +808,10 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
     (setq aw-dispatch-always t)
     (defvar aw-dispatch-alist)
-    (add-to-list 'aw-dispatch-alist '(?v mookid-split-window-right))
-    (add-to-list 'aw-dispatch-alist '(?o mookid-other-window))
-    (add-to-list 'aw-dispatch-alist '(?b mookid-split-window-below))
-    (add-to-list 'aw-dispatch-alist '(?c mookid-delete-window))))
+    (add-to-list 'aw-dispatch-alist '(?v split-window-right))
+    (add-to-list 'aw-dispatch-alist '(?o other-window))
+    (add-to-list 'aw-dispatch-alist '(?b split-window-below))
+    (add-to-list 'aw-dispatch-alist '(?c delete-other-windows-vertically))))
 
 (use-package flycheck
   :defer t
