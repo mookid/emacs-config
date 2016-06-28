@@ -619,7 +619,7 @@ and use mouse2."
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
 
-(define-key global-map (kbd "C-x 1") 'delete-other-windows -vertically)
+(define-key global-map (kbd "C-x 1") 'delete-other-windows-vertically)
 
 
 ;;; melpa packages
