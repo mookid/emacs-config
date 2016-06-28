@@ -652,6 +652,10 @@ and use mouse2."
 (setq use-package-verbose t)
 (require 'use-package)
 
+(use-package eshell
+  :defer t
+  :bind ("<f5>" . eshell))
+
 (use-package evil-nerd-commenter
   :defer t
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
