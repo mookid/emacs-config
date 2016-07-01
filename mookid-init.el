@@ -731,6 +731,7 @@ and use mouse2."
    ("M-s p" . swiper)
    ("<M-return>" . ivy-switch-buffer)
    ("<C-return>". counsel-find-file)
+   ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
