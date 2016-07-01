@@ -346,7 +346,7 @@ Otherwise, join the current line with the following."
 
 (cl-dolist (face '(font-lock-comment-face
                    font-lock-comment-delimiter-face))
-  (set-face-attribute face nil :foreground "grey" :slant 'italic))
+  (set-face-attribute face nil :foreground "grey"))
 
 ;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
 
