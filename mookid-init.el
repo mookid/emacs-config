@@ -810,7 +810,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (setq aw-dispatch-always t)
     (defvar aw-dispatch-alist)
     (add-to-list 'aw-dispatch-alist '(?v split-window-right))
-    (add-to-list 'aw-dispatch-alist '(?o other-window))
+    (add-to-list 'aw-dispatch-alist '(?o mookid-other-window))
     (add-to-list 'aw-dispatch-alist '(?b split-window-below))
     (add-to-list 'aw-dispatch-alist '(?c delete-other-windows-vertically))))
 
