@@ -49,9 +49,22 @@ The return value reports success or failure."
 (global-set-key [remap move-beginning-of-line]
                 'mookid-move-beginning-of-line)
 
+
+(defun mookid-scroll-up (arg)
+  "Forward to `scroll-up'."
+  (interactive "P")
+  (let ((arg (or arg 1)))
+    (scroll-up arg)))
+
+(defun mookid-scroll-down (arg)
+  "Forward to `scroll-down'."
+  (interactive "P")
+  (let ((arg (or arg 1)))
+    (scroll-down arg)))
+
 ;; Keybindings
-(define-key global-map (kbd "M-p") 'backward-paragraph)
-(define-key global-map (kbd "M-n") 'forward-paragraph)
+(define-key global-map (kbd "M-n") 'mookid-scroll-up)
+(define-key global-map (kbd "M-p") 'mookid-scroll-down)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 (define-key global-map (kbd "C-c .") 'repeat)
 (define-key global-map (kbd "M-=") 'align-regexp)
