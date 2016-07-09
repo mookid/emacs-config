@@ -741,7 +741,7 @@ and use mouse2."
   :diminish ivy-mode
   :bind
   (("M-m" . counsel-M-x)
-   ("M-s p" . swiper)
+   ("C-c C-s" . swiper)
    ("<M-return>" . ivy-switch-buffer)
    ("<C-return>". counsel-find-file)
    ("C-M-y". counsel-yank-pop)
