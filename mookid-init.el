@@ -197,7 +197,7 @@ class ')'."
 
 (mookid-with-message
  "Setting up frame size"
- ;; (add-to-list 'default-frame-alist '(height . 55))
+ (add-to-list 'default-frame-alist '(height . 30))
  (add-to-list 'default-frame-alist '(width . 80)))
 
 (mookid-with-message
