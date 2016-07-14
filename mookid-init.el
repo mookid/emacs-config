@@ -195,10 +195,8 @@ class ')'."
      (when matching-text (message matching-text))))
  (set-face-background 'show-paren-match "turquoise"))
 
-(mookid-with-message
- "Setting up frame size"
- (add-to-list 'default-frame-alist '(height . 30))
- (add-to-list 'default-frame-alist '(width . 80)))
+(add-to-list 'default-frame-alist '(height . 30))
+(add-to-list 'default-frame-alist '(width . 80))
 
 (mookid-with-message
  "Setting up fonts"
