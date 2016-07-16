@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "tuareg-autoloads.el"
+      :pointmax 307
+      :fsize 3112
+      :lastmodtime '(22409 30513 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!home!nmoreau!.emacs.d!elpa!tuareg-20160710.1045!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "swiper-autoloads.el"
+      :pointmax 307
+      :fsize 670
+      :lastmodtime '(22409 30515 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!home!nmoreau!.emacs.d!elpa!swiper-20160630.1302!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

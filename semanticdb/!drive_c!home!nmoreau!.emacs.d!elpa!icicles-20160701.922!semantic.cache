@@ -1,0 +1,16 @@
+;; Object semanticdb-project-database-file
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semanticdb-project-database-file"
+  :tables
+  (list
+    (semanticdb-table "semanticdb-table"
+      :major-mode emacs-lisp-mode
+      :tags nil
+      :file "icicles-autoloads.el"
+      :pointmax 309
+      :fsize 1548
+      :lastmodtime '(22409 30549 0 0)
+      :unmatched-syntax nil))
+  :file "!drive_c!home!nmoreau!.emacs.d!elpa!icicles-20160701.922!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")
