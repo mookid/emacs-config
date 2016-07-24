@@ -838,7 +838,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    :config
    (progn
      (add-to-list 'auto-mode-alist
-                  ("\\.ml[ily]?$" . tuareg-mode))
+                  '("\\.ml[ily]?$" . tuareg-mode))
      (define-key tuareg-mode-map (kbd "C-c .") nil)
      (mapc (lambda (face)
              (set-face-attribute face nil
