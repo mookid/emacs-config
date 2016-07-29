@@ -94,6 +94,13 @@ The return value reports success or failure."
              mode-line-misc-info
              "%-")))
 
+;; Jump to grep buffer
+(define-key global-map (kbd "<f10>") 'mookid-grep-buffer)
+(defun mookid-grep-buffer ()
+  "Goto `*grep*' buffer."
+  (interactive)
+  (switch-to-buffer "*grep*"))
+
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
 
