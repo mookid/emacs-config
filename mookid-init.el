@@ -923,10 +923,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
    (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
 
-(let ((f (expand-file-name "private.el" mookid-root-dir)))
-  (when (file-exists-p f)
-    (mookid-with-message "Loading private settings" (load f))))
-
 (use-package smart-mode-line
   :config (progn
             (defvar sml/no-confirm-load-theme)
@@ -1005,6 +1001,10 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))))
+
+(let ((f (expand-file-name "private.el" mookid-root-dir)))
+  (when (file-exists-p f)
+    (mookid-with-message "Loading private settings" (load f))))
 
 (provide 'mookid-init)
 ;;; mookid-init.el ends here
