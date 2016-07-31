@@ -348,7 +348,6 @@ Otherwise, join the current line with the following."
 
 
 ;;; Colors
-
 (defun mookid-faces-fix (&optional frame)
   "Remove undesired faces properties in FRAME."
   (interactive)
@@ -361,17 +360,13 @@ Otherwise, join the current line with the following."
       (set-face-underline face t frame))))
 
 ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
+(set-face-attribute font-lock-comment-face nil :foreground "grey")
+(set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
 
-(cl-dolist (face '(font-lock-comment-face
-                   font-lock-comment-delimiter-face))
-  (set-face-attribute face nil :foreground "grey"))
-
-;; (add-to-list 'default-frame-alist '(background-color . "#fdf6e3"))
-
-(add-to-list 'default-frame-alist '(background-color . "azure1"))
-(add-to-list 'default-frame-alist '(foreground-color . "#586e75"))
-(add-to-list 'default-frame-alist '(cursor-color . "red"))
-(setq initial-frame-alist default-frame-alist)
+;; (set-background-color "#fdf6e3")
+(set-background-color "azure1")
+(set-foreground-color "#586e75")
+(set-face-attribute 'cursor nil :background "red")
 (set-face-attribute 'region nil :background "#ABDFFA")
 
 
