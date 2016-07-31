@@ -21,6 +21,15 @@ The return value reports success or failure."
   "Ignore the arguments.  Use it to disable a part of the file."
   nil)
 
+(defmacro mookid-every-frame (&rest body)
+  "Apply BODY to every new frame."
+  `(progn
+     (add-hook 'after-make-frame-functions
+               (lambda (frame)
+                 (with-selected-frame frame
+                   ,@body)))
+     ,@body))
+
 
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
@@ -359,18 +368,19 @@ Otherwise, join the current line with the following."
       (set-face-bold face nil frame)
       (set-face-underline face t frame))))
 
-(cond
- (window-system
-   ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
-   (set-face-attribute font-lock-comment-face nil :foreground "grey")
-   (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
+(mookid-every-frame
+ (cond
+   (window-system
+    ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
+    (set-face-attribute font-lock-comment-face nil :foreground "grey")
+    (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
 
-   ;; (set-background-color "#fdf6e3")
-   (set-background-color "azure1")
-   (set-foreground-color "#586e75")
-   (set-face-attribute 'cursor nil :background "red")
-   (set-face-attribute 'region nil :background "#ABDFFA"))
- (t nil))
+    ;; (set-background-color "#fdf6e3")
+    (set-background-color "azure1")
+    (set-foreground-color "#586e75")
+    (set-cursor-color "red")
+    (set-face-attribute 'region nil :background "#ABDFFA"))
+   (t nil)))
 
 
 ;;; Dired

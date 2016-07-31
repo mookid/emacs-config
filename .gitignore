@@ -5,6 +5,7 @@ url/*
 site-lisp/*
 savehist
 .emacs.desktop*
+server/
 
 private.el
 places
