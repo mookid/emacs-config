@@ -670,7 +670,7 @@ and use mouse2."
 
 (use-package lispy
   :defer t
-  :init (add-hook 'prog-mode-hook 'lispy-mode)
+  :init (add-hook 'emacs-lisp-mode-hook 'lispy-mode)
   :config
   (progn
     (lispy-set-key-theme '(special))))
