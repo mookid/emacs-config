@@ -329,12 +329,12 @@ Otherwise, join the current line with the following."
   (ignore beg end)
   (cond ((null mark-active)
          (delete-indentation 1))
-        (t (if mark-active
-               (let ((beg (region-beginning))
-                     (end (copy-marker (region-end))))
-                 (goto-char beg)
-                 (while (< (point) end)
-                   (join-line 1)))))))
+        (mark-active
+         (let ((beg (region-beginning))
+               (end (copy-marker (region-end))))
+           (goto-char beg)
+           (while (< (point) end)
+             (join-line 1))))))
 (define-key global-map (kbd "M-j") 'mookid-join-line)
 
 ;; Don't kill by accident
@@ -359,15 +359,18 @@ Otherwise, join the current line with the following."
       (set-face-bold face nil frame)
       (set-face-underline face t frame))))
 
-;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
-(set-face-attribute font-lock-comment-face nil :foreground "grey")
-(set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
+(cond
+ (window-system
+   ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
+   (set-face-attribute font-lock-comment-face nil :foreground "grey")
+   (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
 
-;; (set-background-color "#fdf6e3")
-(set-background-color "azure1")
-(set-foreground-color "#586e75")
-(set-face-attribute 'cursor nil :background "red")
-(set-face-attribute 'region nil :background "#ABDFFA")
+   ;; (set-background-color "#fdf6e3")
+   (set-background-color "azure1")
+   (set-foreground-color "#586e75")
+   (set-face-attribute 'cursor nil :background "red")
+   (set-face-attribute 'region nil :background "#ABDFFA"))
+ (t nil))
 
 
 ;;; Dired
