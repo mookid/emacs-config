@@ -745,7 +745,7 @@ and use mouse2."
   :bind
   (("M-m" . counsel-M-x)
    ("C-c C-s" . swiper)
-   ("<M-return>" . ivy-switch-buffer)
+   ("<C-M-return>" . ivy-switch-buffer)
    ("<C-return>". counsel-find-file)
    ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
