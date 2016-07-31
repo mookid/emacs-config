@@ -2,17 +2,14 @@ auto-save-list/*
 backups/*
 eshell/*
 url/*
-site-lisp/*
 savehist
 .emacs.desktop*
 server/
 
 private.el
-places
 abbrev_defs
 recentf
 projectile-bookmarks*
 projectile.cache
-
+semanticdb
 *.elc
-bookmarks
