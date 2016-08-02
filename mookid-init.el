@@ -161,6 +161,14 @@ The return value reports success or failure."
 (defun mookid-save-all-buffers () "Save all buffers." (save-some-buffers t))
 (add-hook 'focus-out-hook #'mookid-save-all-buffers)
 
+;; VC
+(define-key global-map (kbd "C-<f7>") 'vc-root-diff)
+(defun mookid-goto-diff ()
+  "Goto `*vc-diff*' buffer."
+  (interactive)
+  (switch-to-buffer "*vc-diff*"))
+(define-key global-map (kbd "<f7>") 'mookid-goto-diff)
+
 (mookid-with-message
  "Remove gui elements"
  (and (fboundp 'fringe-mode) (fringe-mode -1))
@@ -711,6 +719,7 @@ and use mouse2."
 
 (use-package magit
   :defer t
+  :disabled t
   :bind (("<f7>" . magit-status))
   :config
   (progn
