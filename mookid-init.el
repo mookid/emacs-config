@@ -245,6 +245,12 @@ class ')'."
 (define-key global-map (kbd "C-c u") 'mookid-upcase-char)
 (define-key global-map (kbd "C-c l") 'mookid-downcase-char)
 
+(defun mookid-kill-line-backward ()
+  "The same as `kill-line', but backward."
+  (interactive)
+  (kill-line 0))
+(define-key global-map (kbd "C-S-k") 'mookid-kill-line-backward)
+
 (mookid-with-message
  "Keyboard translations"
  (define-key key-translation-map (kbd "C-h") (kbd "C-p"))
