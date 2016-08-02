@@ -400,6 +400,26 @@ Otherwise, join the current line with the following."
 (ffap-bindings)
 
 
+;;; Server
+(defadvice server-visit-files (before parse-numbers-in-lines
+                                      (files proc &optional nowait) activate)
+  "Looks for petterns file:line or file:line:position when starting server."
+  (ad-set-arg
+   0
+   (mapcar (lambda (fn)
+             (let ((name (car fn)))
+               (if (string-match "^\\(.*?\\):\\([0-9]+\\)\\(?::\\([0-9]+\\)\\)?$" name)
+                   (cons
+                    (match-string 1 name)
+                    (cons (string-to-number (match-string 2 name))
+                          (string-to-number (or (match-string 3 name) "")))
+                    )
+                 fn)))
+           files)))
+
+
+
+
 ;;; Compilation
 (defvar compilation-always-kill)
 (defvar compilation-scroll-output)
