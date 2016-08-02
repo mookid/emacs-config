@@ -108,7 +108,7 @@ The return value reports success or failure."
 (defun mookid-grep-buffer ()
   "Goto `*grep*' buffer."
   (interactive)
-  (switch-to-buffer "*grep*"))
+  (pop-to-buffer "*grep*"))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -166,7 +166,7 @@ The return value reports success or failure."
 (defun mookid-goto-diff ()
   "Goto `*vc-diff*' buffer."
   (interactive)
-  (switch-to-buffer "*vc-diff*"))
+  (pop-to-buffer "*vc-diff*"))
 (define-key global-map (kbd "<f7>") 'mookid-goto-diff)
 
 (mookid-with-message
