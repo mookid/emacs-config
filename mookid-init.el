@@ -597,10 +597,10 @@ REGEXP-P is used as in the vanilla Emacs api."
         (search-whitespace-regexp ".*?"))
     (isearch-forward-regexp regexp-p)))
 
-(defun mookid-occur-rename-buffer ()
-  "Used to uniquify the occur buffer names."
-  (occur-rename-buffer t))
-(add-hook 'occur-hook #'mookid-occur-rename-buffer)
+;; (defun mookid-occur-rename-buffer ()
+;;   "Used to uniquify the occur buffer names."
+;;   (occur-rename-buffer t))
+;; (add-hook 'occur-hook #'mookid-occur-rename-buffer)
 
 
 ;;; Windows
