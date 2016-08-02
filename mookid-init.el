@@ -30,6 +30,20 @@ The return value reports success or failure."
                    ,@body)))
      ,@body))
 
+(defmacro mookid-goto-buffer (buffer-name &optional key)
+  "Defines a command to jump to the buffer designated by BUFFER-NAME.
+
+Binds the command to KEY if supplied."
+  (let* ((buffer-name-str (symbol-name buffer-name))
+         (command-name (intern (concat "mookid-goto-" buffer-name-str))))
+    `(progn
+       (defun ,command-name ()
+         ,(concat "Goto buffer `" buffer-name-str "'.")
+         (interactive)
+         (pop-to-buffer ,buffer-name-str))
+       (when ,key
+         (define-key global-map (kbd ,key) ',command-name)))))
+
 
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
@@ -104,11 +118,7 @@ The return value reports success or failure."
              "%-")))
 
 ;; Jump to grep buffer
-(define-key global-map (kbd "<f10>") 'mookid-grep-buffer)
-(defun mookid-grep-buffer ()
-  "Goto `*grep*' buffer."
-  (interactive)
-  (pop-to-buffer "*grep*"))
+(mookid-goto-buffer *grep* "<f10>")
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -163,11 +173,7 @@ The return value reports success or failure."
 
 ;; VC
 (define-key global-map (kbd "C-<f7>") 'vc-root-diff)
-(defun mookid-goto-diff ()
-  "Goto `*vc-diff*' buffer."
-  (interactive)
-  (pop-to-buffer "*vc-diff*"))
-(define-key global-map (kbd "<f7>") 'mookid-goto-diff)
+(mookid-goto-buffer *vc-diff* "<f7>")
 
 (mookid-with-message
  "Remove gui elements"
@@ -447,11 +453,7 @@ Otherwise, join the current line with the following."
 (setq compilation-scroll-output 'first-error)
 
 (add-hook 'grep-mode-hook 'mookid-disable-jump-to-error)
-(defun mookid-goto-compilation ()
-  "Goto `*vc-diff*' buffer."
-  (interactive)
-  (pop-to-buffer "*compilation*"))
-(define-key global-map (kbd "<f5>") 'mookid-goto-compilation)
+(mookid-goto-buffer *compilation* "<f5>")
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<end>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
