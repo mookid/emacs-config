@@ -447,6 +447,11 @@ Otherwise, join the current line with the following."
 (setq compilation-scroll-output 'first-error)
 
 (add-hook 'grep-mode-hook 'mookid-disable-jump-to-error)
+(defun mookid-goto-compilation ()
+  "Goto `*vc-diff*' buffer."
+  (interactive)
+  (pop-to-buffer "*compilation*"))
+(define-key global-map (kbd "<f5>") 'mookid-goto-compilation)
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<end>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
@@ -698,6 +703,7 @@ and use mouse2."
 
 (use-package eshell
   :defer t
+  :disabled t
   :bind ("<f5>" . eshell))
 
 (use-package evil-nerd-commenter
