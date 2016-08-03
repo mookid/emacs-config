@@ -895,6 +895,36 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
  (use-package tuareg
    :config
    (progn
+     (cond ((require 'hydra nil t)
+            (defhydra mookid-tuareg-abbrevs (:color pink :hint nil)
+              "
+_c_: tuareg-insert-class-form        _w_: tuareg-insert-while-form
+_b_: tuareg-insert-begin-form        _i_: tuareg-insert-if-form
+_f_: tuareg-insert-for-form          _t_: tuareg-insert-try-form
+_l_: tuareg-insert-let-form
+_m_: tuareg-insert-match-form
+"
+              ("c" tuareg-insert-class-form)
+              ("b" tuareg-insert-begin-form)
+              ("f" tuareg-insert-for-form)
+              ("w" tuareg-insert-while-form)
+              ("i" tuareg-insert-if-form)
+              ("l" tuareg-insert-let-form)
+              ("m" tuareg-insert-match-form)
+              ("t" tuareg-insert-try-form)
+              ("c" nil "cancel")))
+           (t
+            (define-prefix-command 'mookid-tuareg-abbrevs/body)
+            (let ((map mookid-tuareg-abbrevs/body))
+              (define-key map (kbd "c") 'tuareg-insert-class-form)
+              (define-key map (kbd "b") 'tuareg-insert-begin-form)
+              (define-key map (kbd "f") 'tuareg-insert-for-form)
+              (define-key map (kbd "w") 'tuareg-insert-while-form)
+              (define-key map (kbd "i") 'tuareg-insert-if-form)
+              (define-key map (kbd "l") 'tuareg-insert-let-form)
+              (define-key map (kbd "m") 'tuareg-insert-match-form)
+              (define-key map (kbd "t") 'tuareg-insert-try-form))))
+     (define-key tuareg-mode-map (kbd "C-M-,") 'mookid-tuareg-abbrevs/body)
      (add-to-list 'auto-mode-alist
                   '("\\.ml[ily]?$" . tuareg-mode))
      (define-key tuareg-mode-map (kbd "C-c .") nil)
