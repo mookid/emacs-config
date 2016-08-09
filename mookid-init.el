@@ -952,8 +952,8 @@ _m_: tuareg-insert-match-form
      (mapc (lambda (face)
              (when (string-prefix-p "caml-types" (face-name face))
                (set-face-attribute face nil
-                                   :background "deep pink"
-                                   :foreground "white")))
+                                   :background "yellow"
+                                   :foreground "black")))
            (face-list))))
 
  (use-package merlin
