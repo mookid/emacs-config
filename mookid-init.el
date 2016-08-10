@@ -607,6 +607,8 @@ REGEXP-P is used as in the vanilla Emacs api."
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 
+(setq tags-add-tables nil)
+
 (defun mookid-mouse-drag-throw (start-event)
   "Similar to `mouse-drag-throw' but only vertically.
 
