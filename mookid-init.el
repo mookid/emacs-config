@@ -1039,6 +1039,8 @@ _m_: tuareg-insert-match-form
           powerline-inactive2))
   (powerline-default-theme))
 
+(use-package hyperbole)
+
 (use-package org
   :defer t
   :config
