@@ -266,12 +266,6 @@ class ')'."
 (define-key global-map (kbd "C-S-k") 'mookid-kill-line-backward)
 
 (mookid-with-message
- "Keyboard translations"
- (define-key key-translation-map (kbd "C-h") (kbd "C-p"))
- (define-key key-translation-map (kbd "M-h") (kbd "M-p"))
- (define-key global-map (kbd "C-c h") 'help-command))
-
-(mookid-with-message
  "Setting up the order for recenter-top-bottom"
  (setq recenter-positions '(top middle bottom)))
 
