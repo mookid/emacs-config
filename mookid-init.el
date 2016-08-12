@@ -459,6 +459,24 @@ Otherwise, join the current line with the following."
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)
 
+
+(defun mookid-bury-compile-buffer (buffer string)
+  "Bury a compilation buffer if succeeded without warnings "
+  (if (and
+       (string-match "compilation" (buffer-name buffer))
+       (string-match "finished" string)
+       (not
+        (with-current-buffer buffer
+          (goto-char (point-min))
+          (search-forward "warning" nil t))))
+      (run-with-timer 1 nil
+                      (lambda (buf)
+                        (bury-buffer buf)
+                        (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+                      buffer)))
+
+(add-hook 'compilation-finish-functions #'mookid-bury-compile-buffer)
+
 
 ;;; Mouse
 
