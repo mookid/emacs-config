@@ -209,6 +209,7 @@ Binds the command to KEY if supplied."
  (defvar show-paren-delay)
  (electric-pair-mode t)
  (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
+ (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
  (setq show-paren-delay 0)
  (show-paren-mode t)
  (defadvice show-paren-function
