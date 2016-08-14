@@ -477,7 +477,54 @@ Otherwise, join the current line with the following."
 
 (require 'mouse)
 (global-unset-key (kbd "<S-down-mouse-1>"))
-(define-key global-map (kbd "<S-mouse-1>") 'mouse-set-mark)
+(define-key global-map (kbd "<S-mouse-1>") 'mookid-acme-search)
+
+(defun mookid-acme-search (click)
+  "Move mouse to the next occurence of the symbol at point and highlight it."
+  (interactive "e")
+  (let ((sym (if (region-active-p)
+                 (buffer-substring (mark) (point))
+               (mouse-set-point click)
+               (thing-at-point 'filename))))
+    (if (file-readable-p sym)
+        (special-display-popup-frame (find-file-noselect sym nil nil nil))
+      (or (mookid-acme-search-forward sym)
+          (let ((saved-point (point)))
+            (message "Wrapped search")
+            (goto-char (point-min))
+            (or (mookid-acme-search-forward sym)
+                (goto-char saved-point)))))
+    ;;Redisplay the screen if we search off the bottom of the window.
+    (unless (posn-at-point)
+      (universal-argument)
+      (recenter))
+    (mookid-move-mouse-to-point)))
+
+(defun mookid-move-mouse-to-point ()
+  "Move the mouse pointer to point in the current window."
+  (let* ((coords (posn-col-row (posn-at-point)))
+         (window-coords (window-inside-edges))
+         (x (+ (car coords) (car window-coords) -1))
+         (y (+ (cdr coords) (cadr window-coords)
+               (if header-line-format -1 0))))
+    (set-mouse-position (selected-frame) x y)))
+
+(defun mookid-acme-search-forward (sym)
+  "Search forward from point for SYM and highlight it.
+
+If there is no match, returns NIL."
+  (when (search-forward sym nil t)
+    (mookid-acme-highlight-search sym)
+    t))
+
+(defun mookid-acme-highlight-search (sym)
+  "Set the region to the current search result. Assume point is
+at the end of the result."
+  (set-mark (point))
+  (search-backward sym nil t)
+  (exchange-point-and-mark))
+
+
 (setq mouse-drag-copy-region t)
 (setq mouse-yank-at-point t)
 
