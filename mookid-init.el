@@ -86,6 +86,7 @@ Binds the command to KEY if supplied."
     (scroll-down arg)))
 
 ;; Keybindings
+(define-key global-map (kbd "C-c k") 'delete-frame)
 (define-key global-map (kbd "M-n") 'mookid-scroll-up)
 (define-key global-map (kbd "M-p") 'mookid-scroll-down)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
@@ -172,7 +173,16 @@ Binds the command to KEY if supplied."
 (add-hook 'focus-out-hook #'mookid-save-all-buffers)
 
 ;; VC
-(define-key global-map (kbd "C-<f7>") 'vc-root-diff)
+(define-key global-map (kbd "C-<f7>") 'mookid-vc-root-diff)
+(defun mookid-vc-root-diff ()
+  "Run `vc-root-diff' in a new frame."
+  (interactive)
+  (select-frame (make-frame))
+  (iconify-or-deiconify-frame)
+  (vc-root-diff nil)
+  (iconify-or-deiconify-frame)
+  (other-frame 1))
+
 (mookid-goto-buffer *vc-diff* "<f7>")
 
 (mookid-with-message
