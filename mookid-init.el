@@ -86,6 +86,7 @@ Binds the command to KEY if supplied."
     (scroll-down arg)))
 
 ;; Keybindings
+(define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
 (define-key global-map (kbd "M-n") 'mookid-scroll-up)
 (define-key global-map (kbd "M-p") 'mookid-scroll-down)
@@ -318,8 +319,7 @@ class ')'."
 (defun mookid-insert-buffer-name ()
   "Insert the previous buffer name.  Useful for compilation."
   (interactive)
-  (insert (buffer-name (mookid-previous-buffer))))
-(define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
+  (insert (file-name-base)))
 
 (defun mookid-insert-buffer-path (arg)
   "Insert the previous buffer path.
