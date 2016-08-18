@@ -2,6 +2,6 @@
 # name: for
 # key: for
 # --
-for ${1:var} = ${2:lo} to ${3:hi}-1 do
-  ${0:(* body *)}
-done;
+for ${1:cond}  do
+    $0
+done

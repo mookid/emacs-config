@@ -2,4 +2,4 @@
 # name: guard
 # key: |
 # --
-| ${1:match} -> ${0:(* body *)}
+| ${1:match} -> $0
