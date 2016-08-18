@@ -383,19 +383,8 @@ Otherwise, join the current line with the following."
 
 
 ;;; Colors
-(defun mookid-faces-fix (&optional frame)
-  "Remove undesired faces properties in FRAME."
-  (interactive)
-  (dolist (face (face-list))
-    (when (face-bold-p face frame)
-      (set-face-attribute face nil
-                          :weight 'normal
-                          :underline t)
-      (set-face-bold face nil frame)
-      (set-face-underline face t frame))))
-
-(mookid-every-frame
- (cond
+(defun mookid-color-config ()
+  (cond
    (window-system
     ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
     (set-face-attribute font-lock-comment-face nil :foreground "grey")
@@ -407,6 +396,12 @@ Otherwise, join the current line with the following."
     (set-cursor-color "red")
     (set-face-attribute 'region nil :background "#ABDFFA"))
    (t nil)))
+
+(defun mookid-color-config ()
+  (require 'moe-theme)
+  (moe-dark)
+  (set-cursor-color "red"))
+(mookid-every-frame (mookid-color-config))
 
 
 ;;; Dired
