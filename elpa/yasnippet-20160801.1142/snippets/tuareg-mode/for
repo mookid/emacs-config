@@ -2,6 +2,6 @@
 # name: for
 # key: for
 # --
-for ${1:cond}  do
+for ${1:cond} do
     $0
 done
