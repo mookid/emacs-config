@@ -1102,6 +1102,7 @@ _m_: tuareg-insert-match-form
 (use-package yasnippet
   :config
   (progn
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
     (yas-reload-all)
     (yas-global-mode 1)))
 

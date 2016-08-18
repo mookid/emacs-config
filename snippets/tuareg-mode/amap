@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: amap
+# key: amap
+# --
+let ${1:new} = Array.make (Array.length ${2:src}) ${3:init} in
+for i = 0 to (Array.length $2)-1 do
+  let x = $2.(i) in
+done;
