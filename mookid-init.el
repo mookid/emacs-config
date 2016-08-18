@@ -1099,6 +1099,12 @@ _m_: tuareg-insert-match-form
 
 (use-package hyperbole)
 
+(use-package yasnippet
+  :config
+  (progn
+    (yas-reload-all)
+    (yas-global-mode 1)))
+
 (use-package org
   :defer t
   :config
