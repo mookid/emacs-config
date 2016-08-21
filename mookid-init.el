@@ -399,7 +399,7 @@ Otherwise, join the current line with the following."
 
 (defun mookid-color-config ()
   (require 'moe-theme)
-  (moe-dark)
+  (moe-light)
   (set-cursor-color "red"))
 (mookid-every-frame (mookid-color-config))
 
