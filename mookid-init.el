@@ -927,7 +927,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 
 (use-package avy
   :defer t
-  :bind (("C-:" . avy-goto-word-or-subword-1))
+  :bind (("C-z" . avy-goto-word-or-subword-1))
   :config
   (progn
     (setq avy-all-windows 'all-frames)))
