@@ -964,7 +964,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
    :config
    (progn
      (cond ((require 'hydra nil t)
-            (defhydra mookid-tuareg-abbrevs (:color pink :hint nil)
+            (defhydra mookid-tuareg-abbrevs (:color blue :hint nil)
               "
 _c_: tuareg-insert-class-form        _w_: tuareg-insert-while-form
 _b_: tuareg-insert-begin-form        _i_: tuareg-insert-if-form
@@ -979,8 +979,7 @@ _m_: tuareg-insert-match-form
               ("i" tuareg-insert-if-form)
               ("l" tuareg-insert-let-form)
               ("m" tuareg-insert-match-form)
-              ("t" tuareg-insert-try-form)
-              ("c" nil "cancel")))
+              ("t" tuareg-insert-try-form)))
            (t
             (define-prefix-command 'mookid-tuareg-abbrevs/body)
             (let ((map mookid-tuareg-abbrevs/body))
