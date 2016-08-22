@@ -88,12 +88,12 @@ Binds the command to KEY if supplied."
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
+(define-key global-map (kbd "C-c n") 'make-frame)
 (define-key global-map (kbd "M-n") 'mookid-scroll-up)
 (define-key global-map (kbd "M-p") 'mookid-scroll-down)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 (define-key global-map (kbd "C-c .") 'repeat)
 (define-key global-map (kbd "M-=") 'align-regexp)
-(define-key global-map (kbd "C-c C-n") 'make-frame)
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
 (define-key global-map (kbd "C-x p") 'proced)
