@@ -94,6 +94,8 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "C-c .") 'repeat)
 (define-key global-map (kbd "M-=") 'align-regexp)
 (define-key global-map (kbd "C-c C-n") 'make-frame)
+(define-key global-map (kbd "M-g") 'goto-line)
+(define-key global-map (kbd "C-x g") 'move-to-column)
 
 (require 'subr-x)
 (defun mookid-shorten-path (path)
