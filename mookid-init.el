@@ -275,9 +275,10 @@ class ')'."
 (define-key global-map (kbd "C-c l") 'mookid-downcase-char)
 
 (defun mookid-kill-line-backward ()
-  "The same as `kill-line', but backward."
+  "The same as `kill-line', but backward (and reindent)."
   (interactive)
-  (kill-line 0))
+  (kill-line 0)
+  (indent-according-to-mode))
 (define-key global-map (kbd "C-S-k") 'mookid-kill-line-backward)
 
 (mookid-with-message
