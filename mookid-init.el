@@ -65,9 +65,9 @@ Binds the command to KEY if supplied."
   "Redefinition of `move-beginning-of-line'."
   (interactive "^p")
   (let ((orig-point (point)))
-    (back-to-indentation)
+    (move-beginning-of-line 1)
     (when (= orig-point (point))
-      (move-beginning-of-line 1))))
+      (back-to-indentation))))
 
 (global-set-key [remap move-beginning-of-line]
                 'mookid-move-beginning-of-line)
