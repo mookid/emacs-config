@@ -178,15 +178,7 @@ Binds the command to KEY if supplied."
 (add-hook 'focus-out-hook #'mookid-save-all-buffers)
 
 ;; VC
-(define-key global-map (kbd "C-<f7>") 'mookid-vc-root-diff)
-(defun mookid-vc-root-diff ()
-  "Run `vc-root-diff' in a new frame."
-  (interactive)
-  (select-frame (make-frame))
-  (iconify-or-deiconify-frame)
-  (vc-root-diff nil)
-  (iconify-or-deiconify-frame)
-  (other-frame 1))
+(define-key global-map (kbd "C-<f7>") 'vc-root-diff)
 
 (mookid-goto-buffer *vc-diff* "<f7>")
 
