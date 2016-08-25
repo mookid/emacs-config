@@ -97,6 +97,7 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
 (define-key global-map (kbd "C-x p") 'proced)
+(define-key global-map (kbd "C-S-o") 'other-window)
 
 (require 'subr-x)
 (defun mookid-shorten-path (path)
@@ -930,7 +931,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 (use-package ace-window
   :defer t
   :bind
-  (("M-o" . ace-window))
+  (("C-'" . ace-window))
   :config
   (progn
     (defun mookid-other-window ()
@@ -943,7 +944,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (setq aw-dispatch-always t)
     (defvar aw-dispatch-alist)
     (add-to-list 'aw-dispatch-alist '(?v split-window-right))
-    (add-to-list 'aw-dispatch-alist '(?o mookid-other-window))
     (add-to-list 'aw-dispatch-alist '(?b split-window-below))
     (add-to-list 'aw-dispatch-alist '(?c delete-other-windows-vertically))))
 
