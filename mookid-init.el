@@ -879,10 +879,9 @@ and use mouse2."
   :bind (("<C-S-return>" . mookid-projectile))
   :config
   (progn
+    (diminish 'projectile-mode)
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
-    (setq projectile-mode-line
-          '(:eval (concat " <" (projectile-project-name) ">")))
     (defun mookid-projectile (p)
       "My projectile command.
 
