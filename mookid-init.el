@@ -1158,7 +1158,7 @@ _m_: tuareg-insert-match-form
   (progn
     (key-chord-mode 1)
     (key-chord-define-global "jk" 'execute-extended-command)
-    (key-chord-define-global "ff" 'find-file-at-point)
+    (key-chord-define-global "fj" 'find-file-at-point)
     (key-chord-define-global "fb" 'switch-to-buffer)))
 
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
