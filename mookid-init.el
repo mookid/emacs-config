@@ -306,9 +306,21 @@ class ')'."
 (with-eval-after-load 'fullframe
   (fullframe list-packages quit-window))
 
-;; Run Cygwin shell
-(defvar explicit-shell-file-name)
-(setq explicit-shell-file-name "C:/bin/bash")
+;; Shell
+(let* ((cygwin-root "c:")
+       (cygwin-bin (concat cygwin-root "/bin")))
+  (when (and (eq 'windows-nt system-type)
+             (file-readable-p cygwin-root))
+
+    (setq exec-path (cons cygwin-bin exec-path))
+    (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
+    (setq shell-file-name "bash")
+    (setenv "SHELL" shell-file-name)
+    (setq explicit-shell-file-name shell-file-name)
+    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
+
+(add-hook 'shell-mode 'dirtrack-mode)
+(define-key global-map (kbd "<f1>") 'shell)
 
 (defun mookid-previous-buffer ()
   "Not the current buffer but the buffer before."
