@@ -406,10 +406,6 @@ Otherwise, join the current line with the following."
     (set-face-attribute 'region nil :background "#ABDFFA"))
    (t nil)))
 
-(defun mookid-color-config ()
-  (require 'moe-theme)
-  (moe-light)
-  (set-cursor-color "red"))
 (mookid-every-frame (mookid-color-config))
 
 
