@@ -1169,6 +1169,12 @@ _m_: tuareg-insert-match-form
     (key-chord-define-global "fj" 'find-file-at-point)
     (key-chord-define-global "fb" 'switch-to-buffer)))
 
+(use-package composable
+  :init
+  (progn
+    (composable-mode 1)
+    (diminish 'composable-mode)))
+
 (let ((f (expand-file-name "private.el" mookid-root-dir)))
   (when (file-exists-p f)
     (mookid-with-message "Loading private settings" (load f))))
