@@ -607,9 +607,8 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
 (define-key isearch-mode-map (kbd "M-<") 'mookid-isearch-beginning-of-buffer)
 (define-key isearch-mode-map (kbd "M->") 'mookid-isearch-end-of-buffer)
 (define-key global-map (kbd "C-M-s") 'mookid-isearch-region)
-;; (define-key global-map (kbd "C-s") 'mookid-isearch-forward)
 
-(define-key isearch-mode-map (kbd "<S-return>") 'mookid-isearch-exit-leave-hl)
+(define-key isearch-mode-map (kbd "<return>") 'mookid-isearch-exit-leave-hl)
 
 (defun mookid-isearch-exit-leave-hl ()
   "Exit search and leave extra match highlighting."
@@ -630,15 +629,6 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
   (interactive)
   (goto-char (point-max))
   (isearch-repeat-backward))
-
-(defadvice isearch-repeat (after isearch-no-fail activate)
-  "Wrap isearch without failing."
-  (unless isearch-success
-    (ad-disable-advice 'isearch-repeat 'after 'isearch-no-fail)
-    (ad-activate 'isearch-repeat)
-    (isearch-repeat (if isearch-forward 'forward))
-    (ad-enable-advice 'isearch-repeat 'after 'isearch-no-fail)
-    (ad-activate 'isearch-repeat)))
 
 ;; Exit isearch at the beginning of the matching string
 (add-hook 'isearch-mode-end-hook #'mookid-isearch-exit-beginning)
