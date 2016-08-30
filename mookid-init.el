@@ -1155,6 +1155,7 @@ _m_: tuareg-insert-match-form
   :init
   (progn
     (key-chord-mode 1)
+    (key-chord-define-global "jg" 'abort-recursive-edit)
     (key-chord-define-global "jk" 'execute-extended-command)
     (key-chord-define-global "fj" 'find-file-at-point)
     (key-chord-define-global "fb" 'switch-to-buffer)))
