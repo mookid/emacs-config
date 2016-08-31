@@ -1099,7 +1099,7 @@ _m_: tuareg-insert-match-form
 (use-package yasnippet
   :config
   (progn
-    (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+    (setq yas-snippet-dirs `(,(expand-file-name "snippets" mookid-root-dir)))
     (yas-reload-all)))
 
 (use-package org
