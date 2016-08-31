@@ -8,15 +8,6 @@
 
 
 ;;; Macros
-(defmacro mookid-with-message (msg &rest body)
-  "Prints MSG before evaluating BODY, and report problems.
-
-Warnings are still displayed, and errors are catched.
-The return value reports success or failure."
-  `(condition-case nil
-       (progn (message "*** %s" ,msg) ,@body 'ok)
-     (error (message "Error during phase called \"%s\"" ,msg) 'fail)))
-
 (defmacro mookid-ignore (&rest _body)
   "Ignore the arguments.  Use it to disable a part of the file."
   nil)
@@ -105,8 +96,8 @@ Binds the command to KEY if supplied."
   (let ((r (string-join (cons "..." (mookid-last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
 
+;; Set mode line format
 (mookid-ignore
- "Set mode line format"
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
  (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
@@ -186,15 +177,15 @@ Binds the command to KEY if supplied."
 
 (mookid-goto-buffer *vc-diff* "<f7>")
 
-(mookid-with-message
- "Remove gui elements"
- (and (fboundp 'fringe-mode) (fringe-mode -1))
- (and (fboundp 'tooltip-mode) (tooltip-mode +1))
- (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
- (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
- (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
- (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
- (setq pop-up-windows nil))
+;; Remove gui elements
+(progn
+  (and (fboundp 'fringe-mode) (fringe-mode -1))
+  (and (fboundp 'tooltip-mode) (tooltip-mode +1))
+  (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
+  (setq pop-up-windows nil))
 
 ;; Save history between sessions
 (defvar savehist-file)
@@ -214,44 +205,42 @@ Binds the command to KEY if supplied."
 ;; TAB completion
 (define-key global-map (kbd "TAB") 'completion-at-point)
 
-(mookid-with-message
- "Configuring parenthesis settings"
- (defvar electric-pair-pairs)
- (defvar show-paren-delay)
- (electric-pair-mode t)
- (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
- (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
- (setq show-paren-delay 0)
- (show-paren-mode t)
- (defadvice show-paren-function
-     (after show-matching-paren-offscreen activate)
-   "Show the matching line in the echo area.
+;; Configuring parenthesis settings
+(progn
+  (defvar electric-pair-pairs)
+  (defvar show-paren-delay)
+  (electric-pair-mode t)
+  (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
+  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+  (setq show-paren-delay 0)
+  (show-paren-mode t)
+  (defadvice show-paren-function
+      (after show-matching-paren-offscreen activate)
+    "Show the matching line in the echo area.
 
 Has no effect if the character before point is not of the syntax
 class ')'."
-   (interactive)
-   (let* ((cb (char-before (point)))
-          (matching-text (and cb
-                              (char-equal (char-syntax cb) ?\) )
-                              (blink-matching-open))))
-     (when matching-text (message matching-text))))
- (set-face-background 'show-paren-match "turquoise"))
+    (interactive)
+    (let* ((cb (char-before (point)))
+           (matching-text (and cb
+                               (char-equal (char-syntax cb) ?\) )
+                               (blink-matching-open))))
+      (when matching-text (message matching-text))))
+  (set-face-background 'show-paren-match "turquoise"))
 
 (add-to-list 'default-frame-alist '(height . 30))
 (add-to-list 'default-frame-alist '(width . 80))
 
-(mookid-with-message
- "Setting up fonts"
- (defvar mookid-default-font nil "The font used almost everywhere.")
- (setq mookid-default-font "Consolas")
- (set-default-coding-systems 'utf-8)
- (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
- (global-prettify-symbols-mode 1))
+;; Setting up fonts"
+(progn
+  (defvar mookid-default-font nil "The font used almost everywhere.")
+  (setq mookid-default-font "Consolas")
+  (set-default-coding-systems 'utf-8)
+  (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
+  (global-prettify-symbols-mode 1))
 
-(mookid-with-message
- "Customize proportional font"
- (set-face-attribute 'variable-pitch nil
-                     :family "DejaVu Sans"))
+;; Customize proportional font"
+(set-face-attribute 'variable-pitch nil :family "DejaVu Sans")
 
 ;; Upcase / downcase commands
 (defun mookid-upcase-char (arg)
@@ -278,9 +267,8 @@ class ')'."
   (indent-according-to-mode))
 (define-key global-map (kbd "C-S-k") 'mookid-kill-line-backward)
 
-(mookid-with-message
- "Setting up the order for recenter-top-bottom"
- (setq recenter-positions '(top middle bottom)))
+;; Setting up the order for recenter-top-bottom"
+(setq recenter-positions '(top middle bottom))
 
 ;; Pop mark
 (setq set-mark-command-repeat-pop t)
@@ -292,38 +280,40 @@ class ')'."
                       :foreground "green"))
 
 ;; Wrap long lines
-(global-visual-line-mode 1)
-(define-key visual-line-mode-map [remap kill-line] nil)
-(define-key visual-line-mode-map [remap move-beginning-of-line] nil)
-(define-key visual-line-mode-map [remap move-end-of-line] nil)
-(with-eval-after-load 'diminish
-  (diminish 'visual-line-mode))
+(progn
+  (global-visual-line-mode 1)
+  (define-key visual-line-mode-map [remap kill-line] nil)
+  (define-key visual-line-mode-map [remap move-beginning-of-line] nil)
+  (define-key visual-line-mode-map [remap move-end-of-line] nil)
+  (with-eval-after-load 'diminish
+    (diminish 'visual-line-mode)))
 
 ;; Use ibuffer
-(require 'ibuffer)
-(define-key global-map (kbd "C-x C-b") 'ibuffer)
-(with-eval-after-load 'fullframe
-  (fullframe ibuffer ibuffer-quit))
+(progn
+  (require 'ibuffer)
+  (define-key global-map (kbd "C-x C-b") 'ibuffer)
+  (with-eval-after-load 'fullframe
+    (fullframe ibuffer ibuffer-quit)))
 
 ;; Use fullframe
 (with-eval-after-load 'fullframe
   (fullframe list-packages quit-window))
 
 ;; Shell
-(let* ((cygwin-root "c:")
-       (cygwin-bin (concat cygwin-root "/bin")))
-  (when (and (eq 'windows-nt system-type)
-             (file-readable-p cygwin-root))
+(progn
+  (let* ((cygwin-root "c:")
+         (cygwin-bin (expand-file-name "bin" cygwin-root)))
+    (when (and (eq 'windows-nt system-type)
+               (file-readable-p cygwin-root))
+      (setq exec-path (cons cygwin-bin exec-path))
+      (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
+      (setq shell-file-name "bash")
+      (setenv "SHELL" shell-file-name)
+      (setq explicit-shell-file-name shell-file-name)
+      (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
 
-    (setq exec-path (cons cygwin-bin exec-path))
-    (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
-    (setq shell-file-name "bash")
-    (setenv "SHELL" shell-file-name)
-    (setq explicit-shell-file-name shell-file-name)
-    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
-
-(add-hook 'shell-mode 'dirtrack-mode)
-(define-key global-map (kbd "<f1>") 'shell)
+  (add-hook 'shell-mode 'dirtrack-mode)
+  (define-key global-map (kbd "<f1>") 'shell))
 
 (defun mookid-previous-buffer ()
   "Not the current buffer but the buffer before."
@@ -413,15 +403,16 @@ Otherwise, join the current line with the following."
 
 
 ;;; Dired
-(autoload 'dired-find-file "dired")
-(defvar dired-mode-map)
-(autoload 'dired-jump "dired-x")
+(progn
+  (autoload 'dired-find-file "dired")
+  (defvar dired-mode-map)
+  (autoload 'dired-jump "dired-x")
 
-(with-eval-after-load 'dired
-  (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
-  (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
+  (with-eval-after-load 'dired
+    (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
+    (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
 
-(define-key global-map (kbd "M-<up>") 'dired-jump)
+  (define-key global-map (kbd "M-<up>") 'dired-jump))
 
 
 ;;; Find file at point
@@ -958,120 +949,118 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   :defer t
   :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error)))
 
-(mookid-with-message
- "OCaml configuration"
-
-
- (use-package tuareg
-   :config
-   (progn
-     (cond ((require 'hydra nil t)
-            (defhydra mookid-tuareg-abbrevs (:color blue :hint nil)
-              "
+;; OCaml configuration
+(progn
+  (use-package tuareg
+    :config
+    (progn
+      (cond ((require 'hydra nil t)
+             (defhydra mookid-tuareg-abbrevs (:color blue :hint nil)
+               "
 _c_: tuareg-insert-class-form        _w_: tuareg-insert-while-form
 _b_: tuareg-insert-begin-form        _i_: tuareg-insert-if-form
 _f_: tuareg-insert-for-form          _t_: tuareg-insert-try-form
 _l_: tuareg-insert-let-form
 _m_: tuareg-insert-match-form
 "
-              ("c" tuareg-insert-class-form)
-              ("b" tuareg-insert-begin-form)
-              ("f" tuareg-insert-for-form)
-              ("w" tuareg-insert-while-form)
-              ("i" tuareg-insert-if-form)
-              ("l" tuareg-insert-let-form)
-              ("m" tuareg-insert-match-form)
-              ("t" tuareg-insert-try-form)))
-           (t
-            (define-prefix-command 'mookid-tuareg-abbrevs/body)
-            (let ((map mookid-tuareg-abbrevs/body))
-              (define-key map (kbd "c") 'tuareg-insert-class-form)
-              (define-key map (kbd "b") 'tuareg-insert-begin-form)
-              (define-key map (kbd "f") 'tuareg-insert-for-form)
-              (define-key map (kbd "w") 'tuareg-insert-while-form)
-              (define-key map (kbd "i") 'tuareg-insert-if-form)
-              (define-key map (kbd "l") 'tuareg-insert-let-form)
-              (define-key map (kbd "m") 'tuareg-insert-match-form)
-              (define-key map (kbd "t") 'tuareg-insert-try-form))))
-     (define-key tuareg-mode-map (kbd "C-M-,") 'mookid-tuareg-abbrevs/body)
-     (add-to-list 'auto-mode-alist
-                  '("\\.ml[ily]?$" . tuareg-mode))
-     (define-key tuareg-mode-map (kbd "C-c .") nil)
-     (mapc (lambda (face)
-             (set-face-attribute face nil
-                                 :foreground 'unspecified
-                                 :weight 'unspecified
-                                 :inherit 'font-lock-keyword-face))
-           '(tuareg-font-lock-governing-face
-             tuareg-font-lock-module-face))
-     (set-face-attribute tuareg-font-lock-module-face nil
-                         :weight 'bold)))
+               ("c" tuareg-insert-class-form)
+               ("b" tuareg-insert-begin-form)
+               ("f" tuareg-insert-for-form)
+               ("w" tuareg-insert-while-form)
+               ("i" tuareg-insert-if-form)
+               ("l" tuareg-insert-let-form)
+               ("m" tuareg-insert-match-form)
+               ("t" tuareg-insert-try-form)))
+            (t
+             (define-prefix-command 'mookid-tuareg-abbrevs/body)
+             (let ((map mookid-tuareg-abbrevs/body))
+               (define-key map (kbd "c") 'tuareg-insert-class-form)
+               (define-key map (kbd "b") 'tuareg-insert-begin-form)
+               (define-key map (kbd "f") 'tuareg-insert-for-form)
+               (define-key map (kbd "w") 'tuareg-insert-while-form)
+               (define-key map (kbd "i") 'tuareg-insert-if-form)
+               (define-key map (kbd "l") 'tuareg-insert-let-form)
+               (define-key map (kbd "m") 'tuareg-insert-match-form)
+               (define-key map (kbd "t") 'tuareg-insert-try-form))))
+      (define-key tuareg-mode-map (kbd "C-M-,") 'mookid-tuareg-abbrevs/body)
+      (add-to-list 'auto-mode-alist
+                   '("\\.ml[ily]?$" . tuareg-mode))
+      (define-key tuareg-mode-map (kbd "C-c .") nil)
+      (mapc (lambda (face)
+              (set-face-attribute face nil
+                                  :foreground 'unspecified
+                                  :weight 'unspecified
+                                  :inherit 'font-lock-keyword-face))
+            '(tuareg-font-lock-governing-face
+              tuareg-font-lock-module-face))
+      (set-face-attribute tuareg-font-lock-module-face nil
+                          :weight 'bold)))
 
 
- (use-package ocp-indent
-   :defer t
-   :after tuareg
-   :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))
+  (use-package ocp-indent
+    :defer t
+    :after tuareg
+    :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))
 
- (use-package caml
-   :defer t
-   :after tuareg
-   :init
-   (progn
-     (mapc (lambda (face)
-             (when (string-prefix-p "caml-types" (face-name face))
-               (set-face-attribute face nil
-                                   :background "yellow"
-                                   :foreground "black")))
-           (face-list))))
+  (use-package caml
+    :defer t
+    :after tuareg
+    :init
+    (progn
+      (mapc (lambda (face)
+              (when (string-prefix-p "caml-types" (face-name face))
+                (set-face-attribute face nil
+                                    :background "yellow"
+                                    :foreground "black")))
+            (face-list))))
 
- (use-package merlin
-   :disabled t
-   :defer t
-   :after tuareg
-   :init
-   (progn
-     (defvar merlin-use-auto-complete-mode)
-     (setq merlin-use-auto-complete-mode 'easy)
-     (defvar company-backends)
-     (with-eval-after-load 'company
-       (add-to-list 'company-backends 'merlin-company-backend)))))
+  (use-package merlin
+    :disabled t
+    :defer t
+    :after tuareg
+    :init
+    (progn
+      (defvar merlin-use-auto-complete-mode)
+      (setq merlin-use-auto-complete-mode 'easy)
+      (defvar company-backends)
+      (with-eval-after-load 'company
+        (add-to-list 'company-backends 'merlin-company-backend)))))
 
-(mookid-with-message
- "C configuration"
- (defvar c-mode-base-map)
- (defvar c-indentation 8 "The indentation for C code.")
- (defvar c-stars "/*****************************************************************************/"
-   "A separator for C code.")
+;; C configuration
+(progn
+  (defvar c-mode-base-map)
+  (defvar c-indentation 8 "The indentation for C code.")
+  (defvar c-stars "/*****************************************************************************/"
+    "A separator for C code.")
 
- (defun mookid-c-insert-stars ()
-   "Insert the value of `c-stars'."
-   (interactive)
-   (insert c-stars))
+  (defun mookid-c-insert-stars ()
+    "Insert the value of `c-stars'."
+    (interactive)
+    (insert c-stars))
 
- (defun mookid-c-setup ()
-   "My setup for C."
-   (defvar c-default-style)
-   (defvar indent-tabs-mode)
-   (setq c-default-style "linux")
-   (setq indent-tabs-mode nil)
-   (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
-   (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
-   (define-key c-mode-base-map (kbd "C-c =") 'mookid-c-insert-stars))
+  (defun mookid-c-setup ()
+    "My setup for C."
+    (defvar c-default-style)
+    (defvar indent-tabs-mode)
+    (setq c-default-style "linux")
+    (setq indent-tabs-mode nil)
+    (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
+    (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
+    (define-key c-mode-base-map (kbd "C-c =") 'mookid-c-insert-stars))
 
- (add-hook 'c-initialization-hook 'mookid-c-setup)
+  (add-hook 'c-initialization-hook 'mookid-c-setup)
 
- (use-package find-file :defer t)
- (use-package compile :defer t)
- (use-package clang-format :defer t))
+  (use-package find-file :defer t)
+  (use-package compile :defer t)
+  (use-package clang-format :defer t))
 
-(mookid-with-message
- "Images"
- (with-eval-after-load "image-mode"
-   (require 'image+)
-   (defvar image-mode-map)
-   (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
-   (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
+;; Images
+(progn
+  (with-eval-after-load "image-mode"
+    (require 'image+)
+    (defvar image-mode-map)
+    (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
+    (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
 
 (use-package smart-mode-line
   :config (progn
@@ -1175,9 +1164,11 @@ _m_: tuareg-insert-match-form
     (composable-mode 1)
     (diminish 'composable-mode)))
 
-(let ((f (expand-file-name "private.el" mookid-root-dir)))
-  (when (file-exists-p f)
-    (mookid-with-message "Loading private settings" (load f))))
+(let ((private-file (expand-file-name "private.el" mookid-root-dir)))
+  (when (file-exists-p private-file)
+    (condition-case nil
+        (load f)
+      (error (message "Error during loading of private settings")))))
 
 (provide 'mookid-init)
 ;;; mookid-init.el ends here
