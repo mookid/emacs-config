@@ -1172,7 +1172,7 @@ _m_: tuareg-insert-match-form
 (let ((private-file (expand-file-name "private.el" my-root-dir)))
   (when (file-exists-p private-file)
     (condition-case nil
-        (load f)
+        (load private-file)
       (error (message "Error during loading of private settings")))))
 
 (provide 'my-init)
