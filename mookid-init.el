@@ -836,6 +836,12 @@ and use mouse2."
          for icolor = (mod (- lvl 1) ncolors)
          do (set-level lvl (nth icolor colors)))))))
 
+(use-package loccur
+  :bind
+  (("M-s i" . loccur-current)
+   ("M-s o" . loccur)
+   ("M-s p" . loccur-previous-match)))
+
 (use-package company
   :defer t
   :config
