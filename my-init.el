@@ -1,4 +1,4 @@
-;;; mookid-init.el ---  -*- lexical-binding: t -*-
+;;; my-init.el ---  -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; My Emacs config, with simple options.
@@ -8,11 +8,11 @@
 
 
 ;;; Macros
-(defmacro mookid-ignore (&rest _body)
+(defmacro my-ignore (&rest _body)
   "Ignore the arguments.  Use it to disable a part of the file."
   nil)
 
-(defmacro mookid-every-frame (&rest body)
+(defmacro my-every-frame (&rest body)
   "Apply BODY to every new frame."
   `(progn
      (add-hook 'after-make-frame-functions
@@ -21,12 +21,12 @@
                    ,@body)))
      ,@body))
 
-(defmacro mookid-goto-buffer (buffer-name &optional key)
+(defmacro my-goto-buffer (buffer-name &optional key)
   "Defines a command to jump to the buffer designated by BUFFER-NAME.
 
 Binds the command to KEY if supplied."
   (let* ((buffer-name-str (symbol-name buffer-name))
-         (command-name (intern (concat "mookid-goto-" buffer-name-str))))
+         (command-name (intern (concat "my-goto-" buffer-name-str))))
     `(progn
        (defun ,command-name ()
          ,(concat "Goto buffer `" buffer-name-str "'.")
@@ -45,14 +45,14 @@ Binds the command to KEY if supplied."
 
 (setq minibuffer-depth-indicate-mode t)
 
-(defun mookid-last-2 (list)
+(defun my-last-2 (list)
   "Remove all the elements of LIST except the last two."
   (let ((lst list))
     (while (cl-caddr lst)
       (setq lst (cdr lst)))
     lst))
 
-(defun mookid-move-beginning-of-line (_arg)
+(defun my-move-beginning-of-line (_arg)
   "Redefinition of `move-beginning-of-line'."
   (interactive "^p")
   (let ((orig-point (point)))
@@ -61,27 +61,27 @@ Binds the command to KEY if supplied."
       (back-to-indentation))))
 
 (global-set-key [remap move-beginning-of-line]
-                'mookid-move-beginning-of-line)
+                'my-move-beginning-of-line)
 
 
-(defun mookid-scroll-up (arg)
+(defun my-scroll-up (arg)
   "Forward to `scroll-up'."
   (interactive "P")
   (let ((arg (or arg 1)))
     (scroll-up arg)))
 
-(defun mookid-scroll-down (arg)
+(defun my-scroll-down (arg)
   "Forward to `scroll-down'."
   (interactive "P")
   (let ((arg (or arg 1)))
     (scroll-down arg)))
 
 ;; Keybindings
-(define-key global-map (kbd "C-c C-v") 'mookid-insert-buffer-name)
+(define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
 (define-key global-map (kbd "C-c n") 'make-frame)
-(define-key global-map (kbd "M-n") 'mookid-scroll-up)
-(define-key global-map (kbd "M-p") 'mookid-scroll-down)
+(define-key global-map (kbd "M-n") 'my-scroll-up)
+(define-key global-map (kbd "M-p") 'my-scroll-down)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 (define-key global-map (kbd "C-c .") 'repeat)
 (define-key global-map (kbd "M-=") 'align-regexp)
@@ -91,13 +91,13 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "C-S-o") 'other-window)
 
 (require 'subr-x)
-(defun mookid-shorten-path (path)
+(defun my-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
-  (let ((r (string-join (cons "..." (mookid-last-2 (split-string path "/"))) "/")))
+  (let ((r (string-join (cons "..." (my-last-2 (split-string path "/"))) "/")))
     (if (< (length r) (length path)) r path)))
 
 ;; Set mode line format
-(mookid-ignore
+(my-ignore
  (make-face 'mode-line-folder-face)
  (make-face 'mode-line-filename-face)
  (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
@@ -107,7 +107,7 @@ Binds the command to KEY if supplied."
              mode-line-position
              '(:propertize
                (:eval (when buffer-file-name
-                        (mookid-shorten-path default-directory)))
+                        (my-shorten-path default-directory)))
                face mode-line-folder-face)
              '(:propertize "%b" face mode-line-filename-face)
              "%n  "
@@ -116,7 +116,7 @@ Binds the command to KEY if supplied."
              "%-")))
 
 ;; Jump to grep buffer
-(mookid-goto-buffer *grep* "<f10>")
+(my-goto-buffer *grep* "<f10>")
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -134,10 +134,10 @@ Binds the command to KEY if supplied."
 
 ;; Move backup files to a subdirectory of the root directory
 (setq backup-directory-alist
-      `(("." . ,(expand-file-name "backups" mookid-root-dir))))
+      `(("." . ,(expand-file-name "backups" my-root-dir))))
 
 ;; Move customize things in a dedicated file
-(setq custom-file (expand-file-name ".emacs-custom.el" mookid-root-dir))
+(setq custom-file (expand-file-name ".emacs-custom.el" my-root-dir))
 
 ;; Stop auto save
 (setq auto-save-default nil)
@@ -151,13 +151,13 @@ Binds the command to KEY if supplied."
 
 ;; No tabs
 (setq indent-tabs-mode nil)
-(defun mookid-untabify-all ()
+(defun my-untabify-all ()
   "Untabify the current buffer, except if it is a Makefile.
 
 \(BROKEN)."
   (unless (derived-mode-p 'makefile-mode)
     (untabify (point-min) (point-max))))
-(add-hook 'before-save-hook #'mookid-untabify-all)
+(add-hook 'before-save-hook #'my-untabify-all)
 
 ;; Delete trailing whitespaces when saving a file
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
@@ -169,13 +169,13 @@ Binds the command to KEY if supplied."
 (put 'narrow-to-region 'disabled nil)
 
 ;; Save all buffers when focus is lost
-(defun mookid-save-all-buffers () "Save all buffers." (save-some-buffers t))
-(add-hook 'focus-out-hook #'mookid-save-all-buffers)
+(defun my-save-all-buffers () "Save all buffers." (save-some-buffers t))
+(add-hook 'focus-out-hook #'my-save-all-buffers)
 
 ;; VC
 (define-key global-map (kbd "C-<f7>") 'vc-root-diff)
 
-(mookid-goto-buffer *vc-diff* "<f7>")
+(my-goto-buffer *vc-diff* "<f7>")
 
 ;; Remove gui elements
 (progn
@@ -190,7 +190,7 @@ Binds the command to KEY if supplied."
 ;; Save history between sessions
 (defvar savehist-file)
 (defvar savehist-save-minibuffer-history)
-(setq savehist-file (expand-file-name "savehist" mookid-root-dir))
+(setq savehist-file (expand-file-name "savehist" my-root-dir))
 (savehist-mode t)
 (setq history-length 16384)
 (setq history-delete-duplicates t)
@@ -233,39 +233,39 @@ class ')'."
 
 ;; Setting up fonts"
 (progn
-  (defvar mookid-default-font nil "The font used almost everywhere.")
-  (setq mookid-default-font "Consolas")
+  (defvar my-default-font nil "The font used almost everywhere.")
+  (setq my-default-font "Consolas")
   (set-default-coding-systems 'utf-8)
-  (add-to-list 'default-frame-alist `(font . ,mookid-default-font))
+  (add-to-list 'default-frame-alist `(font . ,my-default-font))
   (global-prettify-symbols-mode 1))
 
 ;; Customize proportional font"
 (set-face-attribute 'variable-pitch nil :family "DejaVu Sans")
 
 ;; Upcase / downcase commands
-(defun mookid-upcase-char (arg)
+(defun my-upcase-char (arg)
   "Apply `upcase-region' to the following ARG characters."
   (interactive "P")
   (let ((arg (or arg 1)))
     (upcase-region
      (point)
      (+ (point) arg))))
-(defun mookid-downcase-char (arg)
+(defun my-downcase-char (arg)
   "Apply `downcase-region' to the following ARG characters."
   (interactive "P")
   (let ((arg (or arg 1)))
     (downcase-region
      (point)
      (+ (point) arg))))
-(define-key global-map (kbd "C-c u") 'mookid-upcase-char)
-(define-key global-map (kbd "C-c l") 'mookid-downcase-char)
+(define-key global-map (kbd "C-c u") 'my-upcase-char)
+(define-key global-map (kbd "C-c l") 'my-downcase-char)
 
-(defun mookid-kill-line-backward ()
+(defun my-kill-line-backward ()
   "The same as `kill-line', but backward (and reindent)."
   (interactive)
   (kill-line 0)
   (indent-according-to-mode))
-(define-key global-map (kbd "C-S-k") 'mookid-kill-line-backward)
+(define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 
 ;; Setting up the order for recenter-top-bottom"
 (setq recenter-positions '(top middle bottom))
@@ -315,25 +315,25 @@ class ')'."
   (add-hook 'shell-mode 'dirtrack-mode)
   (define-key global-map (kbd "<f1>") 'shell))
 
-(defun mookid-previous-buffer ()
+(defun my-previous-buffer ()
   "Not the current buffer but the buffer before."
   (other-buffer (current-buffer) 1))
 
-(defun mookid-insert-buffer-name ()
+(defun my-insert-buffer-name ()
   "Insert the previous buffer name.  Useful for compilation."
   (interactive)
   (insert (file-name-base)))
 
-(defun mookid-insert-buffer-path (arg)
+(defun my-insert-buffer-path (arg)
   "Insert the previous buffer path.
 
 With a prefix argument ARG, insert `file:' before."
   (interactive "P")
   (insert (concat (if arg "file:" "")
-                  (buffer-file-name (mookid-previous-buffer)))))
+                  (buffer-file-name (my-previous-buffer)))))
 
 ;; from http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html:
-(defun mookid-narrow-dwim (p)
+(defun my-narrow-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
 Dwim means: region, org-src-block, org-subtree, or defun,
 whichever applies first.  Narrowing to org-src-block actually
@@ -357,9 +357,9 @@ already narrowed."
         ;; ((derived-mode-p 'latex-mode)
         ;;  (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
-(define-key global-map (kbd "C-x n n") 'mookid-narrow-dwim)
+(define-key global-map (kbd "C-x n n") 'my-narrow-dwim)
 
-(defun mookid-join-line (beg end)
+(defun my-join-line (beg end)
   "If the range BEG END is active, group it on one line.
 Otherwise, join the current line with the following."
   (interactive "r")
@@ -372,7 +372,7 @@ Otherwise, join the current line with the following."
            (goto-char beg)
            (while (< (point) end)
              (join-line 1))))))
-(define-key global-map (kbd "M-j") 'mookid-join-line)
+(define-key global-map (kbd "M-j") 'my-join-line)
 
 ;; Don't kill by accident
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -385,10 +385,10 @@ Otherwise, join the current line with the following."
 
 
 ;;; Colors
-(defun mookid-color-config ()
+(defun my-color-config ()
   (cond
    (window-system
-    ;; (add-to-list 'custom-define-hook #'mookid-faces-fix)
+    ;; (add-to-list 'custom-define-hook #'my-faces-fix)
     (set-face-attribute font-lock-comment-face nil :foreground "grey")
     (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
 
@@ -399,7 +399,7 @@ Otherwise, join the current line with the following."
     (set-face-attribute 'region nil :background "#ABDFFA"))
    (t nil)))
 
-(mookid-every-frame (mookid-color-config))
+(my-every-frame (my-color-config))
 
 
 ;;; Dired
@@ -444,7 +444,7 @@ Otherwise, join the current line with the following."
 (defvar compilation-always-kill)
 (defvar compilation-scroll-output)
 
-(defun mookid-disable-jump-to-error ()
+(defun my-disable-jump-to-error ()
   "Disable `compilation-auto-jump-to-next' local variable."
   (kill-local-variable 'compilation-auto-jump-to-next))
 
@@ -452,15 +452,15 @@ Otherwise, join the current line with the following."
 (setq compilation-always-kill t)
 (setq compilation-scroll-output 'first-error)
 
-(add-hook 'grep-mode-hook 'mookid-disable-jump-to-error)
-(mookid-goto-buffer *compilation* "<f5>")
+(add-hook 'grep-mode-hook 'my-disable-jump-to-error)
+(my-goto-buffer *compilation* "<f5>")
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<end>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)
 
 
-(defun mookid-bury-compile-buffer (buffer string)
+(defun my-bury-compile-buffer (buffer string)
   "Bury a compilation buffer if succeeded without warnings "
   (if (and
        (string-match "compilation" (buffer-name buffer))
@@ -475,16 +475,16 @@ Otherwise, join the current line with the following."
                         (switch-to-prev-buffer (get-buffer-window buf) 'kill))
                       buffer)))
 
-(add-hook 'compilation-finish-functions #'mookid-bury-compile-buffer)
+(add-hook 'compilation-finish-functions #'my-bury-compile-buffer)
 
 
 ;;; Mouse
 
 (require 'mouse)
 (global-unset-key (kbd "<S-down-mouse-1>"))
-(define-key global-map (kbd "<S-mouse-1>") 'mookid-acme-search)
+(define-key global-map (kbd "<S-mouse-1>") 'my-acme-search)
 
-(defun mookid-acme-search (click)
+(defun my-acme-search (click)
   "Move mouse to the next occurence of the symbol at point and highlight it."
   (interactive "e")
   (let ((sym (if (region-active-p)
@@ -493,19 +493,19 @@ Otherwise, join the current line with the following."
                (thing-at-point 'filename))))
     (if (file-readable-p sym)
         (special-display-popup-frame (find-file-noselect sym nil nil nil))
-      (or (mookid-acme-search-forward sym)
+      (or (my-acme-search-forward sym)
           (let ((saved-point (point)))
             (message "Wrapped search")
             (goto-char (point-min))
-            (or (mookid-acme-search-forward sym)
+            (or (my-acme-search-forward sym)
                 (goto-char saved-point)))))
     ;;Redisplay the screen if we search off the bottom of the window.
     (unless (posn-at-point)
       (universal-argument)
       (recenter))
-    (mookid-move-mouse-to-point)))
+    (my-move-mouse-to-point)))
 
-(defun mookid-move-mouse-to-point ()
+(defun my-move-mouse-to-point ()
   "Move the mouse pointer to point in the current window."
   (let* ((coords (posn-col-row (posn-at-point)))
          (window-coords (window-inside-edges))
@@ -514,15 +514,15 @@ Otherwise, join the current line with the following."
                (if header-line-format -1 0))))
     (set-mouse-position (selected-frame) x y)))
 
-(defun mookid-acme-search-forward (sym)
+(defun my-acme-search-forward (sym)
   "Search forward from point for SYM and highlight it.
 
 If there is no match, returns NIL."
   (when (search-forward sym nil t)
-    (mookid-acme-highlight-search sym)
+    (my-acme-highlight-search sym)
     t))
 
-(defun mookid-acme-highlight-search (sym)
+(defun my-acme-highlight-search (sym)
   "Set the region to the current search result. Assume point is
 at the end of the result."
   (set-mark (point))
@@ -549,39 +549,39 @@ at the end of the result."
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
 (require 'mouse-drag)
-(defun mookid-mouse-drag-throw-test ()
-  "Test `mookid-mouse-drag-throw'."
+(defun my-mouse-drag-throw-test ()
+  "Test `my-mouse-drag-throw'."
   (interactive)
-  (define-key global-map [down-mouse-2] 'mookid-mouse-drag-throw))
+  (define-key global-map [down-mouse-2] 'my-mouse-drag-throw))
 
 
 ;;; Selective display
 (let ((depth 1))
-  (define-key global-map (kbd "<f6>") 'mookid-selective-display-toggle)
-  (define-key global-map (kbd "C-<f6>") 'mookid-selective-display-increase)
-  (define-key global-map (kbd "S-<f6>") 'mookid-selective-display-decrease)
+  (define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
+  (define-key global-map (kbd "C-<f6>") 'my-selective-display-increase)
+  (define-key global-map (kbd "S-<f6>") 'my-selective-display-decrease)
 
-  (defun mookid-selective-display-toggle ()
+  (defun my-selective-display-toggle ()
     "Hide lines starting with a lot of spaces.
 
-See `mookid-selective-display-increase' to increase the number of spaces.
-See `mookid-selective-display-decrease' to decrease it."
+See `my-selective-display-increase' to increase the number of spaces.
+See `my-selective-display-decrease' to decrease it."
     (interactive)
     (set-selective-display (unless selective-display depth)))
   (cl-flet ((g (offset)
                (setq depth (+ depth offset))
                (set-selective-display depth)))
-    (defun mookid-selective-display-increase ()
+    (defun my-selective-display-increase ()
       "Increase the cap for `toogle-selective-display'.
 
-See `mookid-selective-display-toggle' and `mookid-selective-display-decrease'."
+See `my-selective-display-toggle' and `my-selective-display-decrease'."
       (interactive)
       (when (< depth 20) (g 1)))
 
-    (defun mookid-selective-display-decrease ()
+    (defun my-selective-display-decrease ()
       "Decrease the cap for `toogle-selective-display'.
 
-See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
+See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -1)))))
 
@@ -598,13 +598,13 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
 (define-key isearch-mode-map (kbd "TAB") 'isearch-complete)
 (define-key minibuffer-local-isearch-map (kbd "TAB") 'isearch-complete-edit)
 
-(define-key isearch-mode-map (kbd "M-<") 'mookid-isearch-beginning-of-buffer)
-(define-key isearch-mode-map (kbd "M->") 'mookid-isearch-end-of-buffer)
-(define-key global-map (kbd "C-M-s") 'mookid-isearch-region)
+(define-key isearch-mode-map (kbd "M-<") 'my-isearch-beginning-of-buffer)
+(define-key isearch-mode-map (kbd "M->") 'my-isearch-end-of-buffer)
+(define-key global-map (kbd "C-M-s") 'my-isearch-region)
 
-(define-key isearch-mode-map (kbd "<return>") 'mookid-isearch-exit-leave-hl)
+(define-key isearch-mode-map (kbd "<return>") 'my-isearch-exit-leave-hl)
 
-(defun mookid-isearch-exit-leave-hl ()
+(defun my-isearch-exit-leave-hl ()
   "Exit search and leave extra match highlighting."
   (interactive)
   (let ((lazy-highlight-cleanup nil))
@@ -612,21 +612,21 @@ See `mookid-selective-display-toggle' and `mookid-selective-display-increase'."
       (isearch-lazy-highlight-new-loop (point-min) (point-max)))
     (isearch-exit)))
 
-(defun mookid-isearch-beginning-of-buffer ()
+(defun my-isearch-beginning-of-buffer ()
   "Move isearch point to the beginning of the buffer."
   (interactive)
   (goto-char (point-min))
   (isearch-repeat-forward))
 
-(defun mookid-isearch-end-of-buffer ()
+(defun my-isearch-end-of-buffer ()
   "Move isearch point to the end of the buffer."
   (interactive)
   (goto-char (point-max))
   (isearch-repeat-backward))
 
 ;; Exit isearch at the beginning of the matching string
-(add-hook 'isearch-mode-end-hook #'mookid-isearch-exit-beginning)
-(defun mookid-isearch-exit-beginning ()
+(add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
+(defun my-isearch-exit-beginning ()
   "Go to the start of current isearch match.
 Use in `isearch-mode-end-hook'."
   (when (and isearch-forward
@@ -635,7 +635,7 @@ Use in `isearch-mode-end-hook'."
              (not isearch-mode-end-hook-quit))
     (goto-char isearch-other-end)))
 
-(defun mookid-isearch-region (beg end)
+(defun my-isearch-region (beg end)
   "Send selection between BEG and END to isearch."
   (interactive "r")
   (deactivate-mark)
@@ -643,7 +643,7 @@ Use in `isearch-mode-end-hook'."
   (isearch-mode t nil nil nil)
   (isearch-yank-pop))
 
-(defun mookid-isearch-forward (regexp-p)
+(defun my-isearch-forward (regexp-p)
   "Forward to `isearch-forward-regexp' with fancy `whitespace-regexp'.
 
 REGEXP-P is used as in the vanilla Emacs api."
@@ -652,10 +652,10 @@ REGEXP-P is used as in the vanilla Emacs api."
         (search-whitespace-regexp ".*?"))
     (isearch-forward-regexp regexp-p)))
 
-;; (defun mookid-occur-rename-buffer ()
+;; (defun my-occur-rename-buffer ()
 ;;   "Used to uniquify the occur buffer names."
 ;;   (occur-rename-buffer t))
-;; (add-hook 'occur-hook #'mookid-occur-rename-buffer)
+;; (add-hook 'occur-hook #'my-occur-rename-buffer)
 
 
 ;;; Windows
@@ -664,12 +664,12 @@ REGEXP-P is used as in the vanilla Emacs api."
 
 (setq tags-add-tables nil)
 
-(defun mookid-mouse-drag-throw (start-event)
+(defun my-mouse-drag-throw (start-event)
   "Similar to `mouse-drag-throw' but only vertically.
 
 Throw the page according to a mouse drag triggering START-EVENT.
 
-To test this function, evaluate: (mookid-mouse-drag-throw-test)
+To test this function, evaluate: (my-mouse-drag-throw-test)
 and use mouse2."
   (interactive "e")
   (save-selected-window
@@ -715,9 +715,9 @@ and use mouse2."
       '("<f2> 2" "<f2> b" "<f2> s"))
 
 (with-eval-after-load 'init
-  (define-key global-map (kbd "<f2> <f2>") 'mookid-toggle-window-split))
+  (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split))
 
-(defun mookid-toggle-window-split ()
+(defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
   (interactive)
   (or (= (count-windows) 2)
@@ -793,13 +793,13 @@ and use mouse2."
 (use-package rainbow-delimiters
   :config
   (progn
-    (autoload 'mookid-default-font "mookid-naked-emacs-config")
+    (autoload 'my-default-font "my-naked-emacs-config")
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-    (defun mookid-rainbow-delimiters-disable ()
+    (defun my-rainbow-delimiters-disable ()
       "Disable rainbow-delimiters mode."
       (rainbow-delimiters-mode -1))
 
-    (add-hook 'shell-mode-hook #'mookid-rainbow-delimiters-disable)
+    (add-hook 'shell-mode-hook #'my-rainbow-delimiters-disable)
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                         :foreground "red"
                         :inherit 'error
@@ -875,13 +875,13 @@ and use mouse2."
 
 (use-package projectile
   :defer t
-  :bind (("<C-S-return>" . mookid-projectile))
+  :bind (("<C-S-return>" . my-projectile))
   :config
   (progn
     (diminish 'projectile-mode)
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
-    (defun mookid-projectile (p)
+    (defun my-projectile (p)
       "My projectile command.
 
 If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
@@ -932,7 +932,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   (("C-'" . ace-window))
   :config
   (progn
-    (defun mookid-other-window ()
+    (defun my-other-window ()
       "Forwards to `other-window'."
       (interactive)
       (other-window 1))
@@ -955,7 +955,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     :config
     (progn
       (cond ((require 'hydra nil t)
-             (defhydra mookid-tuareg-abbrevs (:color blue :hint nil)
+             (defhydra my-tuareg-abbrevs (:color blue :hint nil)
                "
 _c_: tuareg-insert-class-form        _w_: tuareg-insert-while-form
 _b_: tuareg-insert-begin-form        _i_: tuareg-insert-if-form
@@ -972,8 +972,8 @@ _m_: tuareg-insert-match-form
                ("m" tuareg-insert-match-form)
                ("t" tuareg-insert-try-form)))
             (t
-             (define-prefix-command 'mookid-tuareg-abbrevs/body)
-             (let ((map mookid-tuareg-abbrevs/body))
+             (define-prefix-command 'my-tuareg-abbrevs/body)
+             (let ((map my-tuareg-abbrevs/body))
                (define-key map (kbd "c") 'tuareg-insert-class-form)
                (define-key map (kbd "b") 'tuareg-insert-begin-form)
                (define-key map (kbd "f") 'tuareg-insert-for-form)
@@ -982,7 +982,7 @@ _m_: tuareg-insert-match-form
                (define-key map (kbd "l") 'tuareg-insert-let-form)
                (define-key map (kbd "m") 'tuareg-insert-match-form)
                (define-key map (kbd "t") 'tuareg-insert-try-form))))
-      (define-key tuareg-mode-map (kbd "C-M-,") 'mookid-tuareg-abbrevs/body)
+      (define-key tuareg-mode-map (kbd "C-M-,") 'my-tuareg-abbrevs/body)
       (add-to-list 'auto-mode-alist
                    '("\\.ml[ily]?$" . tuareg-mode))
       (define-key tuareg-mode-map (kbd "C-c .") nil)
@@ -1033,12 +1033,12 @@ _m_: tuareg-insert-match-form
   (defvar c-stars "/*****************************************************************************/"
     "A separator for C code.")
 
-  (defun mookid-c-insert-stars ()
+  (defun my-c-insert-stars ()
     "Insert the value of `c-stars'."
     (interactive)
     (insert c-stars))
 
-  (defun mookid-c-setup ()
+  (defun my-c-setup ()
     "My setup for C."
     (defvar c-default-style)
     (defvar indent-tabs-mode)
@@ -1046,9 +1046,9 @@ _m_: tuareg-insert-match-form
     (setq indent-tabs-mode nil)
     (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
     (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
-    (define-key c-mode-base-map (kbd "C-c =") 'mookid-c-insert-stars))
+    (define-key c-mode-base-map (kbd "C-c =") 'my-c-insert-stars))
 
-  (add-hook 'c-initialization-hook 'mookid-c-setup)
+  (add-hook 'c-initialization-hook 'my-c-setup)
 
   (use-package find-file :defer t)
   (use-package compile :defer t)
@@ -1088,7 +1088,7 @@ _m_: tuareg-insert-match-form
 (use-package yasnippet
   :config
   (progn
-    (setq yas-snippet-dirs `(,(expand-file-name "snippets" mookid-root-dir)))
+    (setq yas-snippet-dirs `(,(expand-file-name "snippets" my-root-dir)))
     (yas-reload-all)))
 
 (use-package org
@@ -1164,11 +1164,11 @@ _m_: tuareg-insert-match-form
     (composable-mode 1)
     (diminish 'composable-mode)))
 
-(let ((private-file (expand-file-name "private.el" mookid-root-dir)))
+(let ((private-file (expand-file-name "private.el" my-root-dir)))
   (when (file-exists-p private-file)
     (condition-case nil
         (load f)
       (error (message "Error during loading of private settings")))))
 
-(provide 'mookid-init)
-;;; mookid-init.el ends here
+(provide 'my-init)
+;;; my-init.el ends here
