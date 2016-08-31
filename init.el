@@ -12,11 +12,11 @@
 (require 'benchmark-init)
 
 ;; The configuration directories
-(defvar mookid-root-dir "~/.emacs.d"
+(defvar my-root-dir "~/.emacs.d"
   "The root directory of the configuration.")
 
 (let ((gc-cons-threshold most-positive-fixnum))
-  (load-file (expand-file-name "mookid-init.el" mookid-root-dir)))
+  (load-file (expand-file-name "my-init.el" my-root-dir)))
 
 (provide 'init)
 ;;; init.el ends here
