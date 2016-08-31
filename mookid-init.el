@@ -145,6 +145,9 @@ Binds the command to KEY if supplied."
 (setq backup-directory-alist
       `(("." . ,(expand-file-name "backups" mookid-root-dir))))
 
+;; Move customize things in a dedicated file
+(setq custom-file (expand-file-name ".emacs-custom.el" mookid-root-dir))
+
 ;; Stop auto save
 (setq auto-save-default nil)
 
