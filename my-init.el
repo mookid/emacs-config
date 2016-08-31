@@ -89,6 +89,10 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "C-x g") 'move-to-column)
 (define-key global-map (kbd "C-x p") 'proced)
 (define-key global-map (kbd "C-S-o") 'other-window)
+(define-key global-map (kbd "M-S-<up>") 'split-window-below)
+(define-key global-map (kbd "M-S-<down>") 'delete-other-windows-vertically)
+(define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
+(define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
 
 (require 'subr-x)
 (defun my-shorten-path (path)
@@ -707,8 +711,11 @@ and use mouse2."
                 unread-command-events)))))
 
 (winner-mode 1)
-(define-key global-map (kbd "M-S-<left>") 'winner-undo)
-(define-key global-map (kbd "M-S-<right>") 'winner-redo)
+(define-key global-map (kbd "C-M-S-<left>") 'winner-undo)
+(define-key global-map (kbd "C-M-S-<right>") 'winner-redo)
+(define-key global-map (kbd "C-M-S-<up>") 'balance-windows)
+
+(windmove-default-keybindings)
 
 ;; unbind all keybindings starting with f2
 (mapc (lambda (keystr) (global-unset-key (kbd keystr)))
@@ -743,8 +750,6 @@ and use mouse2."
       (set-window-buffer (next-window) next-win-buffer)
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
-
-(define-key global-map (kbd "C-x 1") 'delete-other-windows-vertically)
 
 
 ;;; melpa packages
