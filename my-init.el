@@ -395,6 +395,7 @@ Otherwise, join the current line with the following."
     ;; (add-to-list 'custom-define-hook #'my-faces-fix)
     (set-face-attribute font-lock-comment-face nil :foreground "grey")
     (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
+    (set-face-attribute 'font-lock-comment-face nil :background "thistle1")
 
     ;; (set-background-color "#fdf6e3")
     (set-background-color "azure1")
