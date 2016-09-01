@@ -1167,6 +1167,8 @@ _m_: tuareg-insert-match-form
   :init
   (progn
     (composable-mode 1)
+    (with-eval-after-load 'evil-nerd-commenter
+      (define-key composable-mode-map (kbd "M-;") 'evilnc-comment-or-uncomment-lines))
     (diminish 'composable-mode)))
 
 (let ((private-file (expand-file-name "private.el" my-root-dir)))
