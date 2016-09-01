@@ -879,7 +879,6 @@ and use mouse2."
     (setq ivy-use-virtual-buffers t)))
 
 (use-package projectile
-  :defer t
   :bind (("<C-S-return>" . my-projectile))
   :config
   (progn
