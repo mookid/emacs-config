@@ -395,13 +395,14 @@ Otherwise, join the current line with the following."
     ;; (add-to-list 'custom-define-hook #'my-faces-fix)
     (set-face-attribute font-lock-comment-face nil :foreground "grey")
     (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
-    (set-face-attribute 'font-lock-comment-face nil :background "thistle1")
+    (set-face-attribute 'font-lock-comment-face nil :background "lavender blush")
 
     ;; (set-background-color "#fdf6e3")
     (set-background-color "azure1")
     (set-foreground-color "#586e75")
     (set-cursor-color "red")
-    (set-face-attribute 'region nil :background "#ABDFFA"))
+    (set-face-attribute 'region nil :background "#ABDFFA")
+    (set-face-attribute 'secondary-selection nil :background "#DDFFDD"))
    (t nil)))
 
 (my-every-frame (my-color-config))
