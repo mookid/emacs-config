@@ -177,9 +177,8 @@ Binds the command to KEY if supplied."
 (add-hook 'focus-out-hook #'my-save-all-buffers)
 
 ;; VC
+(define-key global-map (kbd "<f7>") 'vc-diff)
 (define-key global-map (kbd "C-<f7>") 'vc-root-diff)
-
-(my-goto-buffer *vc-diff* "<f7>")
 
 ;; Remove gui elements
 (progn
