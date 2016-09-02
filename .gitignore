@@ -13,3 +13,4 @@ projectile-bookmarks*
 projectile.cache
 semanticdb
 *.elc
+.emacs-custom.el
