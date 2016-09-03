@@ -552,12 +552,6 @@ at the end of the result."
 (global-unset-key (kbd "<mode-line> <mouse-2>"))
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
-(require 'mouse-drag)
-(defun my-mouse-drag-throw-test ()
-  "Test `my-mouse-drag-throw'."
-  (interactive)
-  (define-key global-map [down-mouse-2] 'my-mouse-drag-throw))
-
 
 ;;; Selective display
 (let ((depth 1))
@@ -673,9 +667,10 @@ REGEXP-P is used as in the vanilla Emacs api."
 
 Throw the page according to a mouse drag triggering START-EVENT.
 
-To test this function, evaluate: (my-mouse-drag-throw-test)
+To test this function, evaluate: (define-key global-map [down-mouse-2] \\='my-mouse-drag-throw)
 and use mouse2."
   (interactive "e")
+  (require 'mouse-drag)
   (save-selected-window
     (let* ((start-posn (event-start start-event))
            (start-window (posn-window start-posn))
