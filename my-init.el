@@ -1066,12 +1066,10 @@ _m_: tuareg-insert-match-form
     (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
 
 (use-package smart-mode-line
-  :config (progn
-            (defvar sml/no-confirm-load-theme)
-            (defvar powerline-arrow-shape)
-            (setq sml/no-confirm-load-theme t)
-            (setq powerline-arrow-shape 'curve)
-            (sml/setup)))
+  :config
+  (progn
+    (setq sml/no-confirm-load-theme t)
+    (sml/setup)))
 
 (use-package powerline
   :config
