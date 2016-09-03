@@ -396,7 +396,6 @@ Otherwise, join the current line with the following."
     (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
     (set-face-attribute 'font-lock-comment-face nil :background "lavender blush")
 
-    ;; (set-background-color "#fdf6e3")
     (set-background-color "azure1")
     (set-foreground-color "#586e75")
     (set-cursor-color "red")
@@ -772,7 +771,6 @@ and use mouse2."
   :bind ("<f5>" . eshell))
 
 (use-package evil-nerd-commenter
-  :defer t
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
          ("C-c c". evilnc-copy-and-comment-lines)))
 
@@ -881,9 +879,9 @@ and use mouse2."
 
 (use-package projectile
   :bind (("<C-S-return>" . my-projectile))
+  :diminish projectile-mode
   :config
   (progn
-    (diminish 'projectile-mode)
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (defun my-projectile (p)
@@ -1164,12 +1162,11 @@ _m_: tuareg-insert-match-form
     (key-chord-define-global "fb" 'switch-to-buffer)))
 
 (use-package composable
+  :diminish composable-mode
   :init
   (progn
     (composable-mode 1)
-    (with-eval-after-load 'evil-nerd-commenter
-      (define-key composable-mode-map (kbd "M-;") 'evilnc-comment-or-uncomment-lines))
-    (diminish 'composable-mode)))
+    (define-key composable-mode-map (kbd "M-;") 'evilnc-comment-or-uncomment-lines)))
 
 (let ((private-file (expand-file-name "private.el" my-root-dir)))
   (when (file-exists-p private-file)
