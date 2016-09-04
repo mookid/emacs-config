@@ -173,8 +173,11 @@ Binds the command to KEY if supplied."
 (put 'narrow-to-region 'disabled nil)
 
 ;; Save all buffers when focus is lost
-(defun my-save-all-buffers () "Save all buffers." (save-some-buffers t))
+(defun my-save-all-buffers ()
+  "Save all buffers."
+  (save-some-buffers t))
 (add-hook 'focus-out-hook #'my-save-all-buffers)
+(add-hook 'shell-mode-hook #'my-save-all-buffers)
 
 ;; VC
 (define-key global-map (kbd "<f7>") 'vc-diff)
