@@ -188,6 +188,7 @@ Binds the command to KEY if supplied."
   (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
+  (setq use-dialog-box nil)
   (setq pop-up-windows nil))
 
 ;; Save history between sessions
