@@ -553,6 +553,14 @@ at the end of the result."
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
 
+;;; Recentf
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 500)
+(setq recentf-max-menu-items 150)
+(define-key global-map (kbd "C-x C-h") 'recentf-open-files)
+
+
 ;;; Selective display
 (let ((depth 1))
   (define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
@@ -1152,7 +1160,9 @@ _m_: tuareg-insert-match-form
     (key-chord-define-global "jg" 'abort-recursive-edit)
     (key-chord-define-global "jk" 'execute-extended-command)
     (key-chord-define-global "fj" 'find-file-at-point)
-    (key-chord-define-global "fb" 'switch-to-buffer)))
+    (key-chord-define-global "fb" 'switch-to-buffer)
+    (with-eval-after-load 'recentf
+      (key-chord-define-global "fh" 'recentf-open-files))))
 
 (use-package composable
   :diminish composable-mode
