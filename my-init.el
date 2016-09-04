@@ -285,9 +285,7 @@ class ')'."
 ;; Wrap long lines
 (progn
   (global-visual-line-mode 1)
-  (define-key visual-line-mode-map [remap kill-line] nil)
-  (define-key visual-line-mode-map [remap move-beginning-of-line] nil)
-  (define-key visual-line-mode-map [remap move-end-of-line] nil)
+  (setcdr visual-line-mode-map nil)
   (with-eval-after-load 'diminish
     (diminish 'visual-line-mode)))
 
