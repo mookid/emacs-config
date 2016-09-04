@@ -206,6 +206,10 @@ Binds the command to KEY if supplied."
         regexp-search-ring
         compile-command))
 
+;; Ediff frame setup
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+
 ;; TAB completion
 (define-key global-map (kbd "TAB") 'completion-at-point)
 
