@@ -183,6 +183,9 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "<f7>") 'vc-diff)
 (define-key global-map (kbd "C-<f7>") 'vc-root-diff)
 
+;; Reduce echo delay
+(setq echo-keystrokes 0.3)
+
 ;; Remove gui elements
 (progn
   (and (fboundp 'fringe-mode) (fringe-mode -1))
@@ -521,10 +524,8 @@ at the end of the result."
   (search-backward sym nil t)
   (exchange-point-and-mark))
 
-
 (setq mouse-drag-copy-region t)
 (setq mouse-yank-at-point t)
-
 (setq mouse-autoselect-window t)
 
 (require 'mouse-copy)
@@ -534,9 +535,7 @@ at the end of the result."
 (setq mouse-drag-copy-region t)
 (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
 (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)
-
 ;; (define-key global-map (kbd "<mode-line> <down-mouse-1>") 'enlarge-window)
-
 (global-unset-key (kbd "<mode-line> <mouse-2>"))
 (define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
