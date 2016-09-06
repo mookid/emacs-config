@@ -1154,6 +1154,15 @@ _m_: tuareg-insert-match-form
     (composable-mode 1)
     (define-key composable-mode-map (kbd "M-;") 'evilnc-comment-or-uncomment-lines)))
 
+(use-package diff-hl
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+    (define-key global-map (kbd "C-M-[") 'diff-hl-previous-hunk)
+    (define-key global-map (kbd "C-M-]") 'diff-hl-next-hunk)
+    (diff-hl-margin-mode 1)
+    (diff-hl-flydiff-mode 1)))
+
 (let ((private-file (expand-file-name "private.el" my-root-dir)))
   (when (file-exists-p private-file)
     (condition-case nil
