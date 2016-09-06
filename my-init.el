@@ -392,13 +392,10 @@ Otherwise, join the current line with the following."
 (defun my-color-config ()
   (cond
    (window-system
-    ;; (add-to-list 'custom-define-hook #'my-faces-fix)
-    (set-face-attribute font-lock-comment-face nil :foreground "grey")
-    (set-face-attribute font-lock-comment-delimiter-face nil :foreground "grey")
-    (set-face-attribute 'font-lock-comment-face nil :background "lavender blush")
-
+    (set-face-attribute 'font-lock-comment-face nil :background "lavender")
+    (set-face-attribute 'font-lock-comment-face nil :foreground "steel blue")
     (set-background-color "azure1")
-    (set-foreground-color "#586e75")
+    (set-foreground-color "slate gray")
     (set-cursor-color "red")
     (set-face-attribute 'region nil :background "#ABDFFA")
     (set-face-attribute 'secondary-selection nil :background "#DDFFDD"))
