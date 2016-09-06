@@ -287,12 +287,6 @@ class ')'."
 ;; Pop mark
 (setq set-mark-command-repeat-pop t)
 
-;; Mark dired-ignored
-(with-eval-after-load 'dired
-  (set-face-attribute 'dired-ignored nil
-                      :strike-through t
-                      :foreground "green"))
-
 ;; Wrap long lines
 (progn
   (global-visual-line-mode 1)
@@ -420,11 +414,13 @@ Otherwise, join the current line with the following."
   (autoload 'dired-find-file "dired")
   (defvar dired-mode-map)
   (autoload 'dired-jump "dired-x")
-
   (with-eval-after-load 'dired
+    (setq dired-listing-switches "-alh")
+    (set-face-attribute 'dired-ignored nil
+                        :strike-through t
+                        :foreground "green")
     (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
     (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
-
   (define-key global-map (kbd "M-<up>") 'dired-jump))
 
 
