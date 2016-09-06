@@ -128,6 +128,7 @@ Binds the command to KEY if supplied."
 ;; Enable originally disabled functions
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
 ;; Default behaviour for newlines
 (setq require-final-newline t)
@@ -168,9 +169,6 @@ Binds the command to KEY if supplied."
 
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Enable region narrowing
-(put 'narrow-to-region 'disabled nil)
 
 ;; Save all buffers when focus is lost
 (defun my-save-all-buffers ()
