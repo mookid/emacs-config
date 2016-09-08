@@ -76,6 +76,11 @@ Binds the command to KEY if supplied."
   (let ((arg (or arg 1)))
     (scroll-down arg)))
 
+(defun my-kill-buffer ()
+  "Kill buffer without confirmation."
+  (interactive)
+  (kill-buffer nil))
+
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
@@ -93,6 +98,7 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "M-S-<down>") 'delete-other-windows-vertically)
 (define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
 (define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
+(define-key global-map (kbd "C-x k") 'my-kill-buffer)
 
 (require 'subr-x)
 (defun my-shorten-path (path)
