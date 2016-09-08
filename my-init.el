@@ -332,7 +332,7 @@ class ')'."
 (defun my-insert-buffer-name ()
   "Insert the previous buffer name.  Useful for compilation."
   (interactive)
-  (insert (file-name-base)))
+  (insert (buffer-name (my-previous-buffer))))
 
 (defun my-insert-buffer-path (arg)
   "Insert the previous buffer path.
