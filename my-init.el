@@ -796,28 +796,6 @@ and use mouse2."
                         :inherit 'error
                         :box t)))
 
-(use-package rainbow-blocks
-  :defer t
-  :config
-  (progn
-    (let ((colors '("green3" "orange" "pale violet red"))
-          (kinds '(blocks)))
-      (cl-labels ((set-bold (face color)
-                            (set-face-attribute face nil
-                                                :foreground color))
-                  (symb (kind lvl)
-                        (intern (format "rainbow-%S-depth-%S-face" kind lvl)))
-                  (set-level (lvl color)
-                             (when (< 0 lvl 10)
-                               (mapc (lambda (kind)
-                                       (set-bold (symb kind lvl) color))
-                                     kinds))))
-        (cl-loop
-         with ncolors = (length colors)
-         for lvl from 1 upto 9
-         for icolor = (mod (- lvl 1) ncolors)
-         do (set-level lvl (nth icolor colors)))))))
-
 (use-package loccur
   :bind
   (("M-s i" . loccur-current)
@@ -1070,8 +1048,6 @@ _m_: tuareg-insert-match-form
           powerline-inactive1
           powerline-inactive2))
   (powerline-default-theme))
-
-(use-package hyperbole)
 
 (use-package yasnippet
   :config
