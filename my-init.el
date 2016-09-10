@@ -99,6 +99,7 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
 (define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
 (define-key global-map (kbd "C-x k") 'my-kill-buffer)
+(define-key global-map (kbd "C-S-SPC") 'rectangle-mark-mode)
 
 (require 'subr-x)
 (defun my-shorten-path (path)
@@ -1129,6 +1130,13 @@ _m_: tuareg-insert-match-form
     (define-key global-map (kbd "C-M-]") 'diff-hl-next-hunk)
     (diff-hl-margin-mode 1)
     (diff-hl-flydiff-mode 1)))
+
+(use-package multiple-cursors
+  :config
+  (progn
+    (define-key global-map (kbd "C-M-.") 'mc/mark-next-like-this)
+    (define-key global-map (kbd "C-M-,") 'mc/mark-previous-like-this)
+    (define-key global-map (kbd "C-M-/") 'mc/mark-all-like-this)))
 
 (provide 'my-init)
 ;;; my-init.el ends here

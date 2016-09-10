@@ -14,3 +14,4 @@ projectile.cache
 semanticdb
 *.elc
 .emacs-custom.el
+.mc-lists.el
