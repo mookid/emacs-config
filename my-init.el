@@ -253,22 +253,8 @@ class ')'."
 (set-face-attribute 'variable-pitch nil :family "DejaVu Sans")
 
 ;; Upcase / downcase commands
-(defun my-upcase-char (arg)
-  "Apply `upcase-region' to the following ARG characters."
-  (interactive "P")
-  (let ((arg (or arg 1)))
-    (upcase-region
-     (point)
-     (+ (point) arg))))
-(defun my-downcase-char (arg)
-  "Apply `downcase-region' to the following ARG characters."
-  (interactive "P")
-  (let ((arg (or arg 1)))
-    (downcase-region
-     (point)
-     (+ (point) arg))))
-(define-key global-map (kbd "C-c u") 'my-upcase-char)
-(define-key global-map (kbd "C-c l") 'my-downcase-char)
+(define-key global-map (kbd "C-S-u") 'upcase-region)
+(define-key global-map (kbd "C-S-l") 'downcase-region)
 
 (defun my-kill-line-backward ()
   "The same as `kill-line', but backward (and reindent)."
