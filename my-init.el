@@ -835,15 +835,6 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
     (setq projectile-completion-system 'ivy)
     (projectile-global-mode)))
 
-(use-package counsel
-  :defer t
-  :after ivy
-  :init
-  (progn
-    (add-hook 'grep-setup-hook
-              (lambda () (define-key grep-mode-map (kbd "RET")
-                      'ivy-switch-buffer)))))
-
 (use-package slime
   :defer t
   :bind (("C-c y" . hyperspec-lookup))
@@ -867,9 +858,7 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 (use-package avy
   :defer t
   :bind (("C-z" . avy-goto-word-or-subword-1))
-  :config
-  (progn
-    (setq avy-all-windows 'all-frames)))
+  :init (setq avy-all-windows 'all-frames))
 
 (use-package ace-window
   :defer t
@@ -897,39 +886,12 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
 ;; OCaml configuration
 (progn
   (use-package tuareg
+    :defer t
+    :mode "\\.m[lf][ily]?$"
     :config
     (progn
-      (cond ((require 'hydra nil t)
-             (defhydra my-tuareg-abbrevs (:color blue :hint nil)
-               "
-_c_: tuareg-insert-class-form        _w_: tuareg-insert-while-form
-_b_: tuareg-insert-begin-form        _i_: tuareg-insert-if-form
-_f_: tuareg-insert-for-form          _t_: tuareg-insert-try-form
-_l_: tuareg-insert-let-form
-_m_: tuareg-insert-match-form
-"
-               ("c" tuareg-insert-class-form)
-               ("b" tuareg-insert-begin-form)
-               ("f" tuareg-insert-for-form)
-               ("w" tuareg-insert-while-form)
-               ("i" tuareg-insert-if-form)
-               ("l" tuareg-insert-let-form)
-               ("m" tuareg-insert-match-form)
-               ("t" tuareg-insert-try-form)))
-            (t
-             (define-prefix-command 'my-tuareg-abbrevs/body)
-             (let ((map my-tuareg-abbrevs/body))
-               (define-key map (kbd "c") 'tuareg-insert-class-form)
-               (define-key map (kbd "b") 'tuareg-insert-begin-form)
-               (define-key map (kbd "f") 'tuareg-insert-for-form)
-               (define-key map (kbd "w") 'tuareg-insert-while-form)
-               (define-key map (kbd "i") 'tuareg-insert-if-form)
-               (define-key map (kbd "l") 'tuareg-insert-let-form)
-               (define-key map (kbd "m") 'tuareg-insert-match-form)
-               (define-key map (kbd "t") 'tuareg-insert-try-form))))
-      (define-key tuareg-mode-map (kbd "C-M-,") 'my-tuareg-abbrevs/body)
-      (add-to-list 'auto-mode-alist
-                   '("\\.ml[ily]?$" . tuareg-mode))
+      ;; (add-to-list 'auto-mode-alist
+      ;;              '("\\.m[lf][ily]?$" . tuareg-mode))
       (define-key tuareg-mode-map (kbd "C-c .") nil)
       (mapc (lambda (face)
               (set-face-attribute face nil
@@ -973,16 +935,6 @@ _m_: tuareg-insert-match-form
 
 ;; C configuration
 (progn
-  (defvar c-mode-base-map)
-  (defvar c-indentation 8 "The indentation for C code.")
-  (defvar c-stars "/*****************************************************************************/"
-    "A separator for C code.")
-
-  (defun my-c-insert-stars ()
-    "Insert the value of `c-stars'."
-    (interactive)
-    (insert c-stars))
-
   (defun my-c-setup ()
     "My setup for C."
     (defvar c-default-style)
@@ -990,32 +942,23 @@ _m_: tuareg-insert-match-form
     (setq c-default-style "linux")
     (setq indent-tabs-mode nil)
     (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
-    (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file)
-    (define-key c-mode-base-map (kbd "C-c =") 'my-c-insert-stars))
-
-  (add-hook 'c-initialization-hook 'my-c-setup)
-
-  (use-package find-file :defer t)
-  (use-package compile :defer t)
-  (use-package clang-format :defer t))
+    (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file))
+  (add-hook 'c-initialization-hook #'my-c-setup))
 
 ;; Images
-(progn
-  (with-eval-after-load "image-mode"
-    (require 'image+)
-    (defvar image-mode-map)
-    (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
-    (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out)))
+(with-eval-after-load "image-mode"
+  (require 'image+)
+  (defvar image-mode-map)
+  (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
+  (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))
 
 (use-package smart-mode-line
-  :config
-  (progn
-    (setq sml/no-confirm-load-theme t)
-    (sml/setup)))
+  :init (setq sml/no-confirm-load-theme t)
+  :config (sml/setup))
 
 (use-package powerline
-  :config
   :disabled t
+  :config
   (setq powerline-display-buffer-size nil)
   (setq powerline-display-mule-info nil)
   (setq powerline-display-hud nil)
@@ -1027,10 +970,9 @@ _m_: tuareg-insert-match-form
   (powerline-default-theme))
 
 (use-package yasnippet
-  :config
-  (progn
-    (setq yas-snippet-dirs `(,(expand-file-name "snippets" my-root-dir)))
-    (yas-reload-all)))
+  :defer t
+  :init (setq yas-snippet-dirs `(,(expand-file-name "snippets" my-root-dir)))
+  :config (yas-reload-all))
 
 (use-package org
   :defer t
@@ -1103,26 +1045,26 @@ _m_: tuareg-insert-match-form
 
 (use-package composable
   :diminish composable-mode
-  :init
-  (progn
-    (composable-mode 1)
-    (define-key composable-mode-map (kbd "M-;") 'evilnc-comment-or-uncomment-lines)))
+  :init (composable-mode 1)
+  :bind
+  (:map composable-mode-map
+   ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
   :init
   (progn
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-    (define-key global-map (kbd "C-M-[") 'diff-hl-previous-hunk)
-    (define-key global-map (kbd "C-M-]") 'diff-hl-next-hunk)
     (diff-hl-margin-mode 1)
-    (diff-hl-flydiff-mode 1)))
+    (diff-hl-flydiff-mode 1))
+  :bind
+  (("C-M-[" . diff-hl-previous-hunk)
+   ("C-M-]" . diff-hl-next-hunk)))
 
 (use-package multiple-cursors
-  :config
-  (progn
-    (define-key global-map (kbd "C-M-.") 'mc/mark-next-like-this)
-    (define-key global-map (kbd "C-M-,") 'mc/mark-previous-like-this)
-    (define-key global-map (kbd "C-M-/") 'mc/mark-all-like-this)))
+  :bind
+  (("C-M-." . mc/mark-next-like-this)
+   ("C-M-," . mc/mark-previous-like-this)
+   ("C-M-/" . mc/mark-all-like-this)))
 
 (provide 'my-init)
 ;;; my-init.el ends here
