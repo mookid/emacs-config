@@ -784,7 +784,6 @@ and use mouse2."
 (use-package rainbow-delimiters
   :config
   (progn
-    (autoload 'my-default-font "my-naked-emacs-config")
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     (defun my-rainbow-delimiters-disable ()
       "Disable rainbow-delimiters mode."
@@ -798,8 +797,8 @@ and use mouse2."
 
 (use-package loccur
   :bind
-  (("M-s i" . loccur-current)
-   ("M-s o" . loccur)
+  (("M-s o" . loccur-current)
+   ("M-s i" . loccur)
    ("M-s p" . loccur-previous-match)))
 
 (use-package company
