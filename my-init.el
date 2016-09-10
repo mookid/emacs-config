@@ -143,13 +143,6 @@ Binds the command to KEY if supplied."
 ;; No welcome message
 (setq inhibit-startup-message t)
 
-;; Move backup files to a subdirectory of the root directory
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name "backups" my-root-dir))))
-
-;; Move customize things in a dedicated file
-(setq custom-file (expand-file-name ".emacs-custom.el" my-root-dir))
-
 ;; Stop auto save
 (setq auto-save-default nil)
 
@@ -202,9 +195,7 @@ Binds the command to KEY if supplied."
   (setq pop-up-windows nil))
 
 ;; Save history between sessions
-(defvar savehist-file)
 (defvar savehist-save-minibuffer-history)
-(setq savehist-file (expand-file-name "savehist" my-root-dir))
 (savehist-mode t)
 (setq history-length 16384)
 (setq history-delete-duplicates t)
@@ -1138,12 +1129,6 @@ _m_: tuareg-insert-match-form
     (define-key global-map (kbd "C-M-]") 'diff-hl-next-hunk)
     (diff-hl-margin-mode 1)
     (diff-hl-flydiff-mode 1)))
-
-(let ((private-file (expand-file-name "private.el" my-root-dir)))
-  (when (file-exists-p private-file)
-    (condition-case nil
-        (load private-file)
-      (error (message "Error during loading of private settings")))))
 
 (provide 'my-init)
 ;;; my-init.el ends here
