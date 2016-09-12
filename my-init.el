@@ -822,6 +822,10 @@ and use mouse2."
 (use-package projectile
   :bind (("<C-S-return>" . my-projectile))
   :diminish projectile-mode
+  :init
+  (with-eval-after-load 'key-chord
+      (key-chord-define-global "pf" 'projectile-find-file)
+      (key-chord-define-global "pp" 'projectile-switch-project))
   :config
   (progn
     (setq projectile-indexing-method 'alien)
