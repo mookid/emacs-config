@@ -1048,7 +1048,9 @@ If P is non nil, call `projectile-find-file' else call `projectile-switch-projec
   :init (composable-mode 1)
   :bind
   (:map composable-mode-map
-   ("M-;" . evilnc-comment-or-uncomment-lines)))
+        ([remap upcase-region] . composable-upcase-region)
+        ([remap downcase-region] . composable-downcase-region)
+        ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
   :init
