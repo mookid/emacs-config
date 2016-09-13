@@ -373,6 +373,7 @@ Otherwise, join the current line with the following."
 
 
 ;;; Colors
+(defvar my-default-cursor-color "The cursor color by default.")
 (defun my-color-config ()
   (cond
    (window-system
@@ -380,7 +381,8 @@ Otherwise, join the current line with the following."
     (set-face-attribute 'font-lock-comment-face nil :foreground "steel blue")
     (set-background-color "azure1")
     (set-foreground-color "slate gray")
-    (set-cursor-color "red")
+    (setq my-default-cursor-color "red")
+    (set-cursor-color my-default-cursor-color)
     (set-face-attribute 'region nil :background "#ABDFFA")
     (set-face-attribute 'secondary-selection nil :background "#DDFFDD"))
    (t nil)))
@@ -571,6 +573,16 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (define-key global-map (kbd "C-M-s") 'my-isearch-region)
 
 (define-key isearch-mode-map (kbd "<return>") 'my-isearch-exit-leave-hl)
+
+(with-eval-after-load 'diminish
+  (diminish 'isearch-mode))
+
+(add-hook 'isearch-mode-hook 'my-notify-grep)
+(defun my-notify-grep ()
+  (set-cursor-color "yellow"))
+(add-hook 'isearch-mode-end-hook 'my-notify-grep-exit)
+(defun my-notify-grep-exit ()
+  (set-cursor-color my-default-cursor-color))
 
 (defun my-isearch-exit-leave-hl ()
   "Exit search and leave extra match highlighting."
