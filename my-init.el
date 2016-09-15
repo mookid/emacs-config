@@ -818,9 +818,8 @@ and use mouse2."
   :diminish ivy-mode
   :bind
   (("M-m" . counsel-M-x)
-   ("C-c C-s" . swiper)
-   ("<C-M-return>" . ivy-switch-buffer)
-   ("<C-return>". counsel-find-file)
+   ("C-h f" . counsel-describe-function)
+   ("C-h v" . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
