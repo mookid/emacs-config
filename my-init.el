@@ -409,6 +409,28 @@ Otherwise, join the current line with the following."
 (require 'ffap)
 (ffap-bindings)
 
+;;; Google search
+(defun my-prompt ()
+    "Default value for prompt is a current word or active region,
+if its size is 1 line."
+    (cond ((and transient-mark-mode mark-active)
+           (let ((pos1 (region-beginning))
+                 (pos2 (region-end)))
+             ;; Check if the start and the end of an active region is on
+             ;; the same line
+             (when (save-excursion
+                     (goto-char pos1)
+                     (<= pos2 (line-end-position)))
+               (buffer-substring-no-properties pos1 pos2))))
+          (t
+           (current-word))))
+
+(defun my-google-search (w)
+  "Search on google the word at point."
+  (interactive (list (read-string "query: " (my-prompt))))
+  (browse-url (concat "https://www.google.com/search?q=" w)))
+(define-key global-map (kbd "C-h g") 'my-google-search)
+
 
 ;;; Server
 (defadvice server-visit-files (before parse-numbers-in-lines
@@ -1046,7 +1068,8 @@ and use mouse2."
     (key-chord-mode 1)
     (key-chord-define-global "jg" 'abort-recursive-edit)
     (key-chord-define-global "jk" 'execute-extended-command)
-    (key-chord-define-global "fj" 'find-file-at-point)
+    (with-eval-after-load 'ffap
+      (key-chord-define-global "fj" 'find-file-at-point))
     (key-chord-define-global "fb" 'switch-to-buffer)
     (with-eval-after-load 'recentf
       (key-chord-define-global "fh" 'recentf-open-files))))
