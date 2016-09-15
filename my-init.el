@@ -831,7 +831,6 @@ and use mouse2."
     (setq ivy-use-virtual-buffers t)))
 
 (use-package projectile
-  :bind (("<C-S-return>" . my-projectile))
   :diminish projectile-mode
   :init
   (with-eval-after-load 'key-chord
@@ -841,12 +840,6 @@ and use mouse2."
   (progn
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
-    (defun my-projectile (p)
-      "My projectile command.
-
-If P is non nil, call `projectile-find-file' else call `projectile-switch-project'."
-      (interactive "P")
-      (if p (projectile-switch-project) (projectile-find-file)))
     (setq projectile-completion-system 'ivy)
     (projectile-global-mode)))
 
