@@ -525,7 +525,6 @@ at the end of the result."
 
 (setq mouse-drag-copy-region t)
 (setq mouse-yank-at-point t)
-(setq mouse-autoselect-window t)
 
 (require 'mouse-copy)
 (define-key global-map (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
@@ -645,20 +644,6 @@ Use in `isearch-mode-end-hook'."
   (isearch-mode t nil nil nil)
   (isearch-yank-pop))
 
-(defun my-isearch-forward (regexp-p)
-  "Forward to `isearch-forward-regexp' with fancy `whitespace-regexp'.
-
-REGEXP-P is used as in the vanilla Emacs api."
-  (interactive "P")
-  (let ((isearch-regexp-lax-whitespace t)
-        (search-whitespace-regexp ".*?"))
-    (isearch-forward-regexp regexp-p)))
-
-;; (defun my-occur-rename-buffer ()
-;;   "Used to uniquify the occur buffer names."
-;;   (occur-rename-buffer t))
-;; (add-hook 'occur-hook #'my-occur-rename-buffer)
-
 
 ;;; Windows
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
@@ -710,8 +695,6 @@ and use mouse2."
                 unread-command-events)))))
 
 (winner-mode 1)
-(define-key global-map (kbd "C-M-S-<left>") 'winner-undo)
-(define-key global-map (kbd "C-M-S-<right>") 'winner-redo)
 (define-key global-map (kbd "C-M-S-<up>") 'balance-windows)
 
 (windmove-default-keybindings)
