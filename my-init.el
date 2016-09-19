@@ -126,6 +126,29 @@ Binds the command to KEY if supplied."
              mode-line-misc-info
              "%-")))
 
+(progn
+  (make-face 'mode-line-vc-separator-face)
+  (make-face 'mode-line-vc-project-face)
+  (set-face-attribute 'mode-line-vc-separator-face nil
+                      :foreground "orange")
+  (set-face-attribute 'mode-line-vc-project-face nil
+                      :foreground "orange"
+                      :weight 'bold
+                      :background "cornsilk")
+
+  (defun my-mode-line-project ()
+    (concat (if (fboundp 'projectile-project-name)
+                (concat (projectile-project-name) "|")
+              nil)
+            (substring vc-mode (+ (or (string-match "Git-\\|Git:\\|SVN:\\|SVN-" vc-mode) -4) 4))))
+
+  (setcdr (assq 'vc-mode mode-line-format)
+          '((:eval
+             (concat
+              (propertize "[" 'face 'mode-line-vc-separator-face)
+              (propertize (my-mode-line-project) 'face 'mode-line-vc-project-face)
+              (propertize "]" 'face 'mode-line-vc-separator-face))))))
+
 ;; Jump to grep buffer
 (my-goto-buffer *grep* "<f10>")
 
@@ -968,6 +991,7 @@ and use mouse2."
   (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))
 
 (use-package smart-mode-line
+  :disabled t
   :init (setq sml/no-confirm-load-theme t)
   :config (sml/setup))
 
