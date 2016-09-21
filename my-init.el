@@ -671,6 +671,7 @@ Use in `isearch-mode-end-hook'."
 ;;; Windows
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
+(define-key global-map (kbd "<M-down>") 'bury-buffer)
 
 (setq tags-add-tables nil)
 
