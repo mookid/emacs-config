@@ -407,7 +407,20 @@ Otherwise, join the current line with the following."
     (setq my-default-cursor-color "red")
     (set-cursor-color my-default-cursor-color)
     (set-face-attribute 'region nil :background "#ABDFFA")
-    (set-face-attribute 'secondary-selection nil :background "#DDFFDD"))
+    (set-face-attribute 'secondary-selection nil :background "#DDFFDD")
+    (let ((foreground "SkyBlue3")
+          (background "LightCyan1"))
+      (set-face-attribute 'mode-line nil
+                          :height 0.9
+                          :foreground foreground
+                          :background background
+                          :box `(:line-width 2 :color ,foreground)))
+    (let ((foreground "slate gray")
+          (background "azure"))
+      (set-face-attribute 'mode-line-inactive nil
+                          :foreground foreground
+                          :background background
+                          :box `(:line-width 2 :color ,foreground))))
    (t nil)))
 
 (my-every-frame (my-color-config))
