@@ -1004,24 +1004,6 @@ and use mouse2."
   (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
   (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))
 
-(use-package smart-mode-line
-  :disabled t
-  :init (setq sml/no-confirm-load-theme t)
-  :config (sml/setup))
-
-(use-package powerline
-  :disabled t
-  :config
-  (setq powerline-display-buffer-size nil)
-  (setq powerline-display-mule-info nil)
-  (setq powerline-display-hud nil)
-  (mapc (lambda (face) (set-face-attribute face nil :foreground "grey"))
-        '(powerline-active1
-          powerline-active2
-          powerline-inactive1
-          powerline-inactive2))
-  (powerline-default-theme))
-
 (use-package yasnippet
   :defer t
   :init (setq yas-snippet-dirs `(,(expand-file-name "snippets" my-root-dir)))
