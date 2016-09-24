@@ -614,7 +614,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
 (define-key isearch-mode-map (kbd "M-<") 'my-isearch-beginning-of-buffer)
 (define-key isearch-mode-map (kbd "M->") 'my-isearch-end-of-buffer)
-(define-key global-map (kbd "C-M-s") 'my-isearch-region)
+;; (define-key global-map (kbd "C-M-s") 'my-isearch-region)
 
 (define-key isearch-mode-map (kbd "<return>") 'my-isearch-exit-leave-hl)
 
@@ -850,7 +850,7 @@ and use mouse2."
    ("C-h f" . counsel-describe-function)
    ("C-h v" . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
-   ("M-s" . counsel-grep-or-swiper)
+   ("C-M-s" . swiper)
    ("C-r" . ivy-resume)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
