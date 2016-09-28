@@ -92,14 +92,17 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "M-=") 'align-regexp)
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
-(define-key global-map (kbd "C-x p") 'proced)
 (define-key global-map (kbd "C-S-o") 'other-window)
 (define-key global-map (kbd "M-S-<up>") 'split-window-below)
 (define-key global-map (kbd "M-S-<down>") 'delete-other-windows-vertically)
 (define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
 (define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
-(define-key global-map (kbd "C-x k") 'my-kill-buffer)
+(define-key global-map (kbd "M-+") 'balance-windows) ;; M-S-=
 (define-key global-map (kbd "C-S-SPC") 'rectangle-mark-mode)
+(define-key global-map (kbd "C-x k") 'my-kill-buffer)
+(define-key global-map (kbd "<M-left>") 'previous-buffer)
+(define-key global-map (kbd "<M-right>") 'next-buffer)
+(define-key global-map (kbd "<M-down>") 'bury-buffer)
 
 (require 'subr-x)
 (defun my-shorten-path (path)
@@ -573,9 +576,6 @@ at the end of the result."
 (setq mouse-drag-copy-region t)
 (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
 (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)
-;; (define-key global-map (kbd "<mode-line> <down-mouse-1>") 'enlarge-window)
-(global-unset-key (kbd "<mode-line> <mouse-2>"))
-(define-key global-map (kbd "<mode-line> <down-mouse-2>") 'delete-other-windows-vertically)
 
 
 ;;; Recentf
@@ -686,10 +686,6 @@ Use in `isearch-mode-end-hook'."
 
 
 ;;; Windows
-(define-key global-map (kbd "<M-left>") 'previous-buffer)
-(define-key global-map (kbd "<M-right>") 'next-buffer)
-(define-key global-map (kbd "<M-down>") 'bury-buffer)
-
 (setq tags-add-tables nil)
 
 (defun my-mouse-drag-throw (start-event)
@@ -736,8 +732,6 @@ and use mouse2."
                 unread-command-events)))))
 
 (winner-mode 1)
-(define-key global-map (kbd "C-M-S-<up>") 'balance-windows)
-
 (windmove-default-keybindings)
 
 ;; unbind all keybindings starting with f2
