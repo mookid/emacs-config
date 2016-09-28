@@ -406,7 +406,11 @@ Otherwise, join the current line with the following."
     (set-foreground-color "slate gray")
     (setq my-default-cursor-color "red")
     (set-cursor-color my-default-cursor-color)
-    (set-face-attribute 'region nil :background "#ABDFFA")
+    (set-face-attribute 'region nil
+                        :background "pale green"
+                        :foreground "firebrick"
+                        :underline "yellow"
+                        :inverse-video)
     (set-face-attribute 'secondary-selection nil :background "#DDFFDD")
     (let ((foreground "SkyBlue3")
           (background "LightCyan1"))
