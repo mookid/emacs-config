@@ -1104,5 +1104,17 @@ and use mouse2."
    ("C-M-," . mc/mark-previous-like-this)
    ("C-M-/" . mc/mark-all-like-this)))
 
+(use-package elscreen
+  :init
+  (progn
+    (elscreen-start)
+    (elscreen-set-prefix-key (kbd "<f8>"))
+    (setq elscreen-display-tab nil))
+  :bind
+  (("<M-prior>" . elscreen-previous)
+   ("<M-next>" . elscreen-next)
+   :map elscreen-map
+   ("<f8>" . elscreen-select-and-goto)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
