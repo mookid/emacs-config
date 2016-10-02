@@ -104,7 +104,6 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "<M-down>") 'bury-buffer)
 
-(require 'subr-x)
 (defun my-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
   (let ((r (string-join (cons "..." (my-last-2 (split-string path "/"))) "/")))
@@ -909,25 +908,6 @@ and use mouse2."
   :defer t
   :bind (("C-z" . avy-goto-word-or-subword-1))
   :init (setq avy-all-windows 'all-frames))
-
-(use-package ace-window
-  :defer t
-  :bind
-  (("C-'" . ace-window))
-  :config
-  (progn
-    (defun my-other-window ()
-      "Forwards to `other-window'."
-      (interactive)
-      (other-window 1))
-    (defvar aw-keys)
-    (defvar aw-dispatch-always)
-    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-    (setq aw-dispatch-always t)
-    (defvar aw-dispatch-alist)
-    (add-to-list 'aw-dispatch-alist '(?v split-window-right))
-    (add-to-list 'aw-dispatch-alist '(?b split-window-below))
-    (add-to-list 'aw-dispatch-alist '(?c delete-other-windows-vertically))))
 
 (use-package flycheck
   :defer t
