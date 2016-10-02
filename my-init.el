@@ -1094,5 +1094,9 @@ and use mouse2."
    :map elscreen-map
    ("<f8>" . elscreen-select-and-goto)))
 
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :config (global-undo-tree-mode 1))
+
 (provide 'my-init)
 ;;; my-init.el ends here
