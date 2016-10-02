@@ -454,19 +454,19 @@ Otherwise, join the current line with the following."
 
 ;;; Google search
 (defun my-prompt ()
-    "Default value for prompt is a current word or active region,
+  "Default value for prompt is a current word or active region,
 if its size is 1 line."
-    (cond ((and transient-mark-mode mark-active)
-           (let ((pos1 (region-beginning))
-                 (pos2 (region-end)))
-             ;; Check if the start and the end of an active region is on
-             ;; the same line
-             (when (save-excursion
-                     (goto-char pos1)
-                     (<= pos2 (line-end-position)))
-               (buffer-substring-no-properties pos1 pos2))))
-          (t
-           (current-word))))
+  (cond ((and transient-mark-mode mark-active)
+         (let ((pos1 (region-beginning))
+               (pos2 (region-end)))
+           ;; Check if the start and the end of an active region is on
+           ;; the same line
+           (when (save-excursion
+                   (goto-char pos1)
+                   (<= pos2 (line-end-position)))
+             (buffer-substring-no-properties pos1 pos2))))
+        (t
+         (current-word))))
 
 (defun my-google-search (w)
   "Search on google the word at point."
@@ -876,8 +876,8 @@ and use mouse2."
   :diminish projectile-mode
   :init
   (with-eval-after-load 'key-chord
-      (key-chord-define-global "pf" 'projectile-find-file)
-      (key-chord-define-global "pp" 'projectile-switch-project))
+    (key-chord-define-global "pf" 'projectile-find-file)
+    (key-chord-define-global "pp" 'projectile-switch-project))
   :config
   (progn
     (setq projectile-indexing-method 'alien)
