@@ -443,6 +443,7 @@ Otherwise, join the current line with the following."
                         :strike-through t
                         :foreground "green")
     (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
+    (define-key dired-mode-map (kbd "C-x C-j") 'dired-jump)
     (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
   (define-key global-map (kbd "M-<up>") 'dired-jump))
 
