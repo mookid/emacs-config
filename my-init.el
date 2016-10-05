@@ -519,22 +519,40 @@ if its size is 1 line."
 
 (require 'mouse)
 (global-unset-key (kbd "<S-down-mouse-1>"))
-(define-key global-map (kbd "<S-mouse-1>") 'my-acme-search)
+(global-unset-key (kbd "<S-down-mouse-3>"))
+(define-key global-map (kbd "<S-mouse-1>") 'my-acme-search-forward)
+(define-key global-map (kbd "<S-mouse-3>") 'my-acme-search-backward)
 
-(defun my-acme-search (click)
-  "Move mouse to the next occurence of the symbol at point and highlight it."
+(defun my-acme-search-forward (click)
+  "Move mouse to the next occurence of either the active region,
+or the symbol at point, and highlight it."
   (interactive "e")
+  (my-acme-search--driver click t))
+
+(defun my-acme-search-backward (click)
+  "Move mouse to the previous occurence of either the active
+region or the symbol at point, and highlight it."
+  (interactive "e")
+  (my-acme-search--driver click nil))
+
+(defun my-acme-search--driver (click forward)
+  "Move mouse to another occurence of either the active region,
+or the symbol at point and highlight it.
+
+If FORWARD then move forward, otherwise move backward."
   (let ((sym (if (region-active-p)
                  (buffer-substring (mark) (point))
                (mouse-set-point click)
                (thing-at-point 'filename))))
     (if (file-readable-p sym)
         (special-display-popup-frame (find-file-noselect sym nil nil nil))
-      (or (my-acme-search-forward sym)
+      (or (my-acme-search--move sym forward)
           (let ((saved-point (point)))
             (message "Wrapped search")
-            (goto-char (point-min))
-            (or (my-acme-search-forward sym)
+            (if forward
+                (goto-char (point-min))
+              (goto-char (point-max)))
+            (or (my-acme-search--move sym forward)
                 (goto-char saved-point)))))
     ;;Redisplay the screen if we search off the bottom of the window.
     (unless (posn-at-point)
@@ -551,19 +569,23 @@ if its size is 1 line."
                (if header-line-format -1 0))))
     (set-mouse-position (selected-frame) x y)))
 
-(defun my-acme-search-forward (sym)
-  "Search forward from point for SYM and highlight it.
+(defun my-acme-search--move (sym forward)
+  "Search from point for SYM and highlight it.
+
+If FORWARD then move forward, otherwise move backward.
 
 If there is no match, returns NIL."
-  (when (search-forward sym nil t)
-    (my-acme-highlight-search sym)
+  (when (if forward (search-forward sym nil t)
+          (search-backward sym nil t))
+    (my-acme-highlight-search sym forward)
     t))
 
-(defun my-acme-highlight-search (sym)
-  "Set the region to the current search result. Assume point is
-at the end of the result."
+(defun my-acme-highlight-search (sym forward)
+  "Set the region to the current search result."
   (set-mark (point))
-  (search-backward sym nil t)
+  (if forward
+      (search-backward sym nil t)
+    (search-forward sym nil t))
   (exchange-point-and-mark))
 
 (setq mouse-drag-copy-region t)
