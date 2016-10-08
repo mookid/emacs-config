@@ -575,8 +575,8 @@ If FORWARD then move forward, otherwise move backward."
 If FORWARD then move forward, otherwise move backward.
 
 If there is no match, returns NIL."
-  (when (if forward (search-forward sym nil t)
-          (search-backward sym nil t))
+  (when (or (and forward (search-forward sym nil t))
+            (or forward (search-backward sym nil t)))
     (my-acme-highlight-search sym forward)
     t))
 
