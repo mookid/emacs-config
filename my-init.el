@@ -655,7 +655,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (define-key isearch-mode-map (kbd "M->") 'my-isearch-end-of-buffer)
 ;; (define-key global-map (kbd "C-M-s") 'my-isearch-region)
 
-(define-key isearch-mode-map (kbd "<return>") 'my-isearch-exit-leave-hl)
+(define-key isearch-mode-map (kbd "<S-return>") 'my-isearch-exit-leave-hl)
 
 (with-eval-after-load 'diminish
   (diminish 'isearch-mode))
