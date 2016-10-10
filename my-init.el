@@ -103,6 +103,7 @@ Binds the command to KEY if supplied."
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "<M-down>") 'bury-buffer)
+(define-key global-map (kbd "C-c /") 'rgrep)
 
 (defun my-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
