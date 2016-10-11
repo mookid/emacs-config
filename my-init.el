@@ -404,17 +404,15 @@ Otherwise, join the current line with the following."
 (defun my-color-config ()
   (cond
    (window-system
-    (set-face-attribute 'font-lock-comment-face nil :background "lavender")
-    (set-face-attribute 'font-lock-comment-face nil :foreground "steel blue")
+    (set-face-attribute 'font-lock-comment-face nil
+                        :foreground "grey"
+                        :background "alice blue")
     (set-background-color "azure1")
     (set-foreground-color "slate gray")
     (setq my-default-cursor-color "red")
     (set-cursor-color my-default-cursor-color)
     (set-face-attribute 'region nil
-                        :background "pale green"
-                        :foreground "firebrick"
-                        :underline "yellow"
-                        :inverse-video)
+                        :background "#ABDFFA")
     (set-face-attribute 'secondary-selection nil :background "#DDFFDD")
     (let ((foreground "SkyBlue3")
           (background "LightCyan1"))
