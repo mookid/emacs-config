@@ -267,12 +267,13 @@ class ')'."
 (add-to-list 'default-frame-alist '(height . 30))
 (add-to-list 'default-frame-alist '(width . 80))
 
-;; Setting up fonts"
+;; Setting up fonts
 (progn
   (defvar my-default-font nil "The font used almost everywhere.")
-  (setq my-default-font "Consolas")
+  (setq my-default-font "DejaVu Sans Mono")
   (set-default-coding-systems 'utf-8)
-  (add-to-list 'default-frame-alist `(font . ,my-default-font))
+  (and (member my-default-font (font-family-list))
+       (add-to-list 'default-frame-alist `(font . ,my-default-font)))
   (global-prettify-symbols-mode 1))
 
 ;; Customize proportional font"
