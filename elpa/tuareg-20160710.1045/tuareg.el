@@ -664,7 +664,7 @@ Regexp match data 0 points to the chars."
                      (buffer-substring (point)
                                        (progn (skip-chars-forward "a-z_")
                                               (point))))))
-	   (when (search-forward (concat "|" id "}") end 'move)
+           (when (search-forward (concat "|" id "}") end 'move)
              (put-text-property (1- (point)) (point)
                                 'syntax-table (string-to-syntax "|")))))))))
 
@@ -754,9 +754,9 @@ Regexp match data 0 points to the chars."
    `(("^#[0-9]+ *\\(?:\"[^\"]+\"\\)?" 0 tuareg-font-lock-line-number-face t)
      ;; cppo
      (,(concat "^ *#" (regexp-opt '("define" "undef" "if" "ifdef" "ifndef"
-				    "else" "elif" "endif" "include"
-				    "warning" "error" "ext" "endext")
-				  'words))
+                                    "else" "elif" "endif" "include"
+                                    "warning" "error" "ext" "endext")
+                                  'words))
       . font-lock-preprocessor-face)
      ("\\<\\(false\\|true\\)\\>" . font-lock-constant-face)
      ;; "type" to introduce a local abstract type considered a keyword
@@ -821,10 +821,10 @@ Regexp match data 0 points to the chars."
       (2 tuareg-font-lock-module-face keep t))
      (,(regexp-opt '("failwith" "failwithf" "exit" "at_exit" "invalid_arg"
                      "parser" "raise" "ref" "ignore"
-		     "Match_failure" "Assert_failure" "Invalid_argument"
-		     "Failure" "Not_found" "Out_of_memory" "Stack_overflow"
-		     "Sys_error" "End_of_file" "Division_by_zero"
-		     "Sys_blocked_io" "Undefined_recursive_module") 'words)
+                     "Match_failure" "Assert_failure" "Invalid_argument"
+                     "Failure" "Not_found" "Out_of_memory" "Stack_overflow"
+                     "Sys_error" "End_of_file" "Division_by_zero"
+                     "Sys_blocked_io" "Undefined_recursive_module") 'words)
       . font-lock-builtin-face)
      ;; module paths A.B.
      (,(concat module-path "\\.") . tuareg-font-lock-module-face)
@@ -1175,7 +1175,7 @@ by |, insert one |."
     (when electric (indent-according-to-mode))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;				 SMIE
+;;;                              SMIE
 
 ;; TODO:
 ;; - Obey tuareg-*-indent customization variables.
@@ -1394,12 +1394,12 @@ by |, insert one |."
              (setq tok (tuareg-smie--backward-token))
              (if (not (zerop (length tok)))
                  (not (member tok tokens))
-	       (unless (bobp)
-		 (condition-case err
-		     (progn (backward-sexp) t)
-		   (scan-error
-		    (setq tok (buffer-substring (nth 3 err) (1+ (nth 3 err))))
-		    nil))))))
+               (unless (bobp)
+                 (condition-case err
+                     (progn (backward-sexp) t)
+                   (scan-error
+                    (setq tok (buffer-substring (nth 3 err) (1+ (nth 3 err))))
+                    nil))))))
     tok))
 
 (defconst tuareg-smie--type-label-leader
@@ -1610,7 +1610,7 @@ Return values can be
           (while (progn
                    (setq nearest (tuareg-smie--search-backward
                                   '("with" "|" "fun" "functor"
-				    "type" ":" "of")))
+                                    "type" ":" "of")))
                    (and (equal nearest ":")
                         (tuareg-smie--label-colon-p))))
           (if (member nearest '("with" "|" "fun" "functor"))
@@ -2147,7 +2147,7 @@ Short cuts for interactions with the toplevel:
 
 (defun tuareg-beginning-of-defun ()
   (when (tuareg-find-matching-starter tuareg-starters-syms)
-	(save-excursion (tuareg-smie-forward-token)
+        (save-excursion (tuareg-smie-forward-token)
                         (forward-comment (point-max))
                         (let ((name (tuareg-smie-forward-token)))
                           (if (not (member name '("rec" "type")))
@@ -2392,9 +2392,9 @@ otherwise return non-nil."
   (defadvice compile (before tuareg-compile-opam activate)
       "Run opam to update environment variables."
       (let* ((env (tuareg-opam-config-env)))
-	(set (make-local-variable 'compilation-environment)
-	     ;; Quotes MUST be removed.
-	     (split-string (replace-regexp-in-string "\"" "" env)
+        (set (make-local-variable 'compilation-environment)
+             ;; Quotes MUST be removed.
+             (split-string (replace-regexp-in-string "\"" "" env)
                            "[\f\n\r]+" t))))
 
   (defvar merlin-command)
@@ -3152,9 +3152,9 @@ for a quick jump via the definitions menu."
             (push (cons (format "%s %s-%s" title beg end) list)
                   lists)
             (setq list (cdr tail))
-	    (when tail
-	      (setcdr tail nil)
-	      (setq tail (nthcdr tuareg-definitions-max-items list)))))
+            (when tail
+              (setcdr tail nil)
+              (setq tail (nthcdr tuareg-definitions-max-items list)))))
         (nreverse lists)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
