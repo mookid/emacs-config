@@ -559,13 +559,14 @@ If FORWARD then move forward, otherwise move backward."
     (unless (posn-at-point)
       (universal-argument)
       (recenter))
-    (my-move-mouse-to-point)))
+    (my-move-mouse-to-point forward)))
 
-(defun my-move-mouse-to-point ()
+(defun my-move-mouse-to-point (forward)
   "Move the mouse pointer to point in the current window."
   (let* ((coords (posn-col-row (posn-at-point)))
          (window-coords (window-inside-edges))
-         (x (+ (car coords) (car window-coords) -1))
+         (offset (if forward -1 1))
+         (x (+ (car coords) (car window-coords) offset))
          (y (+ (cdr coords) (cadr window-coords)
                (if header-line-format -1 0))))
     (set-mouse-position (selected-frame) x y)))
@@ -576,8 +577,9 @@ If FORWARD then move forward, otherwise move backward."
 If FORWARD then move forward, otherwise move backward.
 
 If there is no match, returns NIL."
-  (when (or (and forward (search-forward sym nil t))
-            (or forward (search-backward sym nil t)))
+  (when (if forward
+            (search-forward sym nil t)
+          (search-backward sym nil t))
     (my-acme-highlight-search sym forward)
     t))
 
@@ -883,6 +885,8 @@ and use mouse2."
   (("M-m" . counsel-M-x)
    ("C-h f" . counsel-describe-function)
    ("C-h v" . counsel-describe-variable)
+   ("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
    ("C-M-y". counsel-yank-pop)
    ("C-M-s" . swiper)
    ("C-r" . ivy-resume)
