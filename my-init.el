@@ -545,16 +545,18 @@ If FORWARD then move forward, otherwise move backward."
                  (buffer-substring (mark) (point))
                (mouse-set-point click)
                (thing-at-point 'filename))))
-    (if (file-readable-p sym)
-        (special-display-popup-frame (find-file-noselect sym nil nil nil))
-      (or (my-acme-search--move sym forward)
-          (let ((saved-point (point)))
-            (message "Wrapped search")
-            (if forward
-                (goto-char (point-min))
-              (goto-char (point-max)))
-            (or (my-acme-search--move sym forward)
-                (goto-char saved-point)))))
+    (cond ((not (and sym (stringp sym))) nil)
+          ((file-readable-p sym)
+           (special-display-popup-frame (find-file-noselect sym nil nil nil)))
+          (t
+           (or (my-acme-search--move sym forward)
+               (let ((saved-point (point)))
+                 (message "Wrapped search")
+                 (if forward
+                     (goto-char (point-min))
+                   (goto-char (point-max)))
+                 (or (my-acme-search--move sym forward)
+                     (goto-char saved-point))))))
     ;;Redisplay the screen if we search off the bottom of the window.
     (unless (posn-at-point)
       (universal-argument)
