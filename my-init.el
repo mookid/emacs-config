@@ -450,8 +450,8 @@ Otherwise, join the current line with the following."
 
 
 ;;; Find file at point
-(require 'ffap)
-(ffap-bindings)
+(autoload 'find-file-at-point "ffap")
+(define-key global-map [remap find-file] 'find-file-at-point)
 
 ;;; Google search
 (defun my-prompt ()
