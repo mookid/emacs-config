@@ -1099,7 +1099,10 @@ and use mouse2."
   (progn
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
     (diff-hl-margin-mode 1)
-    (diff-hl-flydiff-mode 1))
+    (diff-hl-flydiff-mode 1)
+    (set-face-attribute 'diff-hl-insert nil :inverse-video t)
+    (set-face-attribute 'diff-hl-delete nil :inverse-video t)
+    (set-face-attribute 'diff-hl-change nil :inverse-video t))
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)))
