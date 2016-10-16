@@ -305,7 +305,7 @@ class ')'."
 
 ;; Use ibuffer
 (progn
-  (require 'ibuffer)
+  (autoload 'ibuffer "ibuffer")
   (define-key global-map (kbd "C-x C-b") 'ibuffer)
   (with-eval-after-load 'fullframe
     (fullframe ibuffer ibuffer-quit)))
