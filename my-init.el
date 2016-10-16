@@ -934,7 +934,7 @@ and use mouse2."
 
 (use-package avy
   :defer t
-  :bind (("C-z" . avy-goto-word-or-subword-1))
+  :bind (("C-z" . avy-goto-char-2))
   :init (setq avy-all-windows 'all-frames))
 
 (use-package flycheck
