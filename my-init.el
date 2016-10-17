@@ -1079,8 +1079,7 @@ and use mouse2."
     (key-chord-mode 1)
     (key-chord-define-global "jg" 'abort-recursive-edit)
     (key-chord-define-global "jk" 'execute-extended-command)
-    (with-eval-after-load 'ffap
-      (key-chord-define-global "fj" 'find-file-at-point))
+    (key-chord-define-global "fj" 'find-file)
     (key-chord-define-global "fb" 'switch-to-buffer)
     (with-eval-after-load 'recentf
       (key-chord-define-global "fh" 'recentf-open-files))))
