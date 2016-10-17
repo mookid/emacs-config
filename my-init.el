@@ -155,6 +155,11 @@ Binds the command to KEY if supplied."
 ;; Jump to grep buffer
 (my-goto-buffer *grep* "<f10>")
 
+;; Find *scratch* buffer
+(my-goto-buffer *scratch*)
+(with-eval-after-load 'key-chord
+  (key-chord-define-global "fs" 'my-goto-*scratch*))
+
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
 
