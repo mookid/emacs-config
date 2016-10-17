@@ -217,7 +217,7 @@ Binds the command to KEY if supplied."
 
 ;; Remove gui elements
 (progn
-  (and (fboundp 'fringe-mode) (fringe-mode -1))
+  (and (fboundp 'fringe-mode) (fringe-mode +8))
   (and (fboundp 'tooltip-mode) (tooltip-mode +1))
   (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -1103,7 +1103,6 @@ and use mouse2."
   :init
   (progn
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-    (diff-hl-margin-mode 1)
     (diff-hl-flydiff-mode 1)
     (set-face-attribute 'diff-hl-insert nil :inverse-video t)
     (set-face-attribute 'diff-hl-delete nil :inverse-video t)
