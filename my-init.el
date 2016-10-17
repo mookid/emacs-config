@@ -910,7 +910,7 @@ and use mouse2."
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy)
-    (projectile-global-mode)))
+    (projectile-mode +1)))
 
 (use-package slime
   :defer t
