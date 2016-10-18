@@ -132,13 +132,6 @@ Binds the command to KEY if supplied."
 (progn
   (make-face 'mode-line-vc-separator-face)
   (make-face 'mode-line-vc-project-face)
-  (set-face-attribute 'mode-line-vc-separator-face nil
-                      :foreground "orange")
-  (set-face-attribute 'mode-line-vc-project-face nil
-                      :foreground "orange"
-                      :weight 'bold
-                      :background "cornsilk")
-
   (defun my-mode-line-project ()
     (concat (if (fboundp 'projectile-project-name)
                 (concat (projectile-project-name) "|")
@@ -429,7 +422,13 @@ Otherwise, join the current line with the following."
       (set-face-attribute 'mode-line-inactive nil
                           :foreground foreground
                           :background background
-                          :box `(:line-width 2 :color ,foreground))))
+                          :box `(:line-width 2 :color ,foreground)))
+    (set-face-attribute 'mode-line-vc-separator-face nil
+                        :foreground "orange")
+    (set-face-attribute 'mode-line-vc-project-face nil
+                        :foreground "orange"
+                        :weight 'bold
+                        :background "cornsilk"))
    (t nil)))
 
 (my-every-frame (my-color-config))
