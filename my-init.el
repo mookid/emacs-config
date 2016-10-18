@@ -395,9 +395,6 @@ Otherwise, join the current line with the following."
              (join-line 1))))))
 (define-key global-map (kbd "M-j") 'my-join-line)
 
-;; Don't kill by accident
-(setq confirm-kill-emacs 'y-or-n-p)
-
 ;; Display page delimiter as a horizontal line
 ;; (aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
 
