@@ -670,13 +670,6 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (with-eval-after-load 'diminish
   (diminish 'isearch-mode))
 
-(add-hook 'isearch-mode-hook 'my-notify-grep)
-(defun my-notify-grep ()
-  (set-cursor-color "yellow"))
-(add-hook 'isearch-mode-end-hook 'my-notify-grep-exit)
-(defun my-notify-grep-exit ()
-  (set-cursor-color my-default-cursor-color))
-
 (defun my-isearch-exit-leave-hl ()
   "Exit search and leave extra match highlighting."
   (interactive)
