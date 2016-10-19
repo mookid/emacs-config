@@ -1006,7 +1006,6 @@ and use mouse2."
 
 (use-package yasnippet
   :defer t
-  :init (setq yas-snippet-dirs `(,(expand-file-name "snippets" my-root-dir)))
   :config (yas-reload-all))
 
 (use-package org

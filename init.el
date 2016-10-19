@@ -12,19 +12,18 @@
 (require 'benchmark-init)
 
 ;; The configuration directories
-(defvar my-root-dir "~/.emacs.d"
-  "The root directory of the configuration.")
-
 (defvar custom-file)
 (defvar savehist-file)
-(setq custom-file (expand-file-name ".emacs-custom.el" my-root-dir))
-(setq savehist-file (expand-file-name "savehist" my-root-dir))
+(defvar yas-snippet-dirs)
+(setq custom-file (expand-file-name ".emacs-custom.el" user-emacs-directory))
+(setq savehist-file (expand-file-name "savehist" user-emacs-directory))
+(setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
 (setq backup-directory-alist
-      `(("." . ,(expand-file-name "backups" my-root-dir))))
+      `(("." . ,(expand-file-name "backups" user-emacs-directory))))
 
 (let ((gc-cons-threshold most-positive-fixnum))
-  (load-file (expand-file-name "my-init.el" my-root-dir))
-  (let ((private-file (expand-file-name "private.el" my-root-dir)))
+  (load-file (expand-file-name "my-init.el" user-emacs-directory))
+  (let ((private-file (expand-file-name "private.el" user-emacs-directory)))
     (when (file-exists-p private-file)
       (condition-case nil
           (load private-file)
