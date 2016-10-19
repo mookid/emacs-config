@@ -198,6 +198,7 @@
 ;; VC
 (define-key global-map (kbd "<f7>") 'vc-diff)
 (define-key global-map (kbd "C-<f7>") 'vc-root-diff)
+(define-key global-map (kbd "S-<f7>") (my-goto-buffer *vc-diff*))
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
