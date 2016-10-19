@@ -21,19 +21,14 @@
                    ,@body)))
      ,@body))
 
-(defmacro my-goto-buffer (buffer-name &optional key)
-  "Defines a command to jump to the buffer designated by BUFFER-NAME.
-
-Binds the command to KEY if supplied."
+(defmacro my-goto-buffer (buffer-name)
+  "Defines a command to jump to the buffer designated by BUFFER-NAME."
   (let* ((buffer-name-str (symbol-name buffer-name))
          (command-name (intern (concat "my-goto-" buffer-name-str))))
-    `(progn
-       (defun ,command-name ()
-         ,(concat "Goto buffer `" buffer-name-str "'.")
-         (interactive)
-         (pop-to-buffer ,buffer-name-str))
-       (when ,key
-         (define-key global-map (kbd ,key) ',command-name)))))
+    `(defun ,command-name ()
+       ,(concat "Goto buffer `" buffer-name-str "'.")
+       (interactive)
+       (pop-to-buffer ,buffer-name-str))))
 
 
 ;;; Basic configuration
@@ -146,12 +141,11 @@ Binds the command to KEY if supplied."
               (propertize "]" 'face 'mode-line-vc-separator-face))))))
 
 ;; Jump to grep buffer
-(my-goto-buffer *grep* "<f10>")
+(define-key global-map (kbd "<f10>") (my-goto-buffer *grep*))
 
 ;; Find *scratch* buffer
-(my-goto-buffer *scratch*)
 (with-eval-after-load 'key-chord
-  (key-chord-define-global "fs" 'my-goto-*scratch*))
+  (key-chord-define-global "fs" (my-goto-buffer *scratch*)))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -510,7 +504,7 @@ if its size is 1 line."
 (setq compilation-scroll-output 'first-error)
 
 (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
-(my-goto-buffer *compilation* "<f5>")
+(define-key global-map (kbd "<f5>") (my-goto-buffer *compilation*))
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<end>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
