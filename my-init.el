@@ -1084,14 +1084,16 @@ and use mouse2."
 (use-package key-chord
   :init
   (progn
-    (key-chord-mode 1)
-    (key-chord-define-global "jg" 'abort-recursive-edit)
-    (key-chord-define-global "jk" 'execute-extended-command)
-    (key-chord-define-global "fj" 'find-file)
-    (key-chord-define-global "f." 'repeat)
-    (key-chord-define-global "fb" 'switch-to-buffer)
-    (with-eval-after-load 'recentf
-      (key-chord-define-global "fh" 'recentf-open-files))))
+    (defun my-key-chord-setup ()
+      (key-chord-mode 1)
+      (key-chord-define-global "jg" 'abort-recursive-edit)
+      (key-chord-define-global "jk" 'execute-extended-command)
+      (key-chord-define-global "fj" 'find-file)
+      (key-chord-define-global "f." 'repeat)
+      (key-chord-define-global "fb" 'switch-to-buffer)
+      (with-eval-after-load 'recentf
+        (key-chord-define-global "fh" 'recentf-open-files)))
+    (my-key-chord-setup)))
 
 (use-package composable
   :diminish composable-mode
