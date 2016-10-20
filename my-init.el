@@ -76,6 +76,26 @@
   (interactive)
   (kill-buffer nil))
 
+;; Recursive edit preserving windows
+(defmacro my-recursive-edit-preserving-window-config (body)
+  "*Return a command that enters a recursive edit after executing BODY.
+Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit)
+or \\[abort-recursive-edit] (abort)), restore window configuration
+in current frame.
+Inspired by Erik Naggum's `recursive-edit-with-single-window'."
+  `(lambda ()
+     "See the documentation for `recursive-edit-preserving-window-config'."
+     (interactive)
+     (save-window-excursion
+       ,body
+       (recursive-edit))))
+
+(define-key global-map (kbd "C-c 1")
+  (my-recursive-edit-preserving-window-config
+   (if (one-window-p 'ignore-minibuffer)
+       (error "Current window is the only window in its frame")
+     (delete-other-windows))))
+
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
