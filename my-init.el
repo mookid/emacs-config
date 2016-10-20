@@ -1118,7 +1118,8 @@ and use mouse2."
   :bind
   (("C-M-." . mc/mark-next-like-this)
    ("C-M-," . mc/mark-previous-like-this)
-   ("C-M-/" . mc/mark-all-like-this)))
+   ("C-M-/" . mc/mark-all-like-this)
+   ("C-M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package elscreen
   :init
