@@ -595,6 +595,7 @@ If FORWARD then move forward, otherwise move backward."
 If FORWARD then move forward, otherwise move backward.
 
 If there is no match, returns NIL."
+  (push-mark-command nil)
   (when (if forward
             (search-forward sym nil t)
           (search-backward sym nil t))
