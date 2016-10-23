@@ -12,15 +12,6 @@
   "Ignore the arguments.  Use it to disable a part of the file."
   nil)
 
-(defmacro my-every-frame (&rest body)
-  "Apply BODY to every new frame."
-  `(progn
-     (add-hook 'after-make-frame-functions
-               (lambda (frame)
-                 (with-selected-frame frame
-                   ,@body)))
-     ,@body))
-
 (defmacro my-goto-buffer (buffer-name)
   "Defines a command to jump to the buffer designated by BUFFER-NAME."
   (let* ((buffer-name-str (symbol-name buffer-name))
@@ -410,42 +401,8 @@ Otherwise, join the current line with the following."
 
 
 ;;; Colors
-(defvar my-default-cursor-color "The cursor color by default.")
-(defun my-color-config ()
-  (cond
-   (window-system
-    (set-face-attribute 'font-lock-comment-face nil
-                        :foreground "grey"
-                        :background "alice blue")
-    (set-background-color "azure1")
-    (set-foreground-color "slate gray")
-    (setq my-default-cursor-color "red")
-    (set-cursor-color my-default-cursor-color)
-    (set-face-attribute 'region nil
-                        :background "#ABDFFA")
-    (set-face-attribute 'secondary-selection nil :background "#DDFFDD")
-    (let ((foreground "SkyBlue3")
-          (background "LightCyan1"))
-      (set-face-attribute 'mode-line nil
-                          :height 0.9
-                          :foreground foreground
-                          :background background
-                          :box `(:line-width 2 :color ,foreground)))
-    (let ((foreground "slate gray")
-          (background "azure"))
-      (set-face-attribute 'mode-line-inactive nil
-                          :foreground foreground
-                          :background background
-                          :box `(:line-width 2 :color ,foreground)))
-    (set-face-attribute 'mode-line-vc-separator-face nil
-                        :foreground "orange")
-    (set-face-attribute 'mode-line-vc-project-face nil
-                        :foreground "orange"
-                        :weight 'bold
-                        :background "cornsilk"))
-   (t nil)))
-
-(my-every-frame (my-color-config))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+(load-theme 'xemacs t nil)
 
 
 ;;; Dired
