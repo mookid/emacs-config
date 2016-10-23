@@ -285,8 +285,7 @@ class ')'."
   (defvar my-default-font nil "The font used almost everywhere.")
   (setq my-default-font "DejaVu Sans Mono")
   (set-default-coding-systems 'utf-8)
-  (and (member my-default-font (font-family-list))
-       (add-to-list 'default-frame-alist `(font . ,my-default-font)))
+  (add-to-list 'default-frame-alist `(font . ,my-default-font))
   (global-prettify-symbols-mode 1))
 
 ;; Customize proportional font"
