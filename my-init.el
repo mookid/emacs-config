@@ -74,7 +74,7 @@ Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit)
 or \\[abort-recursive-edit] (abort)), restore window configuration
 in current frame.
 Inspired by Erik Naggum's `recursive-edit-with-single-window'."
-  `(lambda ()
+  `(defun ,(cl-gensym "my-recursive-edit-command-") ()
      "See the documentation for `recursive-edit-preserving-window-config'."
      (interactive)
      (save-window-excursion
