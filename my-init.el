@@ -828,7 +828,6 @@ and use mouse2."
    ("C-h v" . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
    ("C-M-s" . swiper)
-   ("C-r" . ivy-resume)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
