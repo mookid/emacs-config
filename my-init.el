@@ -824,8 +824,8 @@ and use mouse2."
   :diminish ivy-mode
   :bind
   (("M-m" . counsel-M-x)
-   ("C-h f" . counsel-describe-function)
-   ("C-h v" . counsel-describe-variable)
+   ([remap describe-function] . counsel-describe-function)
+   ([remap describe-variable] . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
    ("C-M-s" . swiper)
    :map isearch-mode-map
@@ -1020,6 +1020,9 @@ and use mouse2."
       (key-chord-define-global "fj" 'find-file)
       (key-chord-define-global "f." 'repeat)
       (key-chord-define-global "fb" 'switch-to-buffer)
+      (key-chord-define-global "ha" 'apropos-command)
+      (key-chord-define-global "hc" 'describe-function)
+      (key-chord-define-global "hv" 'describe-variable)
       (with-eval-after-load 'recentf
         (key-chord-define-global "fh" 'recentf-open-files)))
     (my-key-chord-setup)))
