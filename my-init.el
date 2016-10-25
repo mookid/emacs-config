@@ -839,12 +839,12 @@ and use mouse2."
 
 (use-package projectile
   :diminish projectile-mode
+  :defer 5
   :init
-  (with-eval-after-load 'key-chord
-    (key-chord-define-global "pf" 'projectile-find-file)
-    (key-chord-define-global "pp" 'projectile-switch-project))
-  :config
   (progn
+    (with-eval-after-load 'key-chord
+      (key-chord-define-global "pf" 'projectile-find-file)
+      (key-chord-define-global "pp" 'projectile-switch-project))
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy)
