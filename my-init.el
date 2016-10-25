@@ -591,8 +591,8 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
 
 ;;; Isearch
-(define-key isearch-mode-map (kbd "<up>") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "<down>") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+(define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
 (define-key isearch-mode-map (kbd "<left>") 'isearch-delete-char)
 (define-key isearch-mode-map (kbd "<right>") 'isearch-yank-word-or-char)
 
