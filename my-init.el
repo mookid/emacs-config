@@ -98,7 +98,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map (kbd "M-=") 'align-regexp)
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
-(define-key global-map (kbd "C-S-o") 'other-window)
+(define-key global-map (kbd "M-`") 'other-window)
 (define-key global-map (kbd "M-S-<up>") 'split-window-below)
 (define-key global-map (kbd "M-S-<down>") 'delete-other-windows-vertically)
 (define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
