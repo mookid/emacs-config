@@ -1019,6 +1019,7 @@ and use mouse2."
       (key-chord-define-global "ha" 'apropos-command)
       (key-chord-define-global "hc" 'describe-function)
       (key-chord-define-global "hv" 'describe-variable)
+      (key-chord-define-global "hk" 'describe-key)
       (with-eval-after-load 'recentf
         (key-chord-define-global "fh" 'recentf-open-files)))
     (my-key-chord-setup)))
