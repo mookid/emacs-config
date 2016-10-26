@@ -736,12 +736,8 @@ and use mouse2."
 
 
 ;;; melpa packages
-
 (require 'fullframe)
 (require 'diminish)
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
 
 ;;; Use package
 (defvar use-package-verbose)
