@@ -1017,7 +1017,7 @@ and use mouse2."
       (key-chord-define-global "f." 'repeat)
       (key-chord-define-global "fb" 'switch-to-buffer)
       (key-chord-define-global "ha" 'apropos-command)
-      (key-chord-define-global "hc" 'describe-function)
+      (key-chord-define-global "hl" 'describe-function)
       (key-chord-define-global "hv" 'describe-variable)
       (key-chord-define-global "hk" 'describe-key)
       (with-eval-after-load 'recentf
