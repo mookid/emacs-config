@@ -21,6 +21,7 @@
 (setq backup-directory-alist
       `(("." . ,(expand-file-name "backups" user-emacs-directory))))
 
+(setq debug-on-error t)
 (let ((gc-cons-threshold most-positive-fixnum))
   (load-file (expand-file-name "my-init.el" user-emacs-directory))
   (let ((private-file (expand-file-name "private.el" user-emacs-directory)))
@@ -28,6 +29,7 @@
       (condition-case nil
           (load private-file)
         (error (message "Error during loading of private settings"))))))
+(setq debug-on-error nil)
 
 (provide 'init)
 ;;; init.el ends here
