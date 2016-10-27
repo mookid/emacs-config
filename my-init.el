@@ -334,6 +334,13 @@ class ')'."
   (add-hook 'shell-mode 'dirtrack-mode)
   (define-key global-map (kbd "<f1>") 'shell))
 
+(defun my-zap-to-char ()
+  "Case sensitive `zap-to-char'."
+  (interactive)
+  (let ((case-fold-search nil))
+    (call-interactively #'zap-to-char)))
+(define-key global-map [remap zap-to-char] 'my-zap-to-char)
+
 (defun my-previous-buffer ()
   "Not the current buffer but the buffer before."
   (other-buffer (current-buffer) 1))
