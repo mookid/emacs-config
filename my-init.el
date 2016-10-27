@@ -462,8 +462,9 @@ if its size is 1 line."
 
 ;; Show grep matches at the end of the *grep* buffer
 (with-eval-after-load 'grep
+  ;; from grep.el; keep in sync
   (add-to-list 'grep-mode-font-lock-keywords
-               '("^Grep[/a-zA-z]* finished \\(?:(\\([0-9+] matches found\\))\\).*"
+               '("^Grep[/a-zA-z]* finished \\(?:(\\([0-9+] match\\(es\\)? found\\))\\).*"
                  (0 '(face nil compilation-message nil help-echo nil mouse-face nil) t)
                  (1 compilation-info-face nil t)))
 
@@ -471,13 +472,14 @@ if its size is 1 line."
     (save-excursion
       (set-buffer buf)
       (let* ((count (- (count-lines (point-min) (point-max))
-                       6)))
+                       6))
+             (match (if (> count 1) "matches" "match")))
         (if (zerop count)
             ()
           (search-forward "Grep finished (matches found)" nil t)
           (replace-match (format "Grep finished (%d %s found)"
                                  count
-                                 "matches")
+                                 match)
                          nil t)))))
 
   (add-hook 'compilation-finish-functions 'my-count-grep-matches))
