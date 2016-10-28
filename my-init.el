@@ -373,21 +373,6 @@ With a prefix argument ARG, insert `file:' before."
   (insert (concat (if arg "file:" "")
                   (buffer-file-name (my-previous-buffer)))))
 
-(defun my-join-line (beg end)
-  "If the range BEG END is active, group it on one line.
-Otherwise, join the current line with the following."
-  (interactive "r")
-  (ignore beg end)
-  (cond ((null mark-active)
-         (delete-indentation 1))
-        (mark-active
-         (let ((beg (region-beginning))
-               (end (copy-marker (region-end))))
-           (goto-char beg)
-           (while (< (point) end)
-             (join-line 1))))))
-(define-key global-map (kbd "M-j") 'my-join-line)
-
 ;; Display page delimiter as a horizontal line
 ;; (aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
 
