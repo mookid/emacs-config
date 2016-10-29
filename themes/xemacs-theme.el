@@ -83,7 +83,7 @@
  '(highlight ((t (:background "darkseagreen2"))))
  '(info-node ((t (:italic t :bold t))))
  '(info-xref ((t (:bold t))))
- '(isearch ((t (:background "paleturquoise"))))
+ '(isearch ((t (:background "paleturquoise" :foreground "red"))))
  '(italic ((t (:italic t))))
  '(left-margin ((t (nil))))
  '(list-mode-item-selected ((t (:background "gray68"))))
