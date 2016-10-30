@@ -660,64 +660,66 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
 
 ;;; Isearch
-(define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
-(define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
-(define-key isearch-mode-map (kbd "<left>") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "<right>") 'isearch-repeat-forward)
+(use-package isearch
+  :diminish isearch-mode
+  :bind
+  (("C-M-s" . my-isearch-region)
+   :map
+   minibuffer-local-isearch-map
+   ("TAB" . isearch-complete-edit)
+   :map
+   isearch-mode-map
+   ("<up>" . isearch-ring-retreat)
+   ("<down>" . isearch-ring-advance)
+   ("<left>" . isearch-repeat-backward)
+   ("<right>" . isearch-repeat-forward)
+   ("C-p" . isearch-repeat-backward)
+   ("C-n" . isearch-repeat-forward)
+   ("TAB" . isearch-complete)
+   ("M-<" . my-isearch-beginning-of-buffer)
+   ("M->" . my-isearch-end-of-buffer)
+   ("<S-return>" . my-isearch-exit-leave-hl))
 
-(define-key isearch-mode-map (kbd "C-p") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "C-n") 'isearch-repeat-forward)
+  :init
+  (progn
+    (defun my-isearch-exit-leave-hl ()
+      "Exit search and leave extra match highlighting."
+      (interactive)
+      (let ((lazy-highlight-cleanup nil))
+        (when isearch-lazy-highlight
+          (isearch-lazy-highlight-new-loop (point-min) (point-max)))
+        (isearch-exit)))
 
-(define-key isearch-mode-map (kbd "TAB") 'isearch-complete)
-(define-key minibuffer-local-isearch-map (kbd "TAB") 'isearch-complete-edit)
+    (defun my-isearch-beginning-of-buffer ()
+      "Move isearch point to the beginning of the buffer."
+      (interactive)
+      (goto-char (point-min))
+      (isearch-repeat-forward))
 
-(define-key isearch-mode-map (kbd "M-<") 'my-isearch-beginning-of-buffer)
-(define-key isearch-mode-map (kbd "M->") 'my-isearch-end-of-buffer)
-(define-key global-map (kbd "C-M-s") 'my-isearch-region)
+    (defun my-isearch-end-of-buffer ()
+      "Move isearch point to the end of the buffer."
+      (interactive)
+      (goto-char (point-max))
+      (isearch-repeat-backward))
 
-(define-key isearch-mode-map (kbd "<S-return>") 'my-isearch-exit-leave-hl)
-
-(with-eval-after-load 'diminish
-  (diminish 'isearch-mode (string 32 #x279c)))
-
-(defun my-isearch-exit-leave-hl ()
-  "Exit search and leave extra match highlighting."
-  (interactive)
-  (let ((lazy-highlight-cleanup nil))
-    (when isearch-lazy-highlight
-      (isearch-lazy-highlight-new-loop (point-min) (point-max)))
-    (isearch-exit)))
-
-(defun my-isearch-beginning-of-buffer ()
-  "Move isearch point to the beginning of the buffer."
-  (interactive)
-  (goto-char (point-min))
-  (isearch-repeat-forward))
-
-(defun my-isearch-end-of-buffer ()
-  "Move isearch point to the end of the buffer."
-  (interactive)
-  (goto-char (point-max))
-  (isearch-repeat-backward))
-
-;; Exit isearch at the beginning of the matching string
-(add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
-(defun my-isearch-exit-beginning ()
-  "Go to the start of current isearch match.
+    ;; Exit isearch at the beginning of the matching string
+    (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
+    (defun my-isearch-exit-beginning ()
+      "Go to the start of current isearch match.
 Use in `isearch-mode-end-hook'."
-  (when (and isearch-forward
-             (number-or-marker-p isearch-other-end)
-             (not mark-active)
-             (not isearch-mode-end-hook-quit))
-    (goto-char isearch-other-end)))
+      (when (and isearch-forward
+                 (number-or-marker-p isearch-other-end)
+                 (not mark-active)
+                 (not isearch-mode-end-hook-quit))
+        (goto-char isearch-other-end)))
 
-(defun my-isearch-region (beg end)
-  "Send selection between BEG and END to isearch."
-  (interactive "r")
-  (deactivate-mark)
-  (kill-ring-save beg end)
-  (isearch-mode t nil nil nil)
-  (isearch-yank-pop))
+    (defun my-isearch-region (beg end)
+      "Send selection between BEG and END to isearch."
+      (interactive "r")
+      (deactivate-mark)
+      (kill-ring-save beg end)
+      (isearch-mode t nil nil nil)
+      (isearch-yank-pop))))
 
 
 ;;; Windows
@@ -1069,10 +1071,11 @@ and use mouse2."
   :diminish composable-mode
   :init (composable-mode 1)
   :bind
-  (:map composable-mode-map
-        ([remap upcase-region] . composable-upcase-region)
-        ([remap downcase-region] . composable-downcase-region)
-        ("M-;" . evilnc-comment-or-uncomment-lines)))
+  (:map
+   composable-mode-map
+   ([remap upcase-region] . composable-upcase-region)
+   ([remap downcase-region] . composable-downcase-region)
+   ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
   :init
