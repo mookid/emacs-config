@@ -808,8 +808,8 @@ and use mouse2."
 
 
 ;;; melpa packages
-(require 'fullframe)
-(require 'diminish)
+(use-package fullframe)
+(use-package diminish)
 
 (use-package eshell
   :defer t
@@ -920,7 +920,7 @@ and use mouse2."
   (progn
     (defvar common-lisp-hyperspec-root)
     (defvar inferior-lisp-program)
-    (require 'slime-autoloads)
+    (use-package slime-autoloads)
     (setq inferior-lisp-program "sbcl")
     (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
     (setq common-lisp-hyperspec-root "file:///Hyperspec/")))
@@ -978,7 +978,7 @@ and use mouse2."
 
 ;; Images
 (with-eval-after-load "image-mode"
-  (require 'image+)
+  (use-package image+)
   (defvar image-mode-map)
   (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
   (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))
