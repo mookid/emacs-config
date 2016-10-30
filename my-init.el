@@ -331,9 +331,10 @@ class ')'."
   (with-eval-after-load 'fullframe
     (fullframe ibuffer ibuffer-quit)))
 
-;; Use fullframe
-(with-eval-after-load 'fullframe
-  (fullframe list-packages quit-window))
+(use-package package
+  :init
+  (with-eval-after-load 'fullframe
+    (fullframe list-packages quit-window)))
 
 ;; Shell
 (progn
