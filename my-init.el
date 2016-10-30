@@ -520,93 +520,97 @@ if its size is 1 line."
 
 
 ;;; Mouse
+(use-package mouse
+  :bind
+  (("<S-mouse-1>" . my-acme-search-forward)
+   ("<S-mouse-3>" . my-acme-search-backward))
+  :config
+  (progn
+    (global-unset-key (kbd "<S-down-mouse-1>"))
+    (global-unset-key (kbd "<S-down-mouse-3>"))
 
-(require 'mouse)
-(global-unset-key (kbd "<S-down-mouse-1>"))
-(global-unset-key (kbd "<S-down-mouse-3>"))
-(define-key global-map (kbd "<S-mouse-1>") 'my-acme-search-forward)
-(define-key global-map (kbd "<S-mouse-3>") 'my-acme-search-backward)
+    (setq mouse-drag-copy-region t)
+    (setq mouse-yank-at-point t)
 
-(defun my-acme-search-forward (click)
-  "Move mouse to the next occurence of either the active region,
+    (defun my-acme-search-forward (click)
+      "Move mouse to the next occurence of either the active region,
 or the symbol at point, and highlight it."
-  (interactive "e")
-  (my-acme-search--driver click t))
+      (interactive "e")
+      (my-acme-search--driver click t))
 
-(defun my-acme-search-backward (click)
-  "Move mouse to the previous occurence of either the active
+    (defun my-acme-search-backward (click)
+      "Move mouse to the previous occurence of either the active
 region or the symbol at point, and highlight it."
-  (interactive "e")
-  (my-acme-search--driver click nil))
+      (interactive "e")
+      (my-acme-search--driver click nil))
 
-(defun my-acme-search--driver (click forward)
-  "Move mouse to another occurence of either the active region,
+    (defun my-acme-search--driver (click forward)
+      "Move mouse to another occurence of either the active region,
 or the symbol at point and highlight it.
 
 If FORWARD then move forward, otherwise move backward."
-  (let ((sym (if (region-active-p)
-                 (buffer-substring (mark) (point))
-               (mouse-set-point click)
-               (thing-at-point 'filename))))
-    (cond ((not (and sym (stringp sym))) nil)
-          ((file-readable-p sym)
-           (special-display-popup-frame (find-file-noselect sym nil nil nil)))
-          (t
-           (or (my-acme-search--move sym forward)
-               (let ((saved-point (point)))
-                 (message "Wrapped search")
-                 (if forward
-                     (goto-char (point-min))
-                   (goto-char (point-max)))
-                 (or (my-acme-search--move sym forward)
-                     (goto-char saved-point))))))
-    ;;Redisplay the screen if we search off the bottom of the window.
-    (unless (posn-at-point)
-      (universal-argument)
-      (recenter))
-    (my-move-mouse-to-point forward)))
+      (let ((sym (if (region-active-p)
+                     (buffer-substring (mark) (point))
+                   (mouse-set-point click)
+                   (thing-at-point 'filename))))
+        (cond ((not (and sym (stringp sym))) nil)
+              ((file-readable-p sym)
+               (special-display-popup-frame (find-file-noselect sym nil nil nil)))
+              (t
+               (or (my-acme-search--move sym forward)
+                   (let ((saved-point (point)))
+                     (message "Wrapped search")
+                     (if forward
+                         (goto-char (point-min))
+                       (goto-char (point-max)))
+                     (or (my-acme-search--move sym forward)
+                         (goto-char saved-point))))))
+        ;; Redisplay the screen if we search off the bottom of the window.
+        (unless (posn-at-point)
+          (universal-argument)
+          (recenter))
+        (my-move-mouse-to-point forward)))
 
-(defun my-move-mouse-to-point (forward)
-  "Move the mouse pointer to point in the current window."
-  (let* ((coords (posn-col-row (posn-at-point)))
-         (window-coords (window-inside-edges))
-         (offset (if forward -1 1))
-         (x (+ (car coords) (car window-coords) offset))
-         (y (+ (cdr coords) (cadr window-coords)
-               (if header-line-format -1 0))))
-    (set-mouse-position (selected-frame) x y)))
+    (defun my-move-mouse-to-point (forward)
+      "Move the mouse pointer to point in the current window."
+      (let* ((coords (posn-col-row (posn-at-point)))
+             (window-coords (window-inside-edges))
+             (offset (if forward -1 1))
+             (x (+ (car coords) (car window-coords) offset))
+             (y (+ (cdr coords) (cadr window-coords)
+                   (if header-line-format -1 0))))
+        (set-mouse-position (selected-frame) x y)))
 
-(defun my-acme-search--move (sym forward)
-  "Search from point for SYM and highlight it.
+    (defun my-acme-search--move (sym forward)
+      "Search from point for SYM and highlight it.
 
 If FORWARD then move forward, otherwise move backward.
 
 If there is no match, returns NIL."
-  (push-mark-command nil t)
-  (when (if forward
-            (search-forward sym nil t)
-          (search-backward sym nil t))
-    (my-acme-highlight-search sym forward)
-    t))
+      (push-mark-command nil t)
+      (when (if forward
+                (search-forward sym nil t)
+              (search-backward sym nil t))
+        (my-acme-highlight-search sym forward)
+        t))
 
-(defun my-acme-highlight-search (sym forward)
-  "Set the region to the current search result."
-  (set-mark (point))
-  (if forward
-      (search-backward sym nil t)
-    (search-forward sym nil t))
-  (exchange-point-and-mark))
+    (defun my-acme-highlight-search (sym forward)
+      "Set the region to the current search result."
+      (set-mark (point))
+      (if forward
+          (search-backward sym nil t)
+        (search-forward sym nil t))
+      (exchange-point-and-mark))))
 
-(setq mouse-drag-copy-region t)
-(setq mouse-yank-at-point t)
-
-(require 'mouse-copy)
-(define-key global-map (kbd "<C-down-mouse-1>") 'mouse-drag-secondary-pasting)
-(define-key global-map (kbd "<C-S-down-mouse-1>") 'mouse-drag-secondary-moving)
-
-(setq mouse-drag-copy-region t)
-(define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
-(define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)
+(use-package mouse-copy
+  :bind
+  (("<C-down-mouse-1>" . mouse-drag-secondary-pasting)
+   ("<C-S-down-mouse-1>" . mouse-drag-secondary-moving))
+  :config
+  (progn
+    (setq mouse-drag-copy-region t)
+    (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
+    (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)))
 
 
 ;;; Recentf
