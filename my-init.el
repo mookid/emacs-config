@@ -982,11 +982,13 @@ and use mouse2."
   (add-hook 'c-initialization-hook #'my-c-setup))
 
 ;; Images
-(with-eval-after-load "image-mode"
-  (use-package image+)
-  (defvar image-mode-map)
-  (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
-  (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))
+(use-package image-mode
+  :config
+  (use-package image+
+    :init
+    (progn
+      (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
+      (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))))
 
 (use-package yasnippet
   :defer t
