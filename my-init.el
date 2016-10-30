@@ -763,8 +763,13 @@ and use mouse2."
           (push (cons (event-basic-type start-event) (cdr start-event))
                 unread-command-events)))))
 
-(winner-mode 1)
-(windmove-default-keybindings)
+(use-package winner
+  :bind
+  (("S-<left>" . windmove-left)
+   ("S-<right>" . windmove-right)
+   ("S-<up>" . windmove-up)
+   ("S-<down>" . windmove-down))
+  :init (winner-mode 1))
 
 ;; unbind all keybindings starting with f2
 (mapc (lambda (keystr) (global-unset-key (kbd keystr)))
