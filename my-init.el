@@ -324,10 +324,10 @@ class ')'."
   (with-eval-after-load 'diminish
     (diminish 'visual-line-mode)))
 
-;; Use ibuffer
-(progn
-  (autoload 'ibuffer "ibuffer")
-  (define-key global-map (kbd "C-x C-b") 'ibuffer)
+(use-package ibuffer
+  :bind
+  ("C-x C-b" . ibuffer)
+  :config
   (with-eval-after-load 'fullframe
     (fullframe ibuffer ibuffer-quit)))
 
