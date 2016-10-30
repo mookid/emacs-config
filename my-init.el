@@ -292,7 +292,7 @@ class ')'."
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 
 ;; Setting up the order for recenter-top-bottom"
-(setq recenter-positions '(top middle bottom))
+(setq recenter-positions '(2 middle -2))
 
 ;; Pop mark
 (setq set-mark-command-repeat-pop t)
