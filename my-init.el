@@ -512,6 +512,12 @@ if its size is 1 line."
 
   (add-hook 'grep-mode-hook 'my-count-grep-matches-hook))
 
+ 
+;;; Use package
+(defvar use-package-verbose)
+(setq use-package-verbose t)
+(require 'use-package)
+
 
 ;;; Mouse
 
@@ -790,11 +796,6 @@ and use mouse2."
 ;;; melpa packages
 (require 'fullframe)
 (require 'diminish)
-
-;;; Use package
-(defvar use-package-verbose)
-(setq use-package-verbose t)
-(require 'use-package)
 
 (use-package eshell
   :defer t
