@@ -614,11 +614,15 @@ If there is no match, returns NIL."
 
 
 ;;; Recentf
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-saved-items 500)
-(setq recentf-max-menu-items 150)
-(define-key global-map (kbd "C-x C-h") 'recentf-open-files)
+(use-package recentf
+  :init
+  (recentf-mode +1)
+  :bind
+  (("C-x C-h" . recentf-open-files))
+  :config
+  (progn
+    (setq recentf-max-saved-items 500)
+    (setq recentf-max-menu-items 150)))
 
 
 ;;; Selective display
