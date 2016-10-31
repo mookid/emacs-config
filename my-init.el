@@ -394,7 +394,7 @@ With a prefix argument ARG, insert `file:' before."
     (setq dired-listing-switches "-alh")
     (set-face-attribute 'dired-ignored nil
                         :strike-through t
-                        :foreground "green")
+                        :foreground "gray40")
     (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
     (define-key dired-mode-map (kbd "C-x C-j") 'dired-jump)
     (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
