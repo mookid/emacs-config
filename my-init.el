@@ -483,11 +483,11 @@ if its size is 1 line."
              (match (if (> count 1) "matches" "match")))
         (if (zerop count)
             ()
-          (search-forward "Grep finished (matches found)" nil t)
-          (replace-match (format "Grep finished (%d %s found)"
-                                 count
-                                 match)
-                         nil t)))))
+          (goto-char (point-max))
+          (search-backward "Grep finished (matches found)" nil t)
+          (let ((msg (format "Grep finished (%d %s found)" count match)))
+            (replace-match msg nil t)
+            (message msg))))))
 
   (add-hook 'compilation-finish-functions 'my-count-grep-matches))
 
