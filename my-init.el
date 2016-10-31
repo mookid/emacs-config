@@ -224,9 +224,11 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (add-hook 'shell-mode-hook #'my-save-all-buffers)
 
 ;; VC
-(define-key global-map (kbd "<f7>") 'vc-diff)
-(define-key global-map (kbd "C-<f7>") 'vc-root-diff)
-(define-key global-map (kbd "S-<f7>") (my-goto-buffer *vc-diff*))
+(use-package vc
+  :init (define-key global-map (kbd "S-<f7>") (my-goto-buffer *vc-diff*))
+  :bind
+  (("<f7>" . vc-diff)
+   ("C-<f7>" . vc-root-diff)))
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
