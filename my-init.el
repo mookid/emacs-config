@@ -80,7 +80,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
        ,body
        (recursive-edit))))
 
-(define-key global-map (kbd "C-c 1")
+(define-key global-map (kbd "C-x 1")
   (my-recursive-edit-preserving-window-config
    (if (one-window-p 'ignore-minibuffer)
        (error "Current window is the only window in its frame")
@@ -640,7 +640,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (define-key isearch-mode-map (kbd "<S-return>") 'my-isearch-exit-leave-hl)
 
 (with-eval-after-load 'diminish
-  (diminish 'isearch-mode))
+  (diminish 'isearch-mode (string 32 #x279c)))
 
 (defun my-isearch-exit-leave-hl ()
   "Exit search and leave extra match highlighting."
