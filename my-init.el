@@ -24,7 +24,6 @@
 
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
-
 (setq initial-scratch-message nil)
 
 (add-to-list 'completion-styles 'partial-completion)
@@ -274,10 +273,9 @@ class ')'."
 ;; Setting up fonts
 (progn
   (defvar my-default-font nil "The font used almost everywhere.")
-  (setq my-default-font "DejaVu Sans Mono")
+  (setq my-default-font "Inconsolata")
   (set-default-coding-systems 'utf-8)
-  (add-to-list 'default-frame-alist `(font . ,my-default-font))
-  (global-prettify-symbols-mode 1))
+  (add-to-list 'default-frame-alist `(font . ,my-default-font)))
 
 ;; Customize proportional font"
 (set-face-attribute 'variable-pitch nil :family "DejaVu Sans")
@@ -340,6 +338,19 @@ class ')'."
   (let ((case-fold-search nil))
     (call-interactively #'zap-to-char)))
 (define-key global-map [remap zap-to-char] 'my-zap-to-char)
+
+(define-key global-map (kbd "C-.") 'my-jump-to-char)
+(let (my-jump-to-char-last-arg)
+  (defun my-jump-to-char ()
+    "Jump to the next occurence of CHAR."
+    (interactive)
+    (let ((char (if (eq last-repeatable-command 'my-jump-to-char)
+                    my-jump-to-char-last-arg
+                  (setq my-jump-to-char-last-arg (read-char "look for: ")))))
+      (forward-char 1)
+      (let ((case-fold-search t))
+        (search-forward (char-to-string char) nil t))
+      (backward-char 1))))
 
 (defun my-previous-buffer ()
   "Not the current buffer but the buffer before."
