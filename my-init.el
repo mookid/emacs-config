@@ -333,8 +333,8 @@ class ')'."
   (define-key global-map (kbd "<f1>") 'shell))
 
 (let (my-zap-to-char-last-arg)
-  "Case sensitive, repetition friendly version of `zap-to-char'."
   (defun my-zap-to-char ()
+    "Case sensitive, repetition friendly version of `zap-to-char'."
     (interactive)
     (let ((case-fold-search nil)
           (arg (if (eq last-repeatable-command 'my-zap-to-char)
