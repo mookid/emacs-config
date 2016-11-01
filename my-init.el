@@ -332,11 +332,15 @@ class ')'."
   (add-hook 'shell-mode 'dirtrack-mode)
   (define-key global-map (kbd "<f1>") 'shell))
 
-(defun my-zap-to-char ()
-  "Case sensitive `zap-to-char'."
-  (interactive)
-  (let ((case-fold-search nil))
-    (call-interactively #'zap-to-char)))
+(let (my-zap-to-char-last-arg)
+  "Case sensitive, repetition friendly version of `zap-to-char'."
+  (defun my-zap-to-char ()
+    (interactive)
+    (let ((case-fold-search nil)
+          (arg (if (eq last-repeatable-command 'my-zap-to-char)
+                   my-zap-to-char-last-arg
+                 (setq my-zap-to-char-last-arg (read-char "zap to char: ")))))
+      (zap-to-char 1 arg))))
 (define-key global-map [remap zap-to-char] 'my-zap-to-char)
 
 (define-key global-map (kbd "C-.") 'my-jump-to-char)
