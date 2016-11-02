@@ -872,8 +872,7 @@ and use mouse2."
   :init
   (progn
     (with-eval-after-load 'key-chord
-      (key-chord-define-global "pf" 'projectile-find-file)
-      (key-chord-define-global "pp" 'projectile-switch-project))
+      (key-chord-define-global "pf" 'projectile-find-file))
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy)
