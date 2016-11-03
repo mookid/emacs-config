@@ -109,6 +109,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "<M-down>") 'bury-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
+(define-key global-map (kbd "M-%") 'query-replace-regexp)
 
 (defun my-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
@@ -789,7 +790,9 @@ and use mouse2."
 (use-package anzu
   :init (global-anzu-mode 1)
   :diminish anzu-mode
-  :bind (("M-%" . anzu-query-replace-regexp)))
+  :bind
+  (([remap query-replace] . anzu-query-replace)
+   ([remap query-replace-regexp] . anzu-query-replace-regexp)))
 
 (use-package lispy
   :defer t
