@@ -136,8 +136,10 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
              "%-")))
 
 (progn
-  (make-face 'mode-line-vc-separator-face)
-  (make-face 'mode-line-vc-project-face)
+  (defface mode-line-vc-project-face
+    '((t (:inherit 'dired-directory)))
+    "Face for the mode-line project.")
+  (defalias 'mode-line-vc-project-face 'mode-line-vc-project-face)
   (defun my-mode-line-project ()
     (concat (if (fboundp 'projectile-project-name)
                 (concat (projectile-project-name) "|")
@@ -146,10 +148,8 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 
   (setcdr (assq 'vc-mode mode-line-format)
           '((:eval
-             (concat
-              (propertize "[" 'face 'mode-line-vc-separator-face)
-              (propertize (my-mode-line-project) 'face 'mode-line-vc-project-face)
-              (propertize "]" 'face 'mode-line-vc-separator-face))))))
+             (propertize (my-mode-line-project)
+                         'face 'mode-line-vc-project-face)))))
 
 ;; Jump to grep buffer
 (define-key global-map (kbd "<f10>") (my-goto-buffer *grep*))
