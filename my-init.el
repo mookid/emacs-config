@@ -288,8 +288,9 @@ class ')'."
 (defun my-kill-line-backward ()
   "The same as `kill-line', but backward (and reindent)."
   (interactive)
-  (kill-line 0)
-  (indent-according-to-mode))
+  (let ((start (point)))
+    (back-to-indentation)
+    (kill-region (point) start)))
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 
 ;; Setting up the order for recenter-top-bottom"
