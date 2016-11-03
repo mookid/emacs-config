@@ -424,8 +424,9 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Find file at point
-(autoload 'find-file-at-point "ffap")
-(define-key global-map [remap find-file] 'find-file-at-point)
+(use-package find-file-at-point
+  :bind
+  ([remap find-file] . find-file-at-point))
 
 ;;; Google search
 (defun my-prompt ()
