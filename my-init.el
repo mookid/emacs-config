@@ -367,7 +367,7 @@ class ')'."
   (interactive)
   (insert (file-name-sans-extension (buffer-name (my-previous-buffer)))))
 
-(defun my-insert-buffer-path (arg)
+(defun my-insert-buffer-file-name (arg)
   "Insert the previous buffer path.
 
 With a prefix argument ARG, insert `file:' before."
