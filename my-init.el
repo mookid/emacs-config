@@ -911,52 +911,26 @@ and use mouse2."
   :defer t
   :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error)))
 
-;; OCaml configuration
-(progn
-  (use-package tuareg
-    :mode ("\\.m[lf][ily]?$" . tuareg-mode)
-    :config
-    (progn
-      (define-key tuareg-mode-map (kbd "C-c .") nil)
-      (mapc (lambda (face)
-              (set-face-attribute face nil
-                                  :foreground 'unspecified
-                                  :weight 'unspecified
-                                  :inherit 'font-lock-keyword-face))
-            '(tuareg-font-lock-governing-face
-              tuareg-font-lock-module-face))
-      (set-face-attribute tuareg-font-lock-module-face nil
-                          :weight 'bold)))
-
-
-  (use-package ocp-indent
-    :defer t
-    :after tuareg
-    :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))
-
-  (use-package caml
-    :defer t
-    :after tuareg
-    :init
-    (progn
-      (mapc (lambda (face)
-              (when (string-prefix-p "caml-types" (face-name face))
-                (set-face-attribute face nil
-                                    :background "yellow"
-                                    :foreground "black")))
-            (face-list))))
-
-  (use-package merlin
-    :disabled t
-    :defer t
-    :after tuareg
-    :init
-    (progn
-      (defvar merlin-use-auto-complete-mode)
-      (setq merlin-use-auto-complete-mode 'easy)
-      (defvar company-backends)
-      (with-eval-after-load 'company
-        (add-to-list 'company-backends 'merlin-company-backend)))))
+(use-package tuareg
+  :mode ("\\.m[lf][ily]?$" . tuareg-mode)
+  :bind
+  (:map
+   tuareg-mode-map
+   ("C-c ." . nil)
+   ("C-c /" . nil))
+  :config
+  (progn
+    (mapc (lambda (face)
+            (set-face-attribute face nil
+                                :foreground 'unspecified
+                                :weight 'unspecified
+                                :inherit 'font-lock-keyword-face))
+          '(tuareg-font-lock-governing-face
+            tuareg-font-lock-module-face))
+    (set-face-attribute tuareg-font-lock-module-face nil
+                        :weight 'bold)
+    (use-package ocp-indent
+      :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
 
 ;; C configuration
 (progn
