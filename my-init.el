@@ -140,7 +140,6 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
   (defface mode-line-vc-project-face
     '((t (:inherit 'dired-directory)))
     "Face for the mode-line project.")
-  (defalias 'mode-line-vc-project-face 'mode-line-vc-project-face)
   (defun my-mode-line-project ()
     (concat (if (fboundp 'projectile-project-name)
                 (concat (projectile-project-name) "|")
@@ -931,6 +930,7 @@ and use mouse2."
     (set-face-attribute tuareg-font-lock-module-face nil
                         :weight 'bold)
     (use-package ocp-indent
+      :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
 
 ;; C configuration
