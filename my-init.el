@@ -1082,5 +1082,19 @@ and use mouse2."
         ("C-x C-q" . wgrep-change-to-wgrep-mode)
         ("C-c C-c" . wgrep-finish-edit)))
 
+(use-package hi-lock
+  :diminish "hl"
+  :init
+  (defun my-unhighlight-all ()
+    "Unhighlight all hi-lock highlighted symbols."
+    (interactive)
+    (unhighlight-regexp t))
+  :bind
+  (:map
+   hi-lock-map
+   ("C-z ." . highlight-symbol-at-point)
+   ("C-z r" . unhighlight-regexp)
+   ("C-z u" . my-unhighlight-all)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
