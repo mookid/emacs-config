@@ -88,7 +88,7 @@
  '(left-margin ((t (nil))))
  '(list-mode-item-selected ((t (:background "gray68"))))
  '(modeline ((t (:background "Gray80"))))
- '(modeline-buffer-id ((t (:foreground "blue4"))))
+ '(mode-line-buffer-id ((t (:foreground "blue4"))))
  '(modeline-mousable ((t (:background "Gray80" :foreground "firebrick"))))
  '(modeline-mousable-minor-mode ((t (:background "Gray80" :foreground "green4"))))
  '(paren-blink-off ((t (:foreground "gray80"))))
