@@ -914,12 +914,9 @@ and use mouse2."
 ;; OCaml configuration
 (progn
   (use-package tuareg
-    :defer t
-    :mode "\\.m[lf][ily]?$"
+    :mode ("\\.m[lf][ily]?$" . tuareg-mode)
     :config
     (progn
-      ;; (add-to-list 'auto-mode-alist
-      ;;              '("\\.m[lf][ily]?$" . tuareg-mode))
       (define-key tuareg-mode-map (kbd "C-c .") nil)
       (mapc (lambda (face)
               (set-face-attribute face nil
