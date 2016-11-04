@@ -11,6 +11,7 @@
 (defmacro my-ignore (&rest _body)
   "Ignore the arguments.  Use it to disable a part of the file."
   nil)
+(put 'my-ignore 'lisp-indent-function 'defun)
 
 (defmacro my-goto-buffer (buffer-name)
   "Defines a command to jump to the buffer designated by BUFFER-NAME."
@@ -118,22 +119,22 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 
 ;; Set mode line format
 (my-ignore
- (make-face 'mode-line-folder-face)
- (make-face 'mode-line-filename-face)
- (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
- (defvar mode-line-format)
- (setq mode-line-format
-       (list "  "
-             mode-line-position
-             '(:propertize
-               (:eval (when buffer-file-name
-                        (my-shorten-path default-directory)))
-               face mode-line-folder-face)
-             '(:propertize "%b" face mode-line-filename-face)
-             "%n  "
-             mode-line-modes
-             mode-line-misc-info
-             "%-")))
+  (make-face 'mode-line-folder-face)
+  (make-face 'mode-line-filename-face)
+  (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
+  (defvar mode-line-format)
+  (setq mode-line-format
+        (list "  "
+              mode-line-position
+              '(:propertize
+                (:eval (when buffer-file-name
+                         (my-shorten-path default-directory)))
+                face mode-line-folder-face)
+              '(:propertize "%b" face mode-line-filename-face)
+              "%n  "
+              mode-line-modes
+              mode-line-misc-info
+              "%-")))
 
 (progn
   (defface mode-line-vc-project-face
