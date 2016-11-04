@@ -407,20 +407,21 @@ With a prefix argument ARG, insert `file:' before."
 (load-theme 'xemacs t nil)
 
 
-;;; Dired
-(progn
-  (autoload 'dired-find-file "dired")
-  (defvar dired-mode-map)
-  (autoload 'dired-jump "dired-x")
-  (with-eval-after-load 'dired
+(use-package dired
+  :init
+  (use-package dired-x
+    :bind
+    (("M-<up>" . dired-jump)
+     :map dired-mode-map
+     ("M-<up>" . dired-jump)
+     ("C-x C-j" . dired-jump)))
+  :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
+  :config
+  (progn
     (setq dired-listing-switches "-alh")
     (set-face-attribute 'dired-ignored nil
                         :strike-through t
-                        :foreground "gray40")
-    (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
-    (define-key dired-mode-map (kbd "C-x C-j") 'dired-jump)
-    (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file))
-  (define-key global-map (kbd "M-<up>") 'dired-jump))
+                        :foreground "gray40")))
 
 
 ;;; Find file at point
