@@ -67,6 +67,23 @@
   (interactive)
   (kill-buffer nil))
 
+(defun my-yank (&optional arg)
+  "My replacement command for `yank'.
+
+With C-u C-u as prefix argument ARG, clone either the active
+region (if any) or the next sexp."
+  (interactive "*P")
+  (if (not (equal '(16) arg))
+      (yank arg)
+    (let (next-point)
+      (unless (region-active-p) (mark-sexp))
+      (setq next-point (region-end))
+      (kill-ring-save (mark) (point))
+      (goto-char next-point)
+      (newline)
+      (yank nil))))
+(define-key global-map [remap yank] 'my-yank)
+
 ;; Recursive edit preserving windows
 (defmacro my-recursive-edit-preserving-window-config (body)
   "*Return a command that enters a recursive edit after executing BODY.
