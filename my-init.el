@@ -276,7 +276,8 @@ class ')'."
   (defvar my-default-font nil "The font used almost everywhere.")
   (setq my-default-font "Inconsolata 14")
   (set-default-coding-systems 'utf-8)
-  (add-to-list 'default-frame-alist `(font . ,my-default-font)))
+  (with-eval-after-load 'init
+    (add-to-list 'default-frame-alist `(font . ,my-default-font))))
 
 ;; Customize proportional font"
 (set-face-attribute 'variable-pitch nil :family "DejaVu Sans")
@@ -1019,7 +1020,7 @@ and use mouse2."
   (progn
     (defun my-key-chord-setup ()
       (key-chord-mode 1)
-      (key-chord-define-global "jg" 'abort-recursive-edit)
+      (key-chord-define-global "fk" 'abort-recursive-edit)
       (key-chord-define-global "jk" 'execute-extended-command)
       (key-chord-define-global "fj" 'find-file)
       (key-chord-define-global "f." 'repeat)
