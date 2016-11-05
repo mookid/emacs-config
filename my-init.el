@@ -46,8 +46,8 @@
     (when (= orig-point (point))
       (back-to-indentation))))
 
-(global-set-key [remap move-beginning-of-line]
-                'my-move-beginning-of-line)
+(define-key global-map [remap move-beginning-of-line]
+  'my-move-beginning-of-line)
 
 
 (defun my-scroll-up (arg)
@@ -66,6 +66,7 @@
   "Kill buffer without confirmation."
   (interactive)
   (kill-buffer nil))
+(define-key global-map [remap kill-buffer] 'my-kill-buffer)
 
 (defun my-yank (&optional arg)
   "My replacement command for `yank'.
@@ -122,7 +123,6 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
 (define-key global-map (kbd "M-+") 'balance-windows) ;; M-S-=
 (define-key global-map (kbd "C-S-SPC") 'rectangle-mark-mode)
-(define-key global-map (kbd "C-x k") 'my-kill-buffer)
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "<M-down>") 'bury-buffer)
