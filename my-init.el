@@ -676,6 +676,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("<left>" . isearch-repeat-backward)
    ("<right>" . isearch-repeat-forward)
    ("C-p" . isearch-repeat-backward)
+   ("C-o" . isearch-occur)
    ("C-n" . isearch-repeat-forward)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
