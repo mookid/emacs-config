@@ -320,11 +320,12 @@ class ')'."
 (setq set-mark-command-repeat-pop t)
 
 ;; Wrap long lines
+(use-package diminish)
+
 (progn
   (global-visual-line-mode 1)
   (setcdr visual-line-mode-map nil)
-  (with-eval-after-load 'diminish
-    (diminish 'visual-line-mode)))
+  (diminish 'visual-line-mode))
 
 (use-package ibuffer
   :bind
@@ -528,7 +529,9 @@ if its size is 1 line."
 (use-package mouse
   :bind
   (("<S-mouse-1>" . my-acme-search-forward)
-   ("<S-mouse-3>" . my-acme-search-backward))
+   ("<S-mouse-3>" . my-acme-search-backward)
+   ("<C-wheel-up>" . text-scale-increase)
+   ("<C-wheel-down>" . text-scale-decrease))
   :config
   (progn
     (global-unset-key (kbd "<S-down-mouse-1>"))
@@ -612,10 +615,7 @@ If there is no match, returns NIL."
   (("<C-down-mouse-1>" . mouse-drag-secondary-pasting)
    ("<C-S-down-mouse-1>" . mouse-drag-secondary-moving))
   :config
-  (progn
-    (setq mouse-drag-copy-region t)
-    (define-key global-map (kbd "<C-wheel-up>") 'text-scale-increase)
-    (define-key global-map (kbd "<C-wheel-down>") 'text-scale-decrease)))
+  (setq mouse-drag-copy-region t))
 
 
 ;;; Recentf
@@ -727,49 +727,6 @@ Use in `isearch-mode-end-hook'."
 ;;; Windows
 (setq tags-add-tables nil)
 
-(defun my-mouse-drag-throw (start-event)
-  "Similar to `mouse-drag-throw' but only vertically.
-
-Throw the page according to a mouse drag triggering START-EVENT.
-
-To test this function, evaluate: (define-key global-map [down-mouse-2] \\='my-mouse-drag-throw)
-and use mouse2."
-  (interactive "e")
-  (require 'mouse-drag)
-  (save-selected-window
-    (let* ((start-posn (event-start start-event))
-           (start-window (posn-window start-posn))
-           (start-row (cdr (posn-col-row start-posn)))
-           event end row scroll-delta
-           have-scrolled
-           (scroll-col-delta 0))
-      (select-window start-window)
-      (track-mouse
-        ;; Don't change the mouse pointer shape while we drag.
-        (setq track-mouse 'dragging)
-        (while (progn
-                 (setq event (read-event)
-                       end (event-end event)
-                       row (cdr (posn-col-row end)))
-                 (or (mouse-movement-p event)
-                     (eq (car-safe event) 'switch-frame)))
-          (when (eq start-window (posn-window end))
-            (setq scroll-delta (mouse-drag-scroll-delta (- start-row row))))
-
-          (if (or (/= 0 scroll-delta)
-                  (/= 0 scroll-col-delta))
-              (progn
-                (setq have-scrolled t)
-                (mouse-drag-safe-scroll scroll-delta scroll-col-delta)
-                (mouse-drag-repeatedly-safe-scroll scroll-delta
-                                                   scroll-col-delta)))))
-      ;; If it was a click and not a drag, prepare to pass the event on.
-      ;; Is there a more correct way to reconstruct the event?
-      (if (and (not have-scrolled)
-               (mouse-drag-events-are-point-events-p start-posn end))
-          (push (cons (event-basic-type start-event) (cdr start-event))
-                unread-command-events)))))
-
 (use-package winner
   :bind
   (("S-<left>" . windmove-left)
@@ -815,7 +772,6 @@ and use mouse2."
 
 ;;; melpa packages
 (use-package fullframe)
-(use-package diminish)
 
 (use-package eshell
   :defer t
