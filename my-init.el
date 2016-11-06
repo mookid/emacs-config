@@ -81,7 +81,7 @@ region (if any) or the next sexp."
       (setq next-point (region-end))
       (kill-ring-save (mark) (point))
       (goto-char next-point)
-      (newline)
+      (newline nil t)
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
 
