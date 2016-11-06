@@ -22,6 +22,14 @@
        (interactive)
        (pop-to-buffer ,buffer-name-str))))
 
+;;; Key chords pre-setup
+(defvar my-key-chords-alist nil)
+(defun my-key-chord-define-global (key symb)
+  (push (cons key symb) my-key-chords-alist))
+(defun my-key-chord-setup ()
+  (key-chord-mode 1)
+  (mapc (lambda (pair) (key-chord-define-global (car pair) (cdr pair)))
+        my-key-chords-alist))
 
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
@@ -172,8 +180,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map (kbd "<f10>") (my-goto-buffer *grep*))
 
 ;; Find *scratch* buffer
-(with-eval-after-load 'key-chord
-  (key-chord-define-global "fs" (my-goto-buffer *scratch*)))
+(my-key-chord-define-global "fs" (my-goto-buffer *scratch*))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -869,8 +876,7 @@ Use in `isearch-mode-end-hook'."
   :defer 5
   :init
   (progn
-    (with-eval-after-load 'key-chord
-      (key-chord-define-global "pf" 'projectile-find-file))
+    (my-key-chord-define-global "pf" 'projectile-find-file)
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy)
@@ -1013,20 +1019,18 @@ Use in `isearch-mode-end-hook'."
 (use-package key-chord
   :init
   (progn
-    (defun my-key-chord-setup ()
-      (key-chord-mode 1)
-      (key-chord-define-global "fk" 'abort-recursive-edit)
-      (key-chord-define-global "jk" 'execute-extended-command)
-      (key-chord-define-global "fj" 'find-file)
-      (key-chord-define-global "f." 'repeat)
-      (key-chord-define-global "fb" 'switch-to-buffer)
-      (key-chord-define-global "ha" 'apropos-command)
-      (key-chord-define-global "hl" 'describe-function)
-      (key-chord-define-global "hv" 'describe-variable)
-      (key-chord-define-global "hk" 'describe-key)
-      (with-eval-after-load 'recentf
-        (key-chord-define-global "fh" 'recentf-open-files)))
-    (my-key-chord-setup)))
+    (my-key-chord-define-global "fk" 'abort-recursive-edit)
+    (my-key-chord-define-global "jk" 'execute-extended-command)
+    (my-key-chord-define-global "fj" 'find-file)
+    (my-key-chord-define-global "f." 'repeat)
+    (my-key-chord-define-global "fb" 'switch-to-buffer)
+    (my-key-chord-define-global "ha" 'apropos-command)
+    (my-key-chord-define-global "hl" 'describe-function)
+    (my-key-chord-define-global "hv" 'describe-variable)
+    (my-key-chord-define-global "hk" 'describe-key)
+    (my-key-chord-define-global "fh" 'recentf-open-files)
+    (with-eval-after-load 'init
+      (my-key-chord-setup))))
 
 (use-package composable
   :diminish composable-mode
