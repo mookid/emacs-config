@@ -34,6 +34,7 @@
  'xemacs
 
  '(default ((t (:background "gray80" :foreground "black"))))
+ '(fringe ((t (:background "gray80"))))
  ;; '(default ((t (:background "white" :foreground "black"))))
  '(cursor ((t (:background "Red3"))))
  '(border ((t (:foreground "black"))))
