@@ -167,7 +167,8 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
     (concat (if (fboundp 'projectile-project-name)
                 (concat (projectile-project-name) "|")
               nil)
-            (substring vc-mode (+ (or (string-match "Git-\\|Git:\\|SVN:\\|SVN-" vc-mode) -4) 4))))
+            (let ((backend (vc-backend (buffer-file-name))))
+              (substring vc-mode (+ (length backend) 2)))))
 
   (setcdr (assq 'vc-mode mode-line-format)
           '((:eval
