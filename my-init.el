@@ -1099,5 +1099,22 @@ Use in `isearch-mode-end-hook'."
    ("C-z r" . unhighlight-regexp)
    ("C-z u" . my-unhighlight-all)))
 
+(use-package popwin
+  :demand t
+  :init
+  (setq popwin:popup-window-height 0.4)
+  :config
+  (setq popwin:special-display-config
+        '(("*Miniedit Help*" :noselect t)
+          help-mode
+          (completion-list-mode :noselect t)
+          (compilation-mode :noselect t)
+          (grep-mode :noselect t)
+          (occur-mode :noselect t)
+          ("*Pp Macroexpand Output*" :noselect t)
+          "*Shell Command Output*"
+          (" *undo-tree*" :width 60 :position right)))
+  (popwin-mode +1))
+
 (provide 'my-init)
 ;;; my-init.el ends here
