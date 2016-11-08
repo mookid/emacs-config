@@ -26,10 +26,7 @@
 (defvar my-key-chords-alist nil)
 (defun my-key-chord-define-global (key symb)
   (push (cons key symb) my-key-chords-alist))
-(defun my-key-chord-setup ()
-  (key-chord-mode 1)
-  (mapc (lambda (pair) (key-chord-define-global (car pair) (cdr pair)))
-        my-key-chords-alist))
+
 
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
@@ -417,6 +414,7 @@ With a prefix argument ARG, insert `file:' before."
 
 
 (use-package dired
+  :demand t
   :init
   (use-package dired-x
     :bind
@@ -958,6 +956,10 @@ Use in `isearch-mode-end-hook'."
     (my-key-chord-define-global "hv" 'describe-variable)
     (my-key-chord-define-global "hk" 'describe-key)
     (my-key-chord-define-global "fh" 'recentf-open-files)
+    (defun my-key-chord-setup ()
+      (key-chord-mode +1)
+      (mapc (lambda (pair) (key-chord-define-global (car pair) (cdr pair)))
+            my-key-chords-alist))
     (with-eval-after-load 'init
       (my-key-chord-setup))))
 
