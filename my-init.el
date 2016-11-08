@@ -1114,7 +1114,10 @@ Use in `isearch-mode-end-hook'."
                  '("*eshell*"
                    :dedicated t
                    :position bottom
-                   :stick t)))
+                   :stick t))
+    (defun my-eshell-face-setup ()
+      (face-remap-add-relative 'default :foreground "white" :background "#363033"))
+    (add-hook 'eshell-mode-hook 'my-eshell-face-setup))
   :bind
   (("<f1>" . eshell)
    ("<M-f1>" . my-recursive-edit-eshell)))
