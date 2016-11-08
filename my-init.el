@@ -272,6 +272,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 
 ;; TAB completion
 (define-key global-map (kbd "TAB") 'completion-at-point)
+(setq completion-cycle-threshold 5)
 
 ;; Configuring parenthesis settings
 (progn
