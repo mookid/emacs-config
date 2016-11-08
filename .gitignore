@@ -15,3 +15,5 @@ semanticdb
 *.elc
 .emacs-custom.el
 .mc-lists.el
+
+elpa/archives/*
