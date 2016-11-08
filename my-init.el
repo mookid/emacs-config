@@ -684,7 +684,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("<left>" . isearch-repeat-backward)
    ("<right>" . isearch-repeat-forward)
    ("C-p" . isearch-repeat-backward)
-   ("C-o" . isearch-occur)
+   ("C-o" . my-isearch-occur)
    ("C-n" . isearch-repeat-forward)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
@@ -693,6 +693,11 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
   :init
   (progn
+    (fset 'my-isearch-occur
+          (my-recursive-edit-preserving-window-config
+            (progn
+              (delete-other-windows)
+              (call-interactively 'isearch-occur))))
     (defun my-isearch-exit-leave-hl ()
       "Exit search and leave extra match highlighting."
       (interactive)
