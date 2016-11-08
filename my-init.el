@@ -679,13 +679,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
-   ("<up>" . isearch-ring-retreat)
-   ("<down>" . isearch-ring-advance)
-   ("<left>" . isearch-repeat-backward)
-   ("<right>" . isearch-repeat-forward)
-   ("C-p" . isearch-repeat-backward)
    ("C-o" . my-isearch-occur)
-   ("C-n" . isearch-repeat-forward)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
