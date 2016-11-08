@@ -688,8 +688,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("C-n" . isearch-repeat-forward)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
-   ("M->" . my-isearch-end-of-buffer)
-   ("<S-return>" . my-isearch-exit-leave-hl))
+   ("M->" . my-isearch-end-of-buffer))
 
   :init
   (progn
@@ -698,13 +697,6 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
             (progn
               (delete-other-windows)
               (call-interactively 'isearch-occur))))
-    (defun my-isearch-exit-leave-hl ()
-      "Exit search and leave extra match highlighting."
-      (interactive)
-      (let ((lazy-highlight-cleanup nil))
-        (when isearch-lazy-highlight
-          (isearch-lazy-highlight-new-loop (point-min) (point-max)))
-        (isearch-exit)))
 
     (defun my-isearch-beginning-of-buffer ()
       "Move isearch point to the beginning of the buffer."
