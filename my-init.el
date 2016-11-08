@@ -1063,18 +1063,6 @@ Use in `isearch-mode-end-hook'."
    ("C-M-/" . mc/mark-all-like-this)
    ("C-M-<mouse-1>" . mc/add-cursor-on-click)))
 
-(use-package elscreen
-  :init
-  (progn
-    (elscreen-start)
-    (elscreen-set-prefix-key (kbd "<f8>"))
-    (setq elscreen-display-tab nil))
-  :bind
-  (("<M-prior>" . elscreen-previous)
-   ("<M-next>" . elscreen-next)
-   :map elscreen-map
-   ("<f8>" . elscreen-select-and-goto)))
-
 (use-package undo-tree
   :diminish undo-tree-mode
   :config (global-undo-tree-mode 1))
