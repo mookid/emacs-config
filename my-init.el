@@ -362,8 +362,7 @@ class ')'."
       (setq explicit-shell-file-name shell-file-name)
       (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
 
-  (add-hook 'shell-mode 'dirtrack-mode)
-  (define-key global-map (kbd "<f1>") 'shell))
+  (add-hook 'shell-mode 'dirtrack-mode))
 
 (let (my-zap-to-char-last-arg)
   (defun my-zap-to-char ()
@@ -783,11 +782,6 @@ Use in `isearch-mode-end-hook'."
 ;;; melpa packages
 (use-package fullframe)
 
-(use-package eshell
-  :defer t
-  :disabled t
-  :bind ("<f5>" . eshell))
-
 (use-package evil-nerd-commenter
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
          ("C-c c". evilnc-copy-and-comment-lines)))
@@ -1103,6 +1097,27 @@ Use in `isearch-mode-end-hook'."
           "*Shell Command Output*"
           (" *undo-tree*" :width 60 :position right)))
   (popwin-mode +1))
+
+(use-package eshell
+  :init
+  (progn
+    (fset 'my-recursive-edit-eshell
+          (my-recursive-edit-preserving-window-config
+            (unwind-protect
+                (progn
+                  (popwin-mode -1)
+                  (save-some-buffers)
+                  (delete-other-windows)
+                  (eshell))
+              (popwin-mode 1))))
+    (add-to-list 'popwin:special-display-config
+                 '("*eshell*"
+                   :dedicated t
+                   :position bottom
+                   :stick t)))
+  :bind
+  (("<f1>" . eshell)
+   ("<M-f1>" . my-recursive-edit-eshell)))
 
 (provide 'my-init)
 ;;; my-init.el ends here
