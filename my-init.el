@@ -1091,13 +1091,32 @@ Use in `isearch-mode-end-hook'."
                   (popwin-mode -1)
                   (save-some-buffers)
                   (delete-other-windows)
-                  (eshell))
+                  (my-eshell-here))
               (popwin-mode 1))))
+
+    (defun my-eshell-here ()
+      "Opens up a new shell in the directory associated with the
+current buffer's file, or switch to it when it already exists.
+
+The eshell buffer is renamed to match that directory to make
+multiple eshell windows easier."
+      (interactive)
+      (let* ((file-name (buffer-file-name))
+             (parent (if file-name
+                         (file-name-directory file-name)
+                       default-directory))
+             (eshell-buffer-name (concat "*eshell: " parent "*"))
+             (buf (get-buffer eshell-buffer-name)))
+        (if buf
+            (switch-to-buffer buf)
+          (eshell "*eshell: ``new''*")
+          (rename-buffer eshell-buffer-name))))
+
     (defun my-eshell-face-setup ()
       (face-remap-add-relative 'default :foreground "white" :background "#363033"))
     (add-hook 'eshell-mode-hook 'my-eshell-face-setup))
   :bind
-  (("<f1>" . eshell)
+  (("<f1>" . my-eshell-here)
    ("<M-f1>" . my-recursive-edit-eshell)))
 
 (use-package popwin
@@ -1116,10 +1135,9 @@ Use in `isearch-mode-end-hook'."
           ("*Pp Macroexpand Output*" :noselect t)
           "*Shell Command Output*"
           (" *undo-tree*" :width 60 :position right)
-          ("*eshell*"
-           :dedicated t
-           :position bottom
-           :stick t)))
+          ((lambda (buf)
+             (string-prefix-p "*eshell: " (buffer-name buffer)))
+           :dedicated t :position bottom :stick t)))
   (popwin-mode 1))
 
 (provide 'my-init)
