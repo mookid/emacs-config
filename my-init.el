@@ -135,7 +135,6 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map (kbd "C-S-SPC") 'rectangle-mark-mode)
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
-(define-key global-map (kbd "<M-down>") 'bury-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
 
@@ -1082,23 +1081,6 @@ Use in `isearch-mode-end-hook'."
    ("C-z r" . unhighlight-regexp)
    ("C-z u" . my-unhighlight-all)))
 
-(use-package popwin
-  :demand t
-  :init
-  (setq popwin:popup-window-height 0.4)
-  :config
-  (setq popwin:special-display-config
-        '(("*Miniedit Help*" :noselect t)
-          help-mode
-          (completion-list-mode :noselect t)
-          (compilation-mode :noselect t)
-          (grep-mode :noselect t)
-          (occur-mode :noselect t)
-          ("*Pp Macroexpand Output*" :noselect t)
-          "*Shell Command Output*"
-          (" *undo-tree*" :width 60 :position right)))
-  (popwin-mode +1))
-
 (use-package eshell
   :init
   (progn
@@ -1111,17 +1093,34 @@ Use in `isearch-mode-end-hook'."
                   (delete-other-windows)
                   (eshell))
               (popwin-mode 1))))
-    (add-to-list 'popwin:special-display-config
-                 '("*eshell*"
-                   :dedicated t
-                   :position bottom
-                   :stick t))
     (defun my-eshell-face-setup ()
       (face-remap-add-relative 'default :foreground "white" :background "#363033"))
     (add-hook 'eshell-mode-hook 'my-eshell-face-setup))
   :bind
   (("<f1>" . eshell)
    ("<M-f1>" . my-recursive-edit-eshell)))
+
+(use-package popwin
+  :demand t
+  :bind ("M-<down>" . popwin:close-popup-window)
+  :init
+  (setq popwin:popup-window-height 0.33)
+  :config
+  (setq popwin:special-display-config
+        '(("*Miniedit Help*" :noselect t)
+          help-mode
+          (completion-list-mode :noselect t)
+          (compilation-mode :noselect t :stick t)
+          (grep-mode :noselect t :stick t)
+          (occur-mode :noselect t :stick t :position right :width 0.35)
+          ("*Pp Macroexpand Output*" :noselect t)
+          "*Shell Command Output*"
+          (" *undo-tree*" :width 60 :position right)
+          ("*eshell*"
+           :dedicated t
+           :position bottom
+           :stick t)))
+  (popwin-mode 1))
 
 (provide 'my-init)
 ;;; my-init.el ends here
