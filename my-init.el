@@ -10,8 +10,8 @@
 ;;; Macros
 (defmacro my-ignore (&rest _body)
   "Ignore the arguments.  Use it to disable a part of the file."
+  (declare (indent defun))
   nil)
-(put 'my-ignore 'lisp-indent-function 'defun)
 
 (defmacro my-goto-buffer (buffer-name)
   "Defines a command to jump to the buffer designated by BUFFER-NAME."
@@ -101,6 +101,7 @@ Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit)
 or \\[abort-recursive-edit] (abort)), restore window configuration
 in current frame.
 Inspired by Erik Naggum's `recursive-edit-with-single-window'."
+  (declare (indent defun))
   `(defun ,(cl-gensym "my-recursive-edit-command-") ()
      "See the documentation for `recursive-edit-preserving-window-config'."
      (interactive)
@@ -110,9 +111,9 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 
 (define-key global-map (kbd "C-x 1")
   (my-recursive-edit-preserving-window-config
-   (if (one-window-p 'ignore-minibuffer)
-       (error "Current window is the only window in its frame")
-     (delete-other-windows))))
+    (if (one-window-p 'ignore-minibuffer)
+        (error "Current window is the only window in its frame")
+      (delete-other-windows))))
 
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
