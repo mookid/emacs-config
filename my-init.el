@@ -329,11 +329,15 @@ class ')'."
 (define-key global-map (kbd "C-S-u") 'upcase-region)
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 
-(defun my-kill-line-backward ()
-  "The same as `kill-line', but backward (and reindent)."
+(defvar my-back-to-indentation-fun 'back-to-indentation)
+
+(defun my-kill-line-backward (&optional my-back-to-indentation-fun)
+  "The same as `kill-line', but backward (and reindent).
+
+One can override the `back-to-indentation' function."
   (interactive)
   (let ((start (point)))
-    (back-to-indentation)
+    (funcall (or my-back-to-indentation-fun 'back-to-indentation))
     (kill-region (point) start)))
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 
@@ -1061,7 +1065,7 @@ multiple eshell windows easier."
              (eshell-buffer-name (concat "*eshell: " parent "*"))
              (buf (get-buffer eshell-buffer-name)))
         (if buf
-            (switch-to-buffer buf)
+            (pop-to-buffer buf)
           (eshell "*eshell: ``new''*")
           (rename-buffer eshell-buffer-name)))))
 
@@ -1069,6 +1073,7 @@ multiple eshell windows easier."
   (progn
     (defun my-eshell-face-setup ()
       (face-remap-add-relative 'default :foreground "white" :background "#363033"))
+    (set-face-foreground 'eshell-ls-directory "SkyBlue")
     (add-hook 'eshell-mode-hook 'my-eshell-face-setup)
 
     (defun eshell/gl ()
@@ -1082,7 +1087,18 @@ multiple eshell windows easier."
       (insert "git stash && git pull && git stash pop"))
 
     (defun eshell/q ()
-      (insert "exit")))
+      (insert "exit"))
+
+    (defun my-eshell-kill-line-backward ()
+      (interactive)
+      (my-kill-line-backward 'eshell-bol))
+
+    (defun my-eshell-keymap-setup ()
+      (and eshell-mode-map
+           (define-key eshell-mode-map
+             [remap my-kill-line-backward]
+             'my-eshell-kill-line-backward)))
+    (add-hook 'eshell-mode-hook #'my-eshell-keymap-setup))
   :bind
   (("<f1>" . my-eshell-here)
    ("<M-f1>" . my-recursive-edit-eshell)))
