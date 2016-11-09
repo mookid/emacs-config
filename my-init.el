@@ -1063,11 +1063,26 @@ multiple eshell windows easier."
         (if buf
             (switch-to-buffer buf)
           (eshell "*eshell: ``new''*")
-          (rename-buffer eshell-buffer-name))))
+          (rename-buffer eshell-buffer-name)))))
 
+  :config
+  (progn
     (defun my-eshell-face-setup ()
       (face-remap-add-relative 'default :foreground "white" :background "#363033"))
-    (add-hook 'eshell-mode-hook 'my-eshell-face-setup))
+    (add-hook 'eshell-mode-hook 'my-eshell-face-setup)
+
+    (defun eshell/gl ()
+      (insert "git log --all --decorate --oneline --graph --color -n 5"))
+
+    (defun eshell/gd ()
+      (insert "git diff --cached | cat")
+      (backward-char 14))
+
+    (defun eshell/up ()
+      (insert "git stash && git pull && git stash pop"))
+
+    (defun eshell/q ()
+      (insert "exit")))
   :bind
   (("<f1>" . my-eshell-here)
    ("<M-f1>" . my-recursive-edit-eshell)))
