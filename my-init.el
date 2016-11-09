@@ -91,6 +91,23 @@ region (if any) or the next sexp."
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
 
+(defun my-open-line-above (arg)
+  "Move to the previous line and then opens a line."
+  (interactive "p")
+  (beginning-of-line)
+  (open-line arg)
+  (indent-according-to-mode))
+(define-key global-map (kbd "C-S-o") 'my-open-line-above)
+
+(defun my-open-line-below (arg)
+  "Move to the next line and then opens a line."
+  (interactive "p")
+  (end-of-line)
+  (open-line arg)
+  (call-interactively 'next-line arg)
+  (indent-according-to-mode))
+(define-key global-map [remap open-line] 'my-open-line-below)
+
 ;; Recursive edit preserving windows
 (defmacro my-recursive-edit-preserving-window-config (body)
   "*Return a command that enters a recursive edit after executing BODY.
