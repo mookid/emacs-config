@@ -185,7 +185,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
                 (concat (projectile-project-name) "|")
               nil)
             (let ((backend (vc-backend (buffer-file-name))))
-              (substring vc-mode (+ (length backend) 2)))))
+              (substring vc-mode (+ (or (string-match "Git-\\|Git:\\|SVN:\\|SVN-" vc-mode) -4) 4)))))
 
   (setcdr (assq 'vc-mode mode-line-format)
           '((:eval
@@ -329,15 +329,13 @@ class ')'."
 (define-key global-map (kbd "C-S-u") 'upcase-region)
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 
-(defvar my-back-to-indentation-fun 'back-to-indentation)
-
-(defun my-kill-line-backward (&optional my-back-to-indentation-fun)
+(defun my-kill-line-backward (&optional arg)
   "The same as `kill-line', but backward (and reindent).
 
-One can override the `back-to-indentation' function."
+If non nil, ARG overrides the `back-to-indentation' function."
   (interactive)
   (let ((start (point)))
-    (funcall (or my-back-to-indentation-fun 'back-to-indentation))
+    (funcall (or arg 'back-to-indentation))
     (kill-region (point) start)))
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 
@@ -937,7 +935,7 @@ Use in `isearch-mode-end-hook'."
     (set-face-attribute tuareg-font-lock-module-face nil
                         :weight 'bold)
     (use-package ocp-indent
-��Ȫ��ȿ�΢�׺�      :demand t
+      :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
 
 ;; C configuration
@@ -1071,10 +1069,10 @@ multiple eshell windows easier."
 
   :config
   (progn
-    (defun my-eshell-face-setup ()
-      (face-remap-add-relative 'default :foreground "white" :background "#363033"))
-    (set-face-foreground 'eshell-ls-directory "SkyBlue")
     (add-hook 'eshell-mode-hook 'my-eshell-face-setup)
+    (defun my-eshell-face-setup ()
+      (face-remap-add-relative 'default :foreground "white" :background "#363033")
+      (set-face-foreground 'eshell-ls-directory "SkyBlue"))
 
     (defun eshell/gl ()
       (insert "git log --all --decorate --oneline --graph --color -n 5"))
