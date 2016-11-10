@@ -708,7 +708,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
-   ("C-o" . my-isearch-occur)
+   ("C-o" . isearch-occur)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
@@ -983,8 +983,6 @@ Use in `isearch-mode-end-hook'."
     (my-key-chord-define-global "fj" 'find-file)
     (my-key-chord-define-global "f." 'repeat)
     (my-key-chord-define-global "fb" 'switch-to-buffer)
-    (my-key-chord-define-global "ha" 'apropos-command)
-    (my-key-chord-define-global "hl" 'describe-function)
     (my-key-chord-define-global "hv" 'describe-variable)
     (my-key-chord-define-global "hk" 'describe-key)
     (my-key-chord-define-global "fh" 'recentf-open-files)
@@ -1129,7 +1127,7 @@ multiple eshell windows easier."
           (completion-list-mode :noselect t)
           (compilation-mode :noselect t :stick t)
           (grep-mode :noselect t :stick t)
-          (occur-mode :noselect t :stick t :position right :width 0.35)
+          (occur-mode :noselect t :stick t)
           ("*Pp Macroexpand Output*" :noselect t)
           "*Shell Command Output*"
           (" *undo-tree*" :width 60 :position right)
