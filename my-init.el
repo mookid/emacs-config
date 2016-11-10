@@ -328,8 +328,8 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   (setq show-paren-delay 0)
   (show-paren-mode t)
-  (defadvice show-paren-function
-      (after show-matching-paren-offscreen activate)
+
+  (defun my-show-matching-paren-offscreen (&rest _)
     "Show the matching line in the echo area.
 
 Has no effect if the character before point is not of the syntax
@@ -340,6 +340,8 @@ class ')'."
                                (char-equal (char-syntax cb) ?\) )
                                (blink-matching-open))))
       (when matching-text (message matching-text))))
+  (add-function :after (symbol-function 'show-paren-function)
+                #'my-show-matching-paren-offscreen)
   (set-face-background 'show-paren-match "turquoise"))
 
 (add-to-list 'default-frame-alist '(height . 30))
@@ -455,9 +457,6 @@ With a prefix argument ARG, insert `file:' before."
 
 ;; Display page delimiter as a horizontal line
 ;; (aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
-
-(define-key global-map (kbd "M-DEL") 'kill-whole-line)
-(advice-add 'kill-whole-line :before #'append-next-kill)
 
 
 ;;; Colors
