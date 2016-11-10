@@ -717,6 +717,17 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -1)))))
 
+;; Scroll to the results in occur buffers
+(progn
+  (defun my-occur-skip-gribberish-hook (&rest _)
+    (select-window (get-buffer-window "*Occur*"))
+    (goto-char (point-min))
+    (next-logical-line 1)
+    (recenter 0)
+    (select-window (next-window)))
+  (add-function :after (symbol-function 'occur)
+                #'my-occur-skip-gribberish-hook))
+
 
 ;;; Isearch
 (use-package isearch
