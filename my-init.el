@@ -73,6 +73,17 @@
   (kill-buffer nil))
 (define-key global-map [remap kill-buffer] 'my-kill-buffer)
 
+(defun my-other-window-kill-buffer ()
+  "Kill the buffer in the other window."
+  (interactive)
+  (let ((buf-name (buffer-name)))
+    (save-window-excursion
+      (select-window (next-window))
+      (if (string= buf-name (buffer-name))
+          (error "The next window dislays the same buffer!")
+        (kill-buffer (current-buffer))))))
+(define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
+
 (defun my-yank (&optional arg)
   "My replacement command for `yank'.
 
