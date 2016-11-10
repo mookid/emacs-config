@@ -1084,6 +1084,10 @@ multiple eshell windows easier."
     (defun eshell/up ()
       (insert "git stash && git pull && git stash pop"))
 
+    (defun eshell/amen ()
+      (insert "git commit --amend --no-edit")
+      (backward-char 17))
+
     (defun eshell/q ()
       (insert "exit"))
 
