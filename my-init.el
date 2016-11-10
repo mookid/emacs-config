@@ -190,7 +190,8 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (progn
   (defface mode-line-vc-project-face
     '((t (:inherit 'dired-directory)))
-    "Face for the mode-line project.")
+    "Face for the mode-line project."
+    :group 'mode-line)
   (defun my-mode-line-project ()
     (concat (if (fboundp 'projectile-project-name)
                 (concat (projectile-project-name) "|")
@@ -202,6 +203,17 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
           '((:eval
              (propertize (my-mode-line-project)
                          'face 'mode-line-vc-project-face)))))
+
+(progn
+  (defface mode-line-dots-face
+    '((t (:foreground "red")))
+    "Face for the dots at the end of the mode-line."
+    :group 'mode-line)
+  (let ((tail (memq 'mode-line-end-spaces mode-line-format)))
+    (when tail
+      (setcar tail
+              '((:eval (propertize "%-" 'face 'mode-line-dots-face))
+                mode-line-end-spaces)))))
 
 ;; Jump to grep buffer
 (define-key global-map (kbd "<f10>") (my-goto-buffer *grep*))
