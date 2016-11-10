@@ -749,7 +749,8 @@ Use in `isearch-mode-end-hook'."
       (interactive "r")
       (deactivate-mark)
       (kill-ring-save beg end)
-      (isearch-mode t nil nil nil)
+      (goto-char (region-beginning))
+      (isearch-mode t)
       (isearch-yank-pop))))
 
 
