@@ -36,6 +36,13 @@
 
 (setq minibuffer-depth-indicate-mode t)
 
+;; Easily name kbd macros
+(defun my-name-last-kbd-macro ()
+  (interactive)
+  (let ((name (read-string "Name for last kbd macro: " "test")))
+    (name-last-kbd-macro (intern name))
+    (kill-new name)))
+
 (defun my-last-2 (list)
   "Remove all the elements of LIST except the last two."
   (let ((lst list))
@@ -162,6 +169,8 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
+(define-key global-map (kbd "M-DEL") 'kill-whole-line)
+(define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
 
 (defun my-shorten-path (path)
   "Shortens the string representing a PATH for the modeline."
