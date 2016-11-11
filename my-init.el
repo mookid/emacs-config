@@ -1106,19 +1106,22 @@ multiple eshell windows easier."
     (defun eshell/gl ()
       (insert "git log --all --decorate --oneline --graph --color -n 5"))
 
-    (defun eshell/gd ()
-      (insert "git diff --cached | cat")
-      (backward-char 14))
+    (cl-flet ((cursor-aware-insert (beg end)
+                                   (insert beg)
+                                   (insert end)
+                                   (backward-char (length end))))
 
-    (defun eshell/up ()
-      (insert "git stash && git pull && git stash pop"))
+      (defun eshell/gd ()
+        (cursor-aware-insert "git diff " "--cached --color"))
 
-    (defun eshell/amen ()
-      (insert "git commit --amend --no-edit")
-      (backward-char 17))
+      (defun eshell/up ()
+        (insert "git stash && git pull && git stash pop"))
 
-    (defun eshell/q ()
-      (insert "exit"))
+      (defun eshell/amen ()
+        (cursor-aware-insert "git commit " "--amend --no-edit"))
+
+      (defun eshell/q ()
+        (insert "exit")))
 
     (defun my-eshell-kill-line-backward ()
       (interactive)
