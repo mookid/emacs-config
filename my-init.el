@@ -205,8 +205,7 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
     (concat (if (fboundp 'projectile-project-name)
                 (concat (projectile-project-name) "|")
               nil)
-            (let ((backend (vc-backend (buffer-file-name))))
-              (substring vc-mode (+ (or (string-match "Git-\\|Git:\\|SVN:\\|SVN-" vc-mode) -4) 4)))))
+            (substring vc-mode (+ (or (string-match "Git-\\|Git:\\|SVN:\\|SVN-" vc-mode) -4) 4))))
 
   (setcdr (assq 'vc-mode mode-line-format)
           '((:eval
@@ -847,8 +846,7 @@ Use in `isearch-mode-end-hook'."
   :disabled t
   :bind (("<f7>" . magit-status))
   :config
-  (progn
-    (fullframe magit-status magit-mode-quit-window)))
+  (fullframe magit-status magit-mode-quit-window))
 
 (use-package rainbow-delimiters
   :config
