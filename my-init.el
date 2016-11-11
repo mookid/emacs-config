@@ -22,6 +22,24 @@
        (interactive)
        (pop-to-buffer ,buffer-name-str))))
 
+(defmacro my-defun-wrap-recursive-edit (name arglist &optional docstring &rest body)
+  "Defines a command that enters a recursive edit after executing BODY.
+Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit)
+or \\[abort-recursive-edit] (abort)), restore window configuration
+in current frame.
+Inspired by Erik Naggum's `recursive-edit-with-single-window'."
+  (declare (indent defun))
+  (let ((interactive-decl (if (and (consp (car body))
+                                   (equal (caar body) 'interactive))
+                              (pop body)
+                            nil)))
+    `(defun ,name ,arglist
+       ,docstring
+       ,interactive-decl
+       (save-window-excursion
+         (progn ,@body)
+         (recursive-edit)))))
+
 ;;; Key chords pre-setup
 (defvar my-key-chords-alist nil)
 (defun my-key-chord-define-global (key symb)
@@ -126,26 +144,12 @@ region (if any) or the next sexp."
   (indent-according-to-mode))
 (define-key global-map [remap open-line] 'my-open-line-below)
 
-;; Recursive edit preserving windows
-(defmacro my-recursive-edit-preserving-window-config (body)
-  "*Return a command that enters a recursive edit after executing BODY.
-Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit)
-or \\[abort-recursive-edit] (abort)), restore window configuration
-in current frame.
-Inspired by Erik Naggum's `recursive-edit-with-single-window'."
-  (declare (indent defun))
-  `(defun ,(cl-gensym "my-recursive-edit-command-") ()
-     "See the documentation for `recursive-edit-preserving-window-config'."
-     (interactive)
-     (save-window-excursion
-       ,body
-       (recursive-edit))))
-
-(define-key global-map (kbd "C-x 1")
-  (my-recursive-edit-preserving-window-config
-    (if (one-window-p 'ignore-minibuffer)
-        (error "Current window is the only window in its frame")
-      (delete-other-windows))))
+(my-defun-wrap-recursive-edit my-delete-other-windows (&optional w)
+  "Just `delete-other-windows' wrapped in a recursive edit level."
+  (interactive)
+  (if (one-window-p 'ignore-minibuffer)
+      (error "Current window is the only window in its frame")
+    (delete-other-windows w)))
 
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
@@ -740,11 +744,10 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
   :init
   (progn
-    (fset 'my-isearch-occur
-          (my-recursive-edit-preserving-window-config
-            (progn
-              (delete-other-windows)
-              (call-interactively 'isearch-occur))))
+    (my-defun-wrap-recursive-edit my-isearch-occur ()
+      (interactive)
+      (delete-other-windows)
+      (call-interactively 'isearch-occur))
 
     (defun my-isearch-beginning-of-buffer ()
       "Move isearch point to the beginning of the buffer."
