@@ -223,9 +223,6 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
               '((:eval (propertize "%-" 'face 'mode-line-dots-face))
                 mode-line-end-spaces)))))
 
-;; Jump to grep buffer
-(define-key global-map (kbd "<f10>") (my-goto-buffer *grep*))
-
 ;; Find *scratch* buffer
 (my-key-chord-define-global "fs" (my-goto-buffer *scratch*))
 
@@ -279,7 +276,6 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 
 ;; VC
 (use-package vc
-  :init (define-key global-map (kbd "S-<f7>") (my-goto-buffer *vc-diff*))
   :bind
   (("<f7>" . vc-diff)
    ("C-<f7>" . vc-root-diff)))
@@ -542,7 +538,6 @@ if its size is 1 line."
 (setq compilation-scroll-output 'first-error)
 
 (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
-(define-key global-map (kbd "<f5>") (my-goto-buffer *compilation*))
 (define-key global-map (kbd "<f12>") 'recompile)
 (define-key global-map (kbd "C-<end>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
@@ -1078,16 +1073,6 @@ Use in `isearch-mode-end-hook'."
 (use-package eshell
   :init
   (progn
-    (fset 'my-recursive-edit-eshell
-          (my-recursive-edit-preserving-window-config
-            (unwind-protect
-                (progn
-                  (popwin-mode -1)
-                  (save-some-buffers)
-                  (delete-other-windows)
-                  (my-eshell-here))
-              (popwin-mode 1))))
-
     (defun my-eshell-here ()
       "Opens up a new shell in the directory associated with the
 current buffer's file, or switch to it when it already exists.
@@ -1095,6 +1080,7 @@ current buffer's file, or switch to it when it already exists.
 The eshell buffer is renamed to match that directory to make
 multiple eshell windows easier."
       (interactive)
+      (save-some-buffers t)
       (let* ((file-name (buffer-file-name))
              (parent (if file-name
                          (file-name-directory file-name)
@@ -1144,29 +1130,7 @@ multiple eshell windows easier."
              'my-eshell-kill-line-backward)))
     (add-hook 'eshell-mode-hook #'my-eshell-keymap-setup))
   :bind
-  (("<f1>" . my-eshell-here)
-   ("<M-f1>" . my-recursive-edit-eshell)))
-
-(use-package popwin
-  :demand t
-  :bind ("M-<down>" . popwin:close-popup-window)
-  :init
-  (setq popwin:popup-window-height 0.33)
-  :config
-  (setq popwin:special-display-config
-        '(("*Miniedit Help*" :noselect t)
-          help-mode
-          (completion-list-mode :noselect t)
-          (compilation-mode :noselect t :stick t)
-          (grep-mode :noselect t :stick t)
-          (occur-mode :noselect t :stick t)
-          ("*Pp Macroexpand Output*" :noselect t)
-          "*Shell Command Output*"
-          (" *undo-tree*" :width 60 :position right)
-          ((lambda (buf)
-             (string-prefix-p "*eshell: " (buffer-name buffer)))
-           :dedicated t :position bottom :stick t)))
-  (popwin-mode 1))
+  (("<f1>" . my-eshell-here)))
 
 (provide 'my-init)
 ;;; my-init.el ends here
