@@ -61,13 +61,6 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
     (name-last-kbd-macro (intern name))
     (kill-new name)))
 
-(defun my-last-2 (list)
-  "Remove all the elements of LIST except the last two."
-  (let ((lst list))
-    (while (cl-caddr lst)
-      (setq lst (cdr lst)))
-    lst))
-
 (defun my-move-beginning-of-line (_arg)
   "Redefinition of `move-beginning-of-line'."
   (interactive "^p")
@@ -176,11 +169,6 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "M-DEL") 'kill-whole-line)
 (define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
 
-(defun my-shorten-path (path)
-  "Shortens the string representing a PATH for the modeline."
-  (let ((r (string-join (cons "..." (my-last-2 (split-string path "/"))) "/")))
-    (if (< (length r) (length path)) r path)))
-
 ;; Set mode line format
 (defun my-mode-line-insert-symbol (sym place)
   "Insert a SYM to `mode-line-format' at PLACE, if it is not
@@ -237,7 +225,7 @@ to put SYM at the end of `mode-line-format'."
   (defvar my-mode-line-project
     '(:eval (let ((slot
                    (when (my-mode-line-project)
-                     (concat (my-mode-line-project)))))
+                     (my-mode-line-project))))
               (put-text-property 0 (length slot) 'face 'mode-line-buffer-id slot)
               slot)))
   (put 'my-mode-line-project 'risky-local-variable t)
