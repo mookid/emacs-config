@@ -222,6 +222,12 @@ to put SYM at the end of `mode-line-format'."
   (setq-default mode-line-buffer-identification
                 (propertized-buffer-identification "%b"))
 
+  (let ((lst mode-line-format))
+    (while (cdr lst)
+      (when (and (stringp (car lst))
+                 (string-match "  +" (car lst)))
+        (setcar lst " "))
+      (setq lst (cdr lst))))
   (cl-flet ((replace-string (new old seq)
                   (let ((cell (member old seq)))
                     (when cell (setcar cell new)))))
