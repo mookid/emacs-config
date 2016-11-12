@@ -906,15 +906,6 @@ Use in `isearch-mode-end-hook'."
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-flip-when-above t)))
 
-(use-package elisp-slime-nav
-  :defer t
-  :diminish elisp-slime-nav-mode
-  :bind (("C-\"" . elisp-slime-nav-find-elisp-thing-at-point))
-  :init
-  (progn
-    (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
-    (add-hook 'lisp-interaction-mode 'elisp-slime-nav-mode)))
-
 (use-package ivy
   :defer t
   :diminish ivy-mode
