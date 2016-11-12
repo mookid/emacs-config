@@ -1113,6 +1113,9 @@ multiple eshell windows easier."
       (defun eshell/gd ()
         (cursor-aware-insert "git diff " "--cached --color"))
 
+      (defun eshell/gs ()
+        (insert "git status"))
+
       (defun eshell/up ()
         (insert "git stash && git pull && git stash pop"))
 
