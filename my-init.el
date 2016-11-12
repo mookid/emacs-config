@@ -182,50 +182,72 @@ region (if any) or the next sexp."
     (if (< (length r) (length path)) r path)))
 
 ;; Set mode line format
-(my-ignore
-  (make-face 'mode-line-folder-face)
-  (make-face 'mode-line-filename-face)
-  (set-face-attribute 'mode-line-filename-face nil :weight 'bold)
-  (defvar mode-line-format)
-  (setq mode-line-format
-        (list "  "
-              mode-line-position
-              '(:propertize
-                (:eval (when buffer-file-name
-                         (my-shorten-path default-directory)))
-                face mode-line-folder-face)
-              '(:propertize "%b" face mode-line-filename-face)
-              "%n  "
-              mode-line-modes
-              mode-line-misc-info
-              "%-")))
+(defun my-mode-line-insert-symbol (sym place)
+  "Insert a SYM to `mode-line-format' at PLACE, if it is not
+already somewhere else.
+
+PLACE is another symbol after which to place the new one, or nil
+to put SYM at the end of `mode-line-format'."
+  (cond ((memq sym mode-line-format)
+         (message "mode-line-format: %S already there!" sym)
+         nil)
+        (t
+         (let ((after (if place
+                          (memq place mode-line-format)
+                        (last mode-line-format))))
+           (if after
+               (let ((cell (cons sym (cdr after))))
+                 (setcdr after cell))
+             (error "mode-line-format: %S not found" place))))))
 
 (progn
-  (defface mode-line-vc-project-face
-    '((t (:inherit 'dired-directory)))
-    "Face for the mode-line project."
-    :group 'mode-line)
+  (defvar my-mode-line-separator "|")
   (defun my-mode-line-project ()
-    (concat (if (fboundp 'projectile-project-name)
-                (concat (projectile-project-name) "|")
-              nil)
-            (substring vc-mode (+ (or (string-match "Git-\\|Git:\\|SVN:\\|SVN-" vc-mode) -4) 4))))
+    (when (buffer-file-name)
+      (let* ((project-root (when (fboundp 'projectile-project-name)
+                             (let ((name (projectile-project-name)))
+                               (when (and (stringp name)
+                                          (not (string= name "-")))
+                                 name))))
+             (sep1 (when project-root my-mode-line-separator))
+             (vc-status (when (stringp vc-mode)
+                          (substring vc-mode (+ (or (string-match "Git\\|SVN" vc-mode) -4) 4))))
+             (sep2 (when (and project-root vc-status) my-mode-line-separator))
+             (res (concat sep1 project-root sep2 vc-status)))
+        (when (> (length res) 0) res))))
 
-  (setcdr (assq 'vc-mode mode-line-format)
-          '((:eval
-             (propertize (my-mode-line-project)
-                         'face 'mode-line-vc-project-face)))))
+  (let ((vc-slot (assq 'vc-mode mode-line-format)))
+    (and (consp vc-slot) (setcdr vc-slot '(nil))))
+
+  (setq-default mode-line-buffer-identification
+                (propertized-buffer-identification "%b"))
+
+  (cl-flet ((replace-string (new old seq)
+                  (let ((cell (member old seq)))
+                    (when cell (setcar cell new)))))
+    (replace-string " " "   " mode-line-format)
+    (replace-string " " "  " mode-line-format))
+
+  (defvar my-mode-line-project
+    '(:eval (let ((slot
+                   (when (my-mode-line-project)
+                     (concat (my-mode-line-project)))))
+              (put-text-property 0 (length slot) 'face 'mode-line-buffer-id slot)
+              slot)))
+  (put 'my-mode-line-project 'risky-local-variable t)
+  (my-mode-line-insert-symbol 'my-mode-line-project
+                              'mode-line-buffer-identification))
 
 (progn
-  (defface mode-line-dots-face
+  (defface my-mode-line-dots-face
     '((t (:foreground "red")))
     "Face for the dots at the end of the mode-line."
     :group 'mode-line)
-  (let ((tail (memq 'mode-line-end-spaces mode-line-format)))
-    (when tail
-      (setcar tail
-              '((:eval (propertize "%-" 'face 'mode-line-dots-face))
-                mode-line-end-spaces)))))
+
+  (defvar my-mode-line-end '(:propertize "%-" face my-mode-line-dots-face)
+    "A mode line contruct for the end of the mode-line.")
+  (put 'my-mode-line-end 'risky-local-variable t)
+  (my-mode-line-insert-symbol 'my-mode-line-end nil))
 
 ;; Find *scratch* buffer
 (my-key-chord-define-global "fs" (my-goto-buffer *scratch*))
