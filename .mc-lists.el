@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         backward-sexp
+        completion-at-point
         composable-indent-region
         composable-save-region
         dabbrev-expand
