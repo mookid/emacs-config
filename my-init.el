@@ -358,8 +358,7 @@ class ')'."
                                (blink-matching-open))))
       (when matching-text (message matching-text))))
   (add-function :after (symbol-function 'show-paren-function)
-                #'my-show-matching-paren-offscreen)
-  (set-face-background 'show-paren-match "turquoise"))
+                #'my-show-matching-paren-offscreen))
 
 (add-to-list 'default-frame-alist '(height . 30))
 (add-to-list 'default-frame-alist '(width . 80))
@@ -371,9 +370,6 @@ class ')'."
   (set-default-coding-systems 'utf-8)
   (with-eval-after-load 'init
     (add-to-list 'default-frame-alist `(font . ,my-default-font))))
-
-;; Customize proportional font"
-(set-face-attribute 'variable-pitch nil :family "DejaVu Sans")
 
 ;; Upcase / downcase commands
 (define-key global-map (kbd "C-S-u") 'upcase-region)
@@ -973,19 +969,9 @@ Use in `isearch-mode-end-hook'."
    ("C-c ." . nil)
    ("C-c /" . nil))
   :config
-  (progn
-    (mapc (lambda (face)
-            (set-face-attribute face nil
-                                :foreground 'unspecified
-                                :weight 'unspecified
-                                :inherit 'font-lock-keyword-face))
-          '(tuareg-font-lock-governing-face
-            tuareg-font-lock-module-face))
-    (set-face-attribute tuareg-font-lock-module-face nil
-                        :weight 'bold)
-    (use-package ocp-indent
-      :demand t
-      :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
+  (use-package ocp-indent
+    :demand t
+    :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))))
 
 ;; C configuration
 (progn
@@ -1045,9 +1031,9 @@ Use in `isearch-mode-end-hook'."
   (progn
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
     (diff-hl-flydiff-mode 1)
-    (set-face-attribute 'diff-hl-insert nil :inverse-video t)
-    (set-face-attribute 'diff-hl-delete nil :inverse-video t)
-    (set-face-attribute 'diff-hl-change nil :inverse-video t))
+    (set-face-inverse-video 'diff-hl-insert t)
+    (set-face-inverse-video 'diff-hl-delete t)
+    (set-face-inverse-video 'diff-hl-change t))
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)))
