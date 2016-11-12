@@ -737,6 +737,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 ;; Scroll to the results in occur buffers
 (progn
   (defun my-occur-skip-gribberish-hook (&rest _)
+    (when isearch-mode (isearch-exit))
     (select-window (get-buffer-window "*Occur*"))
     (goto-char (point-min))
     (next-logical-line 1)
