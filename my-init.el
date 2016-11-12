@@ -229,6 +229,7 @@ region (if any) or the next sexp."
 
 ;; Find *scratch* buffer
 (my-key-chord-define-global "fs" (my-goto-buffer *scratch*))
+(my-key-chord-define-global "fm" (my-goto-buffer *Messages*))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
