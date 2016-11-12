@@ -1155,5 +1155,12 @@ multiple eshell windows easier."
   :bind
   (("<f1>" . my-eshell-here)))
 
+(use-package battery
+  :demand t
+  :config
+  (and (functionp battery-status-function)
+       (or (equal (cdr (assoc ?L (funcall battery-status-function))) "on-line")
+           (display-battery-mode))))
+
 (provide 'my-init)
 ;;; my-init.el ends here
