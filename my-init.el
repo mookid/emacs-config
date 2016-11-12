@@ -917,6 +917,8 @@ Use in `isearch-mode-end-hook'."
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
+   ("<next>" . ivy-scroll-up-command)
+   ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
   :config
   (progn
