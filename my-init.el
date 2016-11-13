@@ -1113,7 +1113,7 @@ multiple eshell windows easier."
                                    (backward-char (length end))))
 
       (defun eshell/gd ()
-        (cursor-aware-insert "git diff " "--cached --color"))
+        (cursor-aware-insert "git diff" " --cached --color"))
 
       (defun eshell/gs ()
         (insert "git status"))
@@ -1123,6 +1123,9 @@ multiple eshell windows easier."
 
       (defun eshell/amen ()
         (cursor-aware-insert "git commit " "--amend --no-edit"))
+
+      (defun eshell/reset ()
+        (cursor-aware-insert "git reset HEAD~0" " --hard"))
 
       (defun eshell/q ()
         (insert "exit")))
