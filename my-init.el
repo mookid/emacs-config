@@ -1078,7 +1078,7 @@ current buffer's file, or switch to it when it already exists.
 The eshell buffer is renamed to match that directory to make
 multiple eshell windows easier."
       (interactive)
-      (save-some-buffers t)
+      (run-hooks 'focus-out-hook)
       (let* ((file-name (buffer-file-name))
              (parent (if file-name
                          (file-name-directory file-name)
