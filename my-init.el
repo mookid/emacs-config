@@ -555,8 +555,7 @@ if its size is 1 line."
 (setq compilation-scroll-output 'first-error)
 
 (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
-(define-key global-map (kbd "<f12>") 'recompile)
-(define-key global-map (kbd "C-<end>") 'recompile)
+(define-key global-map (kbd "<f5>") 'recompile)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)
 
