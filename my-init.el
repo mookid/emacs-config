@@ -72,6 +72,15 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 (define-key global-map [remap move-beginning-of-line]
   'my-move-beginning-of-line)
 
+(defun my-next-beginning ()
+  (interactive)
+  (forward-word 2)
+  (backward-word 1))
+
+(defun my-previous-end ()
+  (interactive)
+  (backward-word 2)
+  (forward-word 1))
 
 (defun my-scroll-up (arg)
   "Forward to `scroll-up'."
@@ -170,6 +179,8 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)
+(define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
+(define-key global-map (kbd "C-S-<left>") 'my-previous-end)
 
 ;; Set mode line format
 (defun my-mode-line-insert-symbol (sym place)
