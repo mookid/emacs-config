@@ -301,7 +301,9 @@ to put SYM at the end of `mode-line-format'."
 (use-package vc
   :bind
   (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff)))
+   ("C-<f7>" . vc-root-diff)
+   :map diff-mode-map
+   ("<f7>" . previous-buffer)))
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
@@ -562,7 +564,9 @@ if its size is 1 line."
         (setq compilation-always-kill t)
         (setq compilation-scroll-output 'first-error))
       :bind
-      (("<f5>" . recompile)))
+      (("<f5>" . recompile)
+       :map compilation-mode-map
+       ("<f5>" . previous-buffer)))
 
     ;; Show grep matches at the end of the *grep* buffer
     (add-to-list 'grep-mode-font-lock-keywords
@@ -1128,10 +1132,10 @@ multiple eshell windows easier."
       (my-kill-line-backward 'eshell-bol))
 
     (defun my-eshell-keymap-setup ()
-      (and eshell-mode-map
-           (define-key eshell-mode-map
-             [remap my-kill-line-backward]
-             'my-eshell-kill-line-backward)))
+      (when eshell-mode-map
+        (define-key eshell-mode-map [remap my-kill-line-backward]
+          'my-eshell-kill-line-backward)
+        (define-key eshell-mode-map (kbd "<f1>") 'previous-buffer)))
     (add-hook 'eshell-mode-hook #'my-eshell-keymap-setup))
   :bind
   (("<f1>" . my-eshell-here)))
