@@ -1108,28 +1108,37 @@ multiple eshell windows easier."
     (defun eshell/gl ()
       (insert "git log --all --decorate --oneline --graph --color -n 5"))
 
-    (cl-flet ((cursor-aware-insert (beg end)
-                                   (insert beg)
-                                   (insert end)
-                                   (backward-char (length end))))
+    (defun my-cursor-aware-insert (beg end)
+      (insert beg)
+      (insert end)
+      (backward-char (length end)))
 
-      (defun eshell/gd ()
-        (cursor-aware-insert "git diff" " --cached --color"))
+    (defun eshell/cm ()
+      (cursor-aware-insert "git commit -am\"" "\" && git show"))
 
-      (defun eshell/gs ()
-        (insert "git status"))
+    (defun eshell/gcm ()
+      (insert "git checkout master"))
 
-      (defun eshell/up ()
-        (insert "git stash && git pull && git stash pop"))
+    (defun eshell/gd ()
+      (cursor-aware-insert "git diff" " --cached --color"))
 
-      (defun eshell/amen ()
-        (cursor-aware-insert "git commit " "--amend --no-edit"))
+    (defun eshell/gs ()
+      (insert "git status"))
 
-      (defun eshell/reset ()
-        (cursor-aware-insert "git reset HEAD~0" " --hard"))
+    (defun eshell/up ()
+      (insert "git stash && git pull && git stash pop"))
 
-      (defun eshell/q ()
-        (insert "exit")))
+    (defun eshell/amen ()
+      (cursor-aware-insert "git commit " "--amend --no-edit && git show"))
+
+    (defun eshell/gst ()
+      (insert "git status"))
+
+    (defun eshell/reset ()
+      (cursor-aware-insert "git reset HEAD~0" " --hard"))
+
+    (defun eshell/q ()
+      (insert "exit"))
 
     (defun my-eshell-kill-line-backward ()
       (interactive)
