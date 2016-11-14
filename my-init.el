@@ -168,6 +168,8 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
 (define-key global-map (kbd "M-DEL") 'kill-whole-line)
 (define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
+(define-key global-map (kbd "C-<prior>") 'previous-error)
+(define-key global-map (kbd "C-<next>") 'next-error)
 
 ;; Set mode line format
 (defun my-mode-line-insert-symbol (sym place)
@@ -543,47 +545,48 @@ if its size is 1 line."
 
 
 ;;; Compilation
-(defvar compilation-always-kill)
-(defvar compilation-scroll-output)
+(use-package grep
+  :init
+  (progn
+    (defun my-disable-jump-to-error ()
+      "Disable `compilation-auto-jump-to-next' local variable."
+      (kill-local-variable 'compilation-auto-jump-to-next))
+    (add-hook 'grep-mode-hook 'my-disable-jump-to-error))
 
-(defun my-disable-jump-to-error ()
-  "Disable `compilation-auto-jump-to-next' local variable."
-  (kill-local-variable 'compilation-auto-jump-to-next))
+  :config
+  (progn
+    (use-package compile
+      :init
+      (progn
+        (setq compilation-ask-about-save nil)
+        (setq compilation-always-kill t)
+        (setq compilation-scroll-output 'first-error))
+      :bind
+      (("<f5>" . recompile)))
 
-(setq compilation-ask-about-save nil)
-(setq compilation-always-kill t)
-(setq compilation-scroll-output 'first-error)
+    ;; Show grep matches at the end of the *grep* buffer
+    (add-to-list 'grep-mode-font-lock-keywords
+                 '("^Grep[/a-zA-z]* finished \\(?:(\\([0-9]+ match\\(es\\)? found\\))\\).*"
+                   (0 '(face nil compilation-message nil help-echo nil mouse-face nil) t)
+                   (1 compilation-info-face nil t)))
 
-(add-hook 'grep-mode-hook 'my-disable-jump-to-error)
-(define-key global-map (kbd "<f5>") 'recompile)
-(define-key global-map (kbd "C-<prior>") 'previous-error)
-(define-key global-map (kbd "C-<next>") 'next-error)
+    (defun my-count-grep-matches (buf _msg)
+      (save-excursion
+        (set-buffer buf)
+        (let* ((count (- (count-lines (point-min) (point-max))
+                         6))
+               (match (if (> count 1) "matches" "match")))
+          (unless (zerop count)
+            (goto-char (point-max))
+            (search-backward "Grep finished (matches found)" nil t)
+            (let ((msg (format "Grep finished (%d %s found)" count match)))
+              (replace-match msg nil t)
+              (message msg))))))
 
-;; Show grep matches at the end of the *grep* buffer
-(with-eval-after-load 'grep
-  ;; from grep.el; keep in sync
-  (add-to-list 'grep-mode-font-lock-keywords
-               '("^Grep[/a-zA-z]* finished \\(?:(\\([0-9]+ match\\(es\\)? found\\))\\).*"
-                 (0 '(face nil compilation-message nil help-echo nil mouse-face nil) t)
-                 (1 compilation-info-face nil t)))
+    (defun my-count-grep-matches-hook ()
+      (add-hook 'compilation-finish-functions 'my-count-grep-matches nil t))
 
-  (defun my-count-grep-matches (buf _msg)
-    (save-excursion
-      (set-buffer buf)
-      (let* ((count (- (count-lines (point-min) (point-max))
-                       6))
-             (match (if (> count 1) "matches" "match")))
-        (unless (zerop count)
-          (goto-char (point-max))
-          (search-backward "Grep finished (matches found)" nil t)
-          (let ((msg (format "Grep finished (%d %s found)" count match)))
-            (replace-match msg nil t)
-            (message msg))))))
-
-  (defun my-count-grep-matches-hook ()
-    (add-hook 'compilation-finish-functions 'my-count-grep-matches nil t))
-
-  (add-hook 'grep-mode-hook 'my-count-grep-matches-hook))
+    (add-hook 'grep-mode-hook 'my-count-grep-matches-hook)))
 
  
 ;;; Use package
