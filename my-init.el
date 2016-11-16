@@ -1125,13 +1125,13 @@ multiple eshell windows easier."
       (backward-char (length end)))
 
     (defun eshell/cm ()
-      (cursor-aware-insert "git commit -am\"" "\" && git show"))
+      (my-cursor-aware-insert "git commit -am\"" "\" && git show"))
 
     (defun eshell/gcm ()
       (insert "git checkout master"))
 
     (defun eshell/gd ()
-      (cursor-aware-insert "git diff" " --cached --color"))
+      (my-cursor-aware-insert "git diff" " --cached --color"))
 
     (defun eshell/gs ()
       (insert "git status"))
@@ -1140,13 +1140,13 @@ multiple eshell windows easier."
       (insert "git stash && git pull && git stash pop"))
 
     (defun eshell/amen ()
-      (cursor-aware-insert "git commit " "--amend --no-edit && git show"))
+      (my-cursor-aware-insert "git commit " "--amend --no-edit && git show"))
 
     (defun eshell/gst ()
       (insert "git status"))
 
     (defun eshell/reset ()
-      (cursor-aware-insert "git reset HEAD~0" " --hard"))
+      (my-cursor-aware-insert "git reset HEAD~0" " --hard"))
 
     (defun eshell/q ()
       (insert "exit"))
