@@ -1171,5 +1171,14 @@ multiple eshell windows easier."
        (or (equal (cdr (assoc ?L (funcall battery-status-function))) "on-line")
            (display-battery-mode))))
 
+(use-package macrostep
+  :bind
+  (:map
+   lisp-interaction-mode-map
+   ("C-c e" . macrostep-expand)
+   :map
+   emacs-lisp-mode-map
+   ("C-c e" . macrostep-expand)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
