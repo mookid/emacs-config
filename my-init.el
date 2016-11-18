@@ -1123,7 +1123,12 @@ multiple eshell windows easier."
         (if buf
             (pop-to-buffer buf)
           (eshell "*eshell: ``new''*")
-          (rename-buffer eshell-buffer-name)))))
+          (rename-buffer eshell-buffer-name))))
+
+    (defun my-cursor-aware-insert (beg end)
+      (insert beg)
+      (insert end)
+      (backward-char (length end))))
 
   :config
   (progn
@@ -1134,11 +1139,6 @@ multiple eshell windows easier."
 
     (defun eshell/gl ()
       (insert "git log --all --decorate --oneline --graph --color -n 5"))
-
-    (defun my-cursor-aware-insert (beg end)
-      (insert beg)
-      (insert end)
-      (backward-char (length end)))
 
     (defun eshell/cm ()
       (my-cursor-aware-insert "git commit -am\"" "\" && git show"))
