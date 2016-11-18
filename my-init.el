@@ -308,13 +308,31 @@ to put SYM at the end of `mode-line-format'."
 (add-hook 'focus-out-hook #'my-save-all-buffers)
 (add-hook 'shell-mode-hook #'my-save-all-buffers)
 
+;; Configure windows behaviour
+(progn
+  (setq display-buffer-alist
+        `(("\\*vc-diff\\*\\|\\*scratch*\\*"
+           (display-buffer-reuse-window))
+          (".*" (display-buffer-reuse-window
+                 display-buffer-in-side-window)
+           (window-height . 0.33))))
+
+  (defun my-unpop-to-buffer ()
+    "Reverts a pop-to-buffer.
+
+This command is in sync with the `display-buffer-alist' configuration."
+    (interactive)
+    (mapc (lambda (w) (quit-window nil w))
+          (window-at-side-list)))
+
+  (global-set-key (kbd "C-c q") 'my-unpop-to-buffer)
+  (my-key-chord-define-global "fq" 'my-unpop-to-buffer))
+
 ;; VC
 (use-package vc
   :bind
   (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff)
-   :map diff-mode-map
-   ("<f7>" . previous-buffer)))
+   ("C-<f7>" . vc-root-diff)))
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
@@ -575,9 +593,7 @@ if its size is 1 line."
         (setq compilation-always-kill t)
         (setq compilation-scroll-output 'first-error))
       :bind
-      (("<f5>" . recompile)
-       :map compilation-mode-map
-       ("<f5>" . previous-buffer)))
+      (("<f5>" . recompile)))
 
     ;; Show grep matches at the end of the *grep* buffer
     (add-to-list 'grep-mode-font-lock-keywords
@@ -1158,8 +1174,7 @@ multiple eshell windows easier."
     (defun my-eshell-keymap-setup ()
       (when eshell-mode-map
         (define-key eshell-mode-map [remap my-kill-line-backward]
-          'my-eshell-kill-line-backward)
-        (define-key eshell-mode-map (kbd "<f1>") 'previous-buffer)))
+          'my-eshell-kill-line-backward)))
     (add-hook 'eshell-mode-hook #'my-eshell-keymap-setup))
   :bind
   (("<f1>" . my-eshell-here)))
