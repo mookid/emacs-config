@@ -515,6 +515,7 @@ With a prefix argument ARG, insert `file:' before."
   (use-package dired-x
     :bind
     (("M-<up>" . dired-jump)
+     ("C-x C-j" . dired-jump)
      :map dired-mode-map
      ("M-<up>" . dired-jump)
      ("C-x C-j" . dired-jump)))
