@@ -41,7 +41,10 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
          (recursive-edit)))))
 
 ;;; Key chords pre-setup
-(defvar my-key-chords-alist nil)
+(defvar my-key-chords-alist nil
+  "An alist KEY-CHORDS -> COMMAND.
+
+KEY-CHORDS is string of length 2, COMMAND is a symbol.")
 (defun my-key-chord-define-global (key symb)
   (push (cons key symb) my-key-chords-alist))
 
@@ -73,11 +76,13 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
   'my-move-beginning-of-line)
 
 (defun my-next-beginning ()
+  "Go to the beginning of the next word."
   (interactive)
   (forward-word 2)
   (backward-word 1))
 
 (defun my-previous-end ()
+  "Go to the end of the previous word."
   (interactive)
   (backward-word 2)
   (forward-word 1))
@@ -847,6 +852,32 @@ Use in `isearch-mode-end-hook'."
 
 (with-eval-after-load 'init
   (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split))
+
+(defun my-delete-other-windows (&optional window)
+  "Delete other windows, including the side windows.
+
+See `delete-other-windows'."
+  (interactive)
+  (let ((windows-at-side (window-at-side-list)))
+    (if windows-at-side
+        (delete-side-window (car windows-at-side))
+      (delete-other-windows))))
+
+(defun my-unside-window (&optional window)
+  "When WINDOW is a side window, display it a proper window on the side.
+
+WINDOW defaults to the selected window."
+  (interactive)
+  (let ((window (or window (selected-window))))
+    (when (window--side-window-p window)
+      (let ((side-buffer (window-buffer window)))
+        (delete-window window)
+        (pop-to-buffer side-buffer
+                       '(display-buffer-in-side-window
+                         (side . right)
+                         (inhibit-same-window . t)))))))
+
+(define-key global-map [remap delete-other-windows] 'my-delete-other-windows)
 
 (defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
