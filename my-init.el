@@ -72,6 +72,9 @@ KEY-CHORDS is string of length 2, COMMAND is a symbol.")
     (when (= orig-point (point))
       (back-to-indentation))))
 
+(defun my-end-of-line-position ()
+  (save-excursion (end-of-line) (point)))
+
 (define-key global-map [remap move-beginning-of-line]
   'my-move-beginning-of-line)
 
