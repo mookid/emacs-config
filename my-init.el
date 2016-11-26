@@ -1106,7 +1106,8 @@ WINDOW defaults to the selected window."
     (set-face-inverse-video 'diff-hl-change t))
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
-   ("C-M-]" . diff-hl-next-hunk)))
+   ("C-M-]" . diff-hl-next-hunk)
+   ("S-<f7>" . diff-hl-revert-hunk)))
 
 (use-package multiple-cursors
   :bind
