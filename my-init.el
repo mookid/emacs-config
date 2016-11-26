@@ -1200,6 +1200,9 @@ multiple eshell windows easier."
     (defun eshell/reset ()
       (my-cursor-aware-insert "git reset HEAD~0" " --hard"))
 
+    (defun eshell/wip ()
+      (insert "git commit -am wip && git branch wip && git reset --hard HEAD~1"))
+
     (defun eshell/q ()
       (insert "exit"))
 
