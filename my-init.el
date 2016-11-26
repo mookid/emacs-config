@@ -857,16 +857,6 @@ Use in `isearch-mode-end-hook'."
 (with-eval-after-load 'init
   (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split))
 
-(defun my-delete-other-windows (&optional window)
-  "Delete other windows, including the side windows.
-
-See `delete-other-windows'."
-  (interactive)
-  (let ((windows-at-side (window-at-side-list)))
-    (if windows-at-side
-        (delete-side-window (car windows-at-side))
-      (delete-other-windows))))
-
 (defun my-unside-window (&optional window)
   "When WINDOW is a side window, display it a proper window on the side.
 
@@ -880,8 +870,6 @@ WINDOW defaults to the selected window."
                        '(display-buffer-in-side-window
                          (side . right)
                          (inhibit-same-window . t)))))))
-
-(define-key global-map [remap delete-other-windows] 'my-delete-other-windows)
 
 (defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
