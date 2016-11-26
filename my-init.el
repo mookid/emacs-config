@@ -339,7 +339,6 @@ This command is in sync with the `display-buffer-alist' configuration."
 
 ;; VC
 (use-package vc
-  :init (setq auto-revert-check-vc-info t)
   :bind
   (("<f7>" . vc-diff)
    ("C-<f7>" . vc-root-diff)))
@@ -1231,21 +1230,6 @@ multiple eshell windows easier."
    :map
    emacs-lisp-mode-map
    ("C-c e" . macrostep-expand)))
-
-(use-package follow
-  :init
-  (progn
-    (add-function :around (symbol-function 'recenter)
-                  'my-follow-mode-recenter-advice)
-
-    (defvar my-follow-recenter-reccall-flag nil)
-    (defun my-follow-mode-recenter-advice (old-fun &rest args)
-      (cond ((or my-follow-recenter-reccall-flag
-                 (not (symbol-value 'follow-mode)))
-             (apply old-fun args))
-            (t
-             (let ((my-follow-recenter-reccall-flag t))
-               (apply 'follow-recenter args)))))))
 
 (provide 'my-init)
 ;;; my-init.el ends here
