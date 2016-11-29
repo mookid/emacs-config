@@ -21,6 +21,7 @@
         lispy-space
         mc/vertical-align-with-space
         my-jump-to-char
+        my-kill-line-backward
         my-move-beginning-of-line
         my-next-beginning
         my-previous-end
