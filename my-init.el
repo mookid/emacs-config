@@ -1152,7 +1152,7 @@ multiple eshell windows easier."
       (insert "git log --all --decorate --oneline --graph --color -n 5"))
 
     (defun eshell/cm ()
-      (my-cursor-aware-insert "git commit -am\"" "\" && git show"))
+      (my-cursor-aware-insert "git commit -am\"" "\" && git show --name-only"))
 
     (defun eshell/gcm ()
       (insert "git checkout master"))
@@ -1167,7 +1167,7 @@ multiple eshell windows easier."
       (insert "git stash && git pull && git stash pop"))
 
     (defun eshell/amen ()
-      (my-cursor-aware-insert "git commit " "--amend --no-edit && git show"))
+      (my-cursor-aware-insert "git commit " "--amend --no-edit && git show --name-only"))
 
     (defun eshell/gst ()
       (insert "git status"))
