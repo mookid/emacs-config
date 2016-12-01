@@ -843,20 +843,6 @@ Use in `isearch-mode-end-hook'."
 (with-eval-after-load 'init
   (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split))
 
-(defun my-unside-window (&optional window)
-  "When WINDOW is a side window, display it a proper window on the side.
-
-WINDOW defaults to the selected window."
-  (interactive)
-  (let ((window (or window (selected-window))))
-    (when (window--side-window-p window)
-      (let ((side-buffer (window-buffer window)))
-        (delete-window window)
-        (pop-to-buffer side-buffer
-                       '(display-buffer-in-side-window
-                         (side . right)
-                         (inhibit-same-window . t)))))))
-
 (defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
   (interactive)
