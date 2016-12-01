@@ -884,6 +884,27 @@ WINDOW defaults to the selected window."
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
 
+(progn
+  (defun mwheel-scroll-all-function-all (func &optional arg)
+    (if (and scroll-all-mode arg)
+        (save-selected-window
+          (walk-windows
+           (lambda (win)
+             (select-window win)
+             (condition-case nil
+                 (funcall func arg)
+               (error nil)))))
+      (funcall func arg)))
+
+  (defun mwheel-scroll-all-scroll-up-all (&optional arg)
+    (mwheel-scroll-all-function-all 'scroll-up arg))
+
+  (defun mwheel-scroll-all-scroll-down-all (&optional arg)
+    (mwheel-scroll-all-function-all 'scroll-down arg))
+
+  (setq mwheel-scroll-up-function 'mwheel-scroll-all-scroll-up-all)
+  (setq mwheel-scroll-down-function 'mwheel-scroll-all-scroll-down-all))
+
 
 ;;; melpa packages
 (use-package fullframe)
