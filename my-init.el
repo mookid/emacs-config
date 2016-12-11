@@ -360,8 +360,7 @@ to put SYM at the end of `mode-line-format'."
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; TAB completion
-(define-key global-map (kbd "TAB") 'completion-at-point)
+;; completion
 (setq completion-cycle-threshold 5)
 
 ;; Configuring parenthesis settings
