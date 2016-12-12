@@ -500,7 +500,8 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Colors
-(load-theme 'xemacs t nil)
+;; (load-theme 'xemacs t nil)
+(load-theme 'high-contrast t nil)
 
 
 (use-package dired
