@@ -40,6 +40,13 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
          (progn ,@body)
          (recursive-edit)))))
 
+(cl-flet ((always-yes (&rest _) t))
+  (defun my-no-confirm (fun &rest args)
+    "Apply FUN to ARGS, skipping user confirmations."
+    (cl-letf (((symbol-function 'y-or-n-p) #'always-yes)
+              ((symbol-function 'yes-or-no-p) #'always-yes))
+      (apply fun args))))
+
 ;;; Key chords pre-setup
 (defvar my-key-chords-alist nil
   "An alist KEY-CHORDS -> COMMAND.
@@ -1084,11 +1091,15 @@ Use in `isearch-mode-end-hook'."
     (diff-hl-flydiff-mode 1)
     (set-face-inverse-video 'diff-hl-insert t)
     (set-face-inverse-video 'diff-hl-delete t)
-    (set-face-inverse-video 'diff-hl-change t))
+    (set-face-inverse-video 'diff-hl-change t)
+    (defun my-diff-hl-revert-hunk ()
+      "A version of `diff-hl-revert-hunk' without confirmation."
+      (interactive)
+      (my-no-confirm #'diff-hl-revert-hunk)))
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)
-   ("S-<f7>" . diff-hl-revert-hunk)))
+   ("S-<f7>" . my-diff-hl-revert-hunk)))
 
 (use-package multiple-cursors
   :bind
