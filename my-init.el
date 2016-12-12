@@ -8,11 +8,6 @@
 
 
 ;;; Macros
-(defmacro my-ignore (&rest _body)
-  "Ignore the arguments.  Use it to disable a part of the file."
-  (declare (indent defun))
-  nil)
-
 (defmacro my-goto-buffer (buffer-name)
   "Defines a command to jump to the buffer designated by BUFFER-NAME."
   (let* ((buffer-name-str (symbol-name buffer-name))
