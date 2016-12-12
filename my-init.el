@@ -144,23 +144,6 @@ region (if any) or the next sexp."
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
 
-(defun my-open-line-above (arg)
-  "Move to the previous line and then opens a line."
-  (interactive "p")
-  (beginning-of-line)
-  (open-line arg)
-  (indent-according-to-mode))
-(define-key global-map (kbd "C-S-o") 'my-open-line-above)
-
-(defun my-open-line-below (arg)
-  "Move to the next line and then opens a line."
-  (interactive "p")
-  (end-of-line)
-  (open-line arg)
-  (call-interactively 'next-line arg)
-  (indent-according-to-mode))
-(define-key global-map [remap open-line] 'my-open-line-below)
-
 (my-defun-wrap-recursive-edit my-delete-other-windows (&optional w)
   "Just `delete-other-windows' wrapped in a recursive edit level."
   (interactive)
@@ -368,6 +351,7 @@ to put SYM at the end of `mode-line-format'."
 (setq ediff-split-window-function 'split-window-horizontally)
 
 ;; completion
+(define-key global-map (kbd "C-M-/") 'completion-at-point)
 (setq completion-cycle-threshold 5)
 
 ;; Configuring parenthesis settings
@@ -1105,7 +1089,6 @@ Use in `isearch-mode-end-hook'."
   :bind
   (("C-M-." . mc/mark-next-like-this)
    ("C-M-," . mc/mark-previous-like-this)
-   ("C-M-/" . mc/mark-all-like-this)
    ("C-M-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package undo-tree
