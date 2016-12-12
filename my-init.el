@@ -1135,7 +1135,9 @@ multiple eshell windows easier."
         (if buf
             (pop-to-buffer buf)
           (eshell "*eshell: ``new''*")
-          (rename-buffer eshell-buffer-name))))
+          (rename-buffer eshell-buffer-name)))
+      (insert "ls")
+      (eshell-send-input))
 
     (defun my-cursor-aware-insert (beg end)
       (insert beg)
