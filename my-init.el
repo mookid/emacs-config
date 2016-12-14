@@ -314,7 +314,10 @@ to put SYM at the end of `mode-line-format'."
 (use-package vc
   :bind
   (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff)))
+   ("C-<f7>" . vc-root-diff))
+  :config
+  (progn
+    (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)))
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
@@ -1079,7 +1082,9 @@ Use in `isearch-mode-end-hook'."
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)
-   ("S-<f7>" . my-diff-hl-revert-hunk)))
+   ("S-<f7>" . my-diff-hl-revert-hunk))
+  :config
+  (add-function :before (symbol-function 'diff-hl-diff-goto-hunk) #'my-save-all-buffers))
 
 (use-package multiple-cursors
   :bind
