@@ -304,7 +304,9 @@ to put SYM at the end of `mode-line-format'."
 
 ;; Configure windows behaviour
 (setq display-buffer-alist
-      '((".*" (display-buffer-reuse-window
+      '(("*magit-.*" (display-buffer-at-bottom)
+         (window-height . 0.5))
+        (".*" (display-buffer-reuse-window
                display-buffer-at-bottom)
          (window-height . 0.33))))
 
