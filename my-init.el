@@ -176,6 +176,9 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
 (define-key global-map (kbd "C-S-<left>") 'my-previous-end)
 
+;; elisp
+(setq eval-expression-print-level nil)
+
 ;; Set mode line format
 (defun my-mode-line-insert-symbol (sym place)
   "Insert a SYM to `mode-line-format' at PLACE, if it is not
