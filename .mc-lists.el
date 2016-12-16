@@ -7,6 +7,7 @@
         backward-up-list
         completion-at-point
         composable-indent-region
+        composable-kill-region
         composable-save-region
         dabbrev-expand
         down-list
