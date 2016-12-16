@@ -910,7 +910,8 @@ Use in `isearch-mode-end-hook'."
 
 (use-package magit
   :defer t
-  :bind (("C-M-<f7>" . magit-status))
+  :bind (("C-M-<f7>" . magit-status)
+         ("C-c C-g" . magit-status))
   :config
   (fullframe magit-status magit-mode-quit-window))
 
