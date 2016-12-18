@@ -911,6 +911,8 @@ Use in `isearch-mode-end-hook'."
 (use-package magit
   :defer t
   :bind (("C-M-<f7>" . magit-status)
+         ("<f7>" . magit-diff-buffer-file)
+         ("<C-f7>" . magit-diff-working-tree)
          ("C-c C-g" . magit-status))
   :config
   (fullframe magit-status magit-mode-quit-window))
