@@ -910,10 +910,30 @@ Use in `isearch-mode-end-hook'."
 
 (use-package magit
   :defer t
-  :bind (("C-M-<f7>" . magit-status)
+  :init
+  (progn
+    (autoload 'magit-toplevel "magit")
+    (defun my-magit-frame-name ()
+      (concat "*magit " (magit-toplevel) " *"))
+    (defun my-magit-status-other-frame ()
+      "Switch to the frame corresponding to the current git
+repository.
+
+Create it if needed."
+      (interactive)
+      (let* ((buf (current-buffer))
+             (frame-name (my-magit-frame-name))
+             (found-frame (assoc-string frame-name (make-frame-names-alist)))
+             (frame (if found-frame
+                        (cdr found-frame)
+                      (make-frame `((name . ,frame-name))))))
+        (select-frame-set-input-focus frame)
+        (set-buffer buf)
+        (magit-status))))
+  :bind (("C-M-<f7>" . my-magit-status-other-frame)
+         ("C-c g" . my-magit-status-other-frame)
          ("<f7>" . magit-diff-buffer-file)
-         ("<C-f7>" . magit-diff-working-tree)
-         ("C-c C-g" . magit-status))
+         ("<C-f7>" . magit-diff-working-tree))
   :config
   (fullframe magit-status magit-mode-quit-window))
 
