@@ -915,19 +915,21 @@ Use in `isearch-mode-end-hook'."
     (autoload 'magit-toplevel "magit")
     (defun my-magit-frame-name ()
       (concat "*magit " (magit-toplevel) " *"))
-    (defun my-magit-status-other-frame ()
+    (defun my-magit-status-other-frame (backgroundp)
       "Switch to the frame corresponding to the current git
 repository.
 
-Create it if needed."
-      (interactive)
+Create it if needed. Unless BACKGROUNDP is non nil, the frame
+gets user focus."
+      (interactive "P")
       (let* ((buf (current-buffer))
              (frame-name (my-magit-frame-name))
              (found-frame (assoc-string frame-name (make-frame-names-alist)))
              (frame (if found-frame
                         (cdr found-frame)
                       (make-frame `((name . ,frame-name))))))
-        (select-frame-set-input-focus frame)
+        (if backgroundp (select-frame frame)
+          (select-frame-set-input-focus frame))
         (set-buffer buf)
         (magit-status))))
   :bind (("C-M-<f7>" . my-magit-status-other-frame)
