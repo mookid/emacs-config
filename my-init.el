@@ -307,7 +307,10 @@ to put SYM at the end of `mode-line-format'."
 
 ;; Configure windows behaviour
 (setq display-buffer-alist
-      '(("*magit-.*" (display-buffer-at-bottom)
+      '(("*magit-diff.*" (display-buffer-reuse-window
+                          display-buffer-at-bottom)
+         (window-height . 0.5))
+        ("*magit-.*" (display-buffer-at-bottom)
          (window-height . 0.5))
         ("*Messages*\\|*scratch*\\|*vc-diff*" (display-buffer-reuse-window))
         (".*" (display-buffer-reuse-window
