@@ -50,6 +50,18 @@ KEY-CHORDS is string of length 2, COMMAND is a symbol.")
 (defun my-key-chord-define-global (key symb)
   (push (cons key symb) my-key-chords-alist))
 
+;;; Recentf command
+(defvar my-recentf-command-list nil
+  "A list of versions of `recentf'-like functions.")
+(defun my-recentf-command ()
+  "Call the first element of `my-recentf-command-list'."
+  (interactive)
+  (let ((cmd (and my-recentf-command-list (car my-recentf-command-list))))
+    (unless (and cmd (fboundp cmd))
+      (error "my-recentf-command: undefined"))
+    (funcall cmd)))
+(my-key-chord-define-global "fh" 'my-recentf-command)
+
 
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
@@ -721,6 +733,7 @@ If there is no match, returns NIL."
   (("C-x C-h" . recentf-open-files))
   :config
   (progn
+    (push 'recentf-open-files my-recentf-command-list)
     (setq recentf-max-saved-items 500)
     (setq recentf-max-menu-items 150)))
 
@@ -992,6 +1005,7 @@ gets user focus."
   :config
   (progn
     (defvar ivy-use-virtual-buffers)
+    (push 'counsel-recentf my-recentf-command-list)
     (setq ivy-use-virtual-buffers t)))
 
 (use-package projectile
@@ -1081,7 +1095,6 @@ gets user focus."
     (my-key-chord-define-global "fb" 'switch-to-buffer)
     (my-key-chord-define-global "hv" 'describe-variable)
     (my-key-chord-define-global "hk" 'describe-key)
-    (my-key-chord-define-global "fh" 'recentf-open-files)
     (defun my-key-chord-setup ()
       (key-chord-mode +1)
       (mapc (lambda (pair) (key-chord-define-global (car pair) (cdr pair)))
