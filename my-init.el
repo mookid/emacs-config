@@ -1091,9 +1091,7 @@ gets user focus."
   :init
   (progn
     (my-key-chord-define-global "jk" 'execute-extended-command)
-    (my-key-chord-define-global "fj" 'bookmark-bmenu-list)
-    (my-key-chord-define-global "fk" 'find-file)
-    (my-key-chord-define-global "f." 'repeat)
+    (my-key-chord-define-global "fj" 'find-file)
     (my-key-chord-define-global "fb" 'switch-to-buffer)
     (my-key-chord-define-global "hv" 'describe-variable)
     (my-key-chord-define-global "hk" 'describe-key)
