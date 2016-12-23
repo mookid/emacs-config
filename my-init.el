@@ -997,6 +997,7 @@ gets user focus."
    ([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
+   ([remap switch-to-buffer] . ivy-switch-buffer)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
