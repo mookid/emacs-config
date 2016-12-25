@@ -1097,15 +1097,17 @@ gets user focus."
     (my-key-chord-define global-map "fb" 'switch-to-buffer)
     (my-key-chord-define global-map "hv" 'describe-variable)
     (my-key-chord-define global-map "hk" 'describe-key)
-    (defun my-key-chord-setup ()
-      (key-chord-mode +1)
-      (mapc (lambda (elt)
-              (pcase elt
-                (`(,keymap ,keys ,command)
-                 (key-chord-define keymap keys command))))
-            my-key-chords-alist))
-    (with-eval-after-load 'init
-      (my-key-chord-setup))))
+    (defun my-key-chord-setup (&rest _)
+      (with-eval-after-load 'init
+        (key-chord-mode +1)
+        (mapc (lambda (elt)
+                (pcase elt
+                  (`(,keymap ,keys ,command)
+                   (key-chord-define keymap keys command))))
+              my-key-chords-alist)))
+    (add-function :after (symbol-function 'my-key-chord-define)
+                  #'my-key-chord-setup)
+    (my-key-chord-setup)))
 
 (use-package composable
   :diminish composable-mode
