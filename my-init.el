@@ -44,11 +44,11 @@ Inspired by Erik Naggum's `recursive-edit-with-single-window'."
 
 ;;; Key chords pre-setup
 (defvar my-key-chords-alist nil
-  "An alist KEY-CHORDS -> COMMAND.
+  "A list of bindings. Each binding is a list of 3 elements: KEYS, KEYMAP, COMMAND.
 
-KEY-CHORDS is string of length 2, COMMAND is a symbol.")
-(defun my-key-chord-define-global (key symb)
-  (push (cons key symb) my-key-chords-alist))
+KEYS is string of length 2; KEYMAP defaults to the global map.")
+(defun my-key-chord-define (keymap keys command)
+  (push (list keymap keys command) my-key-chords-alist))
 
 ;;; Recentf command
 (defvar my-recentf-command-list nil
@@ -60,7 +60,7 @@ KEY-CHORDS is string of length 2, COMMAND is a symbol.")
     (unless (and cmd (fboundp cmd))
       (error "my-recentf-command: undefined"))
     (funcall cmd)))
-(my-key-chord-define-global "fh" 'my-recentf-command)
+(my-key-chord-define global-map "fh" 'my-recentf-command)
 
 
 ;;; Basic configuration
@@ -266,8 +266,8 @@ to put SYM at the end of `mode-line-format'."
   (my-mode-line-insert-symbol 'my-mode-line-end nil))
 
 ;; Find *scratch* buffer
-(my-key-chord-define-global "fs" (my-goto-buffer *scratch*))
-(my-key-chord-define-global "fm" (my-goto-buffer *Messages*))
+(my-key-chord-define global-map "fs" (my-goto-buffer *scratch*))
+(my-key-chord-define global-map "fm" (my-goto-buffer *Messages*))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -990,7 +990,7 @@ gets user focus."
     (setq company-tooltip-flip-when-above t)))
 
 (use-package ivy
-  :defer t
+  :demand t
   :diminish ivy-mode
   :bind
   (("M-m" . counsel-M-x)
@@ -1004,9 +1004,11 @@ gets user focus."
    ("<next>" . ivy-scroll-up-command)
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
-  :config
+  :init
   (progn
     (defvar ivy-use-virtual-buffers)
+    (with-eval-after-load 'ivy
+      (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
     (push 'counsel-recentf my-recentf-command-list)
     (setq ivy-use-virtual-buffers t)))
 
@@ -1015,7 +1017,7 @@ gets user focus."
   :defer 5
   :init
   (progn
-    (my-key-chord-define-global "pf" 'projectile-find-file)
+    (my-key-chord-define global-map "pf" 'projectile-find-file)
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy)
@@ -1090,14 +1092,17 @@ gets user focus."
 (use-package key-chord
   :init
   (progn
-    (my-key-chord-define-global "jk" 'execute-extended-command)
-    (my-key-chord-define-global "fj" 'find-file)
-    (my-key-chord-define-global "fb" 'switch-to-buffer)
-    (my-key-chord-define-global "hv" 'describe-variable)
-    (my-key-chord-define-global "hk" 'describe-key)
+    (my-key-chord-define global-map "jk" 'execute-extended-command)
+    (my-key-chord-define global-map "fj" 'find-file)
+    (my-key-chord-define global-map "fb" 'switch-to-buffer)
+    (my-key-chord-define global-map "hv" 'describe-variable)
+    (my-key-chord-define global-map "hk" 'describe-key)
     (defun my-key-chord-setup ()
       (key-chord-mode +1)
-      (mapc (lambda (pair) (key-chord-define-global (car pair) (cdr pair)))
+      (mapc (lambda (elt)
+              (pcase elt
+                (`(,keymap ,keys ,command)
+                 (key-chord-define keymap keys command))))
             my-key-chords-alist))
     (with-eval-after-load 'init
       (my-key-chord-setup))))
