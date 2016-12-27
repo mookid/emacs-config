@@ -66,6 +66,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 (setq initial-scratch-message nil)
+(setq frame-title-format (list "%b"))
 
 (add-to-list 'completion-styles 'partial-completion)
 
