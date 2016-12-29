@@ -12,6 +12,7 @@
         dabbrev-expand
         down-list
         forward-sexp
+        indent-for-tab-command
         kill-sexp
         lispy-braces
         lispy-brackets
