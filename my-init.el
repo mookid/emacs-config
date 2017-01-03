@@ -640,9 +640,14 @@ if its size is 1 line."
   (("<S-mouse-1>" . my-acme-search-forward)
    ("<S-mouse-3>" . my-acme-search-backward)
    ("<C-wheel-up>" . text-scale-increase)
-   ("<C-wheel-down>" . text-scale-decrease))
+   ("<C-wheel-down>" . text-scale-decrease)
+   ("C-c ." . my-delete-mouse-secondary-overlay))
   :config
   (progn
+    (defun my-delete-mouse-secondary-overlay ()
+      "Remove the overlay create by `mouse-drag-secondary'."
+      (interactive)
+      (delete-overlay mouse-secondary-overlay))
     (global-unset-key (kbd "<S-down-mouse-1>"))
     (global-unset-key (kbd "<S-down-mouse-3>"))
 
