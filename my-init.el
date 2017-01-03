@@ -788,6 +788,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   :diminish isearch-mode
   :bind
   (("C-M-s" . my-isearch-region)
+   ("M-o" . my-occur-region)
    :map
    minibuffer-local-isearch-map
    ("TAB" . isearch-complete-edit)
@@ -800,6 +801,12 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
   :init
   (progn
+    (defun my-occur-region (beg end)
+      "Send selection between BEG and END to occur."
+      (interactive "r")
+      (my-isearch-region beg end)
+      (call-interactively 'isearch-occur))
+
     (my-defun-wrap-recursive-edit my-isearch-occur ()
       (interactive)
       (delete-other-windows)
