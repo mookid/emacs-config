@@ -470,7 +470,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
     "Case sensitive, repetition friendly version of `zap-to-char'."
     (interactive)
     (let ((case-fold-search nil)
-          (arg (if (eq last-repeatable-command 'my-zap-to-char)
+          (arg (if (eq last-repeatable-command this-command)
                    my-zap-to-char-last-arg
                  (setq my-zap-to-char-last-arg (read-char "zap to char: ")))))
       (zap-to-char 1 arg))))
@@ -481,7 +481,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (defun my-jump-to-char ()
     "Jump to the next occurence of CHAR."
     (interactive)
-    (let ((char (if (eq last-repeatable-command 'my-jump-to-char)
+    (let ((char (if (eq last-repeatable-command this-command)
                     my-jump-to-char-last-arg
                   (setq my-jump-to-char-last-arg (read-char "look for: ")))))
       (forward-char 1)
