@@ -8,14 +8,22 @@
 
 
 ;;; Macros
-(defmacro my-goto-buffer (buffer-name)
-  "Defines a command to jump to the buffer designated by BUFFER-NAME."
-  (let* ((buffer-name-str (symbol-name buffer-name))
-         (command-name (intern (concat "my-goto-" buffer-name-str))))
-    `(defun ,command-name ()
-       ,(concat "Goto buffer `" buffer-name-str "'.")
-       (interactive)
-       (pop-to-buffer ,buffer-name-str))))
+(defun my-goto-buffer (buffername)
+  "Select buffer named BUFFERNAME."
+  (select-window (my-windows-vsplit))
+  (switch-to-buffer (get-buffer-create buffername))
+  (other-window 1))
+
+(defmacro my-window-command (key buffername)
+  "Defines a command to jump to the buffer designated by BUFFER-NAME and bind it."
+  (let ((command-name (intern (concat "my-goto-" buffername))))
+    `(progn
+       (defun ,command-name ()
+         ,(concat "Goto buffer `" buffername "'.")
+         (interactive)
+         (my-goto-buffer ,buffername))
+       (define-key global-map (kbd ,(concat "<f2> " key)) ',command-name)
+       (my-key-chord-define global-map ,(concat "`" key) ',command-name))))
 
 (defmacro my-defun-wrap-recursive-edit (name arglist &optional docstring &rest body)
   "Defines a command that enters a recursive edit after executing BODY.
@@ -266,9 +274,13 @@ to put SYM at the end of `mode-line-format'."
   (put 'my-mode-line-end 'risky-local-variable t)
   (my-mode-line-insert-symbol 'my-mode-line-end nil))
 
-;; Find *scratch* buffer
-(my-key-chord-define global-map "fs" (my-goto-buffer *scratch*))
-(my-key-chord-define global-map "fm" (my-goto-buffer *Messages*))
+;; Find some buffers buffer
+(my-window-command "g" "*grep*")
+(my-window-command "d" "*vc-diff*")
+(my-window-command "c" "*compilation*")
+(my-window-command "o" "*Occur*")
+(my-window-command "s" "*scratch*")
+(my-window-command "m" "*Messages*")
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
@@ -317,18 +329,6 @@ to put SYM at the end of `mode-line-format'."
   (save-some-buffers t))
 (add-hook 'focus-out-hook #'my-save-all-buffers)
 (add-hook 'shell-mode-hook #'my-save-all-buffers)
-
-;; Configure windows behaviour
-(setq display-buffer-alist
-      '(("*magit-diff.*" (display-buffer-reuse-window
-                          display-buffer-at-bottom)
-         (window-height . 0.5))
-        ("*magit-.*" (display-buffer-at-bottom)
-         (window-height . 0.5))
-        ("*Messages*\\|*scratch*\\|*vc-diff*" (display-buffer-reuse-window))
-        (".*" (display-buffer-reuse-window
-               display-buffer-at-bottom)
-         (window-height . 0.33))))
 
 ;; VC
 (use-package vc
@@ -861,12 +861,31 @@ Use in `isearch-mode-end-hook'."
    ("S-<down>" . windmove-down))
   :init (winner-mode 1))
 
+
+(defun my-2-windows-split (horizontalp)
+  (delete-other-windows)
+  (if horizontalp
+      (split-window-horizontally (- (/ (window-total-width) 3)))
+    (split-window-vertically (- (/ (window-total-height) 3)))))
+
+(defun my-windows-hsplit ()
+  "Split the current window horizontally."
+  (interactive)
+  (my-2-windows-split nil))
+
+(defun my-windows-vsplit ()
+  "Split the current window vertically."
+  (interactive)
+  (my-2-windows-split t))
+
 ;; unbind all keybindings starting with f2
 (mapc (lambda (keystr) (global-unset-key (kbd keystr)))
       '("<f2> 2" "<f2> b" "<f2> s"))
 
 (with-eval-after-load 'init
-  (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split))
+  (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
+  (define-key global-map (kbd "<f2> <f3>") 'my-windows-hsplit)
+  (define-key global-map (kbd "<f2> <f4>") 'my-windows-vsplit))
 
 (defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
