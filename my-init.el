@@ -983,7 +983,6 @@ gets user focus."
         (magit-status))))
   :bind (("C-M-<f7>" . my-magit-status-other-frame)
          ("C-c g" . my-magit-status-other-frame)
-         ("<f7>" . magit-diff-buffer-file)
          ("<C-f7>" . magit-diff-working-tree))
   :config
   (fullframe magit-status magit-mode-quit-window))
