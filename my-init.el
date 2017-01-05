@@ -95,8 +95,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (when (= orig-point (point))
       (back-to-indentation))))
 
-(defun my-end-of-line-position ()
-  (save-excursion (end-of-line) (point)))
+(defun my-end-of-line-position (&optional n)
+  (save-excursion (end-of-line n) (point)))
 
 (define-key global-map [remap move-beginning-of-line]
   'my-move-beginning-of-line)
@@ -131,10 +131,10 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (kill-buffer nil))
 (define-key global-map [remap kill-buffer] 'my-kill-buffer)
 
-(defun my-copy-line ()
+(defun my-copy-line (&optional n)
   "Copy from point to the end of line."
-  (interactive)
-  (copy-region-as-kill (point) (my-end-of-line-position)))
+  (interactive "p")
+  (copy-region-as-kill (point) (my-end-of-line-position n)))
 
 (defun my-other-window-kill-buffer ()
   "Kill the buffer in the other window."
