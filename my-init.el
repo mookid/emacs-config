@@ -134,7 +134,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (defun my-copy-line ()
   "Copy from point to the end of line."
   (interactive)
-  (debug)
   (copy-region-as-kill (point) (my-end-of-line-position)))
 
 (defun my-other-window-kill-buffer ()
