@@ -131,6 +131,12 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (kill-buffer nil))
 (define-key global-map [remap kill-buffer] 'my-kill-buffer)
 
+(defun my-copy-line ()
+  "Copy from point to the end of line."
+  (interactive)
+  (debug)
+  (copy-region-as-kill (point) (my-end-of-line-position)))
+
 (defun my-other-window-kill-buffer ()
   "Kill the buffer in the other window."
   (interactive)
@@ -191,6 +197,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-c /") 'rgrep)
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
 (define-key global-map (kbd "M-DEL") 'kill-whole-line)
+(define-key global-map (kbd "M-k") 'my-copy-line)
 (define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)
@@ -512,7 +519,12 @@ With a prefix argument ARG, insert `file:' before."
 
 ;;; Colors
 ;; (load-theme 'xemacs t nil)
-(load-theme 'high-contrast t nil)
+;; (load-theme 'high-contrast t nil)
+(progn
+  (load-theme 'light-soap t nil)
+  (set-cursor-color "red")
+  (set-face-background 'show-paren-match-face "turquoise")
+  (set-face-background 'secondary-selection "khaki"))
 
 
 (use-package dired
