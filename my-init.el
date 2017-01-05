@@ -521,7 +521,6 @@ With a prefix argument ARG, insert `file:' before."
 ;; (load-theme 'high-contrast t nil)
 (progn
   (load-theme 'light-soap t nil)
-  (set-cursor-color "red")
   (set-face-background 'show-paren-match-face "turquoise")
   (set-face-background 'secondary-selection "khaki"))
 
