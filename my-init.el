@@ -269,17 +269,6 @@ to put SYM at the end of `mode-line-format'."
   (my-mode-line-insert-symbol 'my-mode-line-project
                               'mode-line-buffer-identification))
 
-(progn
-  (defface my-mode-line-dots-face
-    '((t (:foreground "red")))
-    "Face for the dots at the end of the mode-line."
-    :group 'mode-line)
-
-  (defvar my-mode-line-end '(:propertize "%-" face my-mode-line-dots-face)
-    "A mode line contruct for the end of the mode-line.")
-  (put 'my-mode-line-end 'risky-local-variable t)
-  (my-mode-line-insert-symbol 'my-mode-line-end nil))
-
 ;; Find some buffers buffer
 (my-window-command "g" "*grep*")
 (my-window-command "d" "*vc-diff*")
