@@ -598,7 +598,8 @@ if its size is 1 line."
       (progn
         (setq compilation-ask-about-save nil)
         (setq compilation-always-kill t)
-        (setq compilation-scroll-output 'first-error))
+        (setq compilation-scroll-output 'first-error)
+        (setq compilation-auto-jump-to-first-error t))
       :bind
       (("<f5>" . recompile)))
 
