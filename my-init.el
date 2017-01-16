@@ -518,6 +518,8 @@ With a prefix argument ARG, insert `file:' before."
   :demand t
   :init
   (use-package dired-x
+    :config
+    (add-hook 'dired-mode-hook 'dired-omit-mode)
     :bind
     (("M-<up>" . dired-jump)
      ("C-x C-j" . dired-jump)
