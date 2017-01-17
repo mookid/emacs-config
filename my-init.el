@@ -1054,11 +1054,6 @@ gets user focus."
         expand-region-reset-fast-key "x"
         expand-region-fast-keys-enabled t))
 
-(use-package avy
-  :defer t
-  :bind (("C-z" . avy-goto-char-2))
-  :init (setq avy-all-windows 'all-frames))
-
 (use-package flycheck
   :defer t
   :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error)))
