@@ -25,24 +25,6 @@
        (define-key global-map (kbd ,(concat "<f2> " key)) ',command-name)
        (my-key-chord-define global-map ,(concat "`" key) ',command-name))))
 
-(defmacro my-defun-wrap-recursive-edit (name arglist &optional docstring &rest body)
-  "Defines a command that enters a recursive edit after executing BODY.
-Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit)
-or \\[abort-recursive-edit] (abort)), restore window configuration
-in current frame.
-Inspired by Erik Naggum's `recursive-edit-with-single-window'."
-  (declare (indent defun))
-  (let ((interactive-decl (if (and (consp (car body))
-                                   (equal (caar body) 'interactive))
-                              (pop body)
-                            nil)))
-    `(defun ,name ,arglist
-       ,docstring
-       ,interactive-decl
-       (save-window-excursion
-         (progn ,@body)
-         (recursive-edit)))))
-
 (cl-flet ((always-yes (&rest _) t))
   (defun my-no-confirm (fun &rest args)
     "Apply FUN to ARGS, skipping user confirmations."
@@ -164,13 +146,6 @@ region (if any) or the next sexp."
       (newline nil t)
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
-
-(my-defun-wrap-recursive-edit my-delete-other-windows (&optional w)
-  "Just `delete-other-windows' wrapped in a recursive edit level."
-  (interactive)
-  (if (one-window-p 'ignore-minibuffer)
-      (error "Current window is the only window in its frame")
-    (delete-other-windows w)))
 
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
@@ -801,7 +776,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
-   ("C-o" . isearch-occur)
+   ("C-o" . my-isearch-occur)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
@@ -813,11 +788,11 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive "r")
       (when (region-active-p)
         (my-isearch-region beg end)
-        (call-interactively 'isearch-occur)))
+        (call-interactively 'my-isearch-occur)))
 
-    (my-defun-wrap-recursive-edit my-isearch-occur ()
+    (defun my-isearch-occur ()
       (interactive)
-      (delete-other-windows)
+      (my-2-windows-split t)
       (call-interactively 'isearch-occur))
 
     (defun my-isearch-beginning-of-buffer ()
