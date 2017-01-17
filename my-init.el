@@ -811,8 +811,9 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
     (defun my-occur-region (beg end)
       "Send selection between BEG and END to occur."
       (interactive "r")
-      (my-isearch-region beg end)
-      (call-interactively 'isearch-occur))
+      (when (region-active-p)
+        (my-isearch-region beg end)
+        (call-interactively 'isearch-occur)))
 
     (my-defun-wrap-recursive-edit my-isearch-occur ()
       (interactive)
@@ -845,11 +846,13 @@ Use in `isearch-mode-end-hook'."
     (defun my-isearch-region (beg end)
       "Send selection between BEG and END to isearch."
       (interactive "r")
-      (deactivate-mark)
-      (kill-ring-save beg end)
-      (goto-char (region-beginning))
-      (isearch-mode t)
-      (isearch-yank-pop))))
+      (when (region-active-p)
+        (deactivate-mark)
+        (kill-ring-save beg end)
+        (goto-char (region-beginning))
+        (isearch-mode t)
+        (isearch-yank-pop)
+        t))))
 
 
 ;;; Windows
