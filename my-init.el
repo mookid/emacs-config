@@ -1007,7 +1007,6 @@ gets user focus."
    ([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
-   ([remap switch-to-buffer] . ivy-switch-buffer)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
@@ -1019,7 +1018,7 @@ gets user focus."
     (defvar ivy-use-virtual-buffers)
     (with-eval-after-load 'ivy
       (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
-    (push 'counsel-recentf my-recentf-command-list)
+    (push 'ivy-switch-buffer my-recentf-command-list)
     (setq ivy-use-virtual-buffers t)))
 
 (use-package projectile
@@ -1099,7 +1098,6 @@ gets user focus."
   (progn
     (my-key-chord-define global-map "jk" 'execute-extended-command)
     (my-key-chord-define global-map "fj" 'find-file)
-    (my-key-chord-define global-map "fb" 'switch-to-buffer)
     (my-key-chord-define global-map "hv" 'describe-variable)
     (my-key-chord-define global-map "hk" 'describe-key)
     (defun my-key-chord-setup (&rest _)
