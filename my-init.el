@@ -1006,6 +1006,7 @@ gets user focus."
   (("M-m" . counsel-M-x)
    ([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
+   ([remap completion-at-point] . my-ivy-completion-at-point)
    ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
@@ -1019,6 +1020,14 @@ gets user focus."
     (with-eval-after-load 'ivy
       (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
     (push 'ivy-switch-buffer my-recentf-command-list)
+    (defun my-ivy-completion-at-point ()
+      (interactive)
+      (if (and (boundp 'ivy-mode) (symbol-value 'ivy-mode))
+          (completion-at-point)
+        (ivy-mode +1)
+        (unwind-protect
+            (completion-at-point)
+          (ivy-mode -1))))
     (setq ivy-use-virtual-buffers t)))
 
 (use-package projectile
