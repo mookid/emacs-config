@@ -10,6 +10,7 @@
         composable-kill-region
         composable-save-region
         dabbrev-expand
+        delete-indentation
         down-list
         forward-sexp
         indent-for-tab-command
@@ -101,6 +102,7 @@
         special-lispy-widen
         special-lispy-x
         special-pop-tag-mark
+        transpose-sexps
         tuareg-electric-pipe
         tuareg-electric-rp
         ))
