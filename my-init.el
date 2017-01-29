@@ -470,13 +470,8 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Colors
-;; (load-theme 'xemacs t nil)
-;; (load-theme 'high-contrast t nil)
-(progn
-  (load-theme 'light-soap t nil)
-  (set-face-foreground 'warning "DarkOrange")
-  (set-face-background 'show-paren-match-face "turquoise")
-  (set-face-background 'secondary-selection "khaki"))
+(load-theme 'punpun-light t)
+(set-face-background 'show-paren-match-face "turquoise")
 
 
 (use-package dired
