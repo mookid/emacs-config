@@ -69,19 +69,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (name-last-kbd-macro (intern name))
     (kill-new name)))
 
-(defun my-move-beginning-of-line (_arg)
-  "Redefinition of `move-beginning-of-line'."
-  (interactive "^p")
-  (let ((orig-point (point)))
-    (move-beginning-of-line 1)
-    (when (= orig-point (point))
-      (back-to-indentation))))
-
 (defun my-end-of-line-position (&optional n)
   (save-excursion (end-of-line n) (point)))
-
-(define-key global-map [remap move-beginning-of-line]
-  'my-move-beginning-of-line)
 
 (defun my-next-beginning ()
   "Go to the beginning of the next word."
@@ -1004,8 +993,7 @@ gets user focus."
   :demand t
   :diminish ivy-mode
   :bind
-  (("M-m" . counsel-M-x)
-   ([remap describe-function] . counsel-describe-function)
+  (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
