@@ -147,6 +147,16 @@ region (if any) or the next sexp."
       (while (mouse-movement-p (setq drag-event (read-event)))
         (mouse-set-point drag-event)))))
 
+(defun my-toggle-case ()
+  "Toggle the letter case of the letter to the left of point."
+  (interactive)
+  (let ((case-fold-search nil))
+    (left-char 1)
+    (cond
+     ((looking-at "[[:lower:]]") (upcase-region (point) (1+ (point))))
+     ((looking-at "[[:upper:]]") (downcase-region (point) (1+ (point)))))
+    (right-char)))
+
 ;; Keybindings
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
@@ -178,6 +188,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-<next>") 'next-error)
 (define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
 (define-key global-map (kbd "C-S-<left>") 'my-previous-end)
+(define-key global-map (kbd "C-M-l") 'my-toggle-case)
 
 ;; elisp
 (setq eval-expression-print-level nil)
