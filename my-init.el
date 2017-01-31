@@ -1134,7 +1134,6 @@ gets user focus."
   :init
   (progn
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-    (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
     (diff-hl-flydiff-mode 1)
     (set-face-inverse-video 'diff-hl-insert t)
     (set-face-inverse-video 'diff-hl-delete t)
