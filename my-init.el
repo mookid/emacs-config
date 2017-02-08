@@ -256,14 +256,6 @@ to put SYM at the end of `mode-line-format'."
   (my-mode-line-insert-symbol 'my-mode-line-project
                               'mode-line-buffer-identification))
 
-;; Find some buffers buffer
-(my-window-command "g" "*grep*")
-(my-window-command "d" "*vc-diff*")
-(my-window-command "c" "*compilation*")
-(my-window-command "o" "*Occur*")
-(my-window-command "s" "*scratch*")
-(my-window-command "m" "*Messages*")
-
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
 
@@ -873,6 +865,14 @@ Use in `isearch-mode-end-hook'."
   (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
   (define-key global-map (kbd "<f2> <f3>") 'my-windows-hsplit)
   (define-key global-map (kbd "<f2> <f4>") 'my-windows-vsplit))
+
+;; Find some buffers
+(my-window-command "g" "*grep*")
+(my-window-command "d" "*vc-diff*")
+(my-window-command "c" "*compilation*")
+(my-window-command "o" "*Occur*")
+(my-window-command "s" "*scratch*")
+(my-window-command "m" "*Messages*")
 
 (defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
