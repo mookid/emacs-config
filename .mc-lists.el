@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        align-regexp
         backward-sexp
         backward-up-list
         completion-at-point
@@ -12,6 +13,7 @@
         dabbrev-expand
         delete-indentation
         down-list
+        erlang-electric-comma
         forward-sexp
         indent-for-tab-command
         kill-sexp
@@ -30,6 +32,7 @@
         my-previous-end
         my-yank
         my-zap-to-char
+        org-self-insert-command
         raise-sexp
         recompile
         special-digit-argument
@@ -114,4 +117,5 @@
         lispy-cursor-down
         my-goto-*scratch*
         ocp-indent-buffer
+        ocp-index-jump-to-sig-at-point
         ))
