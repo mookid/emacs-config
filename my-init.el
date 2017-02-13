@@ -69,9 +69,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (name-last-kbd-macro (intern name))
     (kill-new name)))
 
-(defun my-end-of-line-position (&optional n)
-  (save-excursion (end-of-line n) (point)))
-
 (defun my-next-beginning ()
   "Go to the beginning of the next word."
   (interactive)
@@ -105,7 +102,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (defun my-copy-line (&optional n)
   "Copy from point to the end of line."
   (interactive "p")
-  (copy-region-as-kill (point) (my-end-of-line-position n)))
+  (copy-region-as-kill (point) (line-end-position n)))
 
 (defun my-other-window-kill-buffer ()
   "Kill the buffer in the other window."
