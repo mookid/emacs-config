@@ -1223,29 +1223,29 @@ multiple eshell windows easier."
       (face-remap-add-relative 'default :foreground "white" :background "#363033")
       (set-face-foreground 'eshell-ls-directory "SkyBlue"))
 
-    (defun eshell/gl ()
-      (insert "git log --all --decorate --oneline --graph --color -n 5"))
+    (defun eshell/l ()
+      (insert "git log --all --decorate --oneline --graph --color -5"))
 
     (defun eshell/cm ()
       (my-cursor-aware-insert "git commit -am\"" "\" && git show --name-only"))
 
-    (defun eshell/gcm ()
-      (insert "git checkout master"))
+    (defun eshell/co ()
+      (insert "git checkout "))
 
-    (defun eshell/gd ()
+    (defun eshell/d ()
+      (my-cursor-aware-insert "git diff" " --color"))
+
+    (defun eshell/dc ()
       (my-cursor-aware-insert "git diff" " --cached --color"))
 
-    (defun eshell/gs ()
+    (defun eshell/s ()
       (insert "git status"))
 
-    (defun eshell/up ()
-      (insert "git stash && git pull && git stash pop"))
+    (defun eshell/show ()
+      (insert "git show --color HEAD~0"))
 
     (defun eshell/amen ()
       (my-cursor-aware-insert "git commit " "--amend --no-edit && git show --name-only"))
-
-    (defun eshell/gst ()
-      (insert "git status"))
 
     (defun eshell/reset ()
       (my-cursor-aware-insert "git reset HEAD~0" " --hard"))
