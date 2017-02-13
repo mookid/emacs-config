@@ -6,6 +6,8 @@
         align-regexp
         backward-sexp
         backward-up-list
+        c-electric-semi&comma
+        c-indent-line-or-region
         completion-at-point
         composable-indent-region
         composable-kill-region
