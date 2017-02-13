@@ -16,4 +16,5 @@ semanticdb
 .emacs-custom.el
 
 elpa/archives/*
+elpa/*.txt
 bookmarks
