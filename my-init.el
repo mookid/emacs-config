@@ -1281,5 +1281,16 @@ multiple eshell windows easier."
    emacs-lisp-mode-map
    ("C-c e" . macrostep-expand)))
 
+(use-package erlang
+  :init
+  (progn
+    (add-hook 'erlang-mode-hook #'my-insert-erl-module-stub)
+    (defun my-insert-erl-module-stub ()
+      (when (and (= (point-min) (point-max))
+                 (buffer-file-name))
+        (let ((module-name (file-name-base)))
+          (insert (format "-module(%s).\n-export([]).\n\n"
+                          module-name)))))))
+
 (provide 'my-init)
 ;;; my-init.el ends here
