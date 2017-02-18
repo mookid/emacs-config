@@ -1187,6 +1187,11 @@ gets user focus."
 (use-package eshell
   :init
   (progn
+    (setq eshell-scroll-to-bottom-on-input 'all
+      eshell-error-if-no-glob t
+      eshell-hist-ignoredups t
+      eshell-save-history-on-exit t
+      eshell-prefer-lisp-functions nil)
     (defun my-eshell-here ()
       "Opens up a new shell in the directory associated with the
 current buffer's file, or switch to it when it already exists.
