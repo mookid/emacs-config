@@ -613,7 +613,7 @@ if its size is 1 line."
   (:map iedit-mode-keymap
         ("C-s" . iedit-next-occurrence)
         ("C-r" . iedit-prev-occurrence)
-        ("C-o" . my-iedit-occur)))
+        ("M-o" . my-iedit-occur)))
 
  
 ;;; Use package
@@ -787,7 +787,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
-   ("C-o" . my-isearch-occur)
+   ("M-o" . my-isearch-occur)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
