@@ -600,6 +600,21 @@ if its size is 1 line."
 
     (add-hook 'grep-mode-hook 'my-count-grep-matches-hook)))
 
+(use-package iedit
+  :init
+  (progn
+    (defun my-iedit-occur (&optional nlines)
+      (interactive)
+      (when iedit-mode
+        (let ((regexp iedit-initial-string-local))
+          (iedit-done)
+          (occur regexp nlines)))))
+  :bind
+  (:map iedit-mode-keymap
+        ("C-s" . iedit-next-occurrence)
+        ("C-r" . iedit-prev-occurrence)
+        ("C-o" . my-iedit-occur)))
+
  
 ;;; Use package
 (defvar use-package-verbose)
