@@ -8,6 +8,7 @@
         backward-up-list
         c-electric-semi&comma
         c-indent-line-or-region
+        complete-symbol
         completion-at-point
         composable-indent-region
         composable-kill-region
