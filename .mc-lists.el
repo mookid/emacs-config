@@ -28,6 +28,9 @@
         lispy-quotes
         lispy-space
         mc/vertical-align-with-space
+        mouse-drag-secondary-pasting
+        mouse-yank-primary
+        my-ivy-completion-at-point
         my-jump-to-char
         my-kill-line-backward
         my-move-beginning-of-line
