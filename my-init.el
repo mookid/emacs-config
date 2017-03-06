@@ -1289,5 +1289,8 @@ multiple eshell windows easier."
           (insert (format "-module(%s).\n-export([]).\n\n"
                           module-name)))))))
 
+(use-package goto-last-change
+  :bind ("C-x C-/" . goto-last-change))
+
 (provide 'my-init)
 ;;; my-init.el ends here
