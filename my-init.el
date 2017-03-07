@@ -397,7 +397,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 
 ;; Setting up the order for recenter-top-bottom"
-(setq recenter-positions '(2 middle -2))
+(setq recenter-positions '(top middle bottom))
 
 ;; Pop mark
 (setq set-mark-command-repeat-pop t)
