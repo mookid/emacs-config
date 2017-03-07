@@ -28,7 +28,9 @@
 
 ;;; Code:
 
-(require 'evil)
+(unless (require 'evil nil t)
+  (defmacro evil-define-text-object (&rest _args) nil)
+  (defmacro evil-define-operator (&rest _args) nil))
 (require 'evil-nerd-commenter-sdk)
 
 (defvar evilnc-c-style-comment-modes
@@ -146,36 +148,38 @@
     e))
 
 ;;;###autoload
-(evil-define-text-object evilnc-inner-comment (&optional count begin end type)
-  "An inner comment text object."
-  (let* ((bounds (evilnc-get-comment-bounds)))
-    (cond
-     (bounds
-      (let* ((b (save-excursion
-                  (goto-char (car bounds))
-                  (forward-word 1)
-                  (forward-word -1)
-                  (point)))
-             (e (save-excursion
-                  (goto-char (cdr bounds))
-                  (goto-char (evilnc-ajusted-comment-end b (line-end-position)))
-                  (point))))
+(and (fboundp 'evil-define-text-object)
+     (evil-define-text-object evilnc-inner-comment (&optional count begin end type)
+			      "An inner comment text object."
+			      (let* ((bounds (evilnc-get-comment-bounds)))
+				(cond
+				 (bounds
+				  (let* ((b (save-excursion
+					      (goto-char (car bounds))
+					      (forward-word 1)
+					      (forward-word -1)
+					      (point)))
+					 (e (save-excursion
+					      (goto-char (cdr bounds))
+					      (goto-char (evilnc-ajusted-comment-end b (line-end-position)))
+					      (point))))
 
-        (evil-range b e 'block :expanded t)))
-     (t
-      (error "Not inside a comment.")))))
+				    (evil-range b e 'block :expanded t)))
+				 (t
+				  (error "Not inside a comment."))))))
 
 ;;;###autoload
-(evil-define-text-object evilnc-outer-commenter (&optional count begin end type)
-  "An outer comment text object."
-  (let* ((bounds (evilnc-get-comment-bounds)))
-    (cond
-     (bounds
-      (let* ((b (car bounds))
-             (e (cdr bounds)))
-        (evil-range b e 'exclusive :expanded t)))
-     (t
-      (error "Not inside a comment.")))))
+(and (fboundp 'evil-define-text-object)
+     (evil-define-text-object evilnc-outer-commenter (&optional count begin end type)
+			      "An outer comment text object."
+			      (let* ((bounds (evilnc-get-comment-bounds)))
+				(cond
+				 (bounds
+				  (let* ((b (car bounds))
+					 (e (cdr bounds)))
+				    (evil-range b e 'exclusive :expanded t)))
+				 (t
+				  (error "Not inside a comment."))))))
 
 (provide 'evil-nerd-commenter-operator)
 ;;; evil-nerd-commenter-operator.el ends here
