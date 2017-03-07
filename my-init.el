@@ -1294,5 +1294,19 @@ multiple eshell windows easier."
 (use-package goto-last-change
   :bind ("C-x C-/" . goto-last-change))
 
+(use-package hl-todo
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'hl-todo-mode)
+    (setq hl-todo-keyword-faces '(("TODO" . hl-todo)
+                                  ("NOTE" . hl-todo)
+                                  ("HACK" . hl-todo)
+                                  ("FIXME" . hl-todo))))
+  :config
+  (progn
+    (hl-todo-set-regexp)
+    (set-face-attribute 'hl-todo nil :foreground "deep pink" :background "yellow")))
+
+
 (provide 'my-init)
 ;;; my-init.el ends here
