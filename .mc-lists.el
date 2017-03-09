@@ -38,6 +38,8 @@
         my-previous-end
         my-yank
         my-zap-to-char
+        org-end-of-line
+        org-force-self-insert
         org-self-insert-command
         raise-sexp
         recompile
