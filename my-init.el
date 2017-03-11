@@ -155,6 +155,7 @@ region (if any) or the next sexp."
     (right-char)))
 
 ;; Keybindings
+(define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
 (define-key global-map (kbd "C-c n") 'make-frame)
