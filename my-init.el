@@ -298,7 +298,7 @@ to put SYM at the end of `mode-line-format'."
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Save all buffers when focus is lost
-(defun my-save-all-buffers ()
+(defun my-save-all-buffers (&rest _)
   "Save all buffers."
   (save-some-buffers t))
 (add-hook 'focus-out-hook #'my-save-all-buffers)
