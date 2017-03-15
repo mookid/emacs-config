@@ -193,6 +193,41 @@ region (if any) or the next sexp."
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
 (define-key emacs-lisp-mode-map (kbd "C-c C-i") 'ielm)
 
+(defun my-push-mark (&rest _)
+  "Push the point to the mark ring. Designed to be added to some hooks."
+  (push-mark))
+
+(defun my-backward-up-list (&optional arg escape-strings no-syntax-crossing)
+  "Forwards to `backward-up-list'."
+  (interactive "^p\nd\nd")
+  (backward-up-list arg escape-strings no-syntax-crossing))
+
+(defun my-down-list (&optional arg)
+  "Forwards to `down-list'."
+  (interactive "^p")
+  (down-list arg))
+
+(defun my-forward-sexp (&optional arg)
+  "Forwards to `forward-sexp'."
+  (interactive "^p")
+  (forward-sexp arg))
+
+(defun my-backward-sexp (&optional arg)
+  "Forwards to `backward-sexp'."
+  (interactive "^p")
+  (backward-sexp arg))
+
+(progn
+  (define-key global-map [remap backward-up-list] 'my-backward-up-list)
+  (define-key global-map [remap down-list] 'my-down-list)
+  (define-key global-map [remap forward-sexp] 'my-forward-sexp)
+  (define-key global-map [remap backward-sexp] 'my-backward-sexp))
+
+(add-function :before (symbol-function 'my-backward-up-list) 'my-push-mark)
+(add-function :before (symbol-function 'my-down-list) 'my-push-mark)
+(add-function :before (symbol-function 'my-forward-sexp) 'my-push-mark)
+(add-function :before (symbol-function 'my-backward-sexp) 'my-push-mark)
+
 ;; Set mode line format
 (defun my-mode-line-insert-symbol (sym place)
   "Insert a SYM to `mode-line-format' at PLACE, if it is not
