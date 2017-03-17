@@ -841,6 +841,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
     (defun my-isearch-occur ()
       (interactive)
+      (delete-other-windows)
       (my-2-windows-split t)
       (call-interactively 'isearch-occur))
 
