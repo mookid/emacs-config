@@ -1287,7 +1287,7 @@ multiple eshell windows easier."
       (insert "git commit -am wip && git branch wip && git reset --hard HEAD~1"))
 
     (defun eshell/q ()
-      (insert "exit"))
+      (bury-buffer))
 
     (defun my-eshell-kill-line-backward ()
       (interactive)
