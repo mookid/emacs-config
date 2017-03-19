@@ -1265,8 +1265,11 @@ multiple eshell windows easier."
     (defun eshell/co ()
       (insert "git checkout "))
 
-    (defun eshell/d ()
+    (defun eshell/df ()
       (my-cursor-aware-insert "git diff" " --color"))
+
+    (defun eshell/d ()
+      (dired "."))
 
     (defun eshell/dc ()
       (my-cursor-aware-insert "git diff" " --cached --color"))
