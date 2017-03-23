@@ -982,6 +982,7 @@ Use in `isearch-mode-end-hook'."
                         :box t)))
 
 (use-package loccur
+  :disabled t
   :bind
   (("M-s o" . loccur-current)
    ("M-s i" . loccur)
@@ -1122,6 +1123,7 @@ Use in `isearch-mode-end-hook'."
     (my-key-chord-setup)))
 
 (use-package composable
+  :disabled t
   :diminish composable-mode
   :init (composable-mode 1)
   :bind
