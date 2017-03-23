@@ -19,6 +19,7 @@
         erlang-electric-comma
         forward-sexp
         indent-for-tab-command
+        kill-region
         kill-sexp
         lispy-braces
         lispy-brackets
@@ -30,6 +31,7 @@
         mc/vertical-align-with-space
         mouse-drag-secondary-pasting
         mouse-yank-primary
+        my-backward-sexp
         my-backward-up-list
         my-forward-sexp
         my-ivy-completion-at-point
@@ -45,6 +47,7 @@
         org-self-insert-command
         raise-sexp
         recompile
+        sh-assignment
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char
@@ -124,6 +127,7 @@
       '(
         compile
         counsel-describe-variable
+        handle-switch-frame
         lispy-cursor-down
         my-goto-*scratch*
         ocp-indent-buffer
