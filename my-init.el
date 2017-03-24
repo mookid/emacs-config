@@ -133,17 +133,6 @@ region (if any) or the next sexp."
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
 
-;; Rectangle mark mode
-(defun my-mouse-start-rectangle (start-event)
-  (interactive "e")
-  (deactivate-mark)
-  (mouse-set-point start-event)
-  (rectangle-mark-mode +1)
-  (let (drag-event)
-    (track-mouse
-      (while (mouse-movement-p (setq drag-event (read-event)))
-        (mouse-set-point drag-event)))))
-
 ;; Keybindings
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
@@ -163,8 +152,6 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
 (define-key global-map (kbd "M-+") 'balance-windows) ;; M-S-=
 (define-key global-map (kbd "M-<down>") 'delete-window)
-(define-key global-map (kbd "C-S-SPC") 'rectangle-mark-mode)
-(define-key global-map (kbd "M-S-<down-mouse-1>") #'my-mouse-start-rectangle)
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
