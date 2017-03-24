@@ -178,6 +178,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-S-<left>") 'my-previous-end)
 
 ;; elisp
+(setq initial-major-mode 'emacs-lisp-mode)
 (setq eval-expression-print-level nil)
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
 (define-key emacs-lisp-mode-map (kbd "C-c C-i") 'ielm)
