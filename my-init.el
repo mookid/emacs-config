@@ -260,14 +260,17 @@ to put SYM at the end of `mode-line-format'."
 
 ;; No tabs
 (setq indent-tabs-mode nil)
-(defun my-untabify-all ()
-  "Untabify the current buffer, except if it is a Makefile.
+(defvar my-untabify-this-buffer)
+(defun my-untabify-buffer ()
+  "Untabify the current buffer, unless `my-untabify-this-buffer' is nil."
+  (and my-untabify-this-buffer (untabify (point-min) (point-max))))
 
-\(BROKEN)."
-  (unless (derived-mode-p 'makefile-mode)
-    (untabify (point-min) (point-max))))
-(add-hook 'before-save-hook #'my-untabify-all)
-
+(define-minor-mode my-untabify-mode
+  "Untabify buffer on save." nil " untab" nil
+  (make-variable-buffer-local 'my-untabify-this-buffer)
+  (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
+  (add-hook 'before-save-hook #'my-untabify-buffer))
+(add-hook 'prog-mode-hook 'my-untabify-mode)
 ;; Delete trailing whitespaces when saving a file
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
