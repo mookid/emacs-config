@@ -357,8 +357,7 @@ class ')'."
 
 ;; Setting up fonts
 (progn
-  (defvar my-default-font nil "The font used almost everywhere.")
-  (setq my-default-font "Inconsolata 12")
+  (defvar my-default-font "Inconsolata 12" "The font used almost everywhere.")
   (set-default-coding-systems 'utf-8)
   (with-eval-after-load 'init
     (add-to-list 'default-frame-alist `(font . ,my-default-font))))
