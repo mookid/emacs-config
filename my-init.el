@@ -1115,7 +1115,7 @@ Use in `isearch-mode-end-hook'."
 (use-package diff-hl
   :init
   (progn
-    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+    (global-diff-hl-mode +1)
     (diff-hl-flydiff-mode 1)
     (set-face-inverse-video 'diff-hl-insert t)
     (set-face-inverse-video 'diff-hl-delete t)
