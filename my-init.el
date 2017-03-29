@@ -167,8 +167,8 @@ region (if any) or the next sexp."
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
 (setq eval-expression-print-level nil)
-(define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-i") 'ielm)
+(define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
+(define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm)
 
 ;; Set mode line format
 (defun my-mode-line-insert-symbol (sym place)
