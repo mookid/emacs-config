@@ -832,15 +832,6 @@ Use in `isearch-mode-end-hook'."
 ;;; Windows
 (setq tags-add-tables nil)
 
-(use-package winner
-  :bind
-  (("S-<left>" . windmove-left)
-   ("S-<right>" . windmove-right)
-   ("S-<up>" . windmove-up)
-   ("S-<down>" . windmove-down))
-  :init (winner-mode 1))
-
-
 (defun my-2-windows-split (horizontalp)
   (delete-other-windows)
   (if horizontalp
