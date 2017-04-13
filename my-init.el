@@ -133,6 +133,12 @@ region (if any) or the next sexp."
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
 
+(add-function :after (symbol-function 'yank)
+              #'my-yank-and-reindent-hook)
+
+(defun my-yank-and-reindent-hook (&rest args)
+  (indent-region (mark) (point)))
+
 ;; Keybindings
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
