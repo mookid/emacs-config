@@ -1003,10 +1003,12 @@ Use in `isearch-mode-end-hook'."
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ([remap completion-at-point] . my-ivy-completion-at-point)
+   ("C-<f8>" . counsel-rg)
    ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
+   ("C-o" . ivy-occur)
    ("<next>" . ivy-scroll-up-command)
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
