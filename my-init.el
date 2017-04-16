@@ -309,7 +309,7 @@ to put SYM at the end of `mode-line-format'."
 
 ;; Remove gui elements
 (progn
-  (and (fboundp 'fringe-mode) (fringe-mode +8))
+  (and (fboundp 'fringe-mode) (fringe-mode -1))
   (and (fboundp 'tooltip-mode) (tooltip-mode +1))
   (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -1133,6 +1133,7 @@ Use in `isearch-mode-end-hook'."
 (use-package diff-hl
   :init
   (progn
+    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (global-diff-hl-mode +1)
     (diff-hl-flydiff-mode 1)
     (set-face-inverse-video 'diff-hl-insert t)
