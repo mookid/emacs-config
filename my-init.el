@@ -475,8 +475,9 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Colors
-(load-theme 'punpun-light t)
-(set-face-background 'show-paren-match "turquoise")
+(when (display-graphic-p)
+  (load-theme 'punpun-light t)
+  (set-face-background 'show-paren-match "turquoise"))
 
 
 (use-package dired
@@ -622,7 +623,7 @@ if its size is 1 line."
         ("C-r" . iedit-prev-occurrence)
         ("M-o" . my-iedit-occur)))
 
- 
+
 ;;; Use package
 (defvar use-package-verbose)
 (setq use-package-verbose t)
