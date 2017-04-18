@@ -576,17 +576,24 @@ if its size is 1 line."
                    (0 '(face nil compilation-message nil help-echo nil mouse-face nil) t)
                    (1 compilation-info-face nil t)))
 
-    (add-to-list 'special-display-buffer-names
+    (add-to-list 'display-buffer-alist
                  '("*compilation*"
-                   (minibuffer . nil)
-                   (unsplittable . t)))
+                   (display-buffer-reuse-window display-buffer-in-side-window)
+                   (side . bottom)
+                   (window-height . 0.3)))
 
     (defun my-compile-finish-hook (buf status)
       (with-current-buffer buf
-        (let* ((success (string-match "^finished\\b" status)))
-          (when success
-            (sit-for 0.4)
-            (bury-buffer)))))
+        (and (string= (buffer-name buf) "*compilation*")
+             (let* ((success (string-match "^finished\\b" status)))
+               (let ((orig-background (face-background 'mode-line)))
+                 (unwind-protect
+                     (progn
+                       (set-face-background 'mode-line (if success "pale green" "orange"))
+                       (sit-for 0.4)
+                       (and success
+                            (delete-window (get-buffer-window buf))))
+                   (set-face-background 'mode-line orig-background)))))))
 
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)
 
