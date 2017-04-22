@@ -196,24 +196,6 @@ to put SYM at the end of `mode-line-format'."
              (error "mode-line-format: %S not found" place))))))
 
 (progn
-  (defvar my-mode-line-separator "|")
-  (defun my-mode-line-project ()
-    (when (buffer-file-name)
-      (let* ((project-root (when (fboundp 'projectile-project-name)
-                             (let ((name (projectile-project-name)))
-                               (when (and (stringp name)
-                                          (not (string= name "-")))
-                                 name))))
-             (sep1 (when project-root my-mode-line-separator))
-             (vc-status (when (stringp vc-mode)
-                          (substring vc-mode (+ (or (string-match "Git\\|SVN" vc-mode) -4) 4))))
-             (sep2 (when (and project-root vc-status) my-mode-line-separator))
-             (res (concat sep1 project-root sep2 vc-status)))
-        (when (> (length res) 0) res))))
-
-  (let ((vc-slot (assq 'vc-mode mode-line-format)))
-    (and (consp vc-slot) (setcdr vc-slot '(nil))))
-
   (setq-default mode-line-buffer-identification
                 (propertized-buffer-identification "%b"))
 
@@ -227,17 +209,7 @@ to put SYM at the end of `mode-line-format'."
                   (let ((cell (member old seq)))
                     (when cell (setcar cell new)))))
     (replace-string " " "   " mode-line-format)
-    (replace-string " " "  " mode-line-format))
-
-  (defvar my-mode-line-project
-    '(:eval (let ((slot
-                   (when (my-mode-line-project)
-                     (my-mode-line-project))))
-              (put-text-property 0 (length slot) 'face 'mode-line-buffer-id slot)
-              slot)))
-  (put 'my-mode-line-project 'risky-local-variable t)
-  (my-mode-line-insert-symbol 'my-mode-line-project
-                              'mode-line-buffer-identification))
+    (replace-string " " "  " mode-line-format)))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
