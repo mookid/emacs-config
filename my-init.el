@@ -774,7 +774,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
-   ("M-o" . my-isearch-occur)
+   ("M-o" . isearch-occur)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
@@ -786,13 +786,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive "r")
       (when (region-active-p)
         (my-isearch-region beg end)
-        (call-interactively 'my-isearch-occur)))
-
-    (defun my-isearch-occur ()
-      (interactive)
-      (delete-other-windows)
-      (my-2-windows-split t)
-      (call-interactively 'isearch-occur))
+        (call-interactively 'isearch-occur)))
 
     (defun my-isearch-beginning-of-buffer ()
       "Move isearch point to the beginning of the buffer."
