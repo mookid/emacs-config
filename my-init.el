@@ -271,10 +271,28 @@ to put SYM at the end of `mode-line-format'."
 (use-package vc
   :bind
   (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff))
+   ("C-<f7>" . vc-root-diff)
+   ("C-M-<f7>" . my-vc-remove-whitespace-diff))
   :config
   (progn
-    (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)))
+    (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
+    (defun my-vc-remove-whitespace-diff (filename)
+      "Remove whitespace diff in FILENAME.
+
+FILENAME is a name of a file or a directory."
+      (interactive "fRemove whitespace diff on subtree: ")
+      (let (relative-file-name patch-file-name vc-root-dir)
+        (and buffer-file-name
+             (setq vc-root-dir (vc-root-dir))
+             (setq relative-file-name (file-relative-name buffer-file-name vc-root-dir))
+             (setq patch-file-name (concat buffer-file-name "~~~"))
+             (shell-command (format "git diff -w %s > %s"
+                                    relative-file-name
+                                    patch-file-name))
+             (shell-command (format "git checkout %s" relative-file-name))
+             (shell-command (format "git apply %s" patch-file-name))
+             (shell-command (format "rm -f %s" patch-file-name)))))))
+
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
