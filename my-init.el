@@ -1128,9 +1128,6 @@ Use in `isearch-mode-end-hook'."
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (global-diff-hl-mode +1)
     (diff-hl-flydiff-mode 1)
-    (set-face-inverse-video 'diff-hl-insert t)
-    (set-face-inverse-video 'diff-hl-delete t)
-    (set-face-inverse-video 'diff-hl-change t)
     (defun my-diff-hl-revert-hunk ()
       "A version of `diff-hl-revert-hunk' without confirmation."
       (interactive)
