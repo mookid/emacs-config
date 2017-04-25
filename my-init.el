@@ -467,7 +467,9 @@ With a prefix argument ARG, insert `file:' before."
 ;;; Colors
 (when (display-graphic-p)
   (load-theme 'punpun-light t)
-  (set-face-background 'show-paren-match "turquoise"))
+  (set-face-background 'show-paren-match "turquoise")
+  (set-face-attribute 'isearch nil :background 'unspecified :inherit 'match)
+  (set-face-attribute 'isearch-fail nil :background 'unspecified :inherit 'error))
 
 
 (use-package dired
