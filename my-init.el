@@ -467,7 +467,10 @@ With a prefix argument ARG, insert `file:' before."
 ;;; Colors
 (when (display-graphic-p)
   (load-theme 'punpun-light t)
+  (defvar my-cursor-color "Gold")
   (set-face-background 'show-paren-match "turquoise")
+  (set-face-foreground 'default "Navy")
+  (set-face-background 'default "LightCyan1")
   (set-face-attribute 'isearch nil :background 'unspecified :inherit 'match)
   (set-face-attribute 'isearch-fail nil :background 'unspecified :inherit 'error))
 
@@ -1338,10 +1341,9 @@ multiple eshell windows easier."
   (progn
     (set-face-background 'region nil)
     (setq show-paren-priority -1)
-    (add-to-list 'default-frame-alist '(cursor-color . "red"))
+    (add-to-list 'default-frame-alist `(cursor-color . ,my-cursor-color))
     (setq visible-mark-max (length visible-mark-faces))
     (setq visible-mark-forward-max 2)
-    (require 'visible-mark)
     (global-visible-mark-mode 1)))
 
 (provide 'my-init)
