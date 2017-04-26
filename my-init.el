@@ -1127,23 +1127,6 @@ Use in `isearch-mode-end-hook'."
    ([remap downcase-region] . composable-downcase-region)
    ("M-;" . evilnc-comment-or-uncomment-lines)))
 
-(use-package diff-hl
-  :init
-  (progn
-    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
-    (global-diff-hl-mode +1)
-    (diff-hl-flydiff-mode 1)
-    (defun my-diff-hl-revert-hunk ()
-      "A version of `diff-hl-revert-hunk' without confirmation."
-      (interactive)
-      (my-no-confirm #'diff-hl-revert-hunk)))
-  :bind
-  (("C-M-[" . diff-hl-previous-hunk)
-   ("C-M-]" . diff-hl-next-hunk)
-   ("S-<f7>" . my-diff-hl-revert-hunk))
-  :config
-  (add-function :before (symbol-function 'diff-hl-diff-goto-hunk) #'my-save-all-buffers))
-
 (use-package multiple-cursors
   :bind
   (("C-M-." . mc/mark-next-like-this)
