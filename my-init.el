@@ -276,6 +276,7 @@ to put SYM at the end of `mode-line-format'."
   :config
   (progn
     (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
+    (add-function :around (symbol-function 'diff-apply-hunk) #'my-no-confirm)
     (defun my-vc-remove-whitespace-diff (filename)
       "Remove whitespace diff in FILENAME.
 
