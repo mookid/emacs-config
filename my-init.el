@@ -584,10 +584,9 @@ if its size is 1 line."
                (let ((orig-background (face-background 'mode-line)))
                  (unwind-protect
                      (progn
-                       (set-face-background 'mode-line (if success "pale green" "orange"))
-                       (sit-for 0.4)
-                       (and success
-                            (delete-window (get-buffer-window buf))))
+                       (when success
+                         (sit-for 0.4)
+                         (delete-window (get-buffer-window buf))))
                    (set-face-background 'mode-line orig-background)))))))
 
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)
