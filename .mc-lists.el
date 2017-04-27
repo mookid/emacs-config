@@ -47,7 +47,6 @@
         org-force-self-insert
         org-self-insert-command
         raise-sexp
-        recompile
         sh-assignment
         special-digit-argument
         special-lh-knight/body
@@ -133,4 +132,5 @@
         my-goto-*scratch*
         ocp-indent-buffer
         ocp-index-jump-to-sig-at-point
+        recompile
         ))
