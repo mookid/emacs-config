@@ -22,8 +22,7 @@
          ,(concat "Goto buffer `" buffername "'.")
          (interactive)
          (my-goto-buffer ,buffername))
-       (define-key global-map (kbd ,(concat "<f2> " key)) ',command-name)
-       (my-key-chord-define global-map ,(concat "`" key) ',command-name))))
+       (define-key global-map (kbd ,(concat "C-c " key)) ',command-name))))
 
 (cl-flet ((always-yes (&rest _) t))
   (defun my-no-confirm (fun &rest args)
