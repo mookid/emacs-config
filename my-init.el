@@ -271,7 +271,13 @@ to put SYM at the end of `mode-line-format'."
   :bind
   (("<f7>" . vc-diff)
    ("C-<f7>" . vc-root-diff)
-   ("C-M-<f7>" . my-vc-remove-whitespace-diff))
+   ("C-M-<f7>" . my-vc-remove-whitespace-diff)
+   :map diff-mode-shared-map
+   ("j" . diff-hunk-next)
+   ("k" . diff-hunk-prev)
+   ("s" . diff-split-hunk)
+   ("d" . diff-apply-hunk)
+   ("r" . diff-refine-hunk))
   :config
   (progn
     (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
