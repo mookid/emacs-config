@@ -9,11 +9,16 @@ emacs -Q --no-init --batch \
 
 .PHONY: modules elpa clean all
 
-all: elpa
+all: elpa cl-hyperspec
 
 elpa:
 	find $(EMACSELPA) -name *.elc | xargs rm; \
 	$(EMACS) --eval "(byte-recompile-directory \"${EMACSELPA}\" 0 t)"
 
+cl-hyperspec:
+	wget ftp://ftp.lispworks.com/pub/software_tools/reference/HyperSpec-7-0.tar.gz
+	tar xvzf HyperSpec-7-0.tar.gz
+
 clean:
 	find $(EMACSD) -name *.elc | xargs rm -f
+	rm -rf HyperSpec*
