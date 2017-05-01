@@ -18,3 +18,5 @@ semanticdb
 elpa/archives/*
 elpa/*.txt
 bookmarks
+
+HyperSpec*

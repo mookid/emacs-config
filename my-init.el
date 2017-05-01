@@ -952,7 +952,9 @@ Use in `isearch-mode-end-hook'."
 
 (use-package lispy
   :defer t
-  :init (add-hook 'emacs-lisp-mode-hook 'lispy-mode)
+  :init
+  (progn (add-hook 'emacs-lisp-mode-hook 'lispy-mode)
+         (add-hook 'lisp-mode-hook 'lispy-mode))
   :config
   (progn
     (lispy-set-key-theme '(special))))
@@ -1042,8 +1044,10 @@ Use in `isearch-mode-end-hook'."
     (projectile-mode +1)))
 
 (use-package slime
-  :defer t
-  :bind (("C-c y" . hyperspec-lookup))
+  :bind
+  (:map
+   slime-mode-map
+   ("C-c s" . slime-selector))
   :init
   (progn
     (defvar common-lisp-hyperspec-root)
@@ -1051,7 +1055,9 @@ Use in `isearch-mode-end-hook'."
     (use-package slime-autoloads)
     (setq inferior-lisp-program "sbcl")
     (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
-    (setq common-lisp-hyperspec-root "file:///Hyperspec/")))
+    (setq common-lisp-hyperspec-root
+          (format "file:///%s"
+                  (expand-file-name "HyperSpec/" user-emacs-directory)))))
 
 (use-package expand-region
   :defer t
