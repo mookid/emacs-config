@@ -138,6 +138,18 @@ region (if any) or the next sexp."
 (defun my-yank-and-reindent-hook (&rest args)
   (indent-region (mark) (point)))
 
+;; Hippie expand
+(use-package hippie-expand
+  :bind ([remap dabbrev-expand] . hippie-expand)
+  :init
+  (setq hippie-expand-try-functions-list
+        '(try-expand-dabbrev
+          try-expand-dabbrev-all-buffers
+          try-complete-lisp-symbol-partially
+          try-complete-lisp-symbol
+          try-complete-file-name-partially
+          try-complete-file-name)))
+
 ;; Keybindings
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
