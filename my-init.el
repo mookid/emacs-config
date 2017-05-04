@@ -262,9 +262,10 @@ to put SYM at the end of `mode-line-format'."
 ;; Save all buffers when focus is lost
 (defun my-save-all-buffers (&rest _)
   "Save all buffers."
+  (interactive)
   (save-some-buffers t))
-(add-hook 'focus-out-hook #'my-save-all-buffers)
-(add-hook 'shell-mode-hook #'my-save-all-buffers)
+(define-key global-map [remap save-buffer] 'my-save-all-buffers)
+(define-key global-map [remap save-some-buffers] 'my-save-all-buffers)
 
 ;; VC
 (use-package vc
