@@ -1358,5 +1358,8 @@ multiple eshell windows easier."
     (setq visible-mark-forward-max 2)
     (global-visible-mark-mode 1)))
 
+(use-package which-key
+  :init (which-key-mode +1))
+
 (provide 'my-init)
 ;;; my-init.el ends here
