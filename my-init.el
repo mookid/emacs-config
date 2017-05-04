@@ -356,21 +356,7 @@ FILENAME is a name of a file or a directory."
   (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   (setq show-paren-delay 0)
-  (show-paren-mode t)
-
-  (defun my-show-matching-paren-offscreen (&rest _)
-    "Show the matching line in the echo area.
-
-Has no effect if the character before point is not of the syntax
-class ')'."
-    (interactive)
-    (let* ((cb (char-before (point)))
-           (matching-text (and cb
-                               (char-equal (char-syntax cb) ?\) )
-                               (blink-matching-open))))
-      (when matching-text (message matching-text))))
-  (add-function :after (symbol-function 'show-paren-function)
-                #'my-show-matching-paren-offscreen))
+  (show-paren-mode t))
 
 (add-to-list 'default-frame-alist '(height . 30))
 (add-to-list 'default-frame-alist '(width . 80))
