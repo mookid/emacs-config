@@ -483,9 +483,9 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Colors
+(defvar my-cursor-color "Gold")
 (when (display-graphic-p)
   (load-theme 'punpun-light t)
-  (defvar my-cursor-color "Gold")
   (set-face-background 'show-paren-match "turquoise")
   (set-face-foreground 'default "Navy")
   (set-face-background 'default "LightCyan1")
