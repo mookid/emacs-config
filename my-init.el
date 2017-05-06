@@ -972,6 +972,7 @@ Use in `isearch-mode-end-hook'."
     (lispy-set-key-theme '(special))))
 
 (use-package magit
+  :disabled t
   :bind (("C-c <f7>" . magit-rebase-interactive)
          ("C-c g" . magit-status)
          ("<C-f7>" . magit-diff-working-tree))
