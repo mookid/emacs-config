@@ -363,7 +363,7 @@ FILENAME is a name of a file or a directory."
 
 ;; Setting up fonts
 (progn
-  (defvar my-default-font "Inconsolata 12" "The font used almost everywhere.")
+  (defvar my-default-font "Consolas 14" "The font used almost everywhere.")
   (set-default-coding-systems 'utf-8)
   (with-eval-after-load 'init
     (add-to-list 'default-frame-alist `(font . ,my-default-font))))
