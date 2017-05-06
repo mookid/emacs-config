@@ -103,6 +103,11 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (interactive "p")
   (copy-region-as-kill (point) (line-end-position n)))
 
+(defun my-space-and-back ()
+  (interactive)
+  (insert " ")
+  (backward-char 1))
+
 (defun my-other-window-kill-buffer ()
   "Kill the buffer in the other window."
   (interactive)
@@ -180,6 +185,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-<next>") 'next-error)
 (define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
 (define-key global-map (kbd "C-S-<left>") 'my-previous-end)
+(define-key global-map (kbd "M-SPC") 'my-space-and-back)
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
