@@ -10,7 +10,7 @@
 ;;; Macros
 (defun my-goto-buffer (buffername)
   "Select buffer named BUFFERNAME."
-  (select-window (my-windows-vsplit))
+  (select-window (my-windows-hsplit))
   (switch-to-buffer (get-buffer-create buffername))
   (other-window 1))
 
@@ -869,21 +869,15 @@ Use in `isearch-mode-end-hook'."
 ;;; Windows
 (setq tags-add-tables nil)
 
-(defun my-2-windows-split (horizontalp)
-  (delete-other-windows)
-  (if horizontalp
-      (split-window-horizontally (- (/ (window-total-width) 3)))
-    (split-window-vertically (- (/ (window-total-height) 3)))))
-
 (defun my-windows-hsplit ()
   "Split the current window horizontally."
   (interactive)
-  (my-2-windows-split nil))
+  (split-window-horizontally (- (/ (window-total-width) 3))))
 
 (defun my-windows-vsplit ()
   "Split the current window vertically."
   (interactive)
-  (my-2-windows-split t))
+  (split-window-vertically (- (/ (window-total-height) 3))))
 
 ;; unbind all keybindings starting with f2
 (mapc (lambda (keystr) (global-unset-key (kbd keystr)))
