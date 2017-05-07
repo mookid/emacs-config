@@ -92,6 +92,17 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (let ((arg (or arg 1)))
     (scroll-down arg)))
 
+(defun my-move-line-up ()
+  (interactive)
+  (transpose-lines 1)
+  (previous-line 2))
+
+(defun my-move-line-down ()
+  (interactive)
+  (next-line 1)
+  (transpose-lines 1)
+  (previous-line 1))
+
 (defun my-kill-buffer ()
   "Kill buffer without confirmation."
   (interactive)
@@ -189,6 +200,8 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-<return>") (kbd "<return>"))
 (define-key global-map (kbd "M-<return>") (kbd "<return>"))
 (define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
+(define-key global-map (kbd "C-S-<up>") 'my-move-line-up)
+(define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
