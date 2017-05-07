@@ -1374,6 +1374,7 @@ multiple eshell windows easier."
   :init
   (progn
     (use-package smartparens-config)
+    (and electric-pair-mode (electric-pair-mode -1))
     (smartparens-global-mode +1)))
 
 (provide 'my-init)
