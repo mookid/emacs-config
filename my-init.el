@@ -186,6 +186,9 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
 (define-key global-map (kbd "C-S-<left>") 'my-previous-end)
 (define-key global-map (kbd "M-SPC") 'my-space-and-back)
+(define-key global-map (kbd "C-<return>") (kbd "<return>"))
+(define-key global-map (kbd "M-<return>") (kbd "<return>"))
+(define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
