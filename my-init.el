@@ -1376,5 +1376,11 @@ multiple eshell windows easier."
 (use-package which-key
   :init (which-key-mode +1))
 
+(use-package smartparens
+  :init
+  (progn
+    (use-package smartparens-config)
+    (smartparens-global-mode +1)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
