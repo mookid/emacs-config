@@ -1390,5 +1390,12 @@ multiple eshell windows easier."
     (and electric-pair-mode (electric-pair-mode -1))
     (smartparens-global-mode +1)))
 
+(use-package icomplete-mode
+  :init (icomplete-mode +1)
+  :bind
+  (:map icomplete-minibuffer-map
+        ("C-s" . icomplete-forward-completions)
+        ("C-r" . icomplete-backward-completions)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
