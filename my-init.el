@@ -1030,7 +1030,10 @@ Use in `isearch-mode-end-hook'."
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ([remap completion-at-point] . my-ivy-completion-at-point)
+   ([remap execute-extended-command] . my-M-x-command)
    ("C-<f8>" . counsel-rg)
+   ("C-c s" . swiper)
+   ("C-c r" . ivy-resume)
    ("C-M-y". counsel-yank-pop)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
@@ -1041,6 +1044,9 @@ Use in `isearch-mode-end-hook'."
    ("<right>" . ivy-alt-done))
   :init
   (progn
+    (defun my-M-x-command (use-ivy)
+      (interactive "P")
+      (call-interactively (if use-ivy 'counsel-M-x 'execute-extended-command)))
     (defvar ivy-use-virtual-buffers)
     (with-eval-after-load 'ivy
       (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
