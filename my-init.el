@@ -210,39 +210,10 @@ region (if any) or the next sexp."
 (define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm)
 
 ;; Set mode line format
-(defun my-mode-line-insert-symbol (sym place)
-  "Insert a SYM to `mode-line-format' at PLACE, if it is not
-already somewhere else.
-
-PLACE is another symbol after which to place the new one, or nil
-to put SYM at the end of `mode-line-format'."
-  (cond ((memq sym mode-line-format)
-         (message "mode-line-format: %S already there!" sym)
-         nil)
-        (t
-         (let ((after (if place
-                          (memq place mode-line-format)
-                        (last mode-line-format))))
-           (if after
-               (let ((cell (cons sym (cdr after))))
-                 (setcdr after cell))
-             (error "mode-line-format: %S not found" place))))))
-
-(progn
-  (setq-default mode-line-buffer-identification
-                (propertized-buffer-identification "%b"))
-
-  (let ((lst mode-line-format))
-    (while (cdr lst)
-      (when (and (stringp (car lst))
-                 (string-match "  +" (car lst)))
-        (setcar lst " "))
-      (setq lst (cdr lst))))
-  (cl-flet ((replace-string (new old seq)
-                  (let ((cell (member old seq)))
-                    (when cell (setcar cell new)))))
-    (replace-string " " "   " mode-line-format)
-    (replace-string " " "  " mode-line-format)))
+(setq-default mode-line-format
+              (mapcar (lambda (elt)
+                        (if (and (stringp elt) (string-match "  +" elt)) " " elt))
+                      mode-line-format))
 
 ;; Disable the bell
 (setq ring-bell-function 'ignore)
