@@ -499,14 +499,10 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Colors
-(defvar my-cursor-color "Gold")
-(when (display-graphic-p)
-  (load-theme 'punpun-light t)
-  (set-face-background 'show-paren-match "turquoise")
-  (set-face-foreground 'default "Navy")
-  (set-face-background 'default "LightCyan1")
-  (set-face-attribute 'isearch nil :background 'unspecified :inherit 'match)
-  (set-face-attribute 'isearch-fail nil :background 'unspecified :inherit 'error))
+(defvar my-cursor-color "purple1")
+(set-face-attribute 'default nil :background "black" :foreground "white")
+(set-face-background 'highlight "blue")
+(set-face-background 'show-paren-match "turquoise")
 
 
 (use-package dired
