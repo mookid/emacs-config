@@ -1299,6 +1299,7 @@ multiple eshell windows easier."
    ("C-c e" . macrostep-expand)))
 
 (use-package erlang
+  :defer 15
   :init
   (progn
     (add-hook 'erlang-mode-hook #'my-insert-erl-module-stub)
