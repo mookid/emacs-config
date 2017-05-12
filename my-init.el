@@ -871,16 +871,13 @@ Use in `isearch-mode-end-hook'."
   (interactive)
   (split-window-vertically (- (/ (window-total-height) 3))))
 
-;; unbind all keybindings starting with f2
-(mapc (lambda (keystr) (global-unset-key (kbd keystr)))
-      '("<f2> 2" "<f2> b" "<f2> s"))
+(use-package winner
+  :config (winner-mode +1))
 
-(with-eval-after-load 'init
-  (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
-  (define-key global-map (kbd "<f2> <f3>") 'my-windows-hsplit)
-  (define-key global-map (kbd "<f2> <f4>") 'my-windows-vsplit))
+(define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
+(define-key global-map (kbd "<f2> <f3>") 'my-windows-hsplit)
+(define-key global-map (kbd "<f2> <f4>") 'my-windows-vsplit)
 
-;; Find some buffers
 (my-window-command "g" "*grep*")
 (my-window-command "d" "*vc-diff*")
 (my-window-command "c" "*compilation*")
@@ -914,27 +911,6 @@ Use in `isearch-mode-end-hook'."
       (set-window-buffer (next-window) next-win-buffer)
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
-
-(progn
-  (defun mwheel-scroll-all-function-all (func &optional arg)
-    (if (and scroll-all-mode arg)
-        (save-selected-window
-          (walk-windows
-           (lambda (win)
-             (select-window win)
-             (condition-case nil
-                 (funcall func arg)
-               (error nil)))))
-      (funcall func arg)))
-
-  (defun mwheel-scroll-all-scroll-up-all (&optional arg)
-    (mwheel-scroll-all-function-all 'scroll-up arg))
-
-  (defun mwheel-scroll-all-scroll-down-all (&optional arg)
-    (mwheel-scroll-all-function-all 'scroll-down arg))
-
-  (setq mwheel-scroll-up-function 'mwheel-scroll-all-scroll-up-all)
-  (setq mwheel-scroll-down-function 'mwheel-scroll-all-scroll-down-all))
 
 
 ;;; melpa packages
