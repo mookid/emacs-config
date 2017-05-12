@@ -501,7 +501,8 @@ With a prefix argument ARG, insert `file:' before."
 (use-package find-file-at-point
   :demand t
   :bind
-  ([remap find-file] . find-file-at-point))
+  ([remap find-file] . find-file-at-point)
+  ("<S-mouse-2>" . ffap-at-mouse))
 
 ;;; Google search
 (defun my-prompt ()
