@@ -103,6 +103,16 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (transpose-lines 1)
   (previous-line 1))
 
+(defun my-clone-line ()
+  (interactive)
+  (let ((column (current-column)))
+    (copy-region-as-kill (line-beginning-position)
+                         (goto-char (line-end-position)))
+    (newline)
+    (yank)
+    (move-to-column column)
+    (pop kill-ring)))
+
 (defun my-kill-buffer ()
   "Kill buffer without confirmation."
   (interactive)
@@ -148,7 +158,7 @@ region (if any) or the next sexp."
       (yank nil))))
 (define-key global-map [remap yank] 'my-yank)
 
-(add-function :after (symbol-function 'yank)
+(add-function :after (symbol-function 'my-yank)
               #'my-yank-and-reindent-hook)
 
 (defun my-yank-and-reindent-hook (&rest args)
@@ -173,6 +183,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-c n") 'make-frame)
 (define-key global-map (kbd "M-n") 'my-scroll-up)
 (define-key global-map (kbd "M-p") 'my-scroll-down)
+(define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 (define-key global-map (kbd "C-c .") 'repeat)
 (define-key global-map (kbd "M-=") 'align-regexp)
