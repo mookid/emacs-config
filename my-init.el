@@ -509,7 +509,7 @@ With a prefix argument ARG, insert `file:' before."
 
 
 ;;; Find file at point
-(use-package find-file-at-point
+(use-package ffap
   :demand t
   :bind
   ([remap find-file] . find-file-at-point)
