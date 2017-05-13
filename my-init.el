@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'cl-lib)
+(require 'use-package)
 
 
 ;;; Macros
@@ -641,7 +642,6 @@ if its size is 1 line."
 ;;; Use package
 (defvar use-package-verbose)
 (setq use-package-verbose t)
-(require 'use-package)
 
 
 ;;; Mouse
