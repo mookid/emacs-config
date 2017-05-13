@@ -138,6 +138,14 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (insert " ")
   (backward-char 1))
 
+(defun my-other-window-or-switch-buffer ()
+  "Call `other-window' if more than one window is visible, switch
+to next buffer otherwise."
+  (interactive)
+  (if (one-window-p)
+      (switch-to-buffer nil)
+    (other-window 1)))
+
 (defun my-other-window-kill-buffer ()
   "Kill the buffer in the other window."
   (interactive)
@@ -198,7 +206,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "M-=") 'align-regexp)
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
-(define-key global-map (kbd "M-`") 'other-window)
+(define-key global-map (kbd "M-`") 'my-other-window-or-switch-buffer)
 (define-key global-map (kbd "M-S-<up>") 'split-window-below)
 (define-key global-map (kbd "M-S-<down>") 'delete-other-windows-vertically)
 (define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
