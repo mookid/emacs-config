@@ -25,6 +25,13 @@
          (my-goto-buffer ,buffername))
        (define-key global-map (kbd ,(concat "C-c w " key)) ',command-name))))
 
+(defmacro my-save-column (&rest body)
+  `(let ((column (current-column)))
+     (unwind-protect
+         (progn ,@body)
+       (move-to-column column))))
+(put 'my-save-column 'lisp-indent-function 0)
+
 (cl-flet ((always-yes (&rest _) t))
   (defun my-no-confirm (fun &rest args)
     "Apply FUN to ARGS, skipping user confirmations."
@@ -95,23 +102,24 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (defun my-move-line-up ()
   (interactive)
-  (transpose-lines 1)
-  (previous-line 2))
+  (my-save-column
+    (transpose-lines 1)
+    (forward-line -2)))
 
 (defun my-move-line-down ()
   (interactive)
-  (next-line 1)
-  (transpose-lines 1)
-  (previous-line 1))
+  (my-save-column
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)))
 
 (defun my-clone-line ()
   (interactive)
-  (let ((column (current-column)))
+  (my-save-column
     (copy-region-as-kill (line-beginning-position)
                          (goto-char (line-end-position)))
     (newline)
     (yank)
-    (move-to-column column)
     (pop kill-ring)))
 
 (defun my-kill-buffer ()
