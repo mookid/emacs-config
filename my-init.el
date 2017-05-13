@@ -898,7 +898,6 @@ Use in `isearch-mode-end-hook'."
 (my-window-command "c" "*compilation*")
 (my-window-command "o" "*Occur*")
 (my-window-command "s" "*scratch*")
-(my-window-command "m" "*Messages*")
 
 (defun my-toggle-window-split ()
   "When there are two windows, convert horizontal to vertical and vice versa."
