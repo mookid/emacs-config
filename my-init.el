@@ -170,7 +170,7 @@ region (if any) or the next sexp."
 (add-function :after (symbol-function 'my-yank)
               #'my-yank-and-reindent-hook)
 
-(defun my-yank-and-reindent-hook (&rest args)
+(defun my-yank-and-reindent-hook (&rest _)
   (indent-region (mark) (point)))
 
 ;; Hippie expand
@@ -313,11 +313,10 @@ region (if any) or the next sexp."
 
 FILENAME is a name of a file or a directory."
       (interactive "fRemove whitespace diff on subtree: ")
-      (let (relative-file-name patch-file-name vc-root-dir)
-        (and buffer-file-name
-             (setq vc-root-dir (vc-root-dir))
-             (setq relative-file-name (file-relative-name buffer-file-name vc-root-dir))
-             (setq patch-file-name (concat buffer-file-name "~~~"))
+      (and filename
+           (let* ((vc-root-dir (vc-root-dir))
+                  (relative-file-name (file-relative-name filename vc-root-dir))
+                  (patch-file-name (concat filename "~~~")))
              (shell-command (format "git diff -w %s > %s"
                                     relative-file-name
                                     patch-file-name))
