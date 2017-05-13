@@ -1068,16 +1068,19 @@ Use in `isearch-mode-end-hook'."
     :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))))
 
 ;; C configuration
-(progn
-  (defun my-c-setup ()
-    "My setup for C."
-    (defvar c-default-style)
-    (defvar indent-tabs-mode)
-    (setq c-default-style "linux")
-    (setq indent-tabs-mode nil)
-    (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
-    (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file))
-  (add-hook 'c-initialization-hook #'my-c-setup))
+(use-package cc-vars
+  :defer t
+  :config
+  (progn
+    (defun my-c-setup ()
+      "My setup for C."
+      (defvar c-default-style)
+      (defvar indent-tabs-mode)
+      (setq c-default-style "linux")
+      (setq indent-tabs-mode nil)
+      (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
+      (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file))
+    (add-hook 'c-initialization-hook #'my-c-setup)))
 
 ;; Images
 (use-package image-mode
