@@ -12,8 +12,7 @@
 (defun my-goto-buffer (buffername)
   "Select buffer named BUFFERNAME."
   (select-window (my-windows-hsplit))
-  (switch-to-buffer (get-buffer-create buffername))
-  (other-window 1))
+  (switch-to-buffer-other-window (get-buffer-create buffername)))
 
 (defmacro my-window-command (key buffername)
   "Defines a command to jump to the buffer designated by BUFFER-NAME and bind it."
