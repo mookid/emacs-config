@@ -443,13 +443,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
   (add-hook 'shell-mode 'dirtrack-mode))
 
-(use-package ansi-color
-  :init
-  (defun my-ansi-colorize-buffer ()
-    (let (buffer-read-only)
-      (ansi-color-apply-on-region (point-min) (point-max))))
-  (add-hook 'compilation-filter-hook 'my-ansi-colorize-buffer))
-
 (let (my-zap-to-char-last-arg)
   (defun my-zap-to-char ()
     "Case sensitive, repetition friendly version of `zap-to-char'."
