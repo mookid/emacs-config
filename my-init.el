@@ -1329,8 +1329,8 @@ multiple eshell windows easier."
           (hl-line-mode 1)))))
   :config
   (set-face-attribute 'hl-line nil
-                      :weight 'bold
-                      :foreground "violet"
+                      :foreground "blue"
+                      :background "cornsilk"
                       :inherit nil))
 
 (use-package visible-mark
