@@ -1132,21 +1132,21 @@ Use in `isearch-mode-end-hook'."
    ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
-  :init
-  (progn
-    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
-    (global-diff-hl-mode +1)
-    (diff-hl-flydiff-mode 1)
-    (defun my-diff-hl-revert-hunk ()
-      "A version of `diff-hl-revert-hunk' without confirmation."
-      (interactive)
-      (my-no-confirm #'diff-hl-revert-hunk)))
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)
-   ("S-<f7>" . my-diff-hl-revert-hunk))
+   ("S-<f7>" . diff-hl-revert-hunk))
   :config
-  (add-function :before (symbol-function 'diff-hl-diff-goto-hunk) #'my-save-all-buffers))
+  (progn
+    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
+    (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
+    (cl-flet ((my-diff-hl-on (&rest _) (or diff-hl-mode (diff-hl-mode +1))))
+      (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
+        (add-function :before (symbol-function fun) #'my-diff-hl-on)))
+    (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
+                  #'my-save-all-buffers)
+    (add-function :around (symbol-function 'diff-hl-revert-hunk)
+                  #'my-no-confirm)))
 
 (use-package multiple-cursors
   :bind
