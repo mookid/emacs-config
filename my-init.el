@@ -1362,6 +1362,7 @@ multiple eshell windows easier."
     (smartparens-global-mode +1)))
 
 (use-package icomplete-mode
+  :disabled t
   :init (icomplete-mode +1)
   :bind
   (:map icomplete-minibuffer-map
