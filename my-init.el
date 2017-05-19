@@ -547,10 +547,17 @@ if its size is 1 line."
         (t
          (current-word))))
 
-(defun my-google-search (w)
-  "Search on google the word at point."
-  (interactive (list (read-string "query: " (my-prompt))))
-  (browse-url (concat "https://www.google.com/search?q=" w)))
+(defmacro my-defweb-search (name engine-url)
+  `(defun ,name (w)
+     ,(format "Search on %s the word at point."
+              (substring engine-url 0 (string-match "/" engine-url)))
+     (interactive (list (read-string "query: " (my-prompt))))
+     (browse-url (format "https://%s%s" ,engine-url w))))
+(put 'my-defweb-search 'lisp-indent-function 'defun)
+
+(my-defweb-search my-google-search
+  "www.google.com/search?q=")
+
 (define-key global-map (kbd "C-h g") 'my-google-search)
 
 
