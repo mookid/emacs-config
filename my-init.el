@@ -603,15 +603,12 @@ if its size is 1 line."
 
     (defun my-compile-finish-hook (buf status)
       (with-current-buffer buf
+        (goto-char (point-min))
         (and (string= (buffer-name buf) "*compilation*")
-             (let* ((success (string-match "^finished\\b" status)))
-               (let ((orig-background (face-background 'mode-line)))
-                 (unwind-protect
-                     (progn
-                       (when success
-                         (sit-for 0.4)
-                         (delete-window (get-buffer-window buf))))
-                   (set-face-background 'mode-line orig-background)))))))
+             (string-match "^finished\\b" status)
+             (not (re-search-forward "warn" nil t))
+             (sit-for 0.4)
+             (delete-window (get-buffer-window buf)))))
 
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)
 
