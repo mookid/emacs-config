@@ -436,6 +436,11 @@ If non nil, ARG overrides the `back-to-indentation' function."
          (cygwin-bin (expand-file-name "bin" cygwin-root)))
     (when (and (eq 'windows-nt system-type)
                (file-readable-p cygwin-root))
+      (define-key global-map (kbd "C-c u") 'my-dos2unix-cmd)
+      (defun my-dos2unix-cmd ()
+        (interactive)
+        (and buffer-file-name
+             (shell-command (format "dos2unix %s" buffer-file-name))))
       (add-to-list 'exec-path cygwin-bin)
       (add-to-list 'exec-path "/usr/local/bin")
       (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
