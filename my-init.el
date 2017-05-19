@@ -304,13 +304,7 @@ region (if any) or the next sexp."
   :bind
   (("<f7>" . vc-diff)
    ("C-<f7>" . vc-root-diff)
-   ("C-M-<f7>" . my-vc-remove-whitespace-diff)
-   :map diff-mode-shared-map
-   ("j" . diff-hunk-next)
-   ("k" . diff-hunk-prev)
-   ("s" . diff-split-hunk)
-   ("d" . diff-apply-hunk)
-   ("r" . diff-refine-hunk))
+   ("C-M-<f7>" . my-vc-remove-whitespace-diff))
   :config
   (progn
     (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
@@ -331,6 +325,15 @@ FILENAME is a name of a file or a directory."
              (shell-command (format "git apply %s" patch-file-name))
              (shell-command (format "rm -f %s" patch-file-name)))))))
 
+(use-package diff-mode
+  :bind
+  (:map
+   diff-mode-shared-map
+   ("j" . diff-hunk-next)
+   ("k" . diff-hunk-prev)
+   ("s" . diff-split-hunk)
+   ("d" . diff-apply-hunk)
+   ("r" . diff-refine-hunk)))
 
 ;; Reduce echo delay
 (setq echo-keystrokes 0.3)
