@@ -58,20 +58,11 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (defun my-key-chord-setup ()
       (with-eval-after-load 'init
         (or key-chord-mode (key-chord-mode +1))
-        (pcase-dolist (`(,keymap ,keys ,command) my-key-chords-alist)
-          (key-chord-define keymap keys command))))
+        (dolist (mapping my-key-chords-alist)
+          (apply #'key-chord-define mapping))))
     (my-key-chord-setup)))
 
-;;; Recentf command
-(defvar my-recentf-command-list nil
-  "A list of versions of `recentf'-like functions.")
-(defun my-recentf-command ()
-  "Call the first element of `my-recentf-command-list'."
-  (interactive)
-  (let ((cmd (and my-recentf-command-list (car my-recentf-command-list))))
-    (unless (and cmd (fboundp cmd))
-      (error "my-recentf-command: undefined"))
-    (funcall cmd)))
+(defun my-recentf-command () (interactive))
 (my-key-chord-define global-map "fh" 'my-recentf-command)
 
 
@@ -767,7 +758,7 @@ If there is no match, returns NIL."
   (("C-x C-h" . recentf-open-files))
   :config
   (progn
-    (push 'recentf-open-files my-recentf-command-list)
+    (fset 'my-recentf-command 'recentf-open-files)
     (setq recentf-max-saved-items 500)
     (setq recentf-max-menu-items 150)))
 
@@ -1021,7 +1012,7 @@ Use in `isearch-mode-end-hook'."
     (defvar ivy-use-virtual-buffers)
     (with-eval-after-load 'ivy
       (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
-    (push 'ivy-switch-buffer my-recentf-command-list)
+    (fset 'my-recentf-command 'ivy-switch-buffer)
     (defun my-ivy-completion-at-point ()
       (interactive)
       (if (and (boundp 'ivy-mode) (symbol-value 'ivy-mode))
