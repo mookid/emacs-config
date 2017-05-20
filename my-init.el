@@ -386,15 +386,22 @@ FILENAME is a name of a file or a directory."
 (define-key global-map (kbd "C-M-/") 'completion-at-point)
 (setq completion-cycle-threshold 5)
 
-;; Configuring parenthesis settings
-(progn
-  (defvar electric-pair-pairs)
-  (defvar show-paren-delay)
-  (electric-pair-mode t)
-  (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
-  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-  (setq show-paren-delay 0)
-  (show-paren-mode t))
+(use-package elec-pair
+  :init
+  (progn
+    (defvar electric-pair-pairs)
+    (defvar show-paren-delay)
+    (add-hook 'prog-mode-hook 'electric-pair-local-mode))
+  :config
+  (progn
+    (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
+    (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
+
+(use-package paren
+  :init
+  (progn
+    (setq show-paren-delay 0)
+    (show-paren-mode 1)))
 
 (add-to-list 'default-frame-alist '(height . 30))
 (add-to-list 'default-frame-alist '(width . 80))
