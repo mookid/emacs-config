@@ -669,6 +669,7 @@ if its size is 1 line."
    ("<C-wheel-down>" . text-scale-decrease)
    ("C-c ." . my-delete-mouse-secondary-overlay))
   :config
+  (set-face-background 'secondary-selection "light cyan")
   (progn
     (defun my-delete-mouse-secondary-overlay ()
       "Remove the overlay create by `mouse-drag-secondary'."
