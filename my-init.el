@@ -38,13 +38,29 @@
               ((symbol-function 'yes-or-no-p) #'always-yes))
       (apply fun args))))
 
-;;; Key chords pre-setup
-(defvar my-key-chords-alist nil
-  "A list of bindings. Each binding is a list of 3 elements: KEYS, KEYMAP, COMMAND.
+(use-package key-chord
+  :init
+  (progn
+    (defvar my-key-chords-alist nil
+      "A list of key chords bindings.
 
+Each binding is a list of 3 elements: KEYS, KEYMAP, COMMAND.
 KEYS is string of length 2; KEYMAP defaults to the global map.")
-(defun my-key-chord-define (keymap keys command)
-  (push (list keymap keys command) my-key-chords-alist))
+    (defun my-key-chord-define (keymap keys command)
+      (push (list keymap keys command) my-key-chords-alist)
+      (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
+    (my-key-chord-define global-map "jk" 'execute-extended-command)
+    (my-key-chord-define global-map "fj" 'find-file)
+    (my-key-chord-define global-map "hv" 'describe-variable)
+    (my-key-chord-define global-map "hk" 'describe-key))
+  :config
+  (progn
+    (defun my-key-chord-setup ()
+      (with-eval-after-load 'init
+        (or key-chord-mode (key-chord-mode +1))
+        (pcase-dolist (`(,keymap ,keys ,command) my-key-chords-alist)
+          (key-chord-define keymap keys command))))
+    (my-key-chord-setup)))
 
 ;;; Recentf command
 (defvar my-recentf-command-list nil
@@ -1092,25 +1108,6 @@ Use in `isearch-mode-end-hook'."
 (use-package yasnippet
   :defer t
   :config (yas-reload-all))
-
-(use-package key-chord
-  :init
-  (progn
-    (my-key-chord-define global-map "jk" 'execute-extended-command)
-    (my-key-chord-define global-map "fj" 'find-file)
-    (my-key-chord-define global-map "hv" 'describe-variable)
-    (my-key-chord-define global-map "hk" 'describe-key)
-    (defun my-key-chord-setup (&rest _)
-      (with-eval-after-load 'init
-        (key-chord-mode +1)
-        (mapc (lambda (elt)
-                (pcase elt
-                  (`(,keymap ,keys ,command)
-                   (key-chord-define keymap keys command))))
-              my-key-chords-alist)))
-    (add-function :after (symbol-function 'my-key-chord-define)
-                  #'my-key-chord-setup)
-    (my-key-chord-setup)))
 
 (use-package composable
   :disabled t
