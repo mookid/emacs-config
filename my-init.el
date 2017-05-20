@@ -518,12 +518,6 @@ With a prefix argument ARG, insert `file:' before."
 ;; Display page delimiter as a horizontal line
 ;; (aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
 
-
-;;; Colors
-(defvar my-cursor-color "purple1")
-(set-face-attribute 'default nil :background "black" :foreground "white")
-(set-face-background 'highlight "blue")
-(set-face-background 'show-paren-match "turquoise")
 
 
 (use-package dired
@@ -1318,7 +1312,6 @@ multiple eshell windows easier."
           (hl-line-mode 1)))))
   :config
   (set-face-attribute 'hl-line nil
-                      :foreground "blue"
                       :background "cornsilk"
                       :inherit nil))
 
@@ -1342,7 +1335,6 @@ multiple eshell windows easier."
   (progn
     (set-face-background 'region nil)
     (setq show-paren-priority -1)
-    (add-to-list 'default-frame-alist `(cursor-color . ,my-cursor-color))
     (setq visible-mark-max (length visible-mark-faces))
     (setq visible-mark-forward-max 2)
     (global-visible-mark-mode 1)))
