@@ -606,7 +606,7 @@ if its size is 1 line."
         (goto-char (point-min))
         (and (string= (buffer-name buf) "*compilation*")
              (string-match "^finished\\b" status)
-             (not (re-search-forward "warn" nil t))
+             (not (re-search-forward "warning" nil t))
              (sit-for 0.4)
              (delete-window (get-buffer-window buf)))))
 
