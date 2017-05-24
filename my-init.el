@@ -385,6 +385,7 @@ FILENAME is a name of a file or a directory."
     (add-hook 'prog-mode-hook 'electric-pair-local-mode))
   :config
   (progn
+    (electric-pair-mode -1)
     (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
     (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
 
@@ -1338,8 +1339,10 @@ multiple eshell windows easier."
   :init
   (progn
     (use-package smartparens-config)
-    (and electric-pair-mode (electric-pair-mode -1))
-    (smartparens-global-mode +1)))
+    (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
+    (defun my-smartparens-mode-setup ()
+      (and electric-pair-mode (electric-pair-local-mode -1)))
+    (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
 (use-package icomplete-mode
   :disabled t
