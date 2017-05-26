@@ -1003,8 +1003,6 @@ Use in `isearch-mode-end-hook'."
       (interactive "P")
       (call-interactively (if use-ivy 'counsel-M-x 'execute-extended-command)))
     (defvar ivy-use-virtual-buffers)
-    (with-eval-after-load 'ivy
-      (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
     (fset 'my-recentf-command 'ivy-switch-buffer)
     (defun my-ivy-completion-at-point ()
       (interactive)
@@ -1014,7 +1012,10 @@ Use in `isearch-mode-end-hook'."
         (unwind-protect
             (completion-at-point)
           (ivy-mode -1))))
-    (setq ivy-use-virtual-buffers t)))
+    (setq ivy-use-virtual-buffers t))
+  :config
+  (progn
+    (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
 (use-package projectile
   :diminish projectile-mode
