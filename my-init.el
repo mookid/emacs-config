@@ -284,14 +284,13 @@ region (if any) or the next sexp."
 
 (define-minor-mode my-untabify-mode
   "Untabify buffer on save." nil " untab" nil
-  (if my-untabify-mode
-      (progn
-        (make-variable-buffer-local 'my-untabify-this-buffer)
-        (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
-        (add-hook 'before-save-hook 'my-untabify-buffer nil t))
-    (progn
-      (kill-local-variable 'my-untabify-this-buffer)
-      (remove-hook 'before-save-hook 'my-untabify-buffer t))))
+  (cond (my-untabify-mode
+         (make-variable-buffer-local 'my-untabify-this-buffer)
+         (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
+         (add-hook 'before-save-hook 'my-untabify-buffer nil t))
+        (t
+         (kill-local-variable 'my-untabify-this-buffer)
+         (remove-hook 'before-save-hook 'my-untabify-buffer t))))
 (add-hook 'prog-mode-hook 'my-untabify-mode)
 ;; Delete trailing whitespaces when saving a file
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
