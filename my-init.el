@@ -1071,9 +1071,11 @@ Use in `isearch-mode-end-hook'."
    ("C-c ." . nil)
    ("C-c /" . nil))
   :config
-  (use-package ocp-indent
-    :demand t
-    :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))))
+  (progn
+    (set-face-bold 'tuareg-font-lock-governing-face nil)
+    (use-package ocp-indent
+      :demand t
+      :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
 
 ;; C configuration
 (use-package cc-vars
