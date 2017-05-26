@@ -6,6 +6,7 @@
 ;;; Code:
 (require 'cl-lib)
 (require 'use-package)
+(setq use-package-verbose t)
 
 
 ;;; Macros
@@ -433,17 +434,17 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (setcdr visual-line-mode-map nil)
   (diminish 'visual-line-mode))
 
+(use-package fullframe)
+
 (use-package ibuffer
   :bind
   ("C-x C-b" . ibuffer)
   :config
-  (with-eval-after-load 'fullframe
-    (fullframe ibuffer ibuffer-quit)))
+  (fullframe ibuffer ibuffer-quit))
 
 (use-package package
   :init
-  (with-eval-after-load 'fullframe
-    (fullframe list-packages quit-window)))
+  (fullframe list-packages quit-window))
 
 ;; Shell
 (progn
@@ -645,11 +646,6 @@ if its size is 1 line."
         ("C-s" . iedit-next-occurrence)
         ("C-r" . iedit-prev-occurrence)
         ("M-o" . my-iedit-occur)))
-
-
-;;; Use package
-(defvar use-package-verbose)
-(setq use-package-verbose t)
 
 
 ;;; Mouse
@@ -919,10 +915,6 @@ Use in `isearch-mode-end-hook'."
       (set-window-buffer (next-window) next-win-buffer)
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
-
-
-;;; melpa packages
-(use-package fullframe)
 
 (use-package evil-nerd-commenter
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
