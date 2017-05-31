@@ -1323,7 +1323,6 @@ multiple eshell windows easier."
             (nreverse faces))))
   :init
   (progn
-    (set-face-background 'region nil)
     (setq show-paren-priority -1)
     (setq visible-mark-max (length visible-mark-faces))
     (setq visible-mark-forward-max 2)
