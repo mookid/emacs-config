@@ -224,7 +224,6 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
-(define-key global-map (kbd "M-DEL") 'kill-whole-line)
 (define-key global-map (kbd "M-k") 'my-copy-line)
 (define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
