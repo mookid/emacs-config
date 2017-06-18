@@ -12,7 +12,7 @@
 ;;; Macros
 (defun my-goto-buffer (buffername)
   "Select buffer named BUFFERNAME."
-  (select-window (my-windows-hsplit))
+  (select-window (split-window-vertically))
   (switch-to-buffer-other-window (get-buffer-create buffername)))
 
 (defmacro my-window-command (key buffername)
@@ -877,22 +877,10 @@ Use in `isearch-mode-end-hook'."
 ;;; Windows
 (setq tags-add-tables nil)
 
-(defun my-windows-hsplit ()
-  "Split the current window horizontally."
-  (interactive)
-  (split-window-horizontally (- (/ (window-total-width) 3))))
-
-(defun my-windows-vsplit ()
-  "Split the current window vertically."
-  (interactive)
-  (split-window-vertically (- (/ (window-total-height) 3))))
-
 (use-package winner
   :config (winner-mode +1))
 
 (define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
-(define-key global-map (kbd "<f2> <f3>") 'my-windows-hsplit)
-(define-key global-map (kbd "<f2> <f4>") 'my-windows-vsplit)
 
 (my-window-command "g" "*grep*")
 (my-window-command "d" "*vc-diff*")
