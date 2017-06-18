@@ -543,12 +543,14 @@ With a prefix argument ARG, insert `file:' before."
   ("<S-mouse-2>" . ffap-at-mouse)
   :init
   (progn
-    (add-function :around (symbol-function 'ffap-prompter)
-                  'my-ffap-prompter-noconfirm)
     (defun my-ffap-prompter-noconfirm (fn &optional guess)
       "Remove confirmation."
       (xref-push-marker-stack)
-      (or guess (ffap-guesser) (funcall fn)))))
+      (or guess (ffap-guesser) (funcall fn))))
+  :config
+  (progn
+    (add-function :around (symbol-function 'ffap-prompter)
+                  'my-ffap-prompter-noconfirm)))
 
 ;;; Google search
 (defun my-prompt ()
