@@ -331,6 +331,20 @@ FILENAME is a name of a file or a directory."
              (shell-command (format "git apply %s" patch-file-name))
              (shell-command (format "rm -f %s" patch-file-name)))))))
 
+(use-package vc-hooks
+  :bind
+  (:map
+   vc-prefix-map
+   ("q" . my-vc-add-current-buffer))
+  :init
+  (progn
+    (defun my-vc-add-current-buffer ()
+      (interactive)
+      (when (and buffer-file-name (stringp buffer-file-name))
+        (let ((filename (file-name-nondirectory buffer-file-name)))
+          (shell-command (format "git add %s" filename))
+          (message "Added %s!" filename))))))
+
 (use-package diff-mode
   :bind
   (:map
