@@ -130,6 +130,7 @@
         handle-switch-frame
         lispy-cursor-down
         my-goto-*scratch*
+        my-save-all-buffers
         ocp-indent-buffer
         ocp-index-jump-to-sig-at-point
         recompile
