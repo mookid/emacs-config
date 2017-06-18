@@ -324,12 +324,12 @@ FILENAME is a name of a file or a directory."
            (let* ((vc-root-dir (vc-root-dir))
                   (relative-file-name (file-relative-name filename vc-root-dir))
                   (patch-file-name (concat filename "~~~")))
-             (shell-command (format "git diff -w %s > %s"
-                                    relative-file-name
-                                    patch-file-name))
-             (shell-command (format "git checkout %s" relative-file-name))
-             (shell-command (format "git apply %s" patch-file-name))
-             (shell-command (format "rm -f %s" patch-file-name)))))))
+             (shell-command
+              (mapconcat #'identity (list (format "git diff -w %s > %s" relative-file-name patch-file-name)
+                                          (format "git checkout %s" relative-file-name)
+                                          (format "git apply %s" patch-file-name)
+                                          (format "rm -f %s" patch-file-name))
+                         "&& ")))))))
 
 (use-package vc-hooks
   :bind
