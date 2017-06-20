@@ -1028,6 +1028,7 @@ Use in `isearch-mode-end-hook'."
     (setq ivy-use-virtual-buffers t))
   :config
   (progn
+    (setq ivy-virtual-abbreviate 'full)
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
 (use-package projectile
