@@ -663,9 +663,7 @@ if its size is 1 line."
     (defun my-iedit-occur (&optional nlines)
       (interactive)
       (when iedit-mode
-        (let ((regexp iedit-initial-string-local))
-          (iedit-done)
-          (occur regexp nlines)))))
+        (occur iedit-initial-string-local nlines))))
   :bind
   (:map iedit-mode-keymap
         ("C-s" . iedit-next-occurrence)
