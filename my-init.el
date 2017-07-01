@@ -214,12 +214,6 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
 (define-key global-map (kbd "M-`") 'my-other-window-or-switch-buffer)
-(define-key global-map (kbd "M-S-<up>") 'split-window-below)
-(define-key global-map (kbd "M-S-<down>") 'delete-other-windows-vertically)
-(define-key global-map (kbd "M-S-<left>") 'delete-other-windows)
-(define-key global-map (kbd "M-S-<right>") 'split-window-horizontally)
-(define-key global-map (kbd "M-+") 'balance-windows) ;; M-S-=
-(define-key global-map (kbd "M-<down>") 'delete-window)
 (define-key global-map (kbd "<M-left>") 'previous-buffer)
 (define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
