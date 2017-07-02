@@ -1272,6 +1272,7 @@ multiple eshell windows easier."
   (progn
     (add-hook 'prog-mode-hook 'hl-todo-mode)
     (setq hl-todo-keyword-faces '(("TODO" . hl-todo)
+                                  ("XXX" . hl-todo)
                                   ("NOTE" . hl-todo)
                                   ("HACK" . hl-todo)
                                   ("FIXME" . hl-todo))))
