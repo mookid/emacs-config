@@ -200,6 +200,21 @@ region (if any) or the next sexp."
           try-complete-file-name-partially
           try-complete-file-name)))
 
+;; Colors
+(defvar my-colors-param 'light)
+(defun my-toggle-colors ()
+  (interactive)
+  "Toggle between light and dark background."
+  (cl-case my-colors-param
+    ('light
+     (set-background-color "black")
+     (set-foreground-color "white")
+     (setq my-colors-param 'dark))
+    ('dark
+     (set-background-color "white")
+     (set-foreground-color "black")
+     (setq my-colors-param 'light))))
+
 ;; Keybindings
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
