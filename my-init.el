@@ -70,6 +70,10 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 (setq initial-scratch-message nil)
+(with-current-buffer (get-buffer "*scratch*")
+  (add-hook 'kill-buffer-hook
+            (lambda () (error "DENIED! don't kill my precious *scratch*!!"))
+            nil t))
 (setq frame-title-format (list "%f"))
 
 (keyboard-translate ?\( ?\[)
