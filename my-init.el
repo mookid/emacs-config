@@ -72,6 +72,11 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (setq initial-scratch-message nil)
 (setq frame-title-format (list "%f"))
 
+(keyboard-translate ?\( ?\[)
+(keyboard-translate ?\[ ?\()
+(keyboard-translate ?\) ?\])
+(keyboard-translate ?\] ?\))
+
 (add-to-list 'completion-styles 'partial-completion)
 
 (setq minibuffer-depth-indicate-mode t)
