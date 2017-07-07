@@ -823,8 +823,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (use-package isearch
   :diminish isearch-mode
   :bind
-  (("C-M-s" . my-isearch-region)
-   ("M-o" . my-occur-region)
+  (("M-o" . my-occur-region)
    :map
    minibuffer-local-isearch-map
    ("TAB" . isearch-complete-edit)
@@ -837,12 +836,10 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 
   :init
   (progn
-    (defun my-occur-region (beg end)
-      "Send selection between BEG and END to occur."
-      (interactive "r")
-      (when (region-active-p)
-        (my-isearch-region beg end)
-        (call-interactively 'isearch-occur)))
+    (defun my-occur-region ()
+      "Send region to occur when activated."
+      (interactive)
+      (and (my-isearch-region) (call-interactively 'isearch-occur)))
 
     (defun my-isearch-beginning-of-buffer ()
       "Move isearch point to the beginning of the buffer."
@@ -867,16 +864,26 @@ Use in `isearch-mode-end-hook'."
                  (not isearch-mode-end-hook-quit))
         (goto-char isearch-other-end)))
 
-    (defun my-isearch-region (beg end)
-      "Send selection between BEG and END to isearch."
-      (interactive "r")
+    (defun my-isearch-region ()
+      "Send region to isearch when activated.
+
+Returns t if the region was activated, nil otherwise."
       (when (region-active-p)
         (deactivate-mark)
-        (kill-ring-save beg end)
+        (kill-ring-save (region-beginning) (region-end))
         (goto-char (region-beginning))
         (isearch-mode t)
         (isearch-yank-pop)
-        t))))
+        t))
+    (defun my-isearch-region-hook (orig-fun &rest args)
+      "Send region to isearch when activated.
+
+Otherwise, apply ORIG-FUN to ARGS."
+      (or (my-isearch-region) (apply orig-fun args)))
+    (add-function :around (symbol-function 'isearch-forward)
+                  'my-isearch-region-hook)
+    (add-function :around (symbol-function 'isearch-backward)
+                  'my-isearch-region-hook)))
 
 
 ;;; Windows
