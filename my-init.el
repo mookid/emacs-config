@@ -76,6 +76,10 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
             (lambda () (error "DENIED! don't kill my precious *scratch*!!"))
             nil t))
 (setq frame-title-format (list "%f"))
+(defun my-toggle-debug ()
+  "Change the value of `debug-on-error'."
+  (interactive)
+  (message "`debug-on-error' set to %S" (cl-callf not debug-on-error)))
 
 (keyboard-translate ?\( ?\[)
 (keyboard-translate ?\[ ?\()
@@ -255,6 +259,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
 (define-key global-map (kbd "C-S-<up>") 'my-move-line-up)
 (define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
+(define-key global-map (kbd "C-c F") 'my-toggle-debug)
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
