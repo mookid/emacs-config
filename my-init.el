@@ -39,6 +39,8 @@
               ((symbol-function 'yes-or-no-p) #'always-yes))
       (apply fun args))))
 
+(defun my-recentf-command () (interactive))
+
 (use-package key-chord
   :init
   (progn
@@ -53,7 +55,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (my-key-chord-define global-map "jk" 'execute-extended-command)
     (my-key-chord-define global-map "fj" 'find-file)
     (my-key-chord-define global-map "hv" 'describe-variable)
-    (my-key-chord-define global-map "hk" 'describe-key))
+    (my-key-chord-define global-map "hk" 'describe-key)
+    (my-key-chord-define global-map "fh" 'my-recentf-command))
   :config
   (progn
     (defun my-key-chord-setup ()
@@ -63,8 +66,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
           (apply #'key-chord-define mapping))))
     (my-key-chord-setup)))
 
-(defun my-recentf-command () (interactive))
-(my-key-chord-define global-map "fh" 'my-recentf-command)
 
 
 ;;; Basic configuration
