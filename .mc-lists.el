@@ -16,6 +16,7 @@
         dabbrev-expand
         delete-indentation
         down-list
+        electric-newline-and-maybe-indent
         electric-pair-delete-pair
         erlang-electric-comma
         forward-sexp
