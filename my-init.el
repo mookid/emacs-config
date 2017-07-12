@@ -4,7 +4,7 @@
 ;; My Emacs config, with simple options.
 
 ;;; Code:
-(require 'cl-lib)
+(eval-when-compile (require 'cl-lib))
 (require 'use-package)
 (setq use-package-verbose t)
 
@@ -481,7 +481,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :bind
   ("C-x C-b" . ibuffer)
   :config
-  (fullframe ibuffer ibuffer-quit))
+  (fullframe ibuffer quit-window))
 
 (use-package package
   :init
@@ -666,8 +666,7 @@ if its size is 1 line."
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)
 
     (defun my-count-grep-matches (buf _msg)
-      (save-excursion
-        (set-buffer buf)
+      (with-current-buffer buf
         (let* ((count (- (count-lines (point-min) (point-max))
                          6))
                (match (if (> count 1) "matches" "match")))
@@ -1103,8 +1102,12 @@ Otherwise, apply ORIG-FUN to ARGS."
       (defvar indent-tabs-mode)
       (setq c-default-style "linux")
       (setq indent-tabs-mode nil)
-      (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
-      (define-key c-mode-base-map (kbd "C-c C-a") 'ff-find-other-file))
+      (use-package cc-mode
+        :bind
+        (:map
+         c-mode-base-map
+         ("C-c C-c" . compile)
+         ("C-c C-a" . ff-find-other-file))))
     (add-hook 'c-initialization-hook #'my-c-setup)))
 
 ;; Images
@@ -1331,7 +1334,9 @@ multiple eshell windows easier."
   (progn
     (defface visible-mark-active
       '((((type tty) (class mono)))
-        (t (:background "magenta"))) "")
+        (t (:background "magenta")))
+      "Face for visible-mark."
+      :group 'visible-mark)
     (setq visible-mark-faces
           (let ((i 0) faces)
             (dolist (color '("light green" "yellow" "light blue"))
