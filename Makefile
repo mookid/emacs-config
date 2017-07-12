@@ -12,7 +12,7 @@ emacs -Q --no-init --batch \
 all: elpa cl-hyperspec
 
 elpa:
-	find $(EMACSELPA) -name *.elc | xargs rm; \
+	find $(EMACSELPA) -name *.elc | xargs -r rm; \
 	$(EMACS) --eval "(byte-recompile-directory \"${EMACSELPA}\" 0 t)"
 
 cl-hyperspec:
@@ -20,5 +20,5 @@ cl-hyperspec:
 	tar xvzf HyperSpec-7-0.tar.gz
 
 clean:
-	find $(EMACSD) -name *.elc | xargs rm -f
+	find $(EMACSD) -name *.elc | xargs -r rm -f
 	rm -rf HyperSpec*
