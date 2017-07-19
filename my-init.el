@@ -486,14 +486,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
 ;; Pop mark
 (setq set-mark-command-repeat-pop t)
 
-;; Wrap long lines
-(use-package diminish)
-
-(progn
-  (global-visual-line-mode 1)
-  (setcdr visual-line-mode-map nil)
-  (diminish 'visual-line-mode))
-
 (use-package fullframe)
 
 (use-package ibuffer
