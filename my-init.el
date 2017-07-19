@@ -179,6 +179,13 @@ to next buffer otherwise."
       (switch-to-buffer nil)
     (other-window 1)))
 
+(defun my-kill-region-or-backward-word (&rest _)
+  (interactive)
+  (if (region-active-p)
+    (kill-region (region-beginning) (region-end))
+    (backward-kill-word 1)))
+(define-key global-map [remap kill-region] 'my-kill-region-or-backward-word)
+
 (defun my-other-window-kill-buffer ()
   "Kill the buffer in the other window."
   (interactive)
