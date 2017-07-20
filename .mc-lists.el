@@ -42,6 +42,7 @@
         my-move-beginning-of-line
         my-next-beginning
         my-previous-end
+        my-space-and-back
         my-yank
         my-zap-to-char
         org-end-of-line
