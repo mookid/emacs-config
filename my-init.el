@@ -453,8 +453,10 @@ FILENAME is a name of a file or a directory."
     (setq show-paren-delay 0)
     (show-paren-mode 1)))
 
-(add-to-list 'default-frame-alist '(height . 30))
+(add-to-list 'default-frame-alist '(height . 37))
 (add-to-list 'default-frame-alist '(width . 80))
+(add-to-list 'initial-frame-alist '(top . 20))
+(add-to-list 'initial-frame-alist '(left . 120))
 
 ;; Setting up fonts
 (progn
