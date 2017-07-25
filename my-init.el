@@ -875,6 +875,7 @@ With prefix argument ARG, invert `+' and `-'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
+   ("<f3>" . my-transient-isearch-map-mode)
    ("M-o" . isearch-occur)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
@@ -898,6 +899,25 @@ With prefix argument ARG, invert `+' and `-'."
       (interactive)
       (goto-char (point-max))
       (isearch-repeat-backward))
+
+    (defvar my-transient-isearch-map-bindings
+      '(("n" . isearch-repeat-forward)
+        ("N" . isearch-repeat-backward)
+        ("%" . isearch-query-replace)
+        ("g" . my-isearch-beginning-of-buffer)
+        ("G" . my-isearch-end-of-buffer)))
+
+    (define-minor-mode my-transient-isearch-map-mode
+      "Override some keys in isearch." nil nil nil
+      (cond
+       (my-transient-isearch-map-mode
+        (add-hook 'isearch-mode-end-hook 'my-transient-isearch-map-mode-off)
+        (dolist (binding my-transient-isearch-map-bindings)
+          (define-key isearch-mode-map (car binding) (cdr binding))))
+       (t
+        (remove-hook 'isearch-mode-end-hook 'my-transient-isearch-map-mode-off)
+        (dolist (binding my-transient-isearch-map-bindings)
+          (define-key isearch-mode-map (car binding) 'isearch-printing-char)))))
 
     ;; Exit isearch at the beginning of the matching string
     (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
