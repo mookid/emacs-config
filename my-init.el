@@ -840,6 +840,30 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (add-function :after (symbol-function 'occur)
                 #'my-occur-skip-gribberish-hook))
 
+(defun my-yank-diff (arg)
+  "Yank a patch.
+
+Yank, and then process the yanked region: remove the `+' that
+start every line, kill the lines starting with `-', and reindent.
+
+With prefix argument ARG, invert `+' and `-'."
+  (interactive "P")
+  (yank)
+  (save-mark-and-excursion
+   (while
+       (and (<= (mark) (point))
+            (progn
+              (back-to-indentation)
+              (cond ((if arg (looking-at "-") (looking-at "\+"))
+                     (delete-char 1))
+                    ((if arg (looking-at "\+") (looking-at "-"))
+                     (let* ((this-line (line-beginning-position))
+                            (next-line (progn (forward-line 1) (point))))
+                       (delete-region this-line next-line))))
+              ;; XXX: avoids an infinite loop in empty buffers
+              (<= 0 (forward-line -1)))))
+   (indent-region (point) (mark))))
+
 
 ;;; Isearch
 (use-package isearch
