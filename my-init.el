@@ -1062,7 +1062,6 @@ Otherwise, apply ORIG-FUN to ARGS."
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ([remap completion-at-point] . my-ivy-completion-at-point)
-   ([remap execute-extended-command] . my-M-x-command)
    ("C-<f8>" . counsel-rg)
    ("C-c s" . swiper)
    ("C-c r" . ivy-resume)
@@ -1076,9 +1075,6 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("<right>" . ivy-alt-done))
   :init
   (progn
-    (defun my-M-x-command (use-ivy)
-      (interactive "P")
-      (call-interactively (if use-ivy 'counsel-M-x 'execute-extended-command)))
     (defvar ivy-use-virtual-buffers)
     (fset 'my-recentf-command 'ivy-switch-buffer)
     (defun my-ivy-completion-at-point ()
