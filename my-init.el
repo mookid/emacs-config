@@ -1356,7 +1356,8 @@ multiple eshell windows easier."
     (add-hook 'erlang-mode-hook #'my-insert-erl-module-stub)
     (defun my-insert-erl-module-stub ()
       (when (and (= (point-min) (point-max))
-                 (buffer-file-name))
+                 (buffer-file-name)
+                 (string-suffix-p ".erl" (buffer-file-name)))
         (let ((module-name (file-name-base)))
           (insert (format "-module(%s).\n-export([]).\n\n"
                           module-name)))))))
