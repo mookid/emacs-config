@@ -1234,6 +1234,16 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-z r" . unhighlight-regexp)
    ("C-z u" . my-unhighlight-all)))
 
+(use-package shell
+  :bind
+  (:map shell-mode-map
+        ("<f5>" . comint-previous-input))
+  :config
+  (progn
+    (defun end-of-buffer-hook (&rest _) (end-of-buffer))
+    (add-function :before (symbol-function 'comint-previous-input) 'end-of-buffer-hook)
+    (add-function :before (symbol-function 'comint-next-input) 'end-of-buffer-hook)))
+
 (use-package eshell
   :init
   (progn
