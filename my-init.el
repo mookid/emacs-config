@@ -703,7 +703,8 @@ if its size is 1 line."
       (when iedit-mode
         (occur iedit-initial-string-local nlines))))
   :bind
-  (:map iedit-mode-keymap
+  (("C-;" . iedit-mode)
+   :map iedit-mode-keymap
         ("C-s" . iedit-next-occurrence)
         ("C-r" . iedit-prev-occurrence)
         ("M-o" . my-iedit-occur)))
