@@ -234,19 +234,24 @@ region (if any) or the next sexp."
           try-complete-file-name)))
 
 ;; Colors
-(defvar my-colors-param 'light)
+(defun my-set-frame-background (mode)
+  (setq frame-background-mode mode)
+  (mapc 'frame-set-background-mode (frame-list)))
+(or frame-background-mode
+    (my-set-frame-background 'light))
+
 (defun my-toggle-colors ()
   (interactive)
   "Toggle between light and dark background."
-  (cl-case my-colors-param
+  (cl-case frame-background-mode
     ('light
-     (set-background-color "black")
-     (set-foreground-color "white")
-     (setq my-colors-param 'dark))
+     (set-face-background 'default "black")
+     (set-face-foreground 'default "white")
+     (my-set-frame-background 'dark))
     ('dark
-     (set-background-color "white")
-     (set-foreground-color "black")
-     (setq my-colors-param 'light))))
+     (set-face-background 'default "white")
+     (set-face-foreground 'default "black")
+     (my-set-frame-background 'light))))
 
 ;; Keybindings
 (define-key global-map (kbd "C-h C-k") 'describe-key)
