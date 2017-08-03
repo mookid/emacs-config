@@ -1145,7 +1145,9 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-c /" . nil))
   :config
   (progn
-    (set-face-bold 'tuareg-font-lock-governing-face nil)
+    (set-face-attribute 'tuareg-font-lock-governing-face nil
+                        :inherit 'font-lock-type-face
+                        :foreground nil)
     (use-package ocp-indent
       :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
