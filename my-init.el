@@ -589,8 +589,7 @@ With a prefix argument ARG, insert `file:' before."
   (progn
     (setq dired-listing-switches "-alh")
     (set-face-attribute 'dired-ignored nil
-                        :strike-through t
-                        :foreground "gray40")))
+                        :foreground "gray60")))
 
 
 ;;; Find file at point
@@ -723,7 +722,6 @@ if its size is 1 line."
    ("<C-wheel-down>" . text-scale-decrease)
    ("C-c ." . my-delete-mouse-secondary-overlay))
   :config
-  (set-face-background 'secondary-selection "light cyan")
   (progn
     (defun my-delete-mouse-secondary-overlay ()
       "Remove the overlay create by `mouse-drag-secondary'."
@@ -1396,9 +1394,7 @@ multiple eshell windows easier."
         (with-current-buffer next-error-last-buffer
           (hl-line-mode 1)))))
   :config
-  (set-face-attribute 'hl-line nil
-                      :background "cornsilk"
-                      :inherit nil))
+  (set-face-attribute 'hl-line nil :inherit 'next-error))
 
 (use-package visible-mark
   :preface
