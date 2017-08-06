@@ -297,8 +297,11 @@ region (if any) or the next sexp."
                         (if (and (stringp elt) (string-match "  +" elt)) " " elt))
                       mode-line-format))
 
-;; Disable the bell
-(setq ring-bell-function 'ignore)
+(defun my-visual-ring-bell ()
+  (let ((face-background (face-background 'default)))
+    (set-face-background 'default "DodgerBlue")
+    (set-face-background 'default face-background)))
+(setq ring-bell-function 'my-visual-ring-bell)
 
 ;; Enable originally disabled functions
 (put 'upcase-region 'disabled nil)
