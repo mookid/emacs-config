@@ -1434,7 +1434,9 @@ multiple eshell windows easier."
     (use-package smartparens-config)
     (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
     (defun my-smartparens-mode-setup ()
-      (and electric-pair-mode (electric-pair-local-mode -1)))
+      (and (fboundp 'electric-pair-mode)
+	   electric-pair-mode
+	   (electric-pair-local-mode -1)))
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
 (use-package icomplete-mode
