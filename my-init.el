@@ -233,6 +233,12 @@ region (if any) or the next sexp."
           try-complete-file-name-partially
           try-complete-file-name)))
 
+(defun my-expand-lines ()
+  (interactive)
+  (let ((hippie-expand-try-functions-list
+         '(try-expand-line)))
+    (call-interactively 'hippie-expand)))
+
 ;; Colors
 (defun my-set-frame-background (mode)
   (setq frame-background-mode mode)
@@ -284,6 +290,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-S-<up>") 'my-move-line-up)
 (define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
 (define-key global-map (kbd "C-c F") 'my-toggle-debug)
+(define-key global-map (kbd "C-c l")  'my-expand-lines)
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
