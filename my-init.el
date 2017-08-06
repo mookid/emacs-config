@@ -458,7 +458,7 @@ FILENAME is a name of a file or a directory."
     (add-hook 'prog-mode-hook 'electric-pair-local-mode))
   :config
   (progn
-    (electric-pair-mode -1)
+    (and (fboundp 'electric-pair-mode) (electric-pair-mode -1))
     (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
     (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
 
