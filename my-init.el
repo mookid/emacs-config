@@ -612,7 +612,7 @@ With a prefix argument ARG, insert `file:' before."
   (progn
     (defun my-ffap-prompter-noconfirm (fn &optional guess)
       "Remove confirmation."
-      (xref-push-marker-stack)
+      (and (fboundp 'xref-push-marker-stack) (xref-push-marker-stack))
       (or guess (ffap-guesser) (funcall fn))))
   :config
   (progn
