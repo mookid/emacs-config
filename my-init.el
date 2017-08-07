@@ -1121,6 +1121,19 @@ Otherwise, apply ORIG-FUN to ARGS."
     (setq ivy-use-virtual-buffers t))
   :config
   (progn
+    (with-eval-after-load 'counsel
+      (add-function :before (symbol-function 'counsel-switch-to-shell-buffer)
+                    'my-insert-default-shell-name)
+      (add-function :after (symbol-function 'counsel-switch-to-shell-buffer)
+                    'my-remove-default-shell-name)
+      (defun my-insert-default-shell-name ()
+        (add-function :around (symbol-function 'ivy-read)
+                      'my-ivy-force-initial-input))
+      (defun my-remove-default-shell-name ()
+        (remove-function (symbol-function 'ivy-read)
+                         'my-ivy-force-initial-input))
+      (defun my-ivy-force-initial-input (old-fun &rest args)
+        (apply old-fun (append args '(:initial-input "*shell*")))))
     (setq ivy-virtual-abbreviate 'full)
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
