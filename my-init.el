@@ -41,6 +41,10 @@
 
 (defun my-recentf-command () (interactive))
 
+(defun my-find-init-file ()
+  (interactive)
+  (find-file my-main-init-file))
+
 (use-package key-chord
   :init
   (progn
@@ -56,6 +60,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (my-key-chord-define global-map "fj" 'find-file)
     (my-key-chord-define global-map "hv" 'describe-variable)
     (my-key-chord-define global-map "hk" 'describe-key)
+    (my-key-chord-define global-map "fy" 'my-find-init-file)
     (my-key-chord-define global-map "fh" 'my-recentf-command))
   :config
   (progn
