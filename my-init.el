@@ -537,7 +537,11 @@ If non nil, ARG overrides the `back-to-indentation' function."
       (setq explicit-shell-file-name shell-file-name)
       (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
 
-  (add-hook 'shell-mode 'dirtrack-mode))
+  (add-hook 'shell-mode-hook 'my-reset-prompt-command)
+  (defun my-reset-prompt-command ()
+    (insert "PROMPT_COMMAND=\"\"")
+    (comint-send-input))
+  (add-hook 'shell-mode-hook 'dirtrack-mode))
 
 (let (my-zap-to-char-last-arg)
   (defun my-zap-to-char ()
@@ -1090,6 +1094,7 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-c s" . swiper)
    ("C-c r" . ivy-resume)
    ("C-M-y". counsel-yank-pop)
+   ("C-z" . counsel-switch-to-shell-buffer)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
@@ -1099,6 +1104,10 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("<right>" . ivy-alt-done))
   :init
   (progn
+    (use-package shell
+      :bind
+      (:map shell-mode-map
+            ("C-z" . bury-buffer)))
     (defvar ivy-use-virtual-buffers)
     (fset 'my-recentf-command 'ivy-switch-buffer)
     (defun my-ivy-completion-at-point ()
