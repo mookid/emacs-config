@@ -10,10 +10,10 @@
 
 
 ;;; Macros
-(defun my-goto-buffer (buffername)
-  "Select buffer named BUFFERNAME."
+(defun my-goto-buffer (buffer-name)
+  "Select buffer named BUFFER-NAME."
   (select-window (split-window-vertically))
-  (switch-to-buffer-other-window (get-buffer-create buffername)))
+  (switch-to-buffer-other-window (get-buffer-create buffer-name)))
 
 (defmacro my-window-command (key buffername)
   "Defines a command to jump to the buffer designated by BUFFER-NAME and bind it."
@@ -1485,6 +1485,13 @@ multiple eshell windows easier."
   (:map icomplete-minibuffer-map
         ("C-s" . icomplete-forward-completions)
         ("C-r" . icomplete-backward-completions)))
+
+(use-package ispell
+  :config
+  (progn
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+    (setq ispell-program-name "hunspell")
+    (setq ispell-dictionary "english")))
 
 (provide 'my-init)
 ;;; my-init.el ends here
