@@ -72,9 +72,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 (setq initial-scratch-message nil)
 (with-current-buffer (get-buffer "*scratch*")
-  (add-hook 'kill-buffer-hook
-            (lambda () (error "DENIED! don't kill my precious *scratch*!!"))
-            nil t))
+  (add-hook 'kill-buffer-hook 'bury-buffer nil t))
 (setq frame-title-format (list "%f"))
 (defun my-toggle-debug ()
   "Change the value of `debug-on-error'."
@@ -878,6 +876,13 @@ With prefix argument ARG, invert `+' and `-'."
               (<= 0 (forward-line -1)))))
    (indent-region (point) (mark))))
 
+(ert-deftest my-yank-diff-test ()
+  (should (string= " test\n test"
+                   (with-temp-buffer
+                     (erase-buffer)
+                     (kill-new "+ test\n+ test")
+                     (my-yank-diff nil)
+                     (buffer-string)))))
 
 ;;; Isearch
 (use-package isearch
