@@ -180,7 +180,7 @@ to next buffer otherwise."
 (defun my-kill-region-or-backward-word (&rest _)
   (interactive)
   (if (region-active-p)
-    (kill-region (region-beginning) (region-end))
+      (kill-region (region-beginning) (region-end))
     (backward-kill-word 1)))
 (define-key global-map [remap kill-region] 'my-kill-region-or-backward-word)
 
@@ -717,9 +717,9 @@ if its size is 1 line."
   :bind
   (("C-;" . iedit-mode)
    :map iedit-mode-keymap
-        ("C-s" . iedit-next-occurrence)
-        ("C-r" . iedit-prev-occurrence)
-        ("M-o" . my-iedit-occur)))
+   ("C-s" . iedit-next-occurrence)
+   ("C-r" . iedit-prev-occurrence)
+   ("M-o" . my-iedit-occur)))
 
 
 ;;; Mouse
@@ -1268,10 +1268,10 @@ Otherwise, apply ORIG-FUN to ARGS."
   :init
   (progn
     (setq eshell-scroll-to-bottom-on-input 'all
-      eshell-error-if-no-glob t
-      eshell-hist-ignoredups t
-      eshell-save-history-on-exit t
-      eshell-prefer-lisp-functions nil)
+          eshell-error-if-no-glob t
+          eshell-hist-ignoredups t
+          eshell-save-history-on-exit t
+          eshell-prefer-lisp-functions nil)
     (defun my-eshell-here ()
       "Opens up a new shell in the directory associated with the
 current buffer's file, or switch to it when it already exists.
@@ -1447,8 +1447,8 @@ multiple eshell windows easier."
     (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
     (defun my-smartparens-mode-setup ()
       (and (fboundp 'electric-pair-mode)
-	   electric-pair-mode
-	   (electric-pair-local-mode -1)))
+           electric-pair-mode
+           (electric-pair-local-mode -1)))
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
 (use-package icomplete-mode
