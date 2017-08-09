@@ -1478,7 +1478,6 @@ multiple eshell windows easier."
 (use-package ispell
   :config
   (progn
-    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
     (setq ispell-program-name "hunspell")
     (setq ispell-dictionary "english")))
 
