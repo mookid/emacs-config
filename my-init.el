@@ -1480,5 +1480,9 @@ multiple eshell windows easier."
     (setq ispell-program-name "hunspell")
     (setq ispell-dictionary "english")))
 
+(use-package centimacro
+  :bind
+  ("C-<f3>" . centi-assign))
+
 (provide 'my-init)
 ;;; my-init.el ends here
