@@ -200,24 +200,24 @@ to next buffer otherwise."
         (kill-buffer (current-buffer))))))
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
 
-(defun my-yank (&optional arg)
-  "My replacement command for `yank'.
+(add-function :around (symbol-function 'yank)
+              'my-yank-clone)
 
-With C-u C-u as prefix argument ARG, clone either the active
+(defun my-yank-clone (orig-fun &rest args)
+  "With C-u C-u as prefix argument ARG, clone either the active
 region (if any) or the next sexp."
   (interactive "*P")
-  (if (not (equal '(16) arg))
-      (yank arg)
+  (if (not (equal '((16)) args))
+      (apply orig-fun args)
     (unless (region-active-p)
       (mark-sexp))
     (let ((hi (region-end)))
       (copy-region-as-kill (region-beginning) hi)
       (goto-char hi)
       (newline nil t)
-      (yank nil))))
-(define-key global-map [remap yank] 'my-yank)
+      (apply orig-fun nil))))
 
-(add-function :after (symbol-function 'my-yank)
+(add-function :after (symbol-function 'yank)
               #'my-yank-and-reindent-hook)
 
 (defun my-yank-and-reindent-hook (&rest _)
@@ -341,10 +341,10 @@ region (if any) or the next sexp."
   "Untabify the current buffer, unless `my-untabify-this-buffer' is nil."
   (and my-untabify-this-buffer (untabify (point-min) (point-max))))
 
+(make-variable-buffer-local 'my-untabify-this-buffer)
 (define-minor-mode my-untabify-mode
   "Untabify buffer on save." nil " untab" nil
   (cond (my-untabify-mode
-         (make-variable-buffer-local 'my-untabify-this-buffer)
          (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
          (add-hook 'before-save-hook 'my-untabify-buffer nil t))
         (t
@@ -908,7 +908,7 @@ With prefix argument ARG, invert `+' and `-'."
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
 
-  :init
+  :config
   (progn
     (defun my-occur-region ()
       "Send region to occur when activated."
@@ -1275,7 +1275,7 @@ Otherwise, apply ORIG-FUN to ARGS."
         ("<f5>" . comint-previous-input))
   :config
   (progn
-    (defun end-of-buffer-hook (&rest _) (end-of-buffer))
+    (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
     (add-function :before (symbol-function 'comint-previous-input) 'end-of-buffer-hook)
     (add-function :before (symbol-function 'comint-next-input) 'end-of-buffer-hook)))
 
