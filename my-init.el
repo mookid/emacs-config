@@ -84,17 +84,14 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (interactive)
   (message "`debug-on-error' set to %S" (cl-callf not debug-on-error)))
 
-(defun my-view-echo-area-messages (new-frame)
-  "View the log of recent echo-area messages: the `*Messages*' buffer.
-The number of messages retained in that buffer
-is specified by the variable `message-log-max'.
-
-If NEW-FRAME is non nil, display it in a new frame."
+(add-function :before (symbol-function 'view-echo-area-messages)
+              'my-view-echo-area-messages-new-frame)
+(defun my-view-echo-area-messages-new-frame ()
   (interactive "P")
-  (with-current-buffer (messages-buffer)
-    (goto-char (point-max))
-    (display-buffer (current-buffer) nil (if new-frame (make-frame) nil))))
-(define-key global-map [remap view-echo-area-messages] 'my-view-echo-area-messages)
+  "With prefix argument, open the buffer in a new frame."
+  (and current-prefix-arg
+       (>= (car current-prefix-arg) 4)
+       (select-frame (make-frame))))
 
 (keyboard-translate ?\( ?\[)
 (keyboard-translate ?\[ ?\()
