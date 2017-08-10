@@ -209,7 +209,6 @@ region (if any) or the next sexp."
   (if (not (equal '(16) arg))
       (yank arg)
     (unless (region-active-p)
-      (back-to-indentation)
       (mark-sexp))
     (let ((hi (region-end)))
       (copy-region-as-kill (region-beginning) hi)
