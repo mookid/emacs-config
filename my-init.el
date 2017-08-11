@@ -904,8 +904,7 @@ With prefix argument ARG, invert `+' and `-'."
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
-
-  :config
+  :init
   (progn
     (defun my-occur-region ()
       "Send region to occur when activated."
@@ -929,7 +928,8 @@ With prefix argument ARG, invert `+' and `-'."
         ("N" . isearch-repeat-backward)
         ("%" . isearch-query-replace)
         ("g" . my-isearch-beginning-of-buffer)
-        ("G" . my-isearch-end-of-buffer)))
+        ("G" . my-isearch-end-of-buffer)
+        ("q" . my-transient-isearch-map-mode)))
 
     (define-minor-mode my-transient-isearch-map-mode
       "Override some keys in isearch." nil nil nil
@@ -942,9 +942,9 @@ With prefix argument ARG, invert `+' and `-'."
         (remove-hook 'isearch-mode-end-hook 'my-transient-isearch-map-mode-off)
         (dolist (binding my-transient-isearch-map-bindings)
           (define-key isearch-mode-map (car binding) 'isearch-printing-char)))))
+    (defun my-transient-isearch-map-mode-off ()
+      (my-transient-isearch-map-mode -1))
 
-    ;; Exit isearch at the beginning of the matching string
-    (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
     (defun my-isearch-exit-beginning ()
       "Go to the start of current isearch match.
 Use in `isearch-mode-end-hook'."
@@ -970,6 +970,7 @@ Returns t if the region was activated, nil otherwise."
 
 Otherwise, apply ORIG-FUN to ARGS."
       (or (my-isearch-region) (apply orig-fun args)))
+    (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
     (add-function :around (symbol-function 'isearch-forward)
                   'my-isearch-region-hook)
     (add-function :around (symbol-function 'isearch-backward)
