@@ -1269,7 +1269,8 @@ Otherwise, apply ORIG-FUN to ARGS."
 (use-package shell
   :bind
   (:map shell-mode-map
-        ("<f5>" . comint-previous-input))
+        ("<f5>" . comint-previous-input)
+        ("<f6>" . compilation-shell-minor-mode))
   :config
   (progn
     (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
