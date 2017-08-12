@@ -1271,6 +1271,10 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-z r" . unhighlight-regexp)
    ("C-z u" . my-unhighlight-all)))
 
+(use-package woman
+  :bind
+  ("C-c d" . woman))
+
 (use-package shell
   :bind
   (:map shell-mode-map
