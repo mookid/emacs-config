@@ -76,8 +76,12 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 (setq initial-scratch-message nil)
-(with-current-buffer (get-buffer "*scratch*")
-  (add-hook 'kill-buffer-hook 'bury-buffer nil t))
+(defun my-bury-buffer (orig-fun &rest args)
+  "Bury buffer instead of killing it."
+  (if (string= (buffer-name (current-buffer)) "*scratch*")
+      (bury-buffer)
+    (apply orig-fun args)))
+(add-function :around (symbol-function 'kill-buffer) #'my-bury-buffer)
 (setq frame-title-format (list "%f"))
 (defun my-toggle-debug ()
   "Change the value of `debug-on-error'."
