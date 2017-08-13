@@ -129,6 +129,7 @@
       '(
         compile
         counsel-describe-variable
+        end-of-buffer
         handle-switch-frame
         lispy-cursor-down
         my-goto-*scratch*
