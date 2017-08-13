@@ -1487,5 +1487,18 @@ multiple eshell windows easier."
   :bind
   ("C-<f3>" . centi-assign))
 
+(use-package woman
+  :bind
+  ("C-c m" . woman))
+
+(use-package mic-paren
+  :init
+  (paren-activate))
+
+(use-package sh-script
+  :config
+  (progn
+    (setq sh-basic-offset 8)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
