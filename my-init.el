@@ -77,7 +77,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 (setq initial-scratch-message nil)
 (defun my-bury-buffer (orig-fun &rest args)
-  "Bury buffer instead of killing it."
+  "Bury *scratch* buffer instead of killing it."
   (if (string= (buffer-name (current-buffer)) "*scratch*")
       (bury-buffer)
     (apply orig-fun args)))
@@ -903,7 +903,9 @@ With prefix argument ARG, invert `+' and `-'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
-   ("<f3>" . my-transient-isearch-map-mode)
+   ("<f3>" . isearch-repeat-forward)
+   ("S-<f3>" . isearch-repeat-backward)
+   ("<f4>" . my-transient-isearch-map-mode)
    ("M-o" . isearch-occur)
    ("TAB" . isearch-complete)
    ("M-<" . my-isearch-beginning-of-buffer)
