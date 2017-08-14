@@ -1502,7 +1502,8 @@ multiple eshell windows easier."
 (use-package sh-script
   :config
   (progn
-    (setq sh-basic-offset 8)))
+    (setq sh-basic-offset 8)
+    (setq sh-indentation 8)))
 
 (provide 'my-init)
 ;;; my-init.el ends here
