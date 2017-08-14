@@ -262,6 +262,10 @@ region (if any) or the next sexp."
      (set-face-foreground 'default "black")
      (my-set-frame-background 'light))))
 
+(defun my-revert-buffer-noconfirm ()
+  (interactive)
+  (revert-buffer t t))
+
 ;; Keybindings
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
@@ -294,6 +298,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
 (define-key global-map (kbd "C-c F") 'my-toggle-debug)
 (define-key global-map (kbd "C-c l")  'my-expand-lines)
+(define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
