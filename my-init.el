@@ -1163,7 +1163,7 @@ Otherwise, apply ORIG-FUN to ARGS."
 
 (use-package expand-region
   :defer t
-  :bind (("C-M-SPC" . er/expand-region))
+  :bind (([remap mark-sexp] . er/expand-region))
   :config
   (setq expand-region-contract-fast-key "z"
         expand-region-reset-fast-key "x"
@@ -1503,6 +1503,24 @@ multiple eshell windows easier."
   (paren-activate))
 
 (use-package sh-script
+  :init
+  (progn
+    (defun my-sh-quote-or-unquote ()
+      "Wrap or unwrap the sexp at point inside a pair of double quotes."
+      (interactive)
+      (save-excursion
+        (backward-sexp)
+        (if (progn
+              (backward-char 1)
+              (looking-at "\""))
+            (delete-char 1)
+          (forward-char 1)
+          (insert ?\"))
+        (forward-sexp)
+        (if (looking-at "\"") (delete-char 1) (insert ?\")))))
+  :bind
+  (:map sh-mode-map
+        ("C-c q" . my-sh-quote))
   :config
   (progn
     (setq sh-basic-offset 8)
