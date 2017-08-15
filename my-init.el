@@ -1498,10 +1498,6 @@ multiple eshell windows easier."
   :bind
   ("C-<f3>" . centi-assign))
 
-(use-package woman
-  :bind
-  ("C-c m" . woman))
-
 (use-package mic-paren
   :init
   (paren-activate))
