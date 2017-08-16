@@ -1526,6 +1526,7 @@ multiple eshell windows easier."
   (paren-activate))
 
 (use-package sh-script
+  :demand t
   :init
   (progn
     (defun my-sh-quote-or-unquote ()
@@ -1543,7 +1544,7 @@ multiple eshell windows easier."
         (if (looking-at "\"") (delete-char 1) (insert ?\")))))
   :bind
   (:map sh-mode-map
-        ("C-c q" . my-sh-quote))
+        ("C-c q" . my-sh-quote-or-unquote))
   :config
   (progn
     (setq sh-basic-offset 8)
