@@ -1120,7 +1120,6 @@ Otherwise, apply ORIG-FUN to ARGS."
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
-   ([remap completion-at-point] . my-ivy-completion-at-point)
    ("C-<f8>" . counsel-rg)
    ("C-c s" . swiper)
    ("C-c r" . ivy-resume)
@@ -1141,14 +1140,7 @@ Otherwise, apply ORIG-FUN to ARGS."
             ("C-z" . bury-buffer)))
     (defvar ivy-use-virtual-buffers)
     (fset 'my-recentf-command 'ivy-switch-buffer)
-    (defun my-ivy-completion-at-point ()
-      (interactive)
-      (if (and (boundp 'ivy-mode) (symbol-value 'ivy-mode))
-          (completion-at-point)
-        (ivy-mode +1)
-        (unwind-protect
-            (completion-at-point)
-          (ivy-mode -1))))
+    (setq completion-in-region-function #'ivy-completion-in-region)
     (setq ivy-use-virtual-buffers t))
   :config
   (progn
