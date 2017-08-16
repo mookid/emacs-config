@@ -16,7 +16,8 @@
   (switch-to-buffer-other-window (get-buffer-create buffer-name)))
 
 (defmacro my-window-command (key buffername)
-  "Defines a command to jump to the buffer designated by BUFFER-NAME and bind it."
+  "Defines a command to jump to the buffer designated by
+BUFFER-NAME and bind it."
   (let ((command-name (intern (concat "my-goto-" buffername))))
     `(progn
        (defun ,command-name ()
@@ -342,23 +343,40 @@ region (if any) or the next sexp."
 
 ;; No tabs
 (setq indent-tabs-mode nil)
-(defvar my-untabify-this-buffer)
-(defun my-untabify-buffer ()
-  "Untabify the current buffer, unless `my-untabify-this-buffer' is nil."
-  (and my-untabify-this-buffer (untabify (point-min) (point-max))))
 
-(make-variable-buffer-local 'my-untabify-this-buffer)
-(define-minor-mode my-untabify-mode
-  "Untabify buffer on save." nil " untab" nil
-  (cond (my-untabify-mode
-         (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
-         (add-hook 'before-save-hook 'my-untabify-buffer nil t))
-        (t
-         (kill-local-variable 'my-untabify-this-buffer)
-         (remove-hook 'before-save-hook 'my-untabify-buffer t))))
+(progn
+  (defvar my-untabify-this-buffer)
+  (defvar my-untabify-mode-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "C-c <tab>") 'my-toggle-untabify-this-buffer)
+      map))
+
+  (defun my-toggle-untabify-this-buffer ()
+    "Toggle untabification of the current buffer."
+    (interactive)
+    (setq-local my-untabify-this-buffer (not my-untabify-this-buffer))
+    (message "%s %s"
+             (if my-untabify-this-buffer "Untabify" "Don't untabify")
+             (buffer-name)))
+  (defun my-untabify-buffer ()
+    "Untabify the current buffer and delete trailing whitespaces,
+unless `my-untabify-this-buffer' is nil."
+    (when my-untabify-this-buffer
+      (untabify (point-min) (point-max))
+      (delete-trailing-whitespace)))
+
+  (make-variable-buffer-local 'my-untabify-this-buffer)
+  (define-minor-mode my-untabify-mode
+    "Untabify buffer on save.
+
+\\{my-untabify-mode-map}" nil " untab" my-untabify-mode-map
+    (cond (my-untabify-mode
+           (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
+           (add-hook 'before-save-hook #'my-untabify-buffer nil t))
+          (t
+           (kill-local-variable 'my-untabify-this-buffer)
+           (remove-hook 'before-save-hook #'my-untabify-buffer t)))))
 (add-hook 'prog-mode-hook 'my-untabify-mode)
-;; Delete trailing whitespaces when saving a file
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; Short answers to questions
 (defalias 'yes-or-no-p 'y-or-n-p)
