@@ -7,6 +7,7 @@
         backward-sexp
         backward-up-list
         c-electric-delete-forward
+        c-electric-paren
         c-electric-semi&comma
         c-indent-line-or-region
         complete-symbol
