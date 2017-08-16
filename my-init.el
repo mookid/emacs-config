@@ -884,6 +884,11 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (add-function :after (symbol-function 'occur)
                 #'my-occur-skip-gribberish-hook))
 
+;; Center next error results
+(defvar next-error-recenter)
+(setq next-error-recenter '(4))
+
+
 (defun my-yank-diff (arg)
   "Yank a patch.
 
