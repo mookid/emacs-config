@@ -930,6 +930,7 @@ With prefix argument ARG, invert `+' and `-'."
    ("<f4>" . my-transient-isearch-map-mode)
    ("M-o" . isearch-occur)
    ("TAB" . isearch-complete)
+   ("M-e" . isearch-toggle-symbol)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
   :init
