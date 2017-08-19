@@ -1485,6 +1485,13 @@ multiple eshell windows easier."
     (use-package smartparens-config)
     (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
     (defun my-smartparens-mode-setup ()
+      (add-to-list 'sp-pairs
+                   (cons t
+                         (cl-delete-if
+                          (lambda (plist)
+                            (and (consp plist)
+                                 (string= "`" (plist-get plist :open))))
+                          (cdr (assoc t sp-pairs)))))
       (and (fboundp 'electric-pair-mode)
            electric-pair-mode
            (electric-pair-local-mode -1)))
