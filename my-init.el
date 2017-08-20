@@ -391,8 +391,15 @@ unless `my-untabify-this-buffer' is nil."
 
 ;; VC
 (use-package vc
+  :init
+  (progn
+    (defun my-vc-dir-root ()
+      (interactive)
+      (when-let (root (vc-root-dir))
+        (vc-dir root))))
   :bind
   (("<f7>" . vc-diff)
+   ([remap vc-dir] . my-vc-dir-root)
    ("C-<f7>" . vc-root-diff)
    ("C-M-<f7>" . my-vc-remove-whitespace-diff))
   :config
@@ -1235,7 +1242,11 @@ Otherwise, apply ORIG-FUN to ARGS."
   (progn
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
-    (cl-flet ((my-diff-hl-on (&rest _) (or diff-hl-mode (diff-hl-mode +1))))
+    (cl-flet ((my-diff-hl-on (&rest _) (or diff-hl-mode (diff-hl-mode 1)))
+              (my-diff-hl-off (&rest _) (or diff-hl-mode (diff-hl-mode -1))))
+      (use-package vc
+        :init
+        (add-hook 'vc-dir-mode-hook 'my-diff-hl-mode-off))
       (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
         (add-function :before (symbol-function fun) #'my-diff-hl-on)))
     (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
