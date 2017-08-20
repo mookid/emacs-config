@@ -398,22 +398,7 @@ unless `my-untabify-this-buffer' is nil."
   :config
   (progn
     (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
-    (add-function :around (symbol-function 'diff-apply-hunk) #'my-no-confirm)
-    (defun my-vc-remove-whitespace-diff (filename)
-      "Remove whitespace diff in FILENAME.
-
-FILENAME is a name of a file or a directory."
-      (interactive "fRemove whitespace diff on subtree: ")
-      (and filename
-           (let* ((vc-root-dir (vc-root-dir))
-                  (relative-file-name (file-relative-name filename vc-root-dir))
-                  (patch-file-name (concat filename "~~~")))
-             (shell-command
-              (mapconcat #'identity (list (format "git diff -w %s > %s" relative-file-name patch-file-name)
-                                          (format "git checkout %s" relative-file-name)
-                                          (format "git apply %s" patch-file-name)
-                                          (format "rm -f %s" patch-file-name))
-                         "&& ")))))))
+    (add-function :around (symbol-function 'diff-apply-hunk) #'my-no-confirm)))
 
 (use-package vc-hooks
   :bind
