@@ -402,7 +402,10 @@ unless `my-untabify-this-buffer' is nil."
           (when-let (root (vc-root-dir))
             (vc-dir root))))
       :bind
-      (([remap vc-dir] . my-vc-dir-root)))
+      (([remap vc-dir] . my-vc-dir-root)
+       ("C-M-<f7>" . vc-dir)
+       :map vc-dir-mode-map
+       ("d" . vc-diff)))
     (use-package vc-hooks
       :bind
       (:map
@@ -418,8 +421,7 @@ unless `my-untabify-this-buffer' is nil."
               (message "Added %s!" filename)))))))
   :bind
   (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff)
-   ("C-M-<f7>" . my-vc-remove-whitespace-diff))
+   ("C-<f7>" . vc-root-diff))
   :config
   (progn
     (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
