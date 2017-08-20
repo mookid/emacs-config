@@ -1045,6 +1045,17 @@ Otherwise, apply ORIG-FUN to ARGS."
       (select-window first-win)
       (when this-win-2nd (other-window 1)))))
 
+(use-package shell
+  :bind
+  (:map shell-mode-map
+        ("<f5>" . comint-previous-input)
+        ("<f6>" . compilation-shell-minor-mode))
+  :config
+  (progn
+    (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
+    (add-function :before (symbol-function 'comint-previous-input) 'end-of-buffer-hook)
+    (add-function :before (symbol-function 'comint-next-input) 'end-of-buffer-hook)))
+
 (use-package evil-nerd-commenter
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
          ("C-c c". evilnc-copy-and-comment-lines)))
@@ -1257,6 +1268,7 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
+  :after vc
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)
@@ -1267,9 +1279,7 @@ Otherwise, apply ORIG-FUN to ARGS."
     (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
     (cl-flet ((my-diff-hl-on (&rest _) (or diff-hl-mode (diff-hl-mode 1)))
               (my-diff-hl-off (&rest _) (or diff-hl-mode (diff-hl-mode -1))))
-      (use-package vc
-        :init
-        (add-hook 'vc-dir-mode-hook 'my-diff-hl-mode-off))
+      (add-hook 'vc-dir-mode-hook 'my-diff-hl-mode-off)
       (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
         (add-function :before (symbol-function fun) #'my-diff-hl-on)))
     (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
@@ -1310,17 +1320,6 @@ Otherwise, apply ORIG-FUN to ARGS."
 (use-package woman
   :bind
   ("C-c d" . woman))
-
-(use-package shell
-  :bind
-  (:map shell-mode-map
-        ("<f5>" . comint-previous-input)
-        ("<f6>" . compilation-shell-minor-mode))
-  :config
-  (progn
-    (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
-    (add-function :before (symbol-function 'comint-previous-input) 'end-of-buffer-hook)
-    (add-function :before (symbol-function 'comint-next-input) 'end-of-buffer-hook)))
 
 (use-package eshell
   :init
