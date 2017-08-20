@@ -394,33 +394,36 @@ unless `my-untabify-this-buffer' is nil."
 (use-package vc
   :init
   (progn
-    (defun my-vc-dir-root ()
-      (interactive)
-      (when-let (root (vc-root-dir))
-        (vc-dir root))))
+    (use-package vc-dir
+      :init
+      (progn
+        (defun my-vc-dir-root ()
+          (interactive)
+          (when-let (root (vc-root-dir))
+            (vc-dir root))))
+      :bind
+      (([remap vc-dir] . my-vc-dir-root)))
+    (use-package vc-hooks
+      :bind
+      (:map
+       vc-prefix-map
+       ("q" . my-vc-add-current-buffer))
+      :init
+      (progn
+        (defun my-vc-add-current-buffer ()
+          (interactive)
+          (when (and buffer-file-name (stringp buffer-file-name))
+            (let ((filename (file-name-nondirectory buffer-file-name)))
+              (shell-command (format "git add %s" filename))
+              (message "Added %s!" filename)))))))
   :bind
   (("<f7>" . vc-diff)
-   ([remap vc-dir] . my-vc-dir-root)
    ("C-<f7>" . vc-root-diff)
    ("C-M-<f7>" . my-vc-remove-whitespace-diff))
   :config
   (progn
     (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
     (add-function :around (symbol-function 'diff-apply-hunk) #'my-no-confirm)))
-
-(use-package vc-hooks
-  :bind
-  (:map
-   vc-prefix-map
-   ("q" . my-vc-add-current-buffer))
-  :init
-  (progn
-    (defun my-vc-add-current-buffer ()
-      (interactive)
-      (when (and buffer-file-name (stringp buffer-file-name))
-        (let ((filename (file-name-nondirectory buffer-file-name)))
-          (shell-command (format "git add %s" filename))
-          (message "Added %s!" filename))))))
 
 (use-package diff-mode
   :bind
