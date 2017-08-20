@@ -300,6 +300,7 @@ region (if any) or the next sexp."
 (define-key global-map (kbd "C-c F") 'my-toggle-debug)
 (define-key global-map (kbd "C-c l")  'my-expand-lines)
 (define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
+(define-key global-map (kbd "C-c (") 'delete-pair)
 
 ;; elisp
 (setq initial-major-mode 'emacs-lisp-mode)
