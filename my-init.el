@@ -1127,6 +1127,23 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("<right>" . ivy-alt-done))
   :init
   (progn
+    (defun ivy-display-function-lv (text)
+      (require 'lv)
+      (let ((lv-force-update t))
+        (lv-message
+         (if (string-match "\\`\n" text)
+             (substring text 1)
+           text))))
+
+    (defun ivy-display-function-popup (text)
+      (require 'popup)
+      (with-ivy-window
+        (popup-tip
+         (substring text 1)
+         :nostrip nil)))
+
+    (setq ivy-display-functions-alist
+          '((ivy-completion-in-region . ivy-display-function-lv)))
     (use-package shell
       :bind
       (:map shell-mode-map
