@@ -1530,8 +1530,8 @@ multiple eshell windows easier."
     (setq ispell-dictionary "english")))
 
 (use-package centimacro
-  :bind
-  ("C-<f3>" . centi-assign))
+  :init
+  (setq centi-assign-key (kbd "C-<f3>")))
 
 (use-package mic-paren
   :init
