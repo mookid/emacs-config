@@ -1270,18 +1270,15 @@ Otherwise, apply ORIG-FUN to ARGS."
 (use-package diff-hl
   :after vc
   :bind
-  (("C-M-[" . diff-hl-previous-hunk)
-   ("C-M-]" . diff-hl-next-hunk)
-   ("S-<f7>" . diff-hl-revert-hunk))
+  (:map diff-hl-mode-map
+        ("C-M-[" . diff-hl-previous-hunk)
+        ("C-M-]" . diff-hl-next-hunk)
+        ("S-<f7>" . diff-hl-revert-hunk))
   :config
   (progn
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
-    (cl-flet ((my-diff-hl-on (&rest _) (or diff-hl-mode (diff-hl-mode 1)))
-              (my-diff-hl-off (&rest _) (or diff-hl-mode (diff-hl-mode -1))))
-      (add-hook 'vc-dir-mode-hook 'my-diff-hl-mode-off)
-      (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
-        (add-function :before (symbol-function fun) #'my-diff-hl-on)))
+    (add-hook 'prog-mode-hook #'diff-hl-mode)
     (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
                   #'my-save-all-buffers)
     (add-function :around (symbol-function 'diff-hl-revert-hunk)
