@@ -1274,11 +1274,12 @@ Otherwise, apply ORIG-FUN to ARGS."
         ("C-M-[" . diff-hl-previous-hunk)
         ("C-M-]" . diff-hl-next-hunk)
         ("S-<f7>" . diff-hl-revert-hunk))
+  :init
+  (add-hook 'prog-mode-hook #'diff-hl-mode)
   :config
   (progn
-    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
-    (add-hook 'prog-mode-hook #'diff-hl-mode)
+    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
                   #'my-save-all-buffers)
     (add-function :around (symbol-function 'diff-hl-revert-hunk)
