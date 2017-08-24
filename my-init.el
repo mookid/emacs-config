@@ -913,6 +913,7 @@ With prefix argument ARG, invert `+' and `-'."
   :diminish isearch-mode
   :bind
   (("M-o" . my-occur-region)
+   ("C-S-s" . isearch-forward-symbol-at-point)
    :map
    minibuffer-local-isearch-map
    ("TAB" . isearch-complete-edit)
