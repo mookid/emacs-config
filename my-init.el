@@ -77,6 +77,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 ;;; Basic configuration
 (defun display-startup-echo-area-message () "Inhibit welcome message." ())
 (setq initial-scratch-message nil)
+(setq mouse-wheel-progressive-speed nil)
 (defun my-bury-buffer (orig-fun &rest args)
   "Bury *scratch* buffer instead of killing it."
   (if (string= (buffer-name (current-buffer)) "*scratch*")
