@@ -9,11 +9,57 @@
 (setq use-package-verbose t)
 
 
-;;; Macros
+;;; Basic configuration
+(setq line-number-mode t)
+(setq column-number-mode t)
+(setq indent-tabs-mode nil)
+(setq echo-keystrokes 0.3)
+(setq recenter-positions '(top middle bottom))
+(setq set-mark-command-repeat-pop t)
+(setq completion-cycle-threshold 5)
+(setq initial-scratch-message nil)
+(setq mouse-wheel-progressive-speed nil)
+(setq next-line-add-newlines nil)
+(setq require-final-newline t)
+(setq inhibit-startup-message t)
+(setq auto-save-default nil)
+(setq frame-title-format (list "%f"))
+(setq minibuffer-depth-indicate-mode t)
+(setq tags-add-tables nil)
+(set-default-coding-systems 'utf-8)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(defalias 'display-startup-echo-area-message 'ignore)
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(keyboard-translate ?\( ?\[)
+(keyboard-translate ?\[ ?\()
+(keyboard-translate ?\) ?\])
+(keyboard-translate ?\] ?\))
+
+(global-auto-revert-mode +1)
+(add-to-list 'completion-styles 'partial-completion)
+
+(progn
+  (defvar savehist-save-minibuffer-history)
+  (savehist-mode t)
+  (setq history-length 16384)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history t)
+  (defvar savehist-additional-variables)
+  (mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
+        '(kill-ring
+          search-ring
+          regexp-search-ring
+          compile-command)))
+
+
+;;; Windows
 (defun my-goto-buffer (buffer-name)
   "Select buffer named BUFFER-NAME."
   (select-window (split-window-vertically))
-  (switch-to-buffer-other-window (get-buffer-create buffer-name)))
+  (SWITCH-to-buffer-other-window (get-buffer-create buffer-name)))
 
 (defmacro my-window-command (key buffername)
   "Defines a command to jump to the buffer designated by
@@ -26,13 +72,185 @@ BUFFER-NAME and bind it."
          (my-goto-buffer ,buffername))
        (define-key global-map (kbd ,(concat "C-c w " key)) ',command-name))))
 
-(defmacro my-save-column (&rest body)
-  `(let ((column (current-column)))
-     (unwind-protect
-         (progn ,@body)
-       (move-to-column column))))
-(put 'my-save-column 'lisp-indent-function 0)
+(my-window-command "g" "*grep*")
+(my-window-command "d" "*vc-diff*")
+(my-window-command "c" "*compilation*")
+(my-window-command "o" "*Occur*")
+(my-window-command "s" "*scratch*")
 
+
+;;; MS Windows utilities
+(let ((cygwin-root "c:"))
+  (when (and (eq 'windows-nt system-type)
+             (file-readable-p cygwin-root))
+    (define-key global-map (kbd "C-c u") 'my-dos2unix)
+    (defun my-dos2unix ()
+      (interactive)
+      (and buffer-file-name
+           (shell-command (format "dos2unix %s" buffer-file-name))))
+    (setq shell-file-name "bash")
+    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
+
+
+;;; Keybindings
+(define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
+(define-key global-map (kbd "C-<f6>") 'my-selective-display-increase)
+(define-key global-map (kbd "S-<f6>") 'my-selective-display-decrease)
+(define-key global-map (kbd "C-h g") 'my-google-search)
+(define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
+(define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
+(define-key global-map (kbd "C-h C-k") 'describe-key)
+(define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
+(define-key global-map (kbd "C-c k") 'delete-frame)
+(define-key global-map (kbd "C-c n") 'make-frame)
+(define-key global-map (kbd "M-n") 'my-scroll-up)
+(define-key global-map (kbd "M-p") 'my-scroll-down)
+(define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
+(define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
+(define-key global-map (kbd "C-c .") 'repeat)
+(define-key global-map (kbd "M-=") 'align-regexp)
+(define-key global-map (kbd "M-g") 'goto-line)
+(define-key global-map (kbd "C-x g") 'move-to-column)
+(define-key global-map (kbd "M-`") 'my-other-window-or-switch-buffer)
+(define-key global-map (kbd "<M-left>") 'previous-buffer)
+(define-key global-map (kbd "<M-right>") 'next-buffer)
+(define-key global-map (kbd "C-c /") 'rgrep)
+(define-key global-map (kbd "M-%") 'query-replace-regexp)
+(define-key global-map (kbd "M-k") 'my-copy-line)
+(define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
+(define-key global-map (kbd "C-<prior>") 'previous-error)
+(define-key global-map (kbd "C-<next>") 'next-error)
+(define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
+(define-key global-map (kbd "C-S-<left>") 'my-previous-end)
+(define-key global-map (kbd "M-SPC") 'my-space-and-back)
+(define-key global-map (kbd "C-<return>") (kbd "<return>"))
+(define-key global-map (kbd "M-<return>") (kbd "<return>"))
+(define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
+(define-key global-map (kbd "C-S-<up>") 'my-move-line-up)
+(define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
+(define-key global-map (kbd "C-c F") 'my-toggle-debug)
+(define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
+(define-key global-map (kbd "C-c (") 'delete-pair)
+(define-key global-map (kbd "C-S-u") 'upcase-region)
+(define-key global-map (kbd "C-S-l") 'downcase-region)
+(define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
+(define-key global-map (kbd "C-.") 'my-jump-to-char)
+
+
+;;; Appearance
+(progn
+  (and (fboundp 'fringe-mode) (fringe-mode -1))
+  (and (fboundp 'tooltip-mode) (tooltip-mode +1))
+  (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
+  (setq use-dialog-box nil)
+  (setq pop-up-windows nil))
+
+(setq-default mode-line-format
+              (mapcar (lambda (elt)
+                        (if (and (stringp elt) (string-match "  +" elt)) " " elt))
+                      mode-line-format))
+
+(defun my-set-frame-background (mode)
+  (setq frame-background-mode mode)
+  (mapc 'frame-set-background-mode (frame-list)))
+(or frame-background-mode
+    (my-set-frame-background 'light))
+
+(defun my-visual-ring-bell ()
+  (let ((face-background (face-background 'default)))
+    (set-face-background 'default "DodgerBlue")
+    (set-face-background 'default face-background)))
+(setq ring-bell-function 'my-visual-ring-bell)
+
+(defun my-toggle-colors ()
+  (interactive)
+  "Toggle between light and dark background."
+  (cl-case frame-background-mode
+    ('light
+     (set-face-background 'default "black")
+     (set-face-foreground 'default "white")
+     (my-set-frame-background 'dark))
+    ('dark
+     (set-face-background 'default "white")
+     (set-face-foreground 'default "black")
+     (my-set-frame-background 'light))))
+
+(defvar my-default-font
+  (cond ((eq 'windows-nt system-type) "Consolas 14")
+        (t  "DejaVu Sans Mono 12"))
+  "The font used almost everywhere.")
+(with-eval-after-load 'init
+  (add-to-list 'default-frame-alist '(height . 30))
+  (add-to-list 'default-frame-alist '(width . 80))
+  (add-to-list 'initial-frame-alist '(top . 20))
+  (add-to-list 'initial-frame-alist '(left . 120))
+  (add-to-list 'default-frame-alist `(font . ,my-default-font)))
+
+
+;;; elisp
+(setq initial-major-mode 'emacs-lisp-mode)
+(setq eval-expression-print-level nil)
+(define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
+(define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm)
+
+
+;;; defuns
+(let ((depth 1))
+  (defun my-selective-display-toggle ()
+    "Hide lines starting with a lot of spaces.
+
+See `my-selective-display-increase' to increase the number of spaces.
+See `my-selective-display-decrease' to decrease it."
+    (interactive)
+    (set-selective-display (unless selective-display depth)))
+  (cl-flet ((g (offset)
+               (setq depth (+ depth offset))
+               (set-selective-display depth)))
+    (defun my-selective-display-increase ()
+      "Increase the cap for `toogle-selective-display'.
+
+See `my-selective-display-toggle' and `my-selective-display-decrease'."
+      (interactive)
+      (when (< depth 20) (g 1)))
+
+    (defun my-selective-display-decrease ()
+      "Decrease the cap for `toogle-selective-display'.
+
+See `my-selective-display-toggle' and `my-selective-display-increase'."
+      (interactive)
+      (when (> depth 1) (g -1)))))
+
+(defun my-toggle-window-split ()
+  "When there are two windows, convert horizontal to vertical and vice versa."
+  (interactive)
+  (or (= (count-windows) 2)
+      (error "You need exactly 2 windows to do this"))
+  (let* ((this-win-buffer (window-buffer))
+         (next-win-buffer (window-buffer (next-window)))
+         (this-win-edges (window-edges (selected-window)))
+         (next-win-edges (window-edges (next-window)))
+         (this-win-2nd (not (and (<= (car this-win-edges)
+                                     (car next-win-edges))
+                                 (<= (cadr this-win-edges)
+                                     (cadr next-win-edges)))))
+         (splitter
+          (if (= (car this-win-edges)
+                 (car next-win-edges))
+              'split-window-horizontally
+            'split-window-vertically)))
+    (delete-other-windows)
+    (let ((first-win (selected-window)))
+      (funcall splitter)
+      (when this-win-2nd (other-window 1))
+      (set-window-buffer (selected-window) this-win-buffer)
+      (set-window-buffer (next-window) next-win-buffer)
+      (select-window first-win)
+      (when this-win-2nd (other-window 1)))))
+
+(defun my-recentf-command () (interactive))
 (cl-flet ((always-yes (&rest _) t))
   (defun my-no-confirm (fun &rest args)
     "Apply FUN to ARGS, skipping user confirmations."
@@ -40,75 +258,46 @@ BUFFER-NAME and bind it."
               ((symbol-function 'yes-or-no-p) #'always-yes))
       (apply fun args))))
 
-(defun my-recentf-command () (interactive))
+(defun my-occur-skip-gribberish-hook (&rest _)
+  (when isearch-mode (isearch-exit))
+  (select-window (get-buffer-window "*Occur*"))
+  (goto-char (point-min))
+  (next-logical-line 1)
+  (recenter 0)
+  (select-window (next-window)))
+(add-function :after (symbol-function 'occur)
+              #'my-occur-skip-gribberish-hook)
+
+(defun my-revert-buffer-noconfirm ()
+  (interactive)
+  (revert-buffer t t))
 
 (defun my-find-init-file ()
   (interactive)
   (find-file my-main-init-file))
 
-(use-package key-chord
-  :init
-  (progn
-    (defvar my-key-chords-alist nil
-      "A list of key chords bindings.
-
-Each binding is a list of 3 elements: KEYS, KEYMAP, COMMAND.
-KEYS is string of length 2; KEYMAP defaults to the global map.")
-    (defun my-key-chord-define (keymap keys command)
-      (push (list keymap keys command) my-key-chords-alist)
-      (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
-    (my-key-chord-define global-map "jk" 'execute-extended-command)
-    (my-key-chord-define global-map "fj" 'find-file)
-    (my-key-chord-define global-map "hv" 'describe-variable)
-    (my-key-chord-define global-map "hk" 'describe-key)
-    (my-key-chord-define global-map "fy" 'my-find-init-file)
-    (my-key-chord-define global-map "fh" 'my-recentf-command))
-  :config
-  (progn
-    (defun my-key-chord-setup ()
-      (with-eval-after-load 'init
-        (or key-chord-mode (key-chord-mode +1))
-        (dolist (mapping my-key-chords-alist)
-          (apply #'key-chord-define mapping))))
-    (my-key-chord-setup)))
-
-
-
-;;; Basic configuration
-(defun display-startup-echo-area-message () "Inhibit welcome message." ())
-(setq initial-scratch-message nil)
-(setq mouse-wheel-progressive-speed nil)
 (defun my-bury-buffer (orig-fun &rest args)
   "Bury *scratch* buffer instead of killing it."
   (if (string= (buffer-name (current-buffer)) "*scratch*")
       (bury-buffer)
     (apply orig-fun args)))
-(add-function :around (symbol-function 'kill-buffer) #'my-bury-buffer)
-(setq frame-title-format (list "%f"))
+(add-function :around (symbol-function 'kill-buffer)
+              #'my-bury-buffer)
+
 (defun my-toggle-debug ()
   "Change the value of `debug-on-error'."
   (interactive)
   (message "`debug-on-error' set to %S" (cl-callf not debug-on-error)))
 
-(add-function :before (symbol-function 'view-echo-area-messages)
-              'my-view-echo-area-messages-new-frame)
 (defun my-view-echo-area-messages-new-frame ()
   (interactive "P")
   "With prefix argument, open the buffer in a new frame."
   (and current-prefix-arg
        (>= (car current-prefix-arg) 4)
        (select-frame (make-frame))))
+(add-function :before (symbol-function 'view-echo-area-messages)
+              #'my-view-echo-area-messages-new-frame)
 
-(keyboard-translate ?\( ?\[)
-(keyboard-translate ?\[ ?\()
-(keyboard-translate ?\) ?\])
-(keyboard-translate ?\] ?\))
-
-(add-to-list 'completion-styles 'partial-completion)
-
-(setq minibuffer-depth-indicate-mode t)
-
-;; Easily name kbd macros
 (defun my-name-last-kbd-macro ()
   (interactive)
   (let ((name (read-string "Name for last kbd macro: " "test")))
@@ -138,6 +327,13 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (interactive "P")
   (let ((arg (or arg 1)))
     (scroll-down arg)))
+
+(defmacro my-save-column (&rest body)
+  `(let ((column (current-column)))
+     (unwind-protect
+         (progn ,@body)
+       (move-to-column column))))
+(put 'my-save-column 'lisp-indent-function 0)
 
 (defun my-move-line-up ()
   (interactive)
@@ -201,10 +397,6 @@ to next buffer otherwise."
       (if (string= buf-name (buffer-name))
           (error "The next window dislays the same buffer!")
         (kill-buffer (current-buffer))))))
-(define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
-
-(add-function :around (symbol-function 'yank)
-              'my-yank-clone)
 
 (defun my-yank-clone (orig-fun &rest args)
   "With C-u C-u as prefix argument ARG, clone either the active
@@ -219,132 +411,13 @@ region (if any) or the next sexp."
       (goto-char hi)
       (newline nil t)
       (apply orig-fun nil))))
-
-(add-function :after (symbol-function 'yank)
-              #'my-yank-and-reindent-hook)
+(add-function :around (symbol-function 'yank)
+              #'my-yank-clone)
 
 (defun my-yank-and-reindent-hook (&rest _)
   (indent-region (mark) (point)))
-
-;; Hippie expand
-(use-package hippie-expand
-  :bind ([remap dabbrev-expand] . hippie-expand)
-  :init
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev
-          try-expand-dabbrev-all-buffers
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol
-          try-complete-file-name-partially
-          try-complete-file-name)))
-
-(defun my-expand-lines ()
-  (interactive)
-  (let ((hippie-expand-try-functions-list
-         '(try-expand-line)))
-    (call-interactively 'hippie-expand)))
-
-;; Colors
-(defun my-set-frame-background (mode)
-  (setq frame-background-mode mode)
-  (mapc 'frame-set-background-mode (frame-list)))
-(or frame-background-mode
-    (my-set-frame-background 'light))
-
-(defun my-toggle-colors ()
-  (interactive)
-  "Toggle between light and dark background."
-  (cl-case frame-background-mode
-    ('light
-     (set-face-background 'default "black")
-     (set-face-foreground 'default "white")
-     (my-set-frame-background 'dark))
-    ('dark
-     (set-face-background 'default "white")
-     (set-face-foreground 'default "black")
-     (my-set-frame-background 'light))))
-
-(defun my-revert-buffer-noconfirm ()
-  (interactive)
-  (revert-buffer t t))
-
-;; Keybindings
-(define-key global-map (kbd "C-h C-k") 'describe-key)
-(define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
-(define-key global-map (kbd "C-c k") 'delete-frame)
-(define-key global-map (kbd "C-c n") 'make-frame)
-(define-key global-map (kbd "M-n") 'my-scroll-up)
-(define-key global-map (kbd "M-p") 'my-scroll-down)
-(define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
-(define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
-(define-key global-map (kbd "C-c .") 'repeat)
-(define-key global-map (kbd "M-=") 'align-regexp)
-(define-key global-map (kbd "M-g") 'goto-line)
-(define-key global-map (kbd "C-x g") 'move-to-column)
-(define-key global-map (kbd "M-`") 'my-other-window-or-switch-buffer)
-(define-key global-map (kbd "<M-left>") 'previous-buffer)
-(define-key global-map (kbd "<M-right>") 'next-buffer)
-(define-key global-map (kbd "C-c /") 'rgrep)
-(define-key global-map (kbd "M-%") 'query-replace-regexp)
-(define-key global-map (kbd "M-k") 'my-copy-line)
-(define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
-(define-key global-map (kbd "C-<prior>") 'previous-error)
-(define-key global-map (kbd "C-<next>") 'next-error)
-(define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
-(define-key global-map (kbd "C-S-<left>") 'my-previous-end)
-(define-key global-map (kbd "M-SPC") 'my-space-and-back)
-(define-key global-map (kbd "C-<return>") (kbd "<return>"))
-(define-key global-map (kbd "M-<return>") (kbd "<return>"))
-(define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
-(define-key global-map (kbd "C-S-<up>") 'my-move-line-up)
-(define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
-(define-key global-map (kbd "C-c F") 'my-toggle-debug)
-(define-key global-map (kbd "C-c l")  'my-expand-lines)
-(define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
-(define-key global-map (kbd "C-c (") 'delete-pair)
-
-;; elisp
-(setq initial-major-mode 'emacs-lisp-mode)
-(setq eval-expression-print-level nil)
-(define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm)
-
-;; Set mode line format
-(setq-default mode-line-format
-              (mapcar (lambda (elt)
-                        (if (and (stringp elt) (string-match "  +" elt)) " " elt))
-                      mode-line-format))
-
-(defun my-visual-ring-bell ()
-  (let ((face-background (face-background 'default)))
-    (set-face-background 'default "DodgerBlue")
-    (set-face-background 'default face-background)))
-(setq ring-bell-function 'my-visual-ring-bell)
-
-;; Enable originally disabled functions
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-;; Default behaviour for newlines
-(setq require-final-newline t)
-(setq next-line-add-newlines nil)
-
-;; No welcome message
-(setq inhibit-startup-message t)
-
-;; Stop auto save
-(setq auto-save-default nil)
-
-;; Auto revert
-(global-auto-revert-mode 1)
-
-;; Display line and column numbers
-(setq line-number-mode t)
-(setq column-number-mode t)
-
-;; No tabs
-(setq indent-tabs-mode nil)
+(add-function :after (symbol-function 'yank)
+              #'my-yank-and-reindent-hook)
 
 (progn
   (defvar my-untabify-this-buffer)
@@ -377,20 +450,78 @@ unless `my-untabify-this-buffer' is nil."
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
            (kill-local-variable 'my-untabify-this-buffer)
-           (remove-hook 'before-save-hook #'my-untabify-buffer t)))))
-(add-hook 'prog-mode-hook 'my-untabify-mode)
+           (remove-hook 'before-save-hook #'my-untabify-buffer t))))
+  (add-hook 'prog-mode-hook 'my-untabify-mode))
 
-;; Short answers to questions
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Save all buffers when focus is lost
 (defun my-save-all-buffers (&rest _)
   "Save all buffers."
   (interactive)
   (save-some-buffers t))
 (define-key global-map [remap save-some-buffers] 'my-save-all-buffers)
 
-;; VC
+(defun my-kill-line-backward (&optional arg)
+  "The same as `kill-line', but backward (and reindent).
+
+If non nil, ARG overrides the `back-to-indentation' function."
+  (interactive)
+  (let ((start (point)))
+    (funcall (or arg 'back-to-indentation))
+    (kill-region (point) start)))
+
+(let (my-zap-to-char-last-arg)
+  (defun my-zap-to-char ()
+    "Case sensitive, repetition friendly version of `zap-to-char'."
+    (interactive)
+    (let ((case-fold-search nil)
+          (arg (if (eq last-repeatable-command this-command)
+                   my-zap-to-char-last-arg
+                 (setq my-zap-to-char-last-arg (read-char "zap to char: ")))))
+      (zap-to-char 1 arg))))
+(define-key global-map [remap zap-to-char] 'my-zap-to-char)
+
+(let (my-jump-to-char-last-arg)
+  (defun my-jump-to-char ()
+    "Jump to the next occurence of CHAR."
+    (interactive)
+    (let ((char (if (eq last-repeatable-command this-command)
+                    my-jump-to-char-last-arg
+                  (setq my-jump-to-char-last-arg (read-char "look for: ")))))
+      (forward-char 1)
+      (let ((case-fold-search t))
+        (search-forward (char-to-string char) nil t))
+      (backward-char 1))))
+
+(defun my-previous-buffer ()
+  "Not the current buffer but the buffer before."
+  (other-buffer (current-buffer) 1))
+
+(defun my-insert-buffer-name ()
+  "Insert the previous buffer name.  Useful for compilation."
+  (interactive)
+  (insert (file-name-sans-extension (buffer-name (my-previous-buffer)))))
+
+(defun my-insert-buffer-file-name (arg)
+  "Insert the previous buffer path.
+
+With a prefix argument ARG, insert `file:' before."
+  (interactive "P")
+  (insert (concat (if arg "file:" "")
+                  (buffer-file-name (my-previous-buffer)))))
+
+
+;;; Packages
+(use-package fullframe)
+
+(use-package ibuffer
+  :bind
+  ("C-x C-b" . ibuffer)
+  :config
+  (fullframe ibuffer quit-window))
+
+(use-package package
+  :init
+  (fullframe list-packages quit-window))
+
 (use-package vc
   :init
   (progn
@@ -426,8 +557,10 @@ unless `my-untabify-this-buffer' is nil."
    ("C-<f7>" . vc-root-diff))
   :config
   (progn
-    (add-function :before (symbol-function 'vc-diff) #'my-save-all-buffers)
-    (add-function :around (symbol-function 'diff-apply-hunk) #'my-no-confirm)))
+    (add-function :before (symbol-function 'vc-diff)
+                  #'my-save-all-buffers)
+    (add-function :around (symbol-function 'diff-apply-hunk)
+                  #'my-no-confirm)))
 
 (use-package diff-mode
   :bind
@@ -439,42 +572,10 @@ unless `my-untabify-this-buffer' is nil."
    ("d" . diff-apply-hunk)
    ("r" . diff-refine-hunk)))
 
-;; Reduce echo delay
-(setq echo-keystrokes 0.3)
-
-;; Remove gui elements
-(progn
-  (and (fboundp 'fringe-mode) (fringe-mode -1))
-  (and (fboundp 'tooltip-mode) (tooltip-mode +1))
-  (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-  (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-  (and (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
-  (setq use-dialog-box nil)
-  (setq pop-up-windows nil))
-
-;; Save history between sessions
-(defvar savehist-save-minibuffer-history)
-(savehist-mode t)
-(setq history-length 16384)
-(setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history t)
-(defvar savehist-additional-variables)
-(mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
-      '(kill-ring
-        search-ring
-        regexp-search-ring
-        compile-command))
-
-;; Ediff frame setup
 (use-package ediff-wind
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally))
-
-;; completion
-(define-key global-map (kbd "C-M-/") 'completion-at-point)
-(setq completion-cycle-threshold 5)
 
 (use-package elec-pair
   :init
@@ -494,118 +595,53 @@ unless `my-untabify-this-buffer' is nil."
     (setq show-paren-delay 0)
     (show-paren-mode 1)))
 
-(add-to-list 'default-frame-alist '(height . 30))
-(add-to-list 'default-frame-alist '(width . 80))
-(add-to-list 'initial-frame-alist '(top . 20))
-(add-to-list 'initial-frame-alist '(left . 120))
-
-;; Setting up fonts
-(progn
-  (defvar my-default-font
-    (cond ((eq 'windows-nt system-type) "Consolas 14")
-          (t  "DejaVu Sans Mono 12"))
-    "The font used almost everywhere.")
-  (set-default-coding-systems 'utf-8)
-  (with-eval-after-load 'init
-    (add-to-list 'default-frame-alist `(font . ,my-default-font))))
-
-;; Upcase / downcase commands
-(define-key global-map (kbd "C-S-u") 'upcase-region)
-(define-key global-map (kbd "C-S-l") 'downcase-region)
-
-(defun my-kill-line-backward (&optional arg)
-  "The same as `kill-line', but backward (and reindent).
-
-If non nil, ARG overrides the `back-to-indentation' function."
-  (interactive)
-  (let ((start (point)))
-    (funcall (or arg 'back-to-indentation))
-    (kill-region (point) start)))
-(define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
-
-;; Setting up the order for recenter-top-bottom"
-(setq recenter-positions '(top middle bottom))
-
-;; Pop mark
-(setq set-mark-command-repeat-pop t)
-
-(use-package fullframe)
-
-(use-package ibuffer
-  :bind
-  ("C-x C-b" . ibuffer)
-  :config
-  (fullframe ibuffer quit-window))
-
-(use-package package
+(use-package key-chord
   :init
-  (fullframe list-packages quit-window))
+  (progn
+    (defvar my-key-chords-alist nil
+      "A list of key chords bindings.
 
-;; Shell
-(progn
-  (let* ((cygwin-root "c:"))
-    (when (and (eq 'windows-nt system-type)
-               (file-readable-p cygwin-root))
-      (define-key global-map (kbd "C-c u") 'my-dos2unix-cmd)
-      (defun my-dos2unix-cmd ()
-        (interactive)
-        (and buffer-file-name
-             (shell-command (format "dos2unix %s" buffer-file-name))))
-      (setq shell-file-name "bash")
-      (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
+Each binding is a list of 3 elements: KEYS, KEYMAP, COMMAND.
+KEYS is string of length 2; KEYMAP defaults to the global map.")
+    (defun my-key-chord-define (keymap keys command)
+      (push (list keymap keys command) my-key-chords-alist)
+      (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
+    (my-key-chord-define global-map "jk" 'execute-extended-command)
+    (my-key-chord-define global-map "fj" 'find-file)
+    (my-key-chord-define global-map "hv" 'describe-variable)
+    (my-key-chord-define global-map "hk" 'describe-key)
+    (my-key-chord-define global-map "fy" 'my-find-init-file)
+    (my-key-chord-define global-map "fh" 'my-recentf-command))
+  :config
+  (progn
+    (defun my-key-chord-setup ()
+      (with-eval-after-load 'init
+        (or key-chord-mode (key-chord-mode +1))
+        (dolist (mapping my-key-chords-alist)
+          (apply #'key-chord-define mapping))))
+    (my-key-chord-setup)))
 
-  (add-hook 'shell-mode-hook 'my-reset-prompt-command)
-  (defun my-reset-prompt-command ()
-    (insert "PROMPT_COMMAND=\"\"")
-    (comint-send-input))
-  (add-hook 'shell-mode-hook 'dirtrack-mode))
-
-(let (my-zap-to-char-last-arg)
-  (defun my-zap-to-char ()
-    "Case sensitive, repetition friendly version of `zap-to-char'."
+(use-package hippie-expand
+  :bind
+  (([remap dabbrev-expand] . hippie-expand)
+   ("C-c l" . my-expand-lines))
+  :init
+  (setq hippie-expand-try-functions-list
+        '(try-expand-dabbrev
+          try-expand-dabbrev-all-buffers
+          try-complete-lisp-symbol-partially
+          try-complete-lisp-symbol
+          try-complete-file-name-partially
+          try-complete-file-name))
+  (defun my-expand-lines ()
     (interactive)
-    (let ((case-fold-search nil)
-          (arg (if (eq last-repeatable-command this-command)
-                   my-zap-to-char-last-arg
-                 (setq my-zap-to-char-last-arg (read-char "zap to char: ")))))
-      (zap-to-char 1 arg))))
-(define-key global-map [remap zap-to-char] 'my-zap-to-char)
+    (let ((hippie-expand-try-functions-list
+           '(try-expand-line)))
+      (call-interactively 'hippie-expand))))
 
-(define-key global-map (kbd "C-.") 'my-jump-to-char)
-(let (my-jump-to-char-last-arg)
-  (defun my-jump-to-char ()
-    "Jump to the next occurence of CHAR."
-    (interactive)
-    (let ((char (if (eq last-repeatable-command this-command)
-                    my-jump-to-char-last-arg
-                  (setq my-jump-to-char-last-arg (read-char "look for: ")))))
-      (forward-char 1)
-      (let ((case-fold-search t))
-        (search-forward (char-to-string char) nil t))
-      (backward-char 1))))
+(use-package winner
+  :config (winner-mode +1))
 
-(defun my-previous-buffer ()
-  "Not the current buffer but the buffer before."
-  (other-buffer (current-buffer) 1))
-
-(defun my-insert-buffer-name ()
-  "Insert the previous buffer name.  Useful for compilation."
-  (interactive)
-  (insert (file-name-sans-extension (buffer-name (my-previous-buffer)))))
-
-(defun my-insert-buffer-file-name (arg)
-  "Insert the previous buffer path.
-
-With a prefix argument ARG, insert `file:' before."
-  (interactive "P")
-  (insert (concat (if arg "file:" "")
-                  (buffer-file-name (my-previous-buffer)))))
-
-;; Display page delimiter as a horizontal line
-;; (aset standard-display-table ?\^L (vconcat (make-vector 64 ?-) "^L"))
-
-
-
 (use-package dired
   :demand t
   :init
@@ -625,8 +661,6 @@ With a prefix argument ARG, insert `file:' before."
     (set-face-attribute 'dired-ignored nil
                         :foreground "gray60")))
 
-
-;;; Find file at point
 (use-package ffap
   :demand t
   :bind
@@ -641,7 +675,7 @@ With a prefix argument ARG, insert `file:' before."
   :config
   (progn
     (add-function :around (symbol-function 'ffap-prompter)
-                  'my-ffap-prompter-noconfirm)))
+                  #'my-ffap-prompter-noconfirm)))
 
 ;;; Google search
 (defun my-prompt ()
@@ -670,10 +704,6 @@ if its size is 1 line."
 (my-defweb-search my-google-search
   "www.google.com/search?q=")
 
-(define-key global-map (kbd "C-h g") 'my-google-search)
-
-
-;;; Compilation
 (use-package grep
   :init
   (progn
@@ -822,8 +852,6 @@ If there is no match, returns NIL."
   :config
   (setq mouse-drag-copy-region t))
 
-
-;;; Recentf
 (use-package recentf
   :init
   (recentf-mode +1)
@@ -834,49 +862,6 @@ If there is no match, returns NIL."
     (fset 'my-recentf-command 'recentf-open-files)
     (setq recentf-max-saved-items 500)
     (setq recentf-max-menu-items 150)))
-
-
-;;; Selective display
-(let ((depth 1))
-  (define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
-  (define-key global-map (kbd "C-<f6>") 'my-selective-display-increase)
-  (define-key global-map (kbd "S-<f6>") 'my-selective-display-decrease)
-
-  (defun my-selective-display-toggle ()
-    "Hide lines starting with a lot of spaces.
-
-See `my-selective-display-increase' to increase the number of spaces.
-See `my-selective-display-decrease' to decrease it."
-    (interactive)
-    (set-selective-display (unless selective-display depth)))
-  (cl-flet ((g (offset)
-               (setq depth (+ depth offset))
-               (set-selective-display depth)))
-    (defun my-selective-display-increase ()
-      "Increase the cap for `toogle-selective-display'.
-
-See `my-selective-display-toggle' and `my-selective-display-decrease'."
-      (interactive)
-      (when (< depth 20) (g 1)))
-
-    (defun my-selective-display-decrease ()
-      "Decrease the cap for `toogle-selective-display'.
-
-See `my-selective-display-toggle' and `my-selective-display-increase'."
-      (interactive)
-      (when (> depth 1) (g -1)))))
-
-;; Scroll to the results in occur buffers
-(progn
-  (defun my-occur-skip-gribberish-hook (&rest _)
-    (when isearch-mode (isearch-exit))
-    (select-window (get-buffer-window "*Occur*"))
-    (goto-char (point-min))
-    (next-logical-line 1)
-    (recenter 0)
-    (select-window (next-window)))
-  (add-function :after (symbol-function 'occur)
-                #'my-occur-skip-gribberish-hook))
 
 (defun my-yank-diff (arg)
   "Yank a patch.
@@ -909,6 +894,7 @@ With prefix argument ARG, invert `+' and `-'."
                      (kill-new "+ test\n+ test")
                      (my-yank-diff nil)
                      (buffer-string)))))
+
 
 ;;; Isearch
 (use-package isearch
@@ -997,51 +983,9 @@ Otherwise, apply ORIG-FUN to ARGS."
       (or (my-isearch-region) (apply orig-fun args)))
     (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
     (add-function :around (symbol-function 'isearch-forward)
-                  'my-isearch-region-hook)
+                  #'my-isearch-region-hook)
     (add-function :around (symbol-function 'isearch-backward)
-                  'my-isearch-region-hook)))
-
-
-;;; Windows
-(setq tags-add-tables nil)
-
-(use-package winner
-  :config (winner-mode +1))
-
-(define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
-
-(my-window-command "g" "*grep*")
-(my-window-command "d" "*vc-diff*")
-(my-window-command "c" "*compilation*")
-(my-window-command "o" "*Occur*")
-(my-window-command "s" "*scratch*")
-
-(defun my-toggle-window-split ()
-  "When there are two windows, convert horizontal to vertical and vice versa."
-  (interactive)
-  (or (= (count-windows) 2)
-      (error "You need exactly 2 windows to do this"))
-  (let* ((this-win-buffer (window-buffer))
-         (next-win-buffer (window-buffer (next-window)))
-         (this-win-edges (window-edges (selected-window)))
-         (next-win-edges (window-edges (next-window)))
-         (this-win-2nd (not (and (<= (car this-win-edges)
-                                     (car next-win-edges))
-                                 (<= (cadr this-win-edges)
-                                     (cadr next-win-edges)))))
-         (splitter
-          (if (= (car this-win-edges)
-                 (car next-win-edges))
-              'split-window-horizontally
-            'split-window-vertically)))
-    (delete-other-windows)
-    (let ((first-win (selected-window)))
-      (funcall splitter)
-      (when this-win-2nd (other-window 1))
-      (set-window-buffer (selected-window) this-win-buffer)
-      (set-window-buffer (next-window) next-win-buffer)
-      (select-window first-win)
-      (when this-win-2nd (other-window 1)))))
+                  #'my-isearch-region-hook)))
 
 (use-package shell
   :bind
@@ -1050,9 +994,16 @@ Otherwise, apply ORIG-FUN to ARGS."
         ("<f6>" . compilation-shell-minor-mode))
   :config
   (progn
+    (defun my-reset-prompt-command ()
+      (insert "PROMPT_COMMAND=\"\"")
+      (comint-send-input))
+    (add-hook 'shell-mode-hook 'my-reset-prompt-command)
+    (add-hook 'shell-mode-hook 'dirtrack-mode)
     (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
-    (add-function :before (symbol-function 'comint-previous-input) 'end-of-buffer-hook)
-    (add-function :before (symbol-function 'comint-next-input) 'end-of-buffer-hook)))
+    (add-function :before (symbol-function 'comint-previous-input)
+                  #'end-of-buffer-hook)
+    (add-function :before (symbol-function 'comint-next-input)
+                  #'end-of-buffer-hook)))
 
 (use-package evil-nerd-commenter
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
@@ -1224,7 +1175,6 @@ Otherwise, apply ORIG-FUN to ARGS."
       :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
 
-;; C configuration
 (use-package cc-vars
   :defer t
   :config
@@ -1243,7 +1193,6 @@ Otherwise, apply ORIG-FUN to ARGS."
          ("C-c C-a" . ff-find-other-file))))
     (add-hook 'c-initialization-hook #'my-c-setup)))
 
-;; Images
 (use-package image-mode
   :config
   (use-package image+
@@ -1278,7 +1227,8 @@ Otherwise, apply ORIG-FUN to ARGS."
   (progn
     (cl-flet ((my-diff-hl-on (&rest _) (turn-on-diff-hl-mode)))
       (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
-        (add-function :before (symbol-function fun) #'my-diff-hl-on)))
+        (add-function :before (symbol-function fun)
+                      #'my-diff-hl-on)))
     (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
