@@ -388,7 +388,6 @@ unless `my-untabify-this-buffer' is nil."
   "Save all buffers."
   (interactive)
   (save-some-buffers t))
-(define-key global-map [remap save-buffer] 'my-save-all-buffers)
 (define-key global-map [remap save-some-buffers] 'my-save-all-buffers)
 
 ;; VC
