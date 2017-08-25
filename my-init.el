@@ -401,6 +401,8 @@ unless `my-untabify-this-buffer' is nil."
           (interactive)
           (when-let (root (vc-root-dir))
             (vc-dir root))))
+      :config
+      (fullframe vc-dir quit-window)
       :bind
       (([remap vc-dir] . my-vc-dir-root)
        ("C-M-<f7>" . vc-dir)
