@@ -1507,7 +1507,8 @@ multiple eshell windows easier."
                          (cl-delete-if
                           (lambda (plist)
                             (and (consp plist)
-                                 (string= "`" (plist-get plist :open))))
+                                 (member (plist-get plist :open)
+                                         '("`" "'"))))
                           (cdr (assoc t sp-pairs)))))
       (and (fboundp 'electric-pair-mode)
            electric-pair-mode
