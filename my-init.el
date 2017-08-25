@@ -126,8 +126,6 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "C-<return>") (kbd "<return>"))
 (define-key global-map (kbd "M-<return>") (kbd "<return>"))
 (define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
-(define-key global-map (kbd "C-S-<up>") 'my-move-line-up)
-(define-key global-map (kbd "C-S-<down>") 'my-move-line-down)
 (define-key global-map (kbd "C-c F") 'my-toggle-debug)
 (define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
 (define-key global-map (kbd "C-c (") 'delete-pair)
@@ -334,19 +332,6 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
          (progn ,@body)
        (move-to-column column))))
 (put 'my-save-column 'lisp-indent-function 0)
-
-(defun my-move-line-up ()
-  (interactive)
-  (my-save-column
-    (transpose-lines 1)
-    (forward-line -2)))
-
-(defun my-move-line-down ()
-  (interactive)
-  (my-save-column
-    (forward-line 1)
-    (transpose-lines 1)
-    (forward-line -1)))
 
 (defun my-clone-line ()
   (interactive)
@@ -1511,6 +1496,11 @@ multiple eshell windows easier."
   (progn
     (setq sh-basic-offset 8)
     (setq sh-indentation 8)))
+
+(use-package move-text
+  :bind
+  (("C-S-<down>" . move-text-down)
+   ("C-S-<up>" . move-text-up)))
 
 (provide 'my-init)
 ;;; my-init.el ends here
