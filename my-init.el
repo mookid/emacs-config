@@ -1126,6 +1126,7 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-M-y". counsel-yank-pop)
    ("C-z" . counsel-switch-to-shell-buffer)
    ("C-c M-x" . counsel-M-x)
+   ("<f10>" . counsel-git-change-worktree)
    :map isearch-mode-map
    ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
