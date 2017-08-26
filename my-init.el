@@ -176,6 +176,10 @@ BUFFER-NAME and bind it."
      (set-face-foreground 'default "black")
      (my-set-frame-background 'light))))
 
+(and (eq 'light frame-background-mode)
+     (member "--dark" command-line-args)
+     (my-toggle-colors))
+
 (defvar my-default-font
   (cond ((eq 'windows-nt system-type) "Consolas 14")
         (t  "DejaVu Sans Mono 12"))
