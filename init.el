@@ -17,11 +17,9 @@
   (defvar custom-file)
   (defvar my-main-init-file)
   (defvar savehist-file)
-  (defvar yas-snippet-dirs)
   (setq custom-file (expand-file-name ".emacs-custom.el" user-emacs-directory))
   (setq my-main-init-file (expand-file-name "my-init.el" user-emacs-directory))
   (setq savehist-file (expand-file-name "savehist" user-emacs-directory))
-  (setq yas-snippet-dirs (expand-file-name "snippets" user-emacs-directory))
   (setq backup-directory-alist
         `(("." . ,(expand-file-name "backups" user-emacs-directory))))
   (load-file my-main-init-file)
