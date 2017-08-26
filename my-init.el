@@ -291,14 +291,13 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (interactive)
   (message "`debug-on-error' set to %S" (cl-callf not debug-on-error)))
 
-(defun my-view-echo-area-messages-new-frame ()
+(defun my-view-echo-area-messages (arg)
   (interactive "P")
   "With prefix argument, open the buffer in a new frame."
-  (and current-prefix-arg
-       (>= (car current-prefix-arg) 4)
-       (select-frame (make-frame))))
-(add-function :before (symbol-function 'view-echo-area-messages)
-              #'my-view-echo-area-messages-new-frame)
+  (and arg (make-frame))
+  (view-echo-area-messages))
+(define-key global-map [remap view-echo-area-messages]
+  'my-view-echo-area-messages)
 
 (defun my-name-last-kbd-macro ()
   (interactive)
