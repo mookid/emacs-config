@@ -430,9 +430,11 @@ region (if any) or the next sexp."
   (defun my-untabify-buffer ()
     "Untabify the current buffer and delete trailing whitespaces,
 unless `my-untabify-this-buffer' is nil."
-    (when my-untabify-this-buffer
-      (untabify (point-min) (point-max))
-      (delete-trailing-whitespace)))
+    (cond (my-untabify-this-buffer
+           (whitespace-mode -1)
+           (untabify (point-min) (point-max))
+           (delete-trailing-whitespace))
+          (t (whitespace-mode +1))))
 
   (make-variable-buffer-local 'my-untabify-this-buffer)
   (define-minor-mode my-untabify-mode
