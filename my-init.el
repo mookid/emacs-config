@@ -732,24 +732,7 @@ if its size is 1 line."
              (sit-for 0.4)
              (delete-window (get-buffer-window buf)))))
 
-    (add-hook 'compilation-finish-functions #'my-compile-finish-hook)
-
-    (defun my-count-grep-matches (buf _msg)
-      (with-current-buffer buf
-        (let* ((count (- (count-lines (point-min) (point-max))
-                         6))
-               (match (if (> count 1) "matches" "match")))
-          (unless (zerop count)
-            (goto-char (point-max))
-            (search-backward "Grep finished (matches found)" nil t)
-            (let ((msg (format "Grep finished (%d %s found)" count match)))
-              (replace-match msg nil t)
-              (message msg))))))
-
-    (defun my-count-grep-matches-hook ()
-      (add-hook 'compilation-finish-functions 'my-count-grep-matches nil t))
-
-    (add-hook 'grep-mode-hook 'my-count-grep-matches-hook)))
+    (add-hook 'compilation-finish-functions #'my-compile-finish-hook)))
 
 (use-package iedit
   :init
