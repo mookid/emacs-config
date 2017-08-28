@@ -55,6 +55,11 @@
           regexp-search-ring
           compile-command)))
 
+(progn
+  (global-visual-line-mode +1)
+  (setf (cdr visual-line-mode-map) nil)
+  (diminish 'visual-line-mode))
+
 
 ;;; Windows
 (defun my-goto-buffer (buffer-name)
