@@ -628,21 +628,14 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (use-package hippie-expand
   :bind
-  (([remap dabbrev-expand] . hippie-expand)
-   ("C-c l" . my-expand-lines))
+  (("C-M-/" . my-expand-lines))
   :init
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev
-          try-expand-dabbrev-all-buffers
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol
-          try-complete-file-name-partially
-          try-complete-file-name))
-  (defun my-expand-lines ()
-    (interactive)
-    (let ((hippie-expand-try-functions-list
-           '(try-expand-line)))
-      (call-interactively 'hippie-expand))))
+  (progn
+    (defvar my-expand-lines)
+    (fset 'my-expand-lines
+          (make-hippie-expand-function
+           '(try-expand-line
+             try-expand-line-all-buffers)))))
 
 (use-package winner
   :config (winner-mode +1))
