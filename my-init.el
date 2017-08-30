@@ -971,6 +971,8 @@ Otherwise, apply ORIG-FUN to ARGS."
       (comint-send-input))
     (add-hook 'shell-mode-hook 'my-reset-prompt-command)
     (add-hook 'shell-mode-hook 'dirtrack-mode)
+    (unless window-system
+           (define-key global-map (kbd "C-z") 'suspend-emacs))
     (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
     (add-function :before (symbol-function 'comint-previous-input)
                   #'end-of-buffer-hook)
