@@ -169,18 +169,27 @@ BUFFER-NAME and bind it."
     (set-face-background 'default face-background)))
 (setq ring-bell-function 'my-visual-ring-bell)
 
+(defun my-set-colors (light)
+  "Set light colors if LIGHT is non nil, dark colors otherwise."
+  (interactive "P")
+  (cond
+   (light
+    (set-face-background 'default "#EEEEFF")
+    (set-face-foreground 'default "black")
+    (my-set-frame-background 'light))
+   (t
+    (set-face-background 'default "grey10")
+    (set-face-foreground 'default "white")
+    (my-set-frame-background 'dark))))
+
 (defun my-toggle-colors ()
   (interactive)
   "Toggle between light and dark background."
   (cl-case frame-background-mode
-    ('light
-     (set-face-background 'default "black")
-     (set-face-foreground 'default "white")
-     (my-set-frame-background 'dark))
-    ('dark
-     (set-face-background 'default "white")
-     (set-face-foreground 'default "black")
-     (my-set-frame-background 'light))))
+    ('light (my-set-colors nil))
+    ('dark (my-set-colors t))))
+
+(my-set-colors frame-background-mode)
 
 (and (eq 'light frame-background-mode)
      (member "--dark" command-line-args)
