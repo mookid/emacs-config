@@ -26,6 +26,7 @@
 (setq frame-title-format (list "%f"))
 (setq minibuffer-depth-indicate-mode t)
 (setq tags-add-tables nil)
+(setq load-prefer-newer t)
 (set-default-coding-systems 'utf-8)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
