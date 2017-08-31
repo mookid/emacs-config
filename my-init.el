@@ -447,13 +447,15 @@ unless `my-untabify-this-buffer' is nil."
 
   (make-variable-buffer-local 'my-untabify-this-buffer)
   (define-minor-mode my-untabify-mode
-    "Untabify buffer on save.
+    "Untabify buffer on save. When not applicable, turn on `whitespace-mode'.
 
 \\{my-untabify-mode-map}" nil " untab" my-untabify-mode-map
     (cond (my-untabify-mode
            (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
+           (or my-untabify-this-buffer (whitespace-mode +1))
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
+           (and my-untabify-this-buffer (whitespace-mode -1))
            (kill-local-variable 'my-untabify-this-buffer)
            (remove-hook 'before-save-hook #'my-untabify-buffer t))))
   (add-hook 'prog-mode-hook 'my-untabify-mode))
