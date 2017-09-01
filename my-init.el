@@ -207,13 +207,6 @@ BUFFER-NAME and bind it."
   (add-to-list 'default-frame-alist `(font . ,my-default-font)))
 
 
-;;; elisp
-(setq initial-major-mode 'emacs-lisp-mode)
-(setq eval-expression-print-level nil)
-(define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm)
-
-
 ;;; defuns
 (let ((depth 1))
   (defun my-selective-display-toggle ()
@@ -759,6 +752,19 @@ if its size is 1 line."
    ("C-s" . iedit-next-occurrence)
    ("C-r" . iedit-prev-occurrence)
    ("M-o" . my-iedit-occur)))
+
+
+;;; elisp
+(use-package ielm
+  :init
+  (progn
+    (setq initial-major-mode 'emacs-lisp-mode)
+    (setq eval-expression-print-level nil)
+    (define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
+    (define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm))
+  :bind
+  (:map ielm-map
+        ("C-c C-z" . bury-buffer)))
 
 
 ;;; Mouse
