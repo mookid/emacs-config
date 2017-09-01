@@ -424,17 +424,15 @@ region (if any) or the next sexp."
 (add-function :around (symbol-function 'yank)
               #'my-yank-clone)
 
-(defun my-yank-and-reindent-hook (&rest _)
-  (indent-region (mark) (point)))
-(add-function :after (symbol-function 'yank)
-              #'my-yank-and-reindent-hook)
-
 (progn
   (defvar my-untabify-this-buffer)
   (defvar my-untabify-mode-map
     (let ((map (make-sparse-keymap)))
       (define-key map (kbd "C-c <tab>") 'my-toggle-untabify-this-buffer)
       map))
+
+  (defun my-yank-and-reindent-hook (&rest _)
+    (and my-untabify-this-buffer (indent-region (mark) (point))))
 
   (defun my-toggle-untabify-this-buffer ()
     "Toggle untabification of the current buffer."
@@ -458,12 +456,15 @@ unless `my-untabify-this-buffer' is nil."
 
 \\{my-untabify-mode-map}" nil " untab" my-untabify-mode-map
     (cond (my-untabify-mode
+           (add-function :after (symbol-function 'yank)
+                         #'my-yank-and-reindent-hook)
            (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
-           (or my-untabify-this-buffer (whitespace-mode +1))
+           (or my-untabify-this-buffer (whitespace-mode 1))
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
+           (remove-function (symbol-function 'yank)
+                            #'my-yank-and-reindent-hook)
            (and my-untabify-this-buffer (whitespace-mode -1))
-           (kill-local-variable 'my-untabify-this-buffer)
            (remove-hook 'before-save-hook #'my-untabify-buffer t))))
   (add-hook 'prog-mode-hook 'my-untabify-mode))
 
