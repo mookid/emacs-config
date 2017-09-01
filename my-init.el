@@ -62,27 +62,41 @@
 
 
 ;;; Windows
+(defmacro my-balance-after (orig-fun)
+  (let ((interactive-form (interactive-form orig-fun))
+        (gensym (intern (concat "my-" (symbol-name orig-fun)))))
+    `(progn
+       (define-key global-map [remap ,orig-fun] ',gensym)
+       (defun ,gensym (&rest args)
+         ,interactive-form
+         (apply #',orig-fun args)
+         (balance-windows)))))
+
 (defun my-goto-buffer (buffer-name)
   "Select buffer named BUFFER-NAME."
   (select-window (split-window-vertically))
-  (SWITCH-to-buffer-other-window (get-buffer-create buffer-name)))
+  (switch-to-buffer-other-window (get-buffer-create buffer-name)))
 
-(defmacro my-window-command (key buffername)
+(defmacro my-window-command (key buffer-name)
   "Defines a command to jump to the buffer designated by
 BUFFER-NAME and bind it."
-  (let ((command-name (intern (concat "my-goto-" buffername))))
+  (let* ((key (symbol-name key))
+         (buffer-name (symbol-name buffer-name))
+         (command-name (intern (concat "my-goto-" buffer-name))))
     `(progn
        (defun ,command-name ()
-         ,(concat "Goto buffer `" buffername "'.")
+         ,(concat "Goto buffer `" buffer-name "'.")
          (interactive)
-         (my-goto-buffer ,buffername))
+         (my-goto-buffer ,buffer-name))
        (define-key global-map (kbd ,(concat "C-c w " key)) ',command-name))))
 
-(my-window-command "g" "*grep*")
-(my-window-command "d" "*vc-diff*")
-(my-window-command "c" "*compilation*")
-(my-window-command "o" "*Occur*")
-(my-window-command "s" "*scratch*")
+(my-window-command g *grep*)
+(my-window-command d *vc-diff*)
+(my-window-command c *compilation*)
+(my-window-command o *Occur*)
+(my-window-command s *scratch*)
+(my-balance-after split-window-right)
+(my-balance-after split-window-below)
 
 
 ;;; MS Windows utilities
