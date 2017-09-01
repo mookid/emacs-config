@@ -41,6 +41,7 @@
         my-ivy-completion-at-point
         my-jump-to-char
         my-kill-line-backward
+        my-kill-region-or-backward-word
         my-move-beginning-of-line
         my-next-beginning
         my-previous-end
@@ -125,6 +126,7 @@
         transpose-sexps
         tuareg-electric-pipe
         tuareg-electric-rp
+        upcase-region
         ))
 
 (setq mc/cmds-to-run-once
