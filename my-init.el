@@ -513,7 +513,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
 (defun my-insert-buffer-name ()
   "Insert the previous buffer name.  Useful for compilation."
   (interactive)
-  (insert (file-name-sans-extension (buffer-name (my-previous-buffer)))))
+  (insert (buffer-name (my-previous-buffer))))
 
 (defun my-insert-buffer-file-name (arg)
   "Insert the previous buffer path.
