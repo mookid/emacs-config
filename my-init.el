@@ -706,11 +706,17 @@ if its size is 1 line."
      ,(format "Search on %s the word at point."
               (substring engine-url 0 (string-match "/" engine-url)))
      (interactive (list (read-string "query: " (my-prompt))))
-     (browse-url (format "https://%s%s" ,engine-url w))))
+     (browse-url (format "https://%s%s"
+                         ,engine-url
+                         (replace-regexp-in-string search-whitespace-regexp
+                                                   "+"
+                                                   w)))))
 (put 'my-defweb-search 'lisp-indent-function 'defun)
 
 (my-defweb-search my-google-search
   "www.google.com/search?q=")
+(my-defweb-search my-hoogle-search
+  "www.haskell.org/hoogle/?hoogle=")
 
 (use-package grep
   :init
