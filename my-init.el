@@ -27,6 +27,7 @@
 (setq minibuffer-depth-indicate-mode t)
 (setq tags-add-tables nil)
 (setq load-prefer-newer t)
+(setq switch-to-visible-buffer nil)
 (set-default-coding-systems 'utf-8)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
