@@ -545,12 +545,6 @@ With a prefix argument ARG, insert `file:' before."
       :bind
       ("<f8>" . vc-git-grep))
     (use-package vc-dir
-      :init
-      (progn
-        (defun my-vc-dir-root ()
-          (interactive)
-          (when-let (root (vc-root-dir))
-            (vc-dir root))))
       :config
       (fullframe vc-dir quit-window)
       :bind
@@ -562,15 +556,19 @@ With a prefix argument ARG, insert `file:' before."
       :bind
       (:map
        vc-prefix-map
-       ("q" . my-vc-add-current-buffer))
-      :init
-      (progn
-        (defun my-vc-add-current-buffer ()
-          (interactive)
-          (when (and buffer-file-name (stringp buffer-file-name))
-            (let ((filename (file-name-nondirectory buffer-file-name)))
-              (shell-command (format "git add %s" filename))
-              (message "Added %s!" filename)))))))
+       ("q" . my-vc-add-current-buffer))))
+  :init
+  (progn
+    (defun my-vc-add-current-buffer ()
+      (interactive)
+      (when (and buffer-file-name (stringp buffer-file-name))
+        (let ((filename (file-name-nondirectory buffer-file-name)))
+          (shell-command (format "git add %s" filename))
+          (message "Added %s!" filename))))
+    (defun my-vc-dir-root ()
+      (interactive)
+      (when-let (root (vc-root-dir))
+        (vc-dir root))))
   :bind
   (("<f7>" . vc-diff)
    ("C-<f7>" . vc-root-diff))
@@ -580,16 +578,6 @@ With a prefix argument ARG, insert `file:' before."
                   #'my-save-all-buffers)
     (add-function :around (symbol-function 'diff-apply-hunk)
                   #'my-no-confirm)))
-
-(use-package diff-mode
-  :bind
-  (:map
-   diff-mode-shared-map
-   ("j" . diff-hunk-next)
-   ("k" . diff-hunk-prev)
-   ("s" . diff-split-hunk)
-   ("d" . diff-apply-hunk)
-   ("r" . diff-refine-hunk)))
 
 (use-package ediff-wind
   :config
