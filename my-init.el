@@ -541,6 +541,9 @@ With a prefix argument ARG, insert `file:' before."
 (use-package vc
   :init
   (progn
+    (use-package vc-git
+      :bind
+      ("<f8>" . vc-git-grep))
     (use-package vc-dir
       :init
       (progn
