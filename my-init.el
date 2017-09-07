@@ -657,6 +657,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
   :config
   (progn
+    (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-alh")
     (set-face-attribute 'dired-ignored nil
                         :foreground "gray60")))
