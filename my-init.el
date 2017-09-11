@@ -189,7 +189,7 @@ BUFFER-NAME and bind it."
   (interactive "P")
   (cond
    (light
-    (set-face-background 'default "#EEEEFF")
+    (set-face-background 'default "white")
     (set-face-foreground 'default "black")
     (my-set-frame-background 'light))
    (t
