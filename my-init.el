@@ -1118,6 +1118,13 @@ Otherwise, apply ORIG-FUN to ARGS."
     (defvar ivy-use-virtual-buffers)
     (fset 'my-recentf-command 'ivy-switch-buffer)
     (setq completion-in-region-function #'ivy-completion-in-region)
+    (setq counsel-rg-base-command
+          (concat
+           "rg --no-heading --line-number --vimgrep "
+           "--path-separator / "
+           "--max-columns 120 "
+           "--color never "
+           "%s ."))
     (setq ivy-use-virtual-buffers t))
   :config
   (progn
