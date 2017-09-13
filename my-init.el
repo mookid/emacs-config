@@ -1529,5 +1529,12 @@ multiple eshell windows easier."
   (("C-S-<down>" . move-text-down)
    ("C-S-<up>" . move-text-up)))
 
+(use-package windmove
+  :bind
+  (("S-<left>"  . windmove-left)
+   ("S-<right>" . windmove-right)
+   ("S-<up>"    . windmove-up)
+   ("S-<down>"  . windmove-down)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
