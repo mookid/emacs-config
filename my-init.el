@@ -1283,6 +1283,7 @@ Otherwise, apply ORIG-FUN to ARGS."
   ("C-c d" . woman))
 
 (use-package eshell
+  :disabled t
   :init
   (progn
     (setq eshell-scroll-to-bottom-on-input 'all
