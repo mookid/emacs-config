@@ -1042,6 +1042,9 @@ Otherwise, apply ORIG-FUN to ARGS."
   :config
   (progn
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+    (dotimes (i 9)
+      (set-face-bold
+       (intern (format "rainbow-delimiters-depth-%d-face" (1+ i))) t))
     (defun my-rainbow-delimiters-disable ()
       "Disable rainbow-delimiters mode."
       (rainbow-delimiters-mode -1))
