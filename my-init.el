@@ -290,8 +290,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (next-logical-line 1)
   (recenter 0)
   (select-window (next-window)))
-(add-function :after (symbol-function 'occur)
-              #'my-occur-skip-gribberish-hook)
+(advice-add 'occur :after #'my-occur-skip-gribberish-hook)
 
 (defun my-revert-buffer-noconfirm ()
   (interactive)
@@ -306,8 +305,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (if (string= (buffer-name (current-buffer)) "*scratch*")
       (bury-buffer)
     (apply orig-fun args)))
-(add-function :around (symbol-function 'kill-buffer)
-              #'my-bury-buffer)
+(advice-add 'kill-buffer :around #'my-bury-buffer)
 
 (defun my-toggle-debug ()
   "Change the value of `debug-on-error'."
@@ -422,8 +420,7 @@ region (if any) or the next sexp."
       (goto-char hi)
       (newline nil t)
       (apply orig-fun nil))))
-(add-function :around (symbol-function 'yank)
-              #'my-yank-clone)
+(advice-add 'yank :around #'my-yank-clone)
 
 (progn
   (defvar my-untabify-this-buffer)
@@ -455,16 +452,15 @@ unless `my-untabify-this-buffer' is nil."
   (define-minor-mode my-untabify-mode
     "Untabify buffer on save. When not applicable, turn on `whitespace-mode'.
 
-\\{my-untabify-mode-map}" nil " untab" my-untabify-mode-map
+\\{my-untabify-mode-map}"
+    nil " untab" my-untabify-mode-map
     (cond (my-untabify-mode
-           (add-function :after (symbol-function 'yank)
-                         #'my-yank-and-reindent-hook)
+           (advice-add 'yank :after #'my-yank-and-reindent-hook)
            (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
            (or my-untabify-this-buffer (whitespace-mode 1))
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
-           (remove-function (symbol-function 'yank)
-                            #'my-yank-and-reindent-hook)
+           (advice-remove 'yank #'my-yank-and-reindent-hook)
            (and my-untabify-this-buffer (whitespace-mode -1))
            (remove-hook 'before-save-hook #'my-untabify-buffer t))))
   (add-hook 'prog-mode-hook 'my-untabify-mode))
@@ -574,10 +570,8 @@ With a prefix argument ARG, insert `file:' before."
    ("C-<f7>" . vc-root-diff))
   :config
   (progn
-    (add-function :before (symbol-function 'vc-diff)
-                  #'my-save-all-buffers)
-    (add-function :around (symbol-function 'diff-apply-hunk)
-                  #'my-no-confirm)))
+    (advice-add 'vc-diff :before #'my-save-all-buffers)
+    (advice-add 'diff-apply-hunk :around #'my-no-confirm)))
 
 (use-package ediff-wind
   :config
@@ -675,8 +669,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       (or guess (ffap-guesser) (funcall fn))))
   :config
   (progn
-    (add-function :around (symbol-function 'ffap-prompter)
-                  #'my-ffap-prompter-noconfirm)))
+    (advice-add 'ffap-prompter :around #'my-ffap-prompter-noconfirm)))
 
 ;;; Google search
 (defun my-prompt ()
@@ -985,10 +978,8 @@ Returns t if the region was activated, nil otherwise."
 Otherwise, apply ORIG-FUN to ARGS."
       (or (my-isearch-region) (apply orig-fun args)))
     (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
-    (add-function :around (symbol-function 'isearch-forward)
-                  #'my-isearch-region-hook)
-    (add-function :around (symbol-function 'isearch-backward)
-                  #'my-isearch-region-hook)))
+    (advice-add 'isearch-forward :around #'my-isearch-region-hook)
+    (advice-add 'isearch-backward :around #'my-isearch-region-hook)))
 
 (use-package shell
   :bind
@@ -1004,11 +995,9 @@ Otherwise, apply ORIG-FUN to ARGS."
     (add-hook 'shell-mode-hook 'dirtrack-mode)
     (unless window-system
            (define-key global-map (kbd "C-z") 'suspend-emacs))
-    (defun end-of-buffer-hook (&rest _) (goto-char (point-max)))
-    (add-function :before (symbol-function 'comint-previous-input)
-                  #'end-of-buffer-hook)
-    (add-function :before (symbol-function 'comint-next-input)
-                  #'end-of-buffer-hook)))
+    (defun my-end-of-buffer-hook (&rest _) (goto-char (point-max)))
+    (advice-add 'comint-previous-input :before #'my-end-of-buffer-hook)
+    (advice-add 'comint-next-input :before #'my-end-of-buffer-hook)))
 
 (use-package evil-nerd-commenter
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
@@ -1242,14 +1231,11 @@ Otherwise, apply ORIG-FUN to ARGS."
   (progn
     (cl-flet ((my-diff-hl-on (&rest _) (turn-on-diff-hl-mode)))
       (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
-        (add-function :before (symbol-function fun)
-                      #'my-diff-hl-on)))
+        (advice-add fun :before #'my-diff-hl-on)))
     (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
     (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
-    (add-function :before (symbol-function 'diff-hl-diff-goto-hunk)
-                  #'my-save-all-buffers)
-    (add-function :around (symbol-function 'diff-hl-revert-hunk)
-                  #'my-no-confirm)))
+    (advice-add 'diff-hl-diff-goto-hunk :before #'my-save-all-buffers)
+    (advice-add 'diff-hl-revert-hunk :around #'my-no-confirm)))
 
 (use-package multiple-cursors
   :bind
