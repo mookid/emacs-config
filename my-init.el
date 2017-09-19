@@ -119,7 +119,6 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "S-<f6>") 'my-selective-display-decrease)
 (define-key global-map (kbd "C-h g") 'my-google-search)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
-(define-key global-map (kbd "<f2> <f2>") 'my-toggle-window-split)
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
@@ -247,33 +246,6 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -1)))))
-
-(defun my-toggle-window-split ()
-  "When there are two windows, convert horizontal to vertical and vice versa."
-  (interactive)
-  (or (= (count-windows) 2)
-      (error "You need exactly 2 windows to do this"))
-  (let* ((this-win-buffer (window-buffer))
-         (next-win-buffer (window-buffer (next-window)))
-         (this-win-edges (window-edges (selected-window)))
-         (next-win-edges (window-edges (next-window)))
-         (this-win-2nd (not (and (<= (car this-win-edges)
-                                     (car next-win-edges))
-                                 (<= (cadr this-win-edges)
-                                     (cadr next-win-edges)))))
-         (splitter
-          (if (= (car this-win-edges)
-                 (car next-win-edges))
-              'split-window-horizontally
-            'split-window-vertically)))
-    (delete-other-windows)
-    (let ((first-win (selected-window)))
-      (funcall splitter)
-      (when this-win-2nd (other-window 1))
-      (set-window-buffer (selected-window) this-win-buffer)
-      (set-window-buffer (next-window) next-win-buffer)
-      (select-window first-win)
-      (when this-win-2nd (other-window 1)))))
 
 (defun my-recentf-command () (interactive))
 (cl-flet ((always-yes (&rest _) t))
