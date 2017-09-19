@@ -211,7 +211,7 @@ BUFFER-NAME and bind it."
      (my-toggle-colors))
 
 (defvar my-default-font
-  (cond ((eq 'windows-nt system-type) "Consolas 14")
+  (cond ((eq 'windows-nt system-type) "Consolas 10")
         (t  "DejaVu Sans Mono 12"))
   "The font used almost everywhere.")
 (with-eval-after-load 'init
