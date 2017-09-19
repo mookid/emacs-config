@@ -1498,5 +1498,10 @@ multiple eshell windows easier."
    ("S-<up>"    . windmove-up)
    ("S-<down>"  . windmove-down)))
 
+(use-package vimish-fold
+  :bind
+  (("C-`" . vimish-fold)
+   ("C-c f" . vimish-fold-delete-all)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
