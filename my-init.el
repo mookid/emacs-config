@@ -114,6 +114,7 @@ BUFFER-NAME and bind it."
 
 
 ;;; Keybindings
+(define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
 (define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
 (define-key global-map (kbd "C-<f6>") 'my-selective-display-increase)
 (define-key global-map (kbd "S-<f6>") 'my-selective-display-decrease)
