@@ -995,12 +995,18 @@ Otherwise, apply ORIG-FUN to ARGS."
     (lispy-set-key-theme '(special))))
 
 (use-package magit
-  :disabled t
-  :bind (("C-c <f7>" . magit-rebase-interactive)
-         ("C-c g" . magit-status)
-         ("<C-f7>" . magit-diff-working-tree))
+  :init
+  (use-package vc-hooks
+    :bind
+    (:map
+     vc-prefix-map
+     ("c" . magit-commit)
+     ("p" . magit-commit-amend)
+     ("/" . magit-log-popup)))
   :config
-  (fullframe magit-status magit-mode-quit-window))
+  (dolist (command '(magit-commit magit-commit-amend))
+    (advice-add command :before #'my-save-all-buffers))
+  (setq magit-backup-mode nil))
 
 (use-package rainbow-delimiters
   :config
