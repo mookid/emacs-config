@@ -626,6 +626,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (progn
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-alh")
+    (setq dired-recursive-deletes 'always)
+    (setq dired-recursive-copies 'always)
     (set-face-attribute 'dired-ignored nil
                         :foreground "gray60")))
 
