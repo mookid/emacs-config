@@ -1140,12 +1140,15 @@ Otherwise, apply ORIG-FUN to ARGS."
   :bind
   (:map
    tuareg-mode-map
+   ("M-;" . nil)
    ("C-c ." . nil)
    ("C-c /" . nil))
   :config
   (progn
     (add-to-list 'face-remapping-alist
                  '(tuareg-font-lock-governing-face (:inherit font-lock-type-face)))
+    (advice-add 'tuareg-mode :after #'my-preserve-comment-style)
+    (defun my-preserve-comment-style () (setq comment-style 'indent))
     (use-package ocp-indent
       :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
