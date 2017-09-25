@@ -994,7 +994,7 @@ Otherwise, apply ORIG-FUN to ARGS."
      ("p" . magit-commit-amend)
      ("/" . magit-log-popup)))
   :config
-  (dolist (command '(magit-commit magit-commit-amend))
+  (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
   (setq magit-backup-mode nil))
 
