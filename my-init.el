@@ -1507,6 +1507,12 @@ multiple eshell windows easier."
    ("S-<up>"    . windmove-up)
    ("S-<down>"  . windmove-down)))
 
+(use-package mb-depth
+  :init
+  (progn
+    (setq enable-recursive-minibuffers t)
+    (minibuffer-depth-indicate-mode +1)))
+
 (use-package vimish-fold
   :bind
   (("C-`" . vimish-fold)
