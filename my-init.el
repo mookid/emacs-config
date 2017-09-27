@@ -187,6 +187,12 @@ BUFFER-NAME and bind it."
     (set-face-foreground 'default "white")
     (my-set-frame-background 'dark))))
 
+(defun my-eclipse-theme-setup ()
+  (load-theme 'eclipse t)
+  (set-face-underline 'font-lock-type-face nil)
+  (set-face-italic 'font-lock-type-face nil)
+  (set-face-foreground 'font-lock-type-face "gray50"))
+
 (defun my-toggle-colors ()
   (interactive)
   "Toggle between light and dark background."
@@ -194,7 +200,8 @@ BUFFER-NAME and bind it."
     ('light (my-set-colors nil))
     ('dark (my-set-colors t))))
 
-(my-set-colors frame-background-mode)
+;; (my-set-colors frame-background-mode)
+(my-eclipse-theme-setup)
 
 (and (eq 'light frame-background-mode)
      (member "--dark" command-line-args)
