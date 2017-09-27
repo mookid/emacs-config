@@ -992,6 +992,7 @@ Otherwise, apply ORIG-FUN to ARGS."
     (lispy-set-key-theme '(special))))
 
 (use-package magit
+  :defer t
   :init
   (use-package vc-hooks
     :bind
