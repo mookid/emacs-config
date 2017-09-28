@@ -1429,5 +1429,15 @@ Otherwise, apply ORIG-FUN to ARGS."
   (("C-`" . vimish-fold)
    ("C-c f" . vimish-fold-delete-all)))
 
+(use-package restart-emacs
+  :init
+  (progn
+    (use-package desktop
+      :demand t
+      :init (desktop-save-mode +1))
+    (setq restart-emacs-restore-frames t))
+  :bind
+  (([remap save-buffers-kill-terminal] . restart-emacs)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
