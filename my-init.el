@@ -189,9 +189,15 @@ BUFFER-NAME and bind it."
 
 (defun my-eclipse-theme-setup ()
   (load-theme 'eclipse t)
-  (set-face-underline 'font-lock-type-face nil)
-  (set-face-italic 'font-lock-type-face nil)
-  (set-face-foreground 'font-lock-type-face "gray50"))
+  (let ((face 'success))
+    (set-face-foreground face "ForestGreen")
+    (set-face-bold face t))
+  (dolist (face '(mode-line-buffer-id mode-line-highlight))
+    (set-face-bold face t))
+  (let ((face 'font-lock-type-face))
+    (set-face-underline face nil)
+    (set-face-italic face nil)
+    (set-face-foreground face "gray50")))
 
 (defun my-toggle-colors ()
   (interactive)
