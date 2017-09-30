@@ -123,8 +123,6 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "M-g") 'goto-line)
 (define-key global-map (kbd "C-x g") 'move-to-column)
 (define-key global-map (kbd "M-`") 'my-other-window-or-switch-buffer)
-(define-key global-map (kbd "<M-left>") 'previous-buffer)
-(define-key global-map (kbd "<M-right>") 'next-buffer)
 (define-key global-map (kbd "C-c /") 'rgrep)
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
 (define-key global-map (kbd "M-k") 'my-copy-line)
@@ -611,6 +609,14 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (use-package winner
   :config (winner-mode +1))
+
+(use-package hydra
+  :init
+  (progn
+    (defhydra my-previous-next-buffer-repeat (global-map "C-x")
+      "Goto previous/next buffer"
+      ("<left>" previous-buffer)
+      ("<right>" next-buffer))))
 
 (use-package dired
   :demand t
