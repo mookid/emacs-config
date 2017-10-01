@@ -509,6 +509,10 @@ With a prefix argument ARG, insert `file:' before."
   (fullframe list-packages quit-window))
 
 (use-package vc
+  :bind
+  (:map
+   vc-prefix-map
+   ("q" . my-vc-add-current-buffer))
   :init
   (progn
     (use-package vc-git
@@ -522,13 +526,7 @@ With a prefix argument ARG, insert `file:' before."
        ("C-M-<f7>" . vc-dir)
        :map vc-dir-mode-map
        ("d" . vc-diff)))
-    (use-package vc-hooks
-      :bind
-      (:map
-       vc-prefix-map
-       ("q" . my-vc-add-current-buffer))))
-  :init
-  (progn
+    (use-package vc-hooks)
     (defun my-vc-add-current-buffer ()
       (interactive)
       (when (and buffer-file-name (stringp buffer-file-name))
@@ -1005,14 +1003,14 @@ Otherwise, apply ORIG-FUN to ARGS."
 
 (use-package magit
   :defer t
+  :bind
+  (:map
+   vc-prefix-map
+   ("c" . magit-commit)
+   ("p" . magit-commit-amend)
+   ("/" . magit-log-popup))
   :init
-  (use-package vc-hooks
-    :bind
-    (:map
-     vc-prefix-map
-     ("c" . magit-commit)
-     ("p" . magit-commit-amend)
-     ("/" . magit-log-popup)))
+  (use-package vc-hooks)
   :config
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
