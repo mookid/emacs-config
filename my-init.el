@@ -63,6 +63,16 @@
 
 
 ;;; Windows
+(defmacro my-balance-after (orig-fun)
+  (let ((interactive-form (interactive-form orig-fun))
+        (gensym (intern (concat "my-" (symbol-name orig-fun)))))
+    `(progn
+       (define-key global-map [remap ,orig-fun] ',gensym)
+       (defun ,gensym (&rest args)
+         ,interactive-form
+         (apply #',orig-fun args)
+         (balance-windows)))))
+
 (defun my-goto-buffer (buffer-name)
   "Select buffer named BUFFER-NAME."
   (select-window (split-window-vertically))
@@ -86,8 +96,8 @@ BUFFER-NAME and bind it."
 (my-window-command c *compilation*)
 (my-window-command o *Occur*)
 (my-window-command s *scratch*)
-(advice-add 'split-window-right :after #'balance-windows)
-(advice-add 'split-window-below :after #'balance-windows)
+(my-balance-after split-window-right)
+(my-balance-after split-window-below)
 
 
 ;;; MS Windows utilities
