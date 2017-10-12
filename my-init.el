@@ -624,7 +624,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (defhydra my-previous-next-buffer-repeat (global-map "C-x")
       "Goto previous/next buffer"
       ("<left>" previous-buffer)
-      ("<right>" next-buffer))))
+      ("<right>" next-buffer)
+      ("k" my-kill-buffer "kill"))))
 
 (use-package dired
   :demand t
