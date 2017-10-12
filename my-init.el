@@ -1452,8 +1452,6 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-c f" . vimish-fold-delete-all)))
 
 (use-package restart-emacs
-  :init
-  (setq restart-emacs-restore-frames t)
   :bind
   (([remap save-buffers-kill-terminal] . restart-emacs)))
 
