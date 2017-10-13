@@ -1455,5 +1455,11 @@ Otherwise, apply ORIG-FUN to ARGS."
   :bind
   (([remap save-buffers-kill-terminal] . restart-emacs)))
 
+(use-package whitespace
+  :config
+  (progn
+    (set-face-foreground 'whitespace-line nil)
+    (set-face-background 'whitespace-line nil)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
