@@ -1064,6 +1064,7 @@ Otherwise, apply ORIG-FUN to ARGS."
     (setq company-tooltip-flip-when-above t)))
 
 (use-package ivy
+  :demand t
   :diminish ivy-mode
   :bind
   (([remap describe-function] . counsel-describe-function)
