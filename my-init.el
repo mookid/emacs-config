@@ -128,6 +128,7 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "M-p") 'my-scroll-down)
 (define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
+(define-key global-map (kbd "C-c C-M-u") 'raise-sexp)
 (define-key global-map (kbd "C-c .") 'repeat)
 (define-key global-map (kbd "M-=") 'align-regexp)
 (define-key global-map (kbd "M-g") 'goto-line)
