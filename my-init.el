@@ -975,15 +975,21 @@ Otherwise, apply ORIG-FUN to ARGS."
 (use-package shell
   :bind
   (:map shell-mode-map
+        ("<f2>" . my-rename-shell-buffer)
         ("<f5>" . comint-previous-input)
         ("<f6>" . compilation-shell-minor-mode))
   :config
   (progn
+    (defun my-rename-shell-buffer (name)
+      "Make a new buffer name for the current shell buffer based on NAME."
+      (interactive "sBuffer name: ")
+      (rename-buffer
+       (if (string= "" name) "*shell*" (format "*shell %s*" name))))
     (defun my-reset-prompt-command ()
       (insert "PROMPT_COMMAND=\"\"")
       (comint-send-input))
+    (setq-default comint-input-ignoredups +1)
     (add-hook 'shell-mode-hook 'my-reset-prompt-command)
-    (add-hook 'shell-mode-hook 'dirtrack-mode)
     (unless window-system
            (define-key global-map (kbd "C-z") 'suspend-emacs))
     (defun my-end-of-buffer-hook (&rest _) (goto-char (point-max)))
