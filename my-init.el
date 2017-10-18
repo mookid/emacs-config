@@ -1016,8 +1016,8 @@ Otherwise, apply ORIG-FUN to ARGS."
 (use-package magit
   :defer t
   :bind
-  (:map
-   vc-prefix-map
+  (("C-x g" . magit-status)
+   :map vc-prefix-map
    ("c" . magit-commit)
    ("p" . magit-commit-amend)
    ("/" . magit-log-popup))
