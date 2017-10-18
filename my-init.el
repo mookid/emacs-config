@@ -630,6 +630,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :config
   (progn
     (use-package dired-x
+      :commands (dired-omit-mode dired-jump)
       :init
       (add-hook 'dired-mode-hook 'dired-omit-mode)
       :bind
