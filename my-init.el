@@ -1460,5 +1460,9 @@ Otherwise, apply ORIG-FUN to ARGS."
     (set-face-foreground 'whitespace-line nil)
     (set-face-background 'whitespace-line nil)))
 
+(use-package ace-link
+  :init
+  (ace-link-setup-default))
+
 (provide 'my-init)
 ;;; my-init.el ends here
