@@ -524,8 +524,10 @@ With a prefix argument ARG, insert `file:' before."
   (:map
    vc-prefix-map
    ("q" . my-vc-add-current-buffer))
-  :init
+  :config
   (progn
+    (advice-add 'vc-diff :before #'my-save-all-buffers)
+    (advice-add 'diff-apply-hunk :around #'my-no-confirm)
     (use-package vc-git
       :bind
       ("<f8>" . vc-git-grep))
@@ -537,7 +539,6 @@ With a prefix argument ARG, insert `file:' before."
        ("C-M-<f7>" . vc-dir)
        :map vc-dir-mode-map
        ("d" . vc-diff)))
-    (use-package vc-hooks)
     (defun my-vc-add-current-buffer ()
       (interactive)
       (when (and buffer-file-name (stringp buffer-file-name))
@@ -550,11 +551,7 @@ With a prefix argument ARG, insert `file:' before."
         (vc-dir root))))
   :bind
   (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff))
-  :config
-  (progn
-    (advice-add 'vc-diff :before #'my-save-all-buffers)
-    (advice-add 'diff-apply-hunk :around #'my-no-confirm)))
+   ("C-<f7>" . vc-root-diff)))
 
 (use-package ediff-wind
   :config
@@ -629,20 +626,18 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("k" my-kill-buffer "kill"))))
 
 (use-package dired
-  :demand t
-  :init
-  (use-package dired-x
-    :config
-    (add-hook 'dired-mode-hook 'dired-omit-mode)
-    :bind
-    (("M-<up>" . dired-jump)
-     ("C-x C-j" . dired-jump)
-     :map dired-mode-map
-     ("M-<up>" . dired-jump)
-     ("C-x C-j" . dired-jump)))
   :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
   :config
   (progn
+    (use-package dired-x
+      :init
+      (add-hook 'dired-mode-hook 'dired-omit-mode)
+      :bind
+      (("M-<up>" . dired-jump)
+       ("C-x C-j" . dired-jump)
+       :map dired-mode-map
+       ("M-<up>" . dired-jump)
+       ("C-x C-j" . dired-jump)))
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-alh")
     (setq dired-recursive-deletes 'always)
@@ -651,18 +646,15 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
                         :foreground "gray60")))
 
 (use-package ffap
-  :demand t
   :bind
   ([remap find-file] . find-file-at-point)
   ("<S-mouse-2>" . ffap-at-mouse)
-  :init
+  :config
   (progn
     (defun my-ffap-prompter-noconfirm (fn &optional guess)
       "Remove confirmation."
       (and (fboundp 'xref-push-marker-stack) (xref-push-marker-stack))
-      (or guess (ffap-guesser) (funcall fn))))
-  :config
-  (progn
+      (or guess (ffap-guesser) (funcall fn)))
     (advice-add 'ffap-prompter :around #'my-ffap-prompter-noconfirm)))
 
 ;;; Google search
@@ -761,8 +753,12 @@ if its size is 1 line."
   (progn
     (setq initial-major-mode 'emacs-lisp-mode)
     (setq eval-expression-print-level nil)
-    (define-key emacs-lisp-mode-map (kbd "C-c C-k") 'eval-buffer)
-    (define-key emacs-lisp-mode-map (kbd "C-c C-z") 'ielm))
+    (use-package elisp-mode
+      :bind
+      (:map
+       emacs-lisp-mode-map
+       ("C-c C-k" . eval-buffer)
+       ("C-c C-z" . ielm))))
   :bind
   (:map ielm-map
         ("C-c C-z" . bury-buffer)))
@@ -1021,8 +1017,6 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("c" . magit-commit)
    ("p" . magit-commit-amend)
    ("/" . magit-log-popup))
-  :init
-  (use-package vc-hooks)
   :config
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
@@ -1066,7 +1060,6 @@ Otherwise, apply ORIG-FUN to ARGS."
     (setq company-tooltip-flip-when-above t)))
 
 (use-package ivy
-  :demand t
   :diminish ivy-mode
   :bind
   (([remap describe-function] . counsel-describe-function)
@@ -1142,7 +1135,7 @@ Otherwise, apply ORIG-FUN to ARGS."
   (:map
    slime-mode-map
    ("C-c s" . slime-selector))
-  :init
+  :config
   (progn
     (defvar common-lisp-hyperspec-root)
     (defvar inferior-lisp-program)
@@ -1404,7 +1397,6 @@ Otherwise, apply ORIG-FUN to ARGS."
   (paren-activate))
 
 (use-package sh-script
-  :demand t
   :init
   (progn
     (defun my-sh-quote-or-unquote ()
