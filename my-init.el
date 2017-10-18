@@ -1120,6 +1120,8 @@ Otherwise, apply ORIG-FUN to ARGS."
   (progn
     (add-to-list 'ivy-initial-inputs-alist
                  '(counsel-switch-to-shell-buffer . "*shell*"))
+    (add-to-list 'ivy-initial-inputs-alist
+                 '(projectile-completing-read . "/"))
     (setq ivy-virtual-abbreviate 'full)
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
