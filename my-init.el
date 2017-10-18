@@ -543,7 +543,7 @@ With a prefix argument ARG, insert `file:' before."
       (interactive)
       (when (and buffer-file-name (stringp buffer-file-name))
         (let ((filename (file-name-nondirectory buffer-file-name)))
-          (shell-command (format "git add %s" filename))
+          (vc-git--call nil "add" "--" filename)
           (message "Added %s!" filename))))
     (defun my-vc-dir-root ()
       (interactive)
