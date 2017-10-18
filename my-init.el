@@ -737,7 +737,7 @@ if its size is 1 line."
   :init
   (progn
     (defun my-iedit-occur (&optional nlines)
-      (interactive)
+      (interactive "p")
       (when iedit-mode
         (occur iedit-initial-string-local nlines))))
   :bind
