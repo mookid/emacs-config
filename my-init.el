@@ -975,6 +975,7 @@ Otherwise, apply ORIG-FUN to ARGS."
 (use-package shell
   :bind
   (:map shell-mode-map
+        ([remap dired] . my-shell-dired)
         ("<f2>" . my-rename-shell-buffer)
         ("<f5>" . comint-previous-input)
         ("<f6>" . compilation-shell-minor-mode))
@@ -988,6 +989,23 @@ Otherwise, apply ORIG-FUN to ARGS."
     (defun my-reset-prompt-command ()
       (insert "PROMPT_COMMAND=\"\"")
       (comint-send-input))
+    (defvar my-shell-prompt-pwd-regexp "\\(.*\\)$ "
+      "How to get the $PWD from the shell prompt.
+
+A cons cell with a regexp that captures one match.")
+    (defun my-shell-pwd ()
+      "Get the current value of $PWD."
+      (pcase-let ((`(,lo . ,hi) comint-last-prompt))
+        (when (and lo hi)
+          (let* ((last-prompt (buffer-substring-no-properties lo hi))
+                 (filename (and (string-match my-shell-prompt-pwd-regexp
+                                              last-prompt)
+                                (match-string 1 last-prompt))))
+            (and (stringp filename) (expand-file-name filename))))))
+    (defun my-shell-dired ()
+      (interactive)
+      "Run dired in $PWD."
+      (dired (my-shell-pwd)))
     (setq-default comint-input-ignoredups +1)
     (add-hook 'shell-mode-hook 'my-reset-prompt-command)
     (unless window-system
