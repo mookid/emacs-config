@@ -490,8 +490,10 @@ If non nil, ARG overrides the `back-to-indentation' function."
       (backward-char 1))))
 
 (defun my-previous-buffer ()
-  "Not the current buffer but the buffer before."
-  (other-buffer (current-buffer) 1))
+  "The current buffer, or the previous one if in the minibuffer."
+  (if (minibufferp)
+      (other-buffer (current-buffer) 1)
+    (current-buffer)))
 
 (defun my-insert-buffer-name ()
   "Insert the previous buffer name.  Useful for compilation."
