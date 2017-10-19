@@ -498,14 +498,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (interactive)
   (insert (buffer-name (my-previous-buffer))))
 
-(defun my-insert-buffer-file-name (arg)
-  "Insert the previous buffer path.
-
-With a prefix argument ARG, insert `file:' before."
-  (interactive "P")
-  (insert (concat (if arg "file:" "")
-                  (buffer-file-name (my-previous-buffer)))))
-
 
 ;;; Packages
 (use-package fullframe)
