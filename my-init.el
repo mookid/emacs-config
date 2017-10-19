@@ -153,6 +153,7 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 (define-key global-map (kbd "C-.") 'my-jump-to-char)
+(define-key global-map (kbd "C-c <f5>") 'revert-buffer)
 
 
 ;;; Appearance
