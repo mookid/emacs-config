@@ -1065,6 +1065,7 @@ A cons cell with a regexp that captures one match.")
   :config
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
+  (setq magit-commit-ask-to-stage t)
   (setq magit-backup-mode nil))
 
 (use-package rainbow-delimiters
