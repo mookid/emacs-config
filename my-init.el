@@ -198,6 +198,10 @@ BUFFER-NAME and bind it."
     (set-face-foreground 'default "white")
     (my-set-frame-background 'dark))))
 
+(with-eval-after-load 'diff-mode
+  (set-face-foreground 'diff-added "green4")
+  (set-face-foreground 'diff-removed "red3"))
+
 (defun my-eclipse-theme-setup ()
   (load-theme 'eclipse t)
   (let ((face 'success))
