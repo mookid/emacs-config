@@ -625,6 +625,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
   :config
   (progn
+    (setq dired-dwim-target t)
     (use-package dired-x
       :commands (dired-omit-mode dired-jump)
       :init
