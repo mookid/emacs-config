@@ -232,7 +232,7 @@ BUFFER-NAME and bind it."
 
 (defvar my-default-font
   (cond ((eq 'windows-nt system-type) "Consolas 14")
-        (t  "DejaVu Sans Mono 12"))
+        (t  "DejaVu Sans Mono 14"))
   "The font used almost everywhere.")
 (with-eval-after-load 'init
   (add-to-list 'default-frame-alist '(height . 30))
