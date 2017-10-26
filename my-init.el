@@ -176,9 +176,13 @@ BUFFER-NAME and bind it."
                       mode-line-format))
 
 (defun my-visual-ring-bell ()
-  (let ((face-background (face-background 'default)))
-    (set-face-background 'default "DodgerBlue")
-    (set-face-background 'default face-background)))
+  (let ((face-background (face-background 'mode-line))
+        (face-foreground (face-foreground 'mode-line)))
+    (set-face-background 'mode-line "DodgerBlue")
+    (set-face-foreground 'mode-line "White")
+    (sit-for 0.02)
+    (set-face-background 'mode-line face-background)
+    (set-face-foreground 'mode-line face-foreground)))
 (setq ring-bell-function 'my-visual-ring-bell)
 
 (progn
