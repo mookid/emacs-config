@@ -126,6 +126,8 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "C-c n") 'make-frame)
 (define-key global-map (kbd "M-n") 'my-scroll-up)
 (define-key global-map (kbd "M-p") 'my-scroll-down)
+(define-key global-map (kbd "C-S-v") 'my-scroll-up-other-window)
+(define-key global-map (kbd "M-V") 'my-scroll-down-other-window)
 (define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 (define-key global-map (kbd "C-c C-M-u") 'raise-sexp)
@@ -341,6 +343,27 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (let ((arg (or arg 1)))
     (scroll-down arg)))
 
+(defmacro my-with-other-window (&rest body)
+  `(let ((buf-name (buffer-name))
+         (orig-window (selected-window)))
+     (select-window (next-window))
+     (if (string= buf-name (buffer-name))
+         (error "No next window")
+       (unwind-protect
+           (progn ,@body)
+         (select-window orig-window)))))
+(put 'my-with-other-window 'lisp-indent-function 0)
+
+(defun my-scroll-down-other-window (&optional arg)
+  (interactive)
+  (my-with-other-window
+    (scroll-down arg)))
+
+(defun my-scroll-up-other-window (&optional arg)
+  (interactive)
+  (my-with-other-window
+    (scroll-up arg)))
+
 (defmacro my-save-column (&rest body)
   `(let ((column (current-column)))
      (unwind-protect
@@ -389,14 +412,9 @@ to next buffer otherwise."
 (define-key global-map [remap kill-region] 'my-kill-region-or-backward-word)
 
 (defun my-other-window-kill-buffer ()
-  "Kill the buffer in the other window."
   (interactive)
-  (let ((buf-name (buffer-name)))
-    (save-window-excursion
-      (select-window (next-window))
-      (if (string= buf-name (buffer-name))
-          (error "The next window dislays the same buffer!")
-        (kill-buffer (current-buffer))))))
+  (my-with-other-window
+    (kill-buffer (current-buffer))))
 
 (defun my-yank-clone (orig-fun &rest args)
   "With C-u C-u as prefix argument ARG, clone either the active
