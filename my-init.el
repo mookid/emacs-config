@@ -175,36 +175,13 @@ BUFFER-NAME and bind it."
                         (if (and (stringp elt) (string-match "  +" elt)) " " elt))
                       mode-line-format))
 
-(defun my-set-frame-background (mode)
-  (setq frame-background-mode mode)
-  (mapc 'frame-set-background-mode (frame-list)))
-(or frame-background-mode
-    (my-set-frame-background 'light))
-
 (defun my-visual-ring-bell ()
   (let ((face-background (face-background 'default)))
     (set-face-background 'default "DodgerBlue")
     (set-face-background 'default face-background)))
 (setq ring-bell-function 'my-visual-ring-bell)
 
-(defun my-set-colors (light)
-  "Set light colors if LIGHT is non nil, dark colors otherwise."
-  (interactive "P")
-  (cond
-   (light
-    (set-face-background 'default "white")
-    (set-face-foreground 'default "black")
-    (my-set-frame-background 'light))
-   (t
-    (set-face-background 'default "grey10")
-    (set-face-foreground 'default "white")
-    (my-set-frame-background 'dark))))
-
-(with-eval-after-load 'diff-mode
-  (set-face-foreground 'diff-added "green4")
-  (set-face-foreground 'diff-removed "red3"))
-
-(defun my-eclipse-theme-setup ()
+(progn
   (load-theme 'eclipse t)
   (let ((face 'success))
     (set-face-foreground face "ForestGreen")
@@ -214,21 +191,10 @@ BUFFER-NAME and bind it."
   (let ((face 'font-lock-type-face))
     (set-face-underline face nil)
     (set-face-italic face nil)
-    (set-face-foreground face "gray50")))
-
-(defun my-toggle-colors ()
-  (interactive)
-  "Toggle between light and dark background."
-  (cl-case frame-background-mode
-    ('light (my-set-colors nil))
-    ('dark (my-set-colors t))))
-
-;; (my-set-colors frame-background-mode)
-(my-eclipse-theme-setup)
-
-(and (eq 'light frame-background-mode)
-     (member "--dark" command-line-args)
-     (my-toggle-colors))
+    (set-face-foreground face "gray50"))
+  (with-eval-after-load 'diff-mode
+    (set-face-foreground 'diff-added "green4")
+    (set-face-foreground 'diff-removed "red3")))
 
 (defvar my-default-font
   (cond ((eq 'windows-nt system-type) "Consolas 14")
