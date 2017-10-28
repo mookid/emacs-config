@@ -1026,9 +1026,6 @@ Otherwise, apply ORIG-FUN to ARGS."
       (interactive "sBuffer name: ")
       (rename-buffer
        (if (string= "" name) "*shell*" (format "*shell %s*" name))))
-    (defun my-reset-prompt-command ()
-      (insert "PROMPT_COMMAND=\"\"")
-      (comint-send-input))
     (defvar my-shell-prompt-pwd-regexp "\\(.*\\)$ "
       "How to get the $PWD from the shell prompt.
 
@@ -1047,7 +1044,6 @@ A cons cell with a regexp that captures one match.")
       "Run dired in $PWD."
       (dired (my-shell-pwd)))
     (setq-default comint-input-ignoredups +1)
-    (add-hook 'shell-mode-hook 'my-reset-prompt-command)
     (unless window-system
            (define-key global-map (kbd "C-z") 'suspend-emacs))
     (defun my-end-of-buffer-hook (&rest _) (goto-char (point-max)))
