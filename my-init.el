@@ -1480,7 +1480,12 @@ A cons cell with a regexp that captures one match.")
 
 (use-package restart-emacs
   :bind
-  (([remap save-buffers-kill-terminal] . restart-emacs)))
+  (([remap save-buffers-kill-terminal] . my-restart-emacs))
+  :init
+  (progn
+    (defun my-restart-emacs (arg)
+      (interactive "P")
+      (if arg (save-buffers-kill-terminal) (restart-emacs)))))
 
 (use-package whitespace
   :config
