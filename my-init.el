@@ -23,7 +23,7 @@
 (setq require-final-newline t)
 (setq inhibit-startup-message t)
 (setq auto-save-default nil)
-(setq frame-title-format (list "%f"))
+(setq frame-title-format (list mode-line-modified " %f  " vc-mode))
 (setq minibuffer-depth-indicate-mode t)
 (setq tags-add-tables nil)
 (setq load-prefer-newer t)
