@@ -1044,7 +1044,7 @@ A cons cell with a regexp that captures one match.")
     (lispy-set-key-theme '(special))))
 
 (use-package magit
-  :defer t
+  :defer 15
   :bind
   (("C-x g" . magit-status)
    :map vc-prefix-map
