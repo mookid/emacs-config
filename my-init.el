@@ -28,6 +28,7 @@
 (setq tags-add-tables nil)
 (setq load-prefer-newer t)
 (setq switch-to-visible-buffer nil)
+(setq blink-matching-paren 't)
 (set-default-coding-systems 'utf-8)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -1429,10 +1430,6 @@ A cons cell with a regexp that captures one match.")
 (use-package centimacro
   :init
   (setq centi-assign-key (kbd "C-<f3>")))
-
-(use-package mic-paren
-  :init
-  (paren-activate))
 
 (use-package sh-script
   :init
