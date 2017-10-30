@@ -404,11 +404,6 @@ region (if any) or the next sexp."
 
 (progn
   (defvar my-untabify-this-buffer)
-  (defvar my-untabify-mode-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "C-c <tab>") 'my-toggle-untabify-this-buffer)
-      map))
-
   (defun my-yank-and-reindent-hook (&rest _)
     (and my-untabify-this-buffer (indent-region (mark) (point))))
 
@@ -433,10 +428,15 @@ unless `my-untabify-this-buffer' is nil."
     "Untabify buffer on save. When not applicable, turn on `whitespace-mode'.
 
 \\{my-untabify-mode-map}"
-    nil " untab" my-untabify-mode-map
+    :lighter (:eval (and my-untabify-this-buffer " untab"))
+    :keymap (let ((map (make-sparse-keymap)))
+              (define-key map (kbd "C-c <tab>") 'my-toggle-untabify-this-buffer)
+              map)
     (cond (my-untabify-mode
            (advice-add 'yank :after #'my-yank-and-reindent-hook)
-           (setq my-untabify-this-buffer (not (derived-mode-p 'makefile-mode)))
+           (setq my-untabify-this-buffer
+                 (not (or (derived-mode-p 'makefile-mode)
+                          (re-search-forward "\t" nil t))))
            (or my-untabify-this-buffer (whitespace-mode 1))
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
