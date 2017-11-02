@@ -577,7 +577,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       (push (list keymap keys command) my-key-chords-alist)
       (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
     (my-key-chord-define global-map "jk" 'execute-extended-command)
-    (my-key-chord-define global-map "fj" 'find-file)
     (my-key-chord-define global-map "hv" 'describe-variable)
     (my-key-chord-define global-map "hk" 'describe-key)
     (my-key-chord-define global-map "fy" 'my-find-init-file)
@@ -659,10 +658,10 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (use-package ffap
   :bind
-  ([remap find-file] . find-file-at-point)
   ("<S-mouse-2>" . ffap-at-mouse)
   :config
   (progn
+    (my-key-chord-define global-map "fj" 'find-file-at-point)
     (defun my-ffap-prompter-noconfirm (fn &optional guess)
       "Remove confirmation."
       (and (fboundp 'xref-push-marker-stack) (xref-push-marker-stack))
