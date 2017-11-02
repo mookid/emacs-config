@@ -115,6 +115,7 @@ BUFFER-NAME and bind it."
 
 
 ;;; Keybindings
+(define-key global-map (kbd "C-x n s") 'my-narrow-to-sexp)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
 (define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
 (define-key global-map (kbd "C-<f6>") 'my-selective-display-increase)
@@ -238,6 +239,25 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -1)))))
+
+(defun my-narrow-to-sexp ()
+  (interactive)
+  (let ((orig-point (point))
+        start end)
+    (cond ((region-active-p)
+           (setq deactivate-mark t)
+           (unless (< (point) (mark))
+             (exchange-point-and-mark))
+           (setq start (point)
+                 end (mark)))
+          (t
+           (setq end (progn (forward-sexp) (point))
+                 start orig-point)
+           (goto-char orig-point)))
+    (move-beginning-of-line 1)
+    (let ((narrow-start (point)))
+      (goto-char start)
+      (narrow-to-region narrow-start end))))
 
 (defun my-recentf-command () (interactive))
 (cl-flet ((always-yes (&rest _) t))
