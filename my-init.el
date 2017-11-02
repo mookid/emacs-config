@@ -240,6 +240,10 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -1)))))
 
+(defun my-kill-buffer-on-widen ()
+  (kill-buffer)
+  (advice-remove 'widen #'my-kill-buffer-on-widen))
+
 (defun my-narrow-to-sexp ()
   (interactive)
   (let ((orig-point (point))
@@ -255,9 +259,13 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
                  start orig-point)
            (goto-char orig-point)))
     (move-beginning-of-line 1)
-    (let ((narrow-start (point)))
-      (goto-char start)
-      (narrow-to-region narrow-start end))))
+    (let ((clone-buffer (clone-indirect-buffer nil nil))
+          (narrow-start (point)))
+      (with-current-buffer clone-buffer
+        (goto-char start)
+        (narrow-to-region narrow-start end)
+        (advice-add 'widen :after #'my-kill-buffer-on-widen)
+        (switch-to-buffer clone-buffer)))))
 
 (defun my-recentf-command () (interactive))
 (cl-flet ((always-yes (&rest _) t))
