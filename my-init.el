@@ -752,7 +752,7 @@ if its size is 1 line."
                    (1 compilation-info-face nil t)))
 
     (add-to-list 'display-buffer-alist
-                 '("*compilation*"
+                 '("*compilation*\\|*Occur*\\|*xref*\\|*ivy-occur"
                    (display-buffer-reuse-window display-buffer-in-side-window)
                    (side . bottom)
                    (window-height . 0.3)))
