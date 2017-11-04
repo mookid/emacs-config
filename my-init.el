@@ -159,6 +159,7 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "C-.") 'my-jump-to-char)
 (define-key global-map (kbd "C-c <f5>") 'revert-buffer)
 (define-key global-map (kbd "<mode-line> <mouse-2>") 'my-goto-*scratch*)
+(define-key global-map (kbd "<f2>") 'rename-buffer)
 
 
 ;;; Appearance
