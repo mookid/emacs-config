@@ -1078,6 +1078,8 @@ A cons cell with a regexp that captures one match.")
    ("p" . magit-commit-amend)
    ("/" . magit-log-popup))
   :config
+  (advice-add 'magit-discard-hunk :around 'my-no-confirm)
+  (set-face-foreground 'magit-diff-file-heading "blue")
   (defun my-create-tags ()
     (interactive)
     (let ((default-directory (or (magit-toplevel)
