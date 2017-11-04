@@ -165,7 +165,7 @@ BUFFER-NAME and bind it."
 ;;; Appearance
 (progn
   (and (fboundp 'fringe-mode) (fringe-mode -1))
-  (and (fboundp 'tooltip-mode) (tooltip-mode +1))
+  (and (fboundp 'tooltip-mode) (tooltip-mode -1))
   (and (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (and (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (and (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
