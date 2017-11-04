@@ -1078,6 +1078,14 @@ A cons cell with a regexp that captures one match.")
    ("p" . magit-commit-amend)
    ("/" . magit-log-popup))
   :config
+  (defun my-create-tags ()
+    (interactive)
+    (let ((default-directory (or (magit-toplevel)
+                                 (read-directory-name "Directory: "))))
+      (eshell-command
+       (format "find %s -type f -name %S | etags -"
+               default-directory
+               (read-string "file extension: " "*.[ch]")))))
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
   (setq magit-commit-ask-to-stage t)
