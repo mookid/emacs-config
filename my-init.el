@@ -545,9 +545,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (progn
     (advice-add 'vc-diff :before #'my-save-all-buffers)
     (advice-add 'diff-apply-hunk :around #'my-no-confirm)
-    (use-package vc-git
-      :bind
-      ("<f8>" . vc-git-grep))
     (use-package vc-dir
       :config
       (fullframe vc-dir quit-window)
@@ -1128,7 +1125,7 @@ A cons cell with a regexp that captures one match.")
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
-   ("C-<f8>" . counsel-rg)
+   ("<f8>" . my-counsel-rg)
    ("C-c s" . swiper)
    ("C-c r" . ivy-resume)
    ("C-M-y". counsel-yank-pop)
@@ -1151,6 +1148,10 @@ A cons cell with a regexp that captures one match.")
          (if (string-match "\\`\n" text)
              (substring text 1)
            text))))
+
+    (defun my-counsel-rg ()
+      (interactive)
+      (counsel-rg (if-let (sym (symbol-at-point)) (symbol-name sym))))
 
     (defun ivy-display-function-popup (text)
       (require 'popup)
