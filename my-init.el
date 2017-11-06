@@ -204,6 +204,8 @@ BUFFER-NAME and bind it."
     (set-face-underline face nil)
     (set-face-italic face nil)
     (set-face-foreground face "gray50"))
+  (with-eval-after-load 'hl-line
+    (set-face-foreground 'hl-line "orange"))
   (with-eval-after-load 'diff-mode
     (set-face-foreground 'diff-added "green4")
     (set-face-foreground 'diff-removed "red3")))
