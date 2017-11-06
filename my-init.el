@@ -1132,6 +1132,7 @@ A cons cell with a regexp that captures one match.")
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
+   ("C-c b" . counsel-bookmark)
    ("<f8>" . my-counsel-rg)
    ("C-c s" . swiper)
    ("C-c r" . ivy-resume)
