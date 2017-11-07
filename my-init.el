@@ -248,9 +248,13 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -1)))))
 
+(defvar my-narrowed-buffers nil)
 (defun my-kill-buffer-on-widen ()
-  (kill-buffer)
-  (advice-remove 'widen #'my-kill-buffer-on-widen))
+  (when (member (current-buffer) my-narrowed-buffers)
+    (kill-buffer))
+  (setq my-narrowed-buffers
+        (cl-remove-if-not #'buffer-live-p my-narrowed-buffers)))
+(advice-add 'widen :after #'my-kill-buffer-on-widen)
 
 (defun my-narrow-to-sexp ()
   (interactive)
@@ -263,7 +267,7 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (with-current-buffer clone-buffer
         (goto-char start)
         (narrow-to-region narrow-start end)
-        (advice-add 'widen :after #'my-kill-buffer-on-widen)
+        (push clone-buffer my-narrowed-buffers)
         (switch-to-buffer clone-buffer)))))
 
 (defun my-recentf-command () (interactive))
