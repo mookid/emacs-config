@@ -188,7 +188,7 @@ BUFFER-NAME and bind it."
         (face-foreground (face-foreground 'mode-line)))
     (set-face-background 'mode-line "DodgerBlue")
     (set-face-foreground 'mode-line "White")
-    (sit-for 0.02)
+    (sit-for 0.1)
     (set-face-background 'mode-line face-background)
     (set-face-foreground 'mode-line face-foreground)))
 (setq ring-bell-function 'my-visual-ring-bell)
