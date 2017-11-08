@@ -122,9 +122,6 @@ BUFFER-NAME and bind it."
 (define-key global-map (kbd "C-x 9") 'my-kill-other-window)
 (define-key global-map (kbd "C-x n s") 'my-narrow-to-sexp)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
-(define-key global-map (kbd "<f6>") 'my-selective-display-toggle)
-(define-key global-map (kbd "C-<f6>") 'my-selective-display-increase)
-(define-key global-map (kbd "S-<f6>") 'my-selective-display-decrease)
 (define-key global-map (kbd "C-h g") 'my-google-search)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
 (define-key global-map (kbd "C-h C-k") 'describe-key)
@@ -239,14 +236,14 @@ See `my-selective-display-decrease' to decrease it."
 
 See `my-selective-display-toggle' and `my-selective-display-decrease'."
       (interactive)
-      (when (< depth 20) (g 1)))
+      (when (< depth 20) (g 2)))
 
     (defun my-selective-display-decrease ()
       "Decrease the cap for `toogle-selective-display'.
 
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
-      (when (> depth 1) (g -1)))))
+      (when (> depth 1) (g -2)))))
 
 (defvar my-narrowed-buffers nil)
 (defun my-kill-buffer-on-widen ()
@@ -635,6 +632,13 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (use-package hydra
   :init
   (progn
+    (defhydra my-selective-display (global-map "C-x")
+      "Selective display"
+      ("$" my-selective-display-toggle nil)
+      ("0" my-selective-display-toggle "on/off" :bind nil)
+      ("+" my-selective-display-increase "more" :bind nil)
+      ("=" my-selective-display-increase nil :bind nil)
+      ("-" my-selective-display-decrease "less" :bind nil))
     (defhydra my-previous-next-buffer-repeat (global-map "C-x")
       "Buffers"
       ("<left>" previous-buffer "previous")

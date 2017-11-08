@@ -125,6 +125,7 @@
         special-pop-tag-mark
         transpose-sexps
         tuareg-electric-pipe
+        tuareg-electric-rb
         tuareg-electric-rp
         upcase-region
         ))
@@ -135,6 +136,7 @@
         counsel-describe-variable
         end-of-buffer
         handle-switch-frame
+        iedit-switch-to-mc-mode
         lispy-cursor-down
         my-goto-*scratch*
         my-save-all-buffers
