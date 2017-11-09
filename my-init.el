@@ -636,10 +636,11 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :init
   (progn
     (defhydra my-previous-next-buffer-repeat (global-map "C-x")
-      "Goto previous/next buffer"
-      ("<left>" previous-buffer)
-      ("<right>" next-buffer)
-      ("k" my-kill-buffer "kill"))))
+      "Buffers"
+      ("<left>" previous-buffer "previous")
+      ("<right>" next-buffer "next")
+      ("k" my-kill-buffer "kill")
+      ("q" nil "quit"))))
 
 (use-package dired
   :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
