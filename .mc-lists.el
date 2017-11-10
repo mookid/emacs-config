@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         align-regexp
+        backward-kill-sexp
         backward-sexp
         backward-up-list
         c-electric-delete-forward
