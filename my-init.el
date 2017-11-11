@@ -1137,6 +1137,19 @@ A cons cell with a regexp that captures one match.")
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-flip-when-above t)))
 
+(use-package swiper
+  :bind
+  (("C-c s" . swiper)
+   ("<f6>" . my-swiper-at-point)
+   :map isearch-mode-map
+   ("C-o" . swiper-from-isearch))
+  :config
+  (progn
+    (my-key-chord-define swiper-map "fh" 'swiper-avy)
+    (defun my-swiper-at-point ()
+      (interactive)
+      (swiper (my-prompt)))))
+
 (use-package ivy
   :demand t
   :diminish ivy-mode
@@ -1145,14 +1158,11 @@ A cons cell with a regexp that captures one match.")
    ([remap describe-variable] . counsel-describe-variable)
    ("C-c b" . counsel-bookmark)
    ("<f8>" . my-counsel-rg)
-   ("C-c s" . swiper)
-   ("C-c r" . ivy-resume)
+   ("C-R" . ivy-resume)
    ("C-M-y". counsel-yank-pop)
    ("C-z" . counsel-switch-to-shell-buffer)
    ("C-c M-x" . counsel-M-x)
    ("<f10>" . counsel-git-change-worktree)
-   :map isearch-mode-map
-   ("M-s p" . swiper-from-isearch)
    :map ivy-minibuffer-map
    ("C-o" . ivy-occur)
    ("<next>" . ivy-scroll-up-command)
@@ -1170,7 +1180,7 @@ A cons cell with a regexp that captures one match.")
 
     (defun my-counsel-rg ()
       (interactive)
-      (counsel-rg (if-let (sym (symbol-at-point)) (symbol-name sym))))
+      (counsel-rg (my-prompt)))
 
     (defun ivy-display-function-popup (text)
       (require 'popup)
