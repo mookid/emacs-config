@@ -932,6 +932,8 @@ With prefix argument ARG, invert `+' and `-'."
   :bind
   (("M-o" . my-occur-region)
    ("C-S-s" . isearch-forward-symbol-at-point)
+   ("C-s" . isearch-forward-regexp)
+   ("C-r" . isearch-backward-regexp)
    :map
    minibuffer-local-isearch-map
    ("TAB" . isearch-complete-edit)
@@ -1139,8 +1141,11 @@ A cons cell with a regexp that captures one match.")
 
 (use-package swiper
   :bind
-  (("C-c s" . swiper)
+  (("C-M-s" . swiper)
    ("<f6>" . my-swiper-at-point)
+   :map swiper-map
+   ("C-r" . ivy-previous-line)
+   ("C-w" . ivy-yank-word)
    :map isearch-mode-map
    ("C-o" . swiper-from-isearch))
   :config
