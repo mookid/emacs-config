@@ -1015,7 +1015,9 @@ Otherwise, apply ORIG-FUN to ARGS."
       (or (my-isearch-region) (apply orig-fun args)))
     (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
     (advice-add 'isearch-forward :around #'my-isearch-region-hook)
-    (advice-add 'isearch-backward :around #'my-isearch-region-hook)))
+    (advice-add 'isearch-backward :around #'my-isearch-region-hook)
+    (advice-add 'isearch-forward-regexp :around #'my-isearch-region-hook)
+    (advice-add 'isearch-backward-regexp :around #'my-isearch-region-hook)))
 
 (use-package shell
   :bind
