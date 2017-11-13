@@ -1084,10 +1084,7 @@ A cons cell with a regexp that captures one match.")
   :defer 15
   :bind
   (("C-x g" . magit-status)
-   :map vc-prefix-map
-   ("c" . magit-commit)
-   ("p" . magit-commit-amend)
-   ("/" . magit-log-popup))
+   ("M-<f7>" . magit-status))
   :config
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
   (set-face-foreground 'magit-diff-file-heading "blue")
