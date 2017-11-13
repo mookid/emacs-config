@@ -64,6 +64,14 @@
 
 
 ;;; Windows
+(defun my-delete-side-windows ()
+  (interactive)
+  (walk-windows (lambda (win)
+                  (when (window-at-side-p win)
+                    (delete-window win)))
+                nil
+                (selected-frame)))
+
 (defmacro my-balance-after (orig-fun)
   (let ((interactive-form (interactive-form orig-fun))
         (gensym (intern (concat "my-" (symbol-name orig-fun)))))
@@ -92,10 +100,6 @@ BUFFER-NAME and bind it."
          (my-goto-buffer ,buffer-name))
        (define-key global-map (kbd ,(concat "C-c w " key)) ',command-name))))
 
-(defun my-kill-other-window ()
-  (interactive)
-  (delete-window (previous-window)))
-
 (my-window-command g *grep*)
 (my-window-command d *vc-diff*)
 (my-window-command c *compilation*)
@@ -119,7 +123,7 @@ BUFFER-NAME and bind it."
 
 
 ;;; Keybindings
-(define-key global-map (kbd "C-x 9") 'my-kill-other-window)
+(define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
 (define-key global-map (kbd "C-x n s") 'my-narrow-to-sexp)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
 (define-key global-map (kbd "C-h g") 'my-google-search)
