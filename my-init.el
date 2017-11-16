@@ -123,6 +123,8 @@ BUFFER-NAME and bind it."
 
 
 ;;; Keybindings
+(define-key global-map (kbd (format "<C-%s>" mouse-wheel-down-event)) 'text-scale-increase)
+(define-key global-map (kbd (format "<C-%s>" mouse-wheel-up-event)) 'text-scale-decrease)
 (define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
 (define-key global-map (kbd "C-x n s") 'my-narrow-to-sexp)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
@@ -816,8 +818,6 @@ if its size is 1 line."
 (use-package mouse
   :bind
   (("<S-mouse-1>" . my-acme-search-forward)
-   ("<C-wheel-up>" . text-scale-increase)
-   ("<C-wheel-down>" . text-scale-decrease)
    ("C-c ." . my-delete-mouse-secondary-overlay))
   :config
   (progn
