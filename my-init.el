@@ -1276,7 +1276,10 @@ A cons cell with a regexp that captures one match.")
     (defun my-preserve-comment-style () (setq comment-style 'indent))
     (use-package ocp-indent
       :demand t
-      :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer)))))
+      :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))
+      :config
+      (progn
+        (add-hook 'tuareg-mode-hook 'ocp-setup-indent)))))
 
 (use-package cc-vars
   :defer t
