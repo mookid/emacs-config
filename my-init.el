@@ -1161,6 +1161,12 @@ A cons cell with a regexp that captures one match.")
              (substring text 1)
            text))))
 
+    (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
+    (defun my-select-shell-buffer (orig-fun &rest args)
+      (if-let ((buf (get-buffer "*shell*")))
+          (switch-to-buffer buf)
+        (apply orig-fun args)))
+
     (defun my-counsel-rg ()
       (interactive)
       (counsel-rg (my-prompt)))
