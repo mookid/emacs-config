@@ -759,15 +759,10 @@ if its size is 1 line."
       :bind
       (("<f5>" . recompile)))
 
-    ;; Show grep matches at the end of the *grep* buffer
-    (add-to-list 'grep-mode-font-lock-keywords
-                 '("^Grep[/a-zA-z]* finished \\(?:(\\([0-9]+ match\\(es\\)? found\\))\\).*"
-                   (0 '(face nil compilation-message nil help-echo nil mouse-face nil) t)
-                   (1 compilation-info-face nil t)))
-
     (add-to-list 'display-buffer-alist
                  '("*compilation*\\|*Occur*\\|*xref*\\|*ivy-occur"
                    (display-buffer-reuse-window display-buffer-in-side-window)
+                   (reusable-frames . nil)
                    (side . bottom)
                    (window-height . 0.3)))
 
