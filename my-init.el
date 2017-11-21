@@ -1063,6 +1063,7 @@ A cons cell with a regexp that captures one match.")
   :defer 15
   :bind
   (("C-x g" . magit-status)
+   ("C-x v p" . magit-blame)
    ("M-<f7>" . magit-status))
   :config
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
