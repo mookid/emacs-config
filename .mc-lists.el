@@ -7,6 +7,7 @@
         backward-kill-sexp
         backward-sexp
         backward-up-list
+        c-electric-brace
         c-electric-delete-forward
         c-electric-paren
         c-electric-semi&comma
@@ -124,6 +125,7 @@
         special-lispy-widen
         special-lispy-x
         special-pop-tag-mark
+        swiper-mc
         transpose-sexps
         tuareg-electric-pipe
         tuareg-electric-rb
