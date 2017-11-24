@@ -207,6 +207,8 @@ BUFFER-NAME and bind it."
     (set-face-underline face nil)
     (set-face-italic face nil)
     (set-face-foreground face "gray50"))
+  (with-eval-after-load 'dired
+    (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
     (set-face-foreground 'hl-line "orange"))
   (with-eval-after-load 'diff-mode
