@@ -1563,5 +1563,19 @@ A cons cell with a regexp that captures one match.")
   :init
   (ace-link-setup-default))
 
+(use-package rust
+  :init
+  (progn
+    (use-package cargo
+      :diminish cargo-minor-mode
+      :init
+      (progn
+        (add-hook 'rust-mode-hook 'cargo-minor-mode)))
+    (use-package racer
+      :diminish racer-mode
+      :init
+      (progn
+        (add-hook 'rust-mode-hook 'racer-mode)))))
+
 (provide 'my-init)
 ;;; my-init.el ends here
