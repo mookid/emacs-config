@@ -40,7 +40,7 @@
       (eclipse-const "#110099")
       (eclipse-comment "#3F7F5F")
       (eclipse-error "#FF0000")
-      (eclipse-builtin "#7F0055")
+      (eclipse-builtin "#8d64a7")
       (eclipse-string "#2A00FF")
       (eclipse-blue-3 "#758BC6")
       (eclipse-region "#f9b593")
