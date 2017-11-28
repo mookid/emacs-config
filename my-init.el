@@ -123,6 +123,7 @@ BUFFER-NAME and bind it."
 
 
 ;;; Keybindings
+(define-key global-map (kbd "C-<f4>") 'my-kmacro-end-or-call-macro-infinity)
 (define-key global-map (kbd (format "<C-%s>" mouse-wheel-down-event)) 'text-scale-increase)
 (define-key global-map (kbd (format "<C-%s>" mouse-wheel-up-event)) 'text-scale-decrease)
 (define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
@@ -295,6 +296,10 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer t t))
+
+(defun my-kmacro-end-or-call-macro-infinity ()
+  (interactive)
+  (kmacro-end-or-call-macro 99))
 
 (defun my-find-init-file ()
   (interactive)
