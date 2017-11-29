@@ -41,7 +41,6 @@
 (keyboard-translate ?\) ?\])
 (keyboard-translate ?\] ?\))
 
-(global-auto-revert-mode +1)
 (add-to-list 'completion-styles 'partial-completion)
 
 (progn
@@ -538,6 +537,11 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 ;;; Packages
 (use-package fullframe)
+
+(use-package autorevert
+  :diminish auto-revert-mode
+  :init
+  (global-auto-revert-mode +1))
 
 (use-package ibuffer
   :bind
