@@ -1160,6 +1160,7 @@ A cons cell with a regexp that captures one match.")
    ("<right>" . ivy-alt-done))
   :init
   (progn
+    (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
     (defun ivy-display-function-lv (text)
       (require 'lv)
       (let ((lv-force-update t))
