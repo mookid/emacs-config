@@ -129,6 +129,7 @@
         transpose-sexps
         tuareg-electric-pipe
         tuareg-electric-rb
+        tuareg-electric-rc
         tuareg-electric-rp
         upcase-region
         ))
