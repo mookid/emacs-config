@@ -952,6 +952,8 @@ With prefix argument ARG, invert `+' and `-'."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
+   ("<escape>" . my-isearch-suspend)
+   ("<backspace>" . my-isearch-delete)
    ("<f3>" . isearch-repeat-forward)
    ("S-<f3>" . isearch-repeat-backward)
    ("M-o" . isearch-occur)
@@ -965,6 +967,24 @@ With prefix argument ARG, invert `+' and `-'."
       "Send region to occur when activated."
       (interactive)
       (and (my-isearch-region) (call-interactively 'isearch-occur)))
+
+    (defun my-isearch-suspend ()
+      "Invoke the editor command loop recursively, during Isearch.
+Use `\\[exit-recursive-edit]' to end the recursive edit and
+resume searching from there.  Or use `\\[abort-recursive-edit]' to
+exit the recursive edit and cancel the previous search."
+      (interactive)
+      (with-isearch-suspended (recursive-edit)))
+
+    (defun my-isearch-delete ()
+      "Delete the failed portion of the search string, or the
+last char if successful."
+      (interactive)
+      (with-isearch-suspended
+       (setq isearch-new-string
+             (substring isearch-string 0 (or (isearch-fail-pos) -1))
+             isearch-new-message
+             (mapconcat 'isearch-text-char-description isearch-new-string ""))))
 
     (defun my-isearch-beginning-of-buffer ()
       "Move isearch point to the beginning of the buffer."
