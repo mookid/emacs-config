@@ -1552,6 +1552,8 @@ A cons cell with a regexp that captures one match.")
 (use-package whitespace
   :config
   (progn
+    (set-face-background 'whitespace-space-after-tab nil)
+    (set-face-background 'whitespace-indentation nil)
     (set-face-foreground 'whitespace-line nil)
     (set-face-background 'whitespace-line nil)))
 
