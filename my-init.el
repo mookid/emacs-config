@@ -543,6 +543,9 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :init
   (global-auto-revert-mode +1))
 
+(use-package diff
+  :init (add-hook 'diff-mode-hook 'read-only-mode))
+
 (use-package ibuffer
   :bind
   ("C-x C-b" . ibuffer)
