@@ -208,7 +208,9 @@ BUFFER-NAME and bind it."
   (let ((face 'font-lock-type-face))
     (set-face-underline face nil)
     (set-face-italic face nil)
-    (set-face-foreground face "gray50"))
+    (set-face-bold face t)
+    (set-face-background face "#f9f9f9")
+    (set-face-foreground face "#bf616a"))
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
