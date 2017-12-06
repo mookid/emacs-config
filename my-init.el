@@ -1570,6 +1570,10 @@ A cons cell with a regexp that captures one match.")
   (progn
     (use-package cargo
       :diminish cargo-minor-mode
+      :bind
+      (:map
+       cargo-minor-mode-map
+       ("<f5>" . cargo-process-repeat))
       :init
       (progn
         (add-hook 'rust-mode-hook 'cargo-minor-mode)))
