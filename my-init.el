@@ -40,6 +40,8 @@
 (keyboard-translate ?\[ ?\()
 (keyboard-translate ?\) ?\])
 (keyboard-translate ?\] ?\))
+(keyboard-translate ?\C-p ?\C-h)
+(keyboard-translate ?\C-h ?\C-p)
 
 (add-to-list 'completion-styles 'partial-completion)
 
@@ -606,9 +608,9 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (defun my-key-chord-define (keymap keys command)
       (push (list keymap keys command) my-key-chords-alist)
       (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
-    (my-key-chord-define global-map "jk" 'execute-extended-command)
     (my-key-chord-define global-map "hv" 'describe-variable)
     (my-key-chord-define global-map "hk" 'describe-key)
+    (my-key-chord-define global-map "hj" 'describe-function)
     (my-key-chord-define global-map "fy" 'my-find-init-file)
     (my-key-chord-define global-map "fh" 'my-recentf-command))
   :config
