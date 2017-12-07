@@ -544,7 +544,9 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package vc
   :bind
-  (:map
+  (("<f7>" . vc-diff)
+   ("C-<f7>" . vc-root-diff)
+   :map
    vc-prefix-map
    ("q" . my-vc-add-current-buffer))
   :config
@@ -568,10 +570,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (defun my-vc-dir-root ()
       (interactive)
       (when-let (root (vc-root-dir))
-        (vc-dir root))))
-  :bind
-  (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff)))
+        (vc-dir root)))))
 
 (use-package ediff-wind
   :config
@@ -1565,7 +1564,7 @@ A cons cell with a regexp that captures one match.")
   :init
   (ace-link-setup-default))
 
-(use-package rust
+(use-package rust-mode
   :init
   (progn
     (use-package cargo
