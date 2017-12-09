@@ -1134,22 +1134,6 @@ A cons cell with a regexp that captures one match.")
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-flip-when-above t)))
 
-(use-package swiper
-  :bind
-  (("C-M-s" . swiper)
-   ("<f6>" . my-swiper-at-point)
-   :map swiper-map
-   ("C-r" . ivy-previous-line)
-   ("C-w" . ivy-yank-word)
-   :map isearch-mode-map
-   ("C-o" . swiper-from-isearch))
-  :config
-  (progn
-    (my-key-chord-define swiper-map "fh" 'swiper-avy)
-    (defun my-swiper-at-point ()
-      (interactive)
-      (swiper (my-prompt)))))
-
 (use-package ivy
   :demand t
   :diminish ivy-mode
