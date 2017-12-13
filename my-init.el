@@ -1568,5 +1568,10 @@ A cons cell with a regexp that captures one match.")
       (progn
         (add-hook 'rust-mode-hook 'racer-mode)))))
 
+(use-package helpful
+  :init
+  (progn
+    (my-key-chord-define global-map "hh" 'helpful-at-point)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
