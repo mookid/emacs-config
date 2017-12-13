@@ -20,6 +20,7 @@
         dabbrev-expand
         delete-indentation
         down-list
+        downcase-region
         electric-newline-and-maybe-indent
         electric-pair-delete-pair
         erlang-electric-comma
@@ -136,6 +137,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        cargo-process-repeat
         compile
         counsel-describe-variable
         end-of-buffer
