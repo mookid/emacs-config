@@ -655,7 +655,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (use-package dired
   :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
-  :config
+  :init
   (progn
     (setq dired-dwim-target t)
     (use-package dired-x
@@ -692,7 +692,9 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-alh")
     (setq dired-recursive-deletes 'always)
-    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-copies 'always))
+  :config
+  (progn
     (set-face-attribute 'dired-ignored nil
                         :foreground "gray60")))
 
