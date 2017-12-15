@@ -148,7 +148,6 @@
 (define-key global-map (kbd "C-S-u") 'upcase-region)
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
-(define-key global-map (kbd "C-.") 'my-jump-to-char)
 (define-key global-map (kbd "C-c <f5>") 'revert-buffer)
 (define-key global-map (kbd "<mode-line> <mouse-2>") 'my-goto-*scratch*)
 (define-key global-map (kbd "<f2>") 'rename-buffer)
@@ -1339,9 +1338,14 @@ A cons cell with a regexp that captures one match.")
 
 (use-package multiple-cursors
   :bind
-  (("C-M-." . mc/mark-next-like-this)
-   ("C-M-," . mc/mark-previous-like-this)
-   ("C-M-<mouse-1>" . mc/add-cursor-on-click)))
+  (("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-M-<mouse-1>" . mc/add-cursor-on-click)
+   :map mc/keymap
+   ("C-s" . my-jump-to-char)
+   ("C-," . mc/unmark-next-like-this)
+   ("C-." . mc/skip-to-next-like-this)
+   ("C-'" . mc-hide-unmatched-lines-mode)))
 
 (use-package undo-tree
   :diminish undo-tree-mode
