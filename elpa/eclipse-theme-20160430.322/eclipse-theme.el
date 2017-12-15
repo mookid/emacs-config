@@ -43,7 +43,7 @@
       (eclipse-builtin "#8d64a7")
       (eclipse-string "#2A00FF")
       (eclipse-blue-3 "#758BC6")
-      (eclipse-region "#f9b593")
+      (eclipse-region "pink")
       (eclipse-shadow "grey50"))
   (apply 'custom-theme-set-faces 'eclipse
          (mapcar
@@ -94,7 +94,7 @@
             (org-block-end-line :foreground ,eclipse-const)
             (org-scheduled-previously :foreground ,eclipse-comment)
             (ido-subdir :weight bold)
-            (mode-line :foreground "black" :background "#f9b593" :box nil)
+            (mode-line :foreground "black" :background "pink" :box nil)
             (mode-line-inactive :foreground "grey20" :background "grey90" :box nil)
             (minibuffer-prompt :foreground "medium blue")
             (hl-line :background "#e5e4e2")
