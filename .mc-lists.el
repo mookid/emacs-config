@@ -144,6 +144,7 @@
         handle-switch-frame
         iedit-switch-to-mc-mode
         lispy-cursor-down
+        multiple-cursors-hydra/mc/mark-next-like-this
         my-goto-*scratch*
         my-save-all-buffers
         ocp-indent-buffer
