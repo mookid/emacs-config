@@ -763,7 +763,7 @@ if its size is 1 line."
       (("<f5>" . recompile)))
 
     (add-to-list 'display-buffer-alist
-                 '("*compilation*\\|*Occur*\\|*xref*\\|*ivy-occur"
+                 '("*compilation*\\|*Occur*\\|*xref*\\|*ivy-occur\\|*Cargo"
                    (display-buffer-reuse-window display-buffer-in-side-window)
                    (reusable-frames . nil)
                    (side . bottom)
