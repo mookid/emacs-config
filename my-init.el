@@ -1255,7 +1255,10 @@ A cons cell with a regexp that captures one match.")
 
 (use-package flycheck
   :defer t
-  :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error)))
+  :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error))
+  :config
+  (progn
+    (setq flycheck-check-syntax-automatically '(save mode-enable))))
 
 (use-package tuareg
   :mode ("\\.m[lf][ily]?$" . tuareg-mode)
