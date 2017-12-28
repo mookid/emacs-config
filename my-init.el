@@ -1287,6 +1287,7 @@ A cons cell with a regexp that captures one match.")
       (defvar c-default-style)
       (defvar indent-tabs-mode)
       (setq c-default-style "linux")
+      (setq c-basic-offset 8)
       (setq indent-tabs-mode nil)
       (use-package cc-mode
         :bind
