@@ -1084,6 +1084,17 @@ A cons cell with a regexp that captures one match.")
    ("C-x v p" . magit-blame)
    ("M-<f7>" . magit-status))
   :config
+  (add-to-list 'display-buffer-alist
+               '("*magit"
+                 (display-buffer-use-some-frame display-buffer-pop-up-frame)
+                 (pop-up-frame-parameters . ((dedicated-to . magit)))
+                 (reusable-frames . nil)
+                 (frame-predicate . my-is-dedicated-to-magit)))
+  (setq magit-bury-buffer-function 'bury-buffer)
+  (defun my-is-dedicated-to-magit (frame)
+    (let ((cell (assq 'dedicated-to (frame-parameters frame))))
+      (and (consp cell) (eq (cdr cell) 'magit))))
+
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
   (set-face-foreground 'magit-diff-file-heading "blue")
   (defun my-create-tags ()
