@@ -1594,5 +1594,10 @@ A cons cell with a regexp that captures one match.")
   (progn
     (my-key-chord-define global-map "hh" 'helpful-at-point)))
 
+(use-package dired-sidebar
+  :ensure t
+  :bind
+  ("<f6>" . dired-sidebar-toggle-sidebar))
+
 (provide 'my-init)
 ;;; my-init.el ends here
