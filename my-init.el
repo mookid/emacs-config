@@ -239,6 +239,10 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
 
+(defun my-set-indentation (n)
+  (interactive "nset indentation to: ")
+  (setq c-basic-offset n))
+
 (defvar my-narrowed-buffers nil)
 (defun my-kill-buffer-on-widen ()
   (when (member (current-buffer) my-narrowed-buffers)
