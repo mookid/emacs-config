@@ -192,8 +192,7 @@
     (set-face-underline face nil)
     (set-face-italic face nil)
     (set-face-bold face t)
-    (set-face-background face "#f9f9f9")
-    (set-face-foreground face "#bf616a"))
+    (set-face-foreground face "#7F0055"))
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
