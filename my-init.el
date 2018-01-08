@@ -1602,5 +1602,9 @@ A cons cell with a regexp that captures one match.")
   :config
   (save-place-mode +1))
 
+(use-package javadoc-lookup
+  :bind
+  ("C-h j" . javadoc-lookup))
+
 (provide 'my-init)
 ;;; my-init.el ends here
