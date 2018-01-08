@@ -1599,5 +1599,9 @@ A cons cell with a regexp that captures one match.")
   :bind
   ("<f6>" . dired-sidebar-toggle-sidebar))
 
+(use-package saveplace
+  :config
+  (save-place-mode +1))
+
 (provide 'my-init)
 ;;; my-init.el ends here
