@@ -193,6 +193,10 @@
     (set-face-italic face nil)
     (set-face-bold face t)
     (set-face-foreground face "#7F0055"))
+  (let ((face 'mode-line))
+    (set-face-background face "#EAFFFF")
+    (set-face-foreground face "black")
+    (set-face-attribute face nil :box 2))
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
