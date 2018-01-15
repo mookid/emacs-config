@@ -183,23 +183,29 @@
 
 (progn
   (load-theme 'eclipse t)
+  (dolist (face (face-list))
+    (set-face-underline face nil)
+    (set-face-italic face nil))
   (let ((face 'success))
     (set-face-foreground face "ForestGreen")
     (set-face-bold face t))
   (dolist (face '(mode-line-buffer-id mode-line-highlight))
     (set-face-bold face t))
-  (let ((face 'font-lock-type-face))
-    (set-face-underline face nil)
-    (set-face-italic face nil)
-    (set-face-bold face t)
-    (set-face-foreground face "#7F0055"))
+  (set-face-attribute 'font-lock-type-face nil :inherit 'font-lock-builtin-face)
   (let ((face 'mode-line))
-    (set-face-background face "#EAFFFF")
+    (set-face-background face "azure")
     (set-face-foreground face "black")
-    (set-face-attribute face nil :box 2))
+    (set-face-attribute face nil :box '(:line-width 2 :color "black")))
+  (let ((face 'mode-line-inactive))
+    (set-face-background face "azure")
+    (set-face-foreground face "grey")
+    (set-face-attribute face nil :box '(:line-width 1 :color "grey")))
+  (let ((face 'region))
+    (set-face-background face "pink"))
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
+    (set-face-background 'hl-line "honeydew")
     (set-face-foreground 'hl-line "orange"))
   (with-eval-after-load 'diff-mode
     (set-face-foreground 'diff-added "green4")
@@ -1278,7 +1284,7 @@ A cons cell with a regexp that captures one match.")
   :config
   (progn
     (add-to-list 'face-remapping-alist
-                 '(tuareg-font-lock-governing-face (:inherit font-lock-type-face)))
+                 '(tuareg-font-lock-governing-face (:inherit font-lock-builtin-face)))
     (advice-add 'tuareg-mode :after #'my-preserve-comment-style)
     (defun my-preserve-comment-style () (setq comment-style 'indent))
     (use-package ocp-indent
@@ -1439,9 +1445,7 @@ A cons cell with a regexp that captures one match.")
       "Turn on `hl-line-mode' in buffer `next-error-last-buffer'."
       (when (and next-error-last-buffer (buffer-live-p next-error-last-buffer))
         (with-current-buffer next-error-last-buffer
-          (hl-line-mode 1)))))
-  :config
-  (set-face-attribute 'hl-line nil :inherit 'next-error))
+          (hl-line-mode 1))))))
 
 (use-package visible-mark
   :preface
