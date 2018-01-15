@@ -1331,7 +1331,6 @@ A cons cell with a regexp that captures one match.")
    ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
-  :after vc
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)
