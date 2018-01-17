@@ -1356,12 +1356,16 @@ A cons cell with a regexp that captures one match.")
   :bind
   (("C->" . mc/mark-next-like-this)
    ("C-<" . mc/mark-previous-like-this)
-   ("C-M-<mouse-1>" . mc/add-cursor-on-click)
-   :map mc/keymap
-   ("C-s" . my-jump-to-char)
-   ("C-," . mc/unmark-next-like-this)
-   ("C-." . mc/skip-to-next-like-this)
-   ("C-'" . mc-hide-unmatched-lines-mode)))
+   ("C-M-<mouse-1>" . mc/add-cursor-on-click))
+  :init
+  (use-package mc-mark-more
+    :bind
+    (:map
+     mc/keymap
+     ("C-s" . my-jump-to-char)
+     ("C-," . mc/unmark-next-like-this)
+     ("C-." . mc/skip-to-next-like-this)
+     ("C-'" . mc-hide-unmatched-lines-mode))))
 
 (use-package undo-tree
   :diminish undo-tree-mode
