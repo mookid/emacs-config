@@ -815,10 +815,10 @@ if its size is 1 line."
     (setq eval-expression-print-level nil)
     (use-package elisp-mode
       :bind
+      ("C-c C-z" . ielm)
       (:map
        emacs-lisp-mode-map
-       ("C-c C-k" . eval-buffer)
-       ("C-c C-z" . ielm))))
+       ("C-c C-k" . eval-buffer))))
   :bind
   (:map ielm-map
         ("C-c C-z" . bury-buffer)))
@@ -1535,6 +1535,7 @@ A cons cell with a regexp that captures one match.")
         (if (looking-at "\"") (delete-char 1) (insert ?\")))))
   :bind
   (:map sh-mode-map
+        ("C-c C-z" . nil)
         ("C-c q" . my-sh-quote-or-unquote))
   :config
   (progn
