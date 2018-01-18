@@ -304,6 +304,14 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (interactive)
   (find-file my-main-init-file))
 
+(defun my-find-project ()
+  (interactive)
+  (find-file (expand-file-name "projects" (getenv "HOME"))))
+
+(defun my-find-shell-config-file ()
+  (interactive)
+  (find-file (expand-file-name ".bashrc" (getenv "HOME"))))
+
 (defun my-bury-buffer (orig-fun &rest args)
   "Bury *scratch* buffer instead of killing it."
   (if (string= (buffer-name (current-buffer)) "*scratch*")
@@ -624,6 +632,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (my-key-chord-define global-map "hk" 'describe-key)
     (my-key-chord-define global-map "hj" 'describe-function)
     (my-key-chord-define global-map "fy" 'my-find-init-file)
+    (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
+    (my-key-chord-define global-map "fq" 'my-find-project)
     (my-key-chord-define global-map "fh" 'my-recentf-command))
   :config
   (progn
