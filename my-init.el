@@ -1158,14 +1158,41 @@ A cons cell with a regexp that captures one match.")
 
 (use-package company
   :defer t
+  :bind
+  (:map
+   company-mode-map
+   ("C-\\" . company-complete))
+  :init
+  (defun my-company-number ()
+    "Forward to `company-complete-number'.
+Unless the number is potentially part of the candidate.
+In that case, insert the number."
+    (interactive)
+    (let* ((k (this-command-keys))
+           (re (concat "^" company-prefix k)))
+      (if (cl-find-if (lambda (s) (string-match re s))
+                      company-candidates)
+          (self-insert-command 1)
+        (company-complete-number
+         (if (equal k "0")
+             10
+           (string-to-number k))))))
+  (defun my-company-abort-with-space ()
+    (interactive)
+    (company-abort)
+    (self-insert-command 1))
+  (add-hook 'prog-mode-hook 'company-mode)
   :config
   (progn
-    (defvar company-idle-delay)
-    (defvar company-tooltip-limit)
-    (defvar company-minimum-prefix-length)
-    (defvar company-tooltip-flip-when-above)
-    (setq company-idle-delay 0.)
-    (setq company-tooltip-limit 5)
+    (let ((map company-active-map))
+      (dotimes (x 10)
+        (define-key map (format "%d" x) 'my-company-number))
+      (define-key map (kbd " ") 'my-company-abort-with-space)
+      (define-key map (kbd "<return>") nil)
+      (define-key map (kbd "C-n") 'company-select-next)
+      (define-key map (kbd "C-p") 'company-select-previous))
+    (setq company-show-numbers t)
+    (setq company-idle-delay nil)
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-flip-when-above t)))
 
