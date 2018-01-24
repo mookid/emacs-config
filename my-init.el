@@ -151,6 +151,7 @@
 (define-key global-map (kbd "C-c <f5>") 'revert-buffer)
 (define-key global-map (kbd "<mode-line> <mouse-2>") 'my-goto-*scratch*)
 (define-key global-map (kbd "<f2>") 'rename-buffer)
+(define-key global-map (kbd "M-j") 'my-delete-indentation-forward)
 
 
 ;;; Appearance
@@ -249,6 +250,10 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
+
+(defun my-delete-indentation-forward ()
+  (interactive)
+  (delete-indentation t))
 
 (defun my-set-indentation (n)
   (interactive "nset indentation to: ")
