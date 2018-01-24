@@ -183,10 +183,12 @@
 (setq ring-bell-function 'my-visual-ring-bell)
 
 (progn
-  (load-theme 'eclipse t)
+  (load-theme 'paper t)
   (dolist (face (face-list))
     (set-face-underline face nil)
     (set-face-italic face nil))
+  (let ((face 'font-lock-comment-face))
+    (set-face-background face "ghost white"))
   (let ((face 'success))
     (set-face-foreground face "ForestGreen")
     (set-face-bold face t))
@@ -201,8 +203,6 @@
     (set-face-background face "azure")
     (set-face-foreground face "grey")
     (set-face-attribute face nil :box '(:line-width 1 :color "grey")))
-  (let ((face 'region))
-    (set-face-background face "pink"))
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
