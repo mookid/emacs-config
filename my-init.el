@@ -1040,6 +1040,8 @@ Otherwise, apply ORIG-FUN to ARGS."
     (advice-add 'isearch-backward-regexp :around #'my-isearch-region-hook)))
 
 (use-package shell
+  :init
+  (setenv "PAGER" "cat")
   :bind
   (:map shell-mode-map
         ([remap dired] . my-shell-dired)
