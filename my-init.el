@@ -780,6 +780,8 @@ if its size is 1 line."
   "www.google.com/search?q=")
 (my-defweb-search my-hoogle-search
   "www.haskell.org/hoogle/?hoogle=")
+(my-defweb-search my-msdn-search
+  "social.msdn.microsoft.com/Search/en-US?query=")
 
 (use-package grep
   :init
