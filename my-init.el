@@ -1251,9 +1251,10 @@ In that case, insert the number."
           (switch-to-buffer buf)
         (apply orig-fun args)))
 
-    (defun my-counsel-rg ()
-      (interactive)
-      (counsel-rg (my-prompt)))
+    (defun my-counsel-rg (p)
+      (interactive "P")
+      (let ((directory (if p (read-directory-name "counsel from directory: "))))
+        (counsel-rg (my-prompt) directory)))
 
     (defun ivy-display-function-popup (text)
       (require 'popup)
