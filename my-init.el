@@ -390,15 +390,27 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
          (select-window orig-window)))))
 (put 'my-with-other-window 'lisp-indent-function 0)
 
+(defun my-scroll-up-command (&optional arg)
+  (interactive))
+
+(defun my-scroll-down-command (&optional arg)
+  (interactive))
+
+(fset 'my-scroll-up-command 'scroll-up)
+(fset 'my-scroll-down-command 'scroll-down)
+
+(define-key global-map [remap scroll-up-command] 'my-scroll-up-command)
+(define-key global-map [remap scroll-down-command] 'my-scroll-down-command)
+
 (defun my-scroll-down-other-window (&optional arg)
   (interactive)
   (my-with-other-window
-    (scroll-down arg)))
+    (my-scroll-down-command arg)))
 
 (defun my-scroll-up-other-window (&optional arg)
   (interactive)
   (my-with-other-window
-    (scroll-up arg)))
+    (my-scroll-up-command arg)))
 
 (defmacro my-save-column (&rest body)
   `(let ((column (current-column)))
@@ -1675,6 +1687,25 @@ In that case, insert the number."
 (use-package javadoc-lookup
   :bind
   ("C-h j" . javadoc-lookup))
+
+(use-package pager
+  :init
+  (defun my-scroll-up-command-pager (&optional arg)
+    "Apply `pager-page-down'.
+
+If provided, do it ARG times."
+    (interactive)
+    (dotimes (_ (or arg 1))
+      (pager-page-down)))
+  (defun my-scroll-down-command-pager (&optional arg)
+    "Apply `pager-page-up'.
+
+If provided, do it ARG times."
+    (interactive)
+    (dotimes (_ (or arg 1))
+      (pager-page-up)))
+  (fset 'my-scroll-up-command 'my-scroll-up-command-pager)
+  (fset 'my-scroll-down-command 'my-scroll-down-command-pager))
 
 (provide 'my-init)
 ;;; my-init.el ends here
