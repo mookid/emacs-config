@@ -17,6 +17,7 @@
         composable-indent-region
         composable-kill-region
         composable-save-region
+        counsel-yank-pop
         dabbrev-expand
         delete-indentation
         down-list
