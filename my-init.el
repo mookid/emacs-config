@@ -1702,5 +1702,8 @@ If provided, do it ARG times."
   (fset 'my-scroll-up-command 'my-scroll-up-command-pager)
   (fset 'my-scroll-down-command 'my-scroll-down-command-pager))
 
+(use-package string-inflection
+  :bind ("C-S-u" . string-inflection-all-cycle))
+
 (provide 'my-init)
 ;;; my-init.el ends here
