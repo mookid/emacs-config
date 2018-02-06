@@ -476,14 +476,22 @@ region (if any) or the next sexp."
     (message "%s %s"
              (if my-untabify-this-buffer "Untabify" "Don't untabify")
              (buffer-name)))
+  (defvar my-inhibit-untabification nil)
+
+  (defun my-save-buffers-without-untabification ()
+    (interactive)
+    (let ((my-inhibit-untabification t))
+      (save-some-buffers t)))
+
   (defun my-untabify-buffer ()
     "Untabify the current buffer and delete trailing whitespaces,
 unless `my-untabify-this-buffer' is nil."
-    (cond (my-untabify-this-buffer
-           (whitespace-mode -1)
-           (untabify (point-min) (point-max))
-           (delete-trailing-whitespace))
-          (t (whitespace-mode +1))))
+    (unless my-inhibit-untabification
+      (cond (my-untabify-this-buffer
+             (whitespace-mode -1)
+             (untabify (point-min) (point-max))
+             (delete-trailing-whitespace))
+            (t (whitespace-mode +1)))))
 
   (make-variable-buffer-local 'my-untabify-this-buffer)
   (define-minor-mode my-untabify-mode
@@ -500,10 +508,12 @@ unless `my-untabify-this-buffer' is nil."
                  (not (or (derived-mode-p 'makefile-mode)
                           (re-search-forward "\t" nil t))))
            (or my-untabify-this-buffer (whitespace-mode 1))
+           (add-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
            (advice-remove 'yank #'my-yank-and-reindent-hook)
            (and my-untabify-this-buffer (whitespace-mode -1))
+           (remove-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (remove-hook 'before-save-hook #'my-untabify-buffer t))))
   (add-hook 'prog-mode-hook 'my-untabify-mode))
 
