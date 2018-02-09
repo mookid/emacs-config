@@ -1515,12 +1515,7 @@ In that case, insert the number."
 (use-package hl-line
   :init
   (progn
-    (add-hook 'next-error-hook 'next-error-buffer-hl-line)
-    (defun next-error-buffer-hl-line ()
-      "Turn on `hl-line-mode' in buffer `next-error-last-buffer'."
-      (when (and next-error-last-buffer (buffer-live-p next-error-last-buffer))
-        (with-current-buffer next-error-last-buffer
-          (hl-line-mode 1))))))
+    (global-hl-line-mode 1)))
 
 (use-package visible-mark
   :preface
