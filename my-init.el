@@ -213,12 +213,20 @@
   (cond ((eq 'darwin system-type) "Menlo 18")
         (t "DejaVu Sans Mono 14"))
   "The font used almost everywhere.")
-(with-eval-after-load 'init
-  (add-to-list 'default-frame-alist '(height . 30))
-  (add-to-list 'default-frame-alist '(width . 80))
-  (add-to-list 'initial-frame-alist '(top . 20))
-  (add-to-list 'initial-frame-alist '(left . 120))
-  (add-to-list 'default-frame-alist `(font . ,my-default-font)))
+
+(let* ((pixel-height (x-display-pixel-height))
+       (height (case pixel-height
+                (1620 45)
+                (1080 30)
+                (t
+                 (message "unknown height: %S" pixel-height)
+                 30))))
+  (with-eval-after-load 'init
+    (add-to-list 'default-frame-alist `(height . ,height))
+    (add-to-list 'default-frame-alist '(width . 80))
+    (add-to-list 'initial-frame-alist '(top . 20))
+    (add-to-list 'initial-frame-alist '(left . 120))
+    (add-to-list 'default-frame-alist `(font . ,my-default-font))))
 
 
 ;;; defuns
