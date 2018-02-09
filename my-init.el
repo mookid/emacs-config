@@ -203,8 +203,7 @@
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
-    (set-face-background 'hl-line "honeydew")
-    (set-face-foreground 'hl-line "orange"))
+    (set-face-background 'hl-line "honeydew"))
   (with-eval-after-load 'diff-mode
     (set-face-foreground 'diff-added "green4")
     (set-face-foreground 'diff-removed "red3")))
