@@ -476,9 +476,6 @@ region (if any) or the next sexp."
 
 (progn
   (defvar my-untabify-this-buffer)
-  (defun my-yank-and-reindent-hook (&rest _)
-    (and my-untabify-this-buffer (indent-region (mark) (point))))
-
   (defun my-toggle-untabify-this-buffer ()
     "Toggle untabification of the current buffer."
     (interactive)
@@ -513,7 +510,6 @@ unless `my-untabify-this-buffer' is nil."
               (define-key map (kbd "C-c <tab>") 'my-toggle-untabify-this-buffer)
               map)
     (cond (my-untabify-mode
-           (advice-add 'yank :after #'my-yank-and-reindent-hook)
            (setq my-untabify-this-buffer
                  (not (or (derived-mode-p 'makefile-mode)
                           (re-search-forward "\t" nil t))))
@@ -521,7 +517,6 @@ unless `my-untabify-this-buffer' is nil."
            (add-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
-           (advice-remove 'yank #'my-yank-and-reindent-hook)
            (and my-untabify-this-buffer (whitespace-mode -1))
            (remove-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (remove-hook 'before-save-hook #'my-untabify-buffer t))))
