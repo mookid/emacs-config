@@ -199,8 +199,9 @@
   (let ((face 'success))
     (set-face-foreground face "ForestGreen")
     (set-face-bold face t))
-  (dolist (face '(mode-line-buffer-id mode-line-highlight))
-    (set-face-bold face t))
+  (let ((face 'mode-line-highlight))
+    (set-face-foreground face "orange")
+    (set-face-attribute face nil :box t))
   (with-eval-after-load 'dired
     (set-face-foreground 'dired-directory "blue"))
   (with-eval-after-load 'hl-line
