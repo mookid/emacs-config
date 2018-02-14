@@ -1580,7 +1580,11 @@ In that case, insert the number."
   (setq centi-assign-key (kbd "C-<f3>")))
 
 (use-package sh-script
-  :init
+  :bind
+  (:map sh-mode-map
+        ("C-c C-z" . nil)
+        ("C-c q" . my-sh-quote-or-unquote))
+  :config
   (progn
     (defun my-sh-quote-or-unquote ()
       "Wrap or unwrap the sexp at point inside a pair of double quotes."
@@ -1594,13 +1598,7 @@ In that case, insert the number."
           (forward-char 1)
           (insert ?\"))
         (forward-sexp)
-        (if (looking-at "\"") (delete-char 1) (insert ?\")))))
-  :bind
-  (:map sh-mode-map
-        ("C-c C-z" . nil)
-        ("C-c q" . my-sh-quote-or-unquote))
-  :config
-  (progn
+        (if (looking-at "\"") (delete-char 1) (insert ?\"))))
     (setq sh-basic-offset 8)
     (setq sh-indentation 8)))
 
@@ -1630,7 +1628,7 @@ In that case, insert the number."
 (use-package restart-emacs
   :bind
   (([remap save-buffers-kill-terminal] . my-restart-emacs))
-  :init
+  :config
   (progn
     (defun my-restart-emacs (arg)
       (interactive "P")
@@ -1649,7 +1647,8 @@ In that case, insert the number."
   (ace-link-setup-default))
 
 (use-package rust-mode
-  :init
+  :mode ("\\.rs?$" . rust-mode)
+  :config
   (progn
     (use-package cargo
       :diminish cargo-minor-mode
@@ -1672,7 +1671,6 @@ In that case, insert the number."
     (my-key-chord-define global-map "hh" 'helpful-at-point)))
 
 (use-package dired-sidebar
-  :ensure t
   :bind
   ("<f6>" . dired-sidebar-toggle-sidebar))
 
