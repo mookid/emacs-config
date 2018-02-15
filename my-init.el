@@ -183,7 +183,7 @@
       (set-face-foreground 'mode-line face-foreground))))
 (setq ring-bell-function 'my-visual-ring-bell)
 
-(progn
+(when window-system
   (load-theme 'paper t)
   (dolist (face (face-list))
     (set-face-underline face nil)
@@ -214,13 +214,15 @@
         (t "DejaVu Sans Mono 14"))
   "The font used almost everywhere.")
 
-(let* ((pixel-height (x-display-pixel-height))
-       (height (case pixel-height
-                (1620 45)
-                (1080 30)
-                (t
-                 (message "unknown height: %S" pixel-height)
-                 30))))
+(let* ((pixel-height (and window-system (x-display-pixel-height)))
+       (height
+        (and window-system
+             (case pixel-height
+               (1620 45)
+               (1080 30)
+               (t
+                (message "unknown height: %S" pixel-height)
+                30)))))
   (with-eval-after-load 'init
     (add-to-list 'default-frame-alist `(height . ,height))
     (add-to-list 'default-frame-alist '(width . 80))
