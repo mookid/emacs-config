@@ -448,12 +448,12 @@ to next buffer otherwise."
       (switch-to-buffer nil)
     (other-window 1)))
 
-(defun my-kill-region-or-backward-word (&rest _)
-  (interactive)
+(defun my-kill-region-or-whole-line (&rest args)
+  (interactive "p")
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
-    (backward-kill-word 1)))
-(define-key global-map [remap kill-region] 'my-kill-region-or-backward-word)
+    (apply 'kill-whole-line args)))
+(define-key global-map [remap kill-region] 'my-kill-region-or-whole-line)
 
 (defun my-other-window-kill-buffer ()
   (interactive)
