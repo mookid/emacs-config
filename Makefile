@@ -9,7 +9,7 @@ emacs -Q --no-init --batch \
 
 .PHONY: modules elpa clean all
 
-all: elpa cl-hyperspec
+all: elpa cl-hyperspec package-update
 
 elpa:
 	find $(EMACSELPA) -name *.elc | xargs rm; \
@@ -22,3 +22,6 @@ cl-hyperspec:
 clean:
 	find $(EMACSD) -name *.elc | xargs rm -f
 	rm -rf HyperSpec*
+
+package-update:
+	emacs -batch -l $(HOME)/.emacs.d/init.el -f package-utils-upgrade-all -kill && git add elpa && git commit -am"Package update."
