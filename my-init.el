@@ -1178,13 +1178,6 @@ A cons cell with a regexp that captures one match.")
                         :inherit 'error
                         :box t)))
 
-(use-package loccur
-  :disabled t
-  :bind
-  (("M-s o" . loccur-current)
-   ("M-s i" . loccur)
-   ("M-s p" . loccur-previous-match)))
-
 (use-package company
   :defer t
   :bind
@@ -1391,17 +1384,6 @@ In that case, insert the number."
 (use-package yasnippet
   :defer t
   :config (yas-reload-all))
-
-(use-package composable
-  :disabled t
-  :diminish composable-mode
-  :init (composable-mode 1)
-  :bind
-  (:map
-   composable-mode-map
-   ([remap upcase-region] . composable-upcase-region)
-   ([remap downcase-region] . composable-downcase-region)
-   ("M-;" . evilnc-comment-or-uncomment-lines)))
 
 (use-package diff-hl
   :bind
