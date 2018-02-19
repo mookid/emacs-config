@@ -1232,12 +1232,18 @@ In that case, insert the number."
    ("C-c M-x" . counsel-M-x)
    ("<f10>" . counsel-git-change-worktree)
    :map ivy-minibuffer-map
+   ([remap kill-region] . my-ivy-kill-region-or-whole-line)
    ("C-o" . ivy-occur)
    ("<next>" . ivy-scroll-up-command)
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
   :init
   (progn
+    (defun my-ivy-kill-region-or-whole-line (&rest args)
+      (interactive "p")
+      (if (region-active-p)
+          (kill-region (region-beginning) (region-end))
+        (ivy-kill-whole-line)))
     (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
     (defun ivy-display-function-lv (text)
       (require 'lv)
