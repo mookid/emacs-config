@@ -1417,6 +1417,7 @@ In that case, insert the number."
     :bind
     (:map
      mc/keymap
+     ("<return>" . nil)
      ("C-s" . my-jump-to-char)
      ("C-," . mc/unmark-next-like-this)
      ("C-." . mc/skip-to-next-like-this)
