@@ -8,9 +8,11 @@
         backward-sexp
         backward-up-list
         c-electric-brace
+        c-electric-colon
         c-electric-delete-forward
         c-electric-paren
         c-electric-semi&comma
+        c-electric-star
         c-indent-line-or-region
         complete-symbol
         completion-at-point
@@ -146,6 +148,7 @@
         iedit-switch-to-mc-mode
         lispy-cursor-down
         multiple-cursors-hydra/mc/mark-next-like-this
+        my-clone-line
         my-goto-*scratch*
         my-save-all-buffers
         ocp-indent-buffer
