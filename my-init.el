@@ -634,7 +634,10 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (progn
     (defvar electric-pair-pairs)
     (defvar show-paren-delay)
-    (add-hook 'prog-mode-hook 'electric-pair-local-mode))
+    (cond ((fboundp 'electric-pair-local-mode)
+           (add-hook 'prog-mode-hook 'electric-pair-local-mode))
+          (t
+           (add-hook 'prog-mode-hook 'electric-pair-mode))))
   :config
   (progn
     (and (fboundp 'electric-pair-mode) (electric-pair-mode -1))
@@ -1551,8 +1554,8 @@ In that case, insert the number."
                                  (member (plist-get plist :open)
                                          '("`" "'"))))
                           (cdr (assoc t sp-pairs)))))
-      (and (fboundp 'electric-pair-mode)
-           electric-pair-mode
+      (and (fboundp 'electric-pair-local-mode)
+           electric-pair-local-mode
            (electric-pair-local-mode -1)))
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
@@ -1671,7 +1674,8 @@ In that case, insert the number."
 
 (use-package saveplace
   :config
-  (save-place-mode +1))
+  (when (fboundp 'save-place-mode)
+    (save-place-mode +1)))
 
 (use-package javadoc-lookup
   :bind
