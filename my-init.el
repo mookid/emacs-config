@@ -1559,7 +1559,7 @@ In that case, insert the number."
                                  (member (plist-get plist :open)
                                          '("`" "'"))))
                           (cdr (assoc t sp-pairs)))))
-      (and (fboundp 'electric-pair-local-mode)
+      (and (boundp 'electric-pair-local-mode)
            electric-pair-local-mode
            (electric-pair-local-mode -1)))
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
