@@ -263,8 +263,13 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (delete-indentation t))
 
 (defun my-set-indentation (n)
-  (interactive "nset indentation to: ")
-  (setq c-basic-offset n))
+  (interactive "P")
+  (setq c-basic-offset
+        (cl-etypecase n
+          (null (read-number "set indentation to: " 2))
+          (string (number-to-string n))
+          (number n)))
+  (message "c-basic-offset = %d" c-basic-offset))
 
 (defvar my-narrowed-buffers nil)
 (defun my-kill-buffer-on-widen ()
