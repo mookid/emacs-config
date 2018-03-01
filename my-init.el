@@ -1263,9 +1263,10 @@ In that case, insert the number."
 
     (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
     (defun my-select-shell-buffer (orig-fun &rest args)
-      (if-let ((buf (get-buffer "*shell*")))
-          (switch-to-buffer buf)
-        (apply orig-fun args)))
+      (let ((buf (get-buffer "*shell*")))
+        (if buf
+            (switch-to-buffer buf)
+          (apply orig-fun args))))
 
     (defun my-counsel-rg (p)
       (interactive "P")
