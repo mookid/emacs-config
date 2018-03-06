@@ -639,13 +639,16 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (progn
     (defvar electric-pair-pairs)
     (defvar show-paren-delay)
-    (cond ((fboundp 'electric-pair-local-mode)
-           (add-hook 'prog-mode-hook 'electric-pair-local-mode))
-          (t
-           (add-hook 'prog-mode-hook 'electric-pair-mode))))
+    (defun my-electric-pair-mode (flag)
+      (let ((mode-name (if (fboundp 'electric-pair-local-mode)
+                           'electric-pair-local-mode
+                         'electric-pair-mode)))
+        (if (> flag 0)
+            (add-hook 'prog-mode-hook mode-name)
+          (remove-hook 'prog-mode-hook mode-name)))))
   :config
   (progn
-    (and (fboundp 'electric-pair-mode) (electric-pair-mode -1))
+    (my-electric-pair-mode 1)
     (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
     (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
 
@@ -1560,9 +1563,7 @@ In that case, insert the number."
                                  (member (plist-get plist :open)
                                          '("`" "'"))))
                           (cdr (assoc t sp-pairs)))))
-      (and (boundp 'electric-pair-local-mode)
-           electric-pair-local-mode
-           (electric-pair-local-mode -1)))
+      (my-electric-pair-mode -1))
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
 (use-package icomplete-mode
