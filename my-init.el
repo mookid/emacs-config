@@ -351,8 +351,8 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (message "`debug-on-error' set to %S" (cl-callf not debug-on-error)))
 
 (defun my-view-echo-area-messages (arg)
-  (interactive "P")
   "With prefix argument, open the buffer in a new frame."
+  (interactive "P")
   (and arg (make-frame))
   (view-echo-area-messages))
 (define-key global-map [remap view-echo-area-messages]
