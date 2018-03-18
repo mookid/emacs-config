@@ -728,6 +728,13 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("<left>" previous-buffer "previous")
       ("<right>" next-buffer "next")
       ("k" my-kill-buffer "kill")
+      ("o" other-window "other window")
+      ("`" other-window "other window")
+      ("0" delete-window "delete window")
+      ("1" delete-other-windows "delete other windows")
+      ("2" my-split-window-below "split below")
+      ("3" my-split-window-right "split right")
+      ("=" balance-windows "balance")
       ("q" nil "quit"))))
 
 (use-package dired
