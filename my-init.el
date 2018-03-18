@@ -44,6 +44,7 @@
 (keyboard-translate ?\C-h ?\C-p)
 
 (add-to-list 'completion-styles 'partial-completion)
+(add-to-list 'completion-styles 'initials)
 
 (progn
   (defvar savehist-save-minibuffer-history)
