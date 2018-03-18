@@ -1097,6 +1097,7 @@ Otherwise, apply ORIG-FUN to ARGS."
   :bind
   (:map shell-mode-map
         ([remap dired] . my-shell-dired)
+        ("C-l" . comint-clear-buffer)
         ("<f2>" . my-rename-shell-buffer)
         ("<f5>" . comint-previous-input)
         ("<f6>" . compilation-shell-minor-mode))
