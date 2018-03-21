@@ -185,38 +185,7 @@
 (setq ring-bell-function 'my-visual-ring-bell)
 
 (when window-system
-  (load-theme 'paper t)
-  (dolist (face (face-list))
-    (set-face-underline face nil)
-    (set-face-italic face nil))
-  (let ((face 'font-lock-doc-face))
-    (set-face-foreground face "red1"))
-  (let ((face 'font-lock-comment-face))
-    (set-face-foreground face "grey")
-    (set-face-background face "lemon chiffon"))
-  (let ((face 'font-lock-constant-face))
-    (set-face-foreground face "dark green")
-    (set-face-background face nil))
-  (let ((face 'success))
-    (set-face-foreground face "ForestGreen")
-    (set-face-bold face t))
-  (let ((face 'mode-line-highlight))
-    (set-face-foreground face "orange"))
-  (with-eval-after-load 'dired
-    (set-face-foreground 'dired-directory "blue"))
-  (with-eval-after-load 'hl-line
-    (set-face-background 'hl-line "honeydew"))
-  (with-eval-after-load 'diff-mode
-    (let ((face 'diff-added))
-      (set-face-foreground face "#22863a")
-      (set-face-background face "#f0fff4"))
-    (let ((face 'diff-refine-added))
-      (set-face-background face "#ddffdd"))
-    (let ((face 'diff-refine-removed))
-      (set-face-background face "#ffdddd"))
-    (let ((face 'diff-removed))
-      (set-face-foreground face "#b31d28")
-      (set-face-background face "#ffeef0"))))
+  (load-theme 'my-color t))
 
 (defvar my-default-font
   (cond ((eq 'darwin system-type) "Menlo 18")
@@ -1201,7 +1170,6 @@ A cons cell with a regexp that captures one match.")
 
     (add-hook 'shell-mode-hook #'my-rainbow-delimiters-disable)
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-                        :foreground "red"
                         :inherit 'error
                         :box t)))
 
