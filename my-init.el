@@ -950,37 +950,28 @@ If there is no match, returns NIL."
     (setq recentf-max-saved-items 500)
     (setq recentf-max-menu-items 150)))
 
-(defun my-yank-diff (arg)
+(defun my-yank-diff (invert)
   "Yank a patch.
 
 Yank, and then process the yanked region: remove the `+' that
-start every line, kill the lines starting with `-', and reindent.
+start every line and kill the lines starting with `-'.
 
-With prefix argument ARG, invert `+' and `-'."
+With prefix argument INVERT, invert `+' and `-'."
   (interactive "P")
   (yank)
   (save-mark-and-excursion
-   (while
-       (and (<= (mark) (point))
-            (progn
-              (back-to-indentation)
-              (cond ((if arg (looking-at "-") (looking-at "\+"))
-                     (delete-char 1))
-                    ((if arg (looking-at "\+") (looking-at "-"))
-                     (let* ((this-line (line-beginning-position))
-                            (next-line (progn (forward-line 1) (point))))
-                       (delete-region this-line next-line))))
-              ;; XXX: avoids an infinite loop in empty buffers
-              (<= 0 (forward-line -1)))))
-   (indent-region (point) (mark))))
-
-(ert-deftest my-yank-diff-test ()
-  (should (string= " test\n test"
-                   (with-temp-buffer
-                     (erase-buffer)
-                     (kill-new "+ test\n+ test")
-                     (my-yank-diff nil)
-                     (buffer-string)))))
+   (exchange-point-and-mark)
+   (let ((drop (if invert "\+" "-")))
+     (while (< (point) (mark))
+       (cond ((eolp)
+              (forward-line 1))
+             ((looking-at drop)
+              (let ((old-point (point)))
+                (forward-line 1)
+                (delete-region old-point (point))))
+             (t
+              (delete-char 1)
+              (forward-line 1)))))))
 
 
 ;;; Isearch
