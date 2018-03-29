@@ -74,23 +74,21 @@
                 nil
                 (selected-frame)))
 
-(defmacro my-balance-after (orig-fun)
-  (let ((interactive-form (interactive-form orig-fun))
-        (gensym (intern (concat "my-" (symbol-name orig-fun)))))
-    `(progn
-       (define-key global-map [remap ,orig-fun] ',gensym)
-       (defun ,gensym (&rest args)
-         ,interactive-form
-         (apply #',orig-fun args)
-         (balance-windows)))))
+(defmacro my-def-balance-after (newfun orig-fun)
+  `(progn
+     (define-key global-map [remap ,orig-fun] ',newfun)
+     (defun ,newfun (&rest args)
+       ,(interactive-form orig-fun)
+       (apply #',orig-fun args)
+       (balance-windows))))
 
 (defun my-goto-buffer (buffer-name)
   "Select buffer named BUFFER-NAME."
   (select-window (split-window-vertically))
   (switch-to-buffer-other-window (get-buffer-create buffer-name)))
 
-(my-balance-after split-window-right)
-(my-balance-after split-window-below)
+(my-def-balance-after my-split-window-right split-window-right)
+(my-def-balance-after my-split-window-below split-window-below)
 
 
 ;;; MS Windows utilities
