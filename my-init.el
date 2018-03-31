@@ -234,9 +234,36 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
 
+(defun my-face-at-point ()
+  (let* ((old-hl-line-mode (and (boundp 'hl-line-mode) hl-line-mode))
+         (old-global-hl-line-mode (and (boundp 'global-hl-line-mode) global-hl-line-mode)))
+    (when (and old-hl-line-mode (fboundp 'hl-line-mode))
+      (hl-line-mode -1))
+    (when (and old-global-hl-line-mode (fboundp 'global-hl-line-mode))
+      (global-hl-line-mode -1))
+    (prog1
+        (let* (hl-line-mode global-hl-line-mode
+                            (face (face-at-point)))
+          (when face
+            (format "%S: %s" face (face-documentation face))))
+      (when old-hl-line-mode
+        (hl-line-mode 1))
+      (when old-global-hl-line-mode
+        (global-hl-line-mode 1)))))
+
 (defun my-describe-face-at-point ()
   (interactive)
   (describe-face (face-at-point)))
+
+(define-minor-mode my-face-at-point-mode
+  "Instruments `eldoc-mode' to describe the face at point."
+  :lighter " face"
+  (cond (my-face-at-point-mode
+         (add-function :before-until (local 'eldoc-documentation-function)
+                       #'my-face-at-point))
+        (t
+         (remove-function (local 'eldoc-documentation-function)
+                          #'my-face-at-point))))
 
 (defun my-delete-indentation-forward ()
   (interactive)
