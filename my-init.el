@@ -133,6 +133,7 @@
 (define-key global-map (kbd "M-%") 'query-replace-regexp)
 (define-key global-map (kbd "M-k") 'my-copy-line)
 (define-key global-map (kbd "M-<f4>") 'my-name-last-kbd-macro)
+(define-key global-map (kbd "<f12>") 'my-describe-face-at-point)
 (define-key global-map (kbd "C-<prior>") 'previous-error)
 (define-key global-map (kbd "C-<next>") 'next-error)
 (define-key global-map (kbd "C-S-<right>") 'my-next-beginning)
@@ -232,6 +233,10 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
+
+(defun my-describe-face-at-point ()
+  (interactive)
+  (describe-face (face-at-point)))
 
 (defun my-delete-indentation-forward ()
   (interactive)
