@@ -827,6 +827,8 @@ if its size is 1 line."
 
 (my-defweb-search my-google-search
   "www.google.com/search?q=")
+(my-defweb-search my-emacs-archive-search
+  "www.google.com/search?q=site%3Ahttps%3A%2F%2Flists.gnu.org%2Farchive%2Fhtml%2Femacs-devel%2F+")
 (my-defweb-search my-hoogle-search
   "www.haskell.org/hoogle/?hoogle=")
 (my-defweb-search my-msdn-search
