@@ -1378,6 +1378,7 @@ In that case, insert the number."
   (progn
     (add-to-list 'face-remapping-alist
                  '(tuareg-font-lock-governing-face (:inherit font-lock-builtin-face)))
+    (set-face-foreground tuareg-font-lock-operator-face nil)
     (advice-add 'tuareg-mode :after #'my-preserve-comment-style)
     (defun my-preserve-comment-style () (setq comment-style 'indent))
     (use-package ocp-indent
