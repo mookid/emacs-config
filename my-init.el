@@ -183,13 +183,14 @@
       (set-face-foreground 'mode-line face-foreground))))
 (setq ring-bell-function 'my-visual-ring-bell)
 
-(when window-system
-  (load-theme 'my-color t))
-
 (defvar my-default-font
   (cond ((eq 'darwin system-type) "Menlo 18")
         (t "DejaVu Sans Mono 14"))
   "The font used almost everywhere.")
+
+(defvar my-color-theme
+  'my-color
+  "The selected color theme.")
 
 (let* ((pixel-height (and window-system (x-display-pixel-height)))
        (height
@@ -205,7 +206,10 @@
     (add-to-list 'default-frame-alist '(width . 80))
     (add-to-list 'initial-frame-alist '(top . 20))
     (add-to-list 'initial-frame-alist '(left . 120))
-    (add-to-list 'default-frame-alist `(font . ,my-default-font))))
+    (add-to-list 'default-frame-alist `(font . ,my-default-font))
+    (condition-case nil
+        (load-theme my-color-theme t)
+      (error (message "Error during loading of theme %s" theme)))))
 
 
 ;;; defuns
