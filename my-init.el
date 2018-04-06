@@ -183,33 +183,34 @@
       (set-face-foreground 'mode-line face-foreground))))
 (setq ring-bell-function 'my-visual-ring-bell)
 
-(defvar my-default-font
-  (cond ((eq 'darwin system-type) "Menlo 18")
-        (t "DejaVu Sans Mono 14"))
-  "The font used almost everywhere.")
+(defvar my-frame-params
+  (when window-system
+    (pcase (list system-type (x-display-pixel-height))
+      (`(darwin ,_)
+        '(height 30 font "Menlo 18"))
+      (`(,_ 1080)
+        '(height 40 font "DejaVu Sans Mono 11"))
+      (`(,_ 1620)
+        '(height 45 font "DejaVu Sans Mono 14"))
+      (`,pat
+       (warn "unmatched: %S" pat))))
+  "Configuration for `default-frame-alist'.")
 
 (defvar my-color-theme
   'my-color
   "The selected color theme.")
 
-(let* ((pixel-height (and window-system (x-display-pixel-height)))
-       (height
-        (and window-system
-             (case pixel-height
-               (1620 45)
-               (1080 30)
-               (t
-                (message "unknown height: %S" pixel-height)
-                30)))))
-  (with-eval-after-load 'init
-    (add-to-list 'default-frame-alist `(height . ,height))
-    (add-to-list 'default-frame-alist '(width . 80))
-    (add-to-list 'initial-frame-alist '(top . 20))
-    (add-to-list 'initial-frame-alist '(left . 120))
-    (add-to-list 'default-frame-alist `(font . ,my-default-font))
-    (condition-case nil
-        (load-theme my-color-theme t)
-      (error (message "Error during loading of theme %s" theme)))))
+(with-eval-after-load 'init
+  (dolist (sym '(height font))
+    (let ((value (plist-get my-frame-params sym)))
+      (when value
+        (add-to-list 'default-frame-alist (cons sym value)))))
+  (add-to-list 'default-frame-alist '(width . 80))
+  (add-to-list 'initial-frame-alist '(top . 20))
+  (add-to-list 'initial-frame-alist '(left . 120))
+  (condition-case nil
+      (load-theme my-color-theme t)
+    (warn (format "Error during loading of theme %s" theme))))
 
 
 ;;; defuns
