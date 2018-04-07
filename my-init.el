@@ -106,8 +106,12 @@
 
 ;;; Keybindings
 (define-key global-map (kbd "C-<f4>") 'my-kmacro-end-or-call-macro-infinity)
-(define-key global-map (kbd (format "<C-%s>" mouse-wheel-down-event)) 'text-scale-increase)
-(define-key global-map (kbd (format "<C-%s>" mouse-wheel-up-event)) 'text-scale-decrease)
+(when (boundp 'mouse-wheel-down-event)
+  (let ((down-key (kbd (format "<C-%s>" mouse-wheel-down-event))))
+    (define-key global-map down-key 'text-scale-increase)))
+(when (boundp 'mouse-wheel-up-event)
+  (let ((up-key (kbd (format "<C-%s>" mouse-wheel-up-event))))
+    (define-key global-map up-key 'text-scale-decrease)))
 (define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
 (define-key global-map (kbd "C-x n s") 'my-narrow-to-sexp)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
@@ -1255,7 +1259,6 @@ In that case, insert the number."
    ("<f8>" . my-counsel-rg)
    ("C-S-r" . ivy-resume)
    ("C-M-y". counsel-yank-pop)
-   ("C-z" . counsel-switch-to-shell-buffer)
    ("C-c M-x" . counsel-M-x)
    ("<f10>" . counsel-git-change-worktree)
    :map ivy-minibuffer-map
@@ -1265,6 +1268,10 @@ In that case, insert the number."
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
   :init
+  (use-package ivy
+    :if window-system
+    :bind
+    ("C-z" . counsel-switch-to-shell-buffer))
   (progn
     (defun my-ivy-kill-region-or-whole-line (&rest args)
       (interactive "p")
@@ -1650,11 +1657,17 @@ In that case, insert the number."
 (use-package restart-emacs
   :bind
   (([remap save-buffers-kill-terminal] . my-restart-emacs))
+  :init
+  (advice-add 'save-buffers-kill-terminal :around #'my-no-confirm)
+  (advice-add 'restart-emacs :around #'my-no-confirm)
   :config
-  (progn
-    (defun my-restart-emacs (arg)
-      (interactive "P")
-      (if arg (save-buffers-kill-terminal) (restart-emacs)))))
+  (defun my-restart-emacs (arg)
+    (interactive "P")
+    (if arg (save-buffers-kill-terminal)
+      (condition-case nil
+          (restart-emacs)
+        ;; XXX on console windows-nt, restart-emacs fails...
+        (error (save-buffers-kill-terminal))))))
 
 (use-package whitespace
   :config
