@@ -47,19 +47,6 @@
 (add-to-list 'completion-styles 'initials)
 
 (progn
-  (defvar savehist-save-minibuffer-history)
-  (savehist-mode t)
-  (setq history-length 16384)
-  (setq history-delete-duplicates t)
-  (setq savehist-save-minibuffer-history t)
-  (defvar savehist-additional-variables)
-  (mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
-        '(kill-ring
-          search-ring
-          regexp-search-ring
-          compile-command)))
-
-(progn
   (global-visual-line-mode +1)
   (setf (cdr visual-line-mode-map) nil)
   (diminish 'visual-line-mode))
@@ -214,7 +201,7 @@
   (add-to-list 'initial-frame-alist '(left . 120))
   (condition-case nil
       (load-theme my-color-theme t)
-    (warn (format "Error during loading of theme %s" theme))))
+    (warn (format "Error during loading of theme %s" my-color-theme))))
 
 
 ;;; defuns
@@ -385,13 +372,17 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (forward-word 1))
 
 (defun my-scroll-up (arg)
-  "Forward to `scroll-up'."
+  "Forward to `scroll-up'.
+
+Scroll up ARG lines."
   (interactive "P")
   (let ((arg (or arg 1)))
     (scroll-up arg)))
 
 (defun my-scroll-down (arg)
-  "Forward to `scroll-down'."
+  "Forward to `scroll-down'.
+
+Scroll down ARG lines."
   (interactive "P")
   (let ((arg (or arg 1)))
     (scroll-down arg)))
@@ -407,10 +398,10 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
          (select-window orig-window)))))
 (put 'my-with-other-window 'lisp-indent-function 0)
 
-(defun my-scroll-up-command (&optional arg)
+(defun my-scroll-up-command (&optional _arg)
   (interactive))
 
-(defun my-scroll-down-command (&optional arg)
+(defun my-scroll-down-command (&optional _arg)
   (interactive))
 
 (fset 'my-scroll-up-command 'scroll-up)
@@ -597,7 +588,21 @@ If non nil, ARG overrides the `back-to-indentation' function."
 ;;; Packages
 (use-package fullframe)
 
+(use-package savehist
+  :init
+  (savehist-mode t)
+  :config
+  (setq history-length 16384)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history t)
+  (mapc (lambda (item) (add-to-list 'savehist-additional-variables item))
+        '(kill-ring
+          search-ring
+          regexp-search-ring
+          compile-command)))
+
 (use-package autorevert
+  :commands 'global-auto-revert-mode
   :diminish auto-revert-mode
   :init
   (global-auto-revert-mode +1))
@@ -607,15 +612,28 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package ibuffer
   :bind
-  ("C-x C-b" . ibuffer)
+  ([remap list-buffers] . ibuffer)
   :config
   (fullframe ibuffer quit-window))
 
 (use-package package
+  :commands list-packages
   :init
   (fullframe list-packages quit-window))
 
 (use-package vc
+  :commands vc-root-dir
+  :preface
+  (defun my-vc-add-current-buffer ()
+    (interactive)
+    (when (and buffer-file-name (stringp buffer-file-name))
+      (let ((filename (file-name-nondirectory buffer-file-name)))
+        (vc-git--call nil "add" "--" filename)
+        (message "Added %s!" filename))))
+  (defun my-vc-dir-root ()
+    (interactive)
+    (when-let (root (vc-root-dir))
+      (vc-dir root)))
   :bind
   (("<f7>" . vc-diff)
    ("C-<f7>" . vc-root-diff)
@@ -633,17 +651,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
       (([remap vc-dir] . my-vc-dir-root)
        ("C-M-<f7>" . vc-dir)
        :map vc-dir-mode-map
-       ("d" . vc-diff)))
-    (defun my-vc-add-current-buffer ()
-      (interactive)
-      (when (and buffer-file-name (stringp buffer-file-name))
-        (let ((filename (file-name-nondirectory buffer-file-name)))
-          (vc-git--call nil "add" "--" filename)
-          (message "Added %s!" filename))))
-    (defun my-vc-dir-root ()
-      (interactive)
-      (when-let (root (vc-root-dir))
-        (vc-dir root)))))
+       ("d" . vc-diff)))))
 
 (use-package ediff-wind
   :config
@@ -651,17 +659,15 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (setq ediff-split-window-function 'split-window-horizontally))
 
 (use-package elec-pair
-  :init
-  (progn
-    (defvar electric-pair-pairs)
-    (defvar show-paren-delay)
-    (defun my-electric-pair-mode (flag)
-      (cond ((and (fboundp 'electric-pair-local-mode) (> flag 0))
-             (add-hook 'prog-mode-hook 'electric-pair-local-mode))
-            ((fboundp 'electric-pair-local-mode)
-             (remove-hook 'prog-mode-hook 'electric-pair-local-mode))
-            (t
-             (electric-pair-mode flag)))))
+  :commands electric-pair-mode
+  :preface
+  (defun my-electric-pair-mode (flag)
+    (cond ((and (fboundp 'electric-pair-local-mode) (> flag 0))
+           (add-hook 'prog-mode-hook 'electric-pair-local-mode))
+          ((fboundp 'electric-pair-local-mode)
+           (remove-hook 'prog-mode-hook 'electric-pair-local-mode))
+          (t
+           (electric-pair-mode flag))))
   :config
   (progn
     (my-electric-pair-mode 1)
@@ -669,50 +675,49 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
 
 (use-package paren
+  :commands show-paren-mode
   :init
   (progn
     (setq show-paren-delay 0)
     (show-paren-mode 1)))
 
 (use-package key-chord
-  :init
-  (progn
-    (defvar my-key-chords-alist nil
-      "A list of key chords bindings.
+  :preface
+  (defvar my-key-chords-alist nil
+    "A list of key chords bindings.
 
 Each binding is a list of 3 elements: KEYS, KEYMAP, COMMAND.
 KEYS is string of length 2; KEYMAP defaults to the global map.")
-    (defun my-key-chord-define (keymap keys command)
-      (push (list keymap keys command) my-key-chords-alist)
-      (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
-    (my-key-chord-define global-map "hv" 'describe-variable)
-    (my-key-chord-define global-map "hk" 'describe-key)
-    (my-key-chord-define global-map "hj" 'describe-function)
-    (my-key-chord-define global-map "fy" 'my-find-init-file)
-    (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
-    (my-key-chord-define global-map "fq" 'my-find-project)
-    (my-key-chord-define global-map "fh" 'my-recentf-command))
+  (defun my-key-chord-define (keymap keys command)
+    (push (list keymap keys command) my-key-chords-alist)
+    (and (fboundp 'my-key-chord-setup) (my-key-chord-setup)))
+  (defun my-key-chord-setup ()
+    (with-eval-after-load 'init
+      (or key-chord-mode (key-chord-mode 1))
+      (dolist (mapping my-key-chords-alist)
+        (apply #'key-chord-define mapping))))
+  :init
+  (my-key-chord-define global-map "hv" 'describe-variable)
+  (my-key-chord-define global-map "hk" 'describe-key)
+  (my-key-chord-define global-map "hj" 'describe-function)
+  (my-key-chord-define global-map "fy" 'my-find-init-file)
+  (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
+  (my-key-chord-define global-map "fq" 'my-find-project)
+  (my-key-chord-define global-map "fh" 'my-recentf-command)
   :config
-  (progn
-    (defun my-key-chord-setup ()
-      (with-eval-after-load 'init
-        (or key-chord-mode (key-chord-mode +1))
-        (dolist (mapping my-key-chords-alist)
-          (apply #'key-chord-define mapping))))
-    (my-key-chord-setup)))
+  (my-key-chord-setup))
 
 (use-package hippie-expand
   :bind
   (("C-M-/" . my-expand-lines))
   :init
-  (progn
-    (defvar my-expand-lines)
-    (fset 'my-expand-lines
-          (make-hippie-expand-function
-           '(try-expand-line
-             try-expand-line-all-buffers)))))
+  (fset 'my-expand-lines
+        (make-hippie-expand-function
+         '(try-expand-line
+           try-expand-line-all-buffers))))
 
 (use-package winner
+  :commands winner-mode
   :init
   (setq winner-dont-bind-my-keys t)
   :config (winner-mode +1)
@@ -746,6 +751,28 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("q" nil "quit"))))
 
 (use-package dired
+  :commands (dired dired-get-file-for-visit)
+  :preface
+  (defun my-dired-mouse-find-file (event)
+    "In Dired, visit the file or directory name you click on."
+    (interactive "e")
+    (let (window pos file)
+      (save-excursion
+        (setq window (posn-window (event-end event))
+              pos (posn-point (event-end event)))
+        (if (not (windowp window))
+            (error "No file chosen"))
+        (set-buffer (window-buffer window))
+        (goto-char pos)
+        (setq file (dired-get-file-for-visit)))
+      (if (file-directory-p file)
+          (or (and (cdr dired-subdir-alist)
+                   (dired-goto-subdir file))
+              (progn
+                (select-window window)
+                (dired file)))
+        (select-window window)
+        (find-file (file-name-sans-versions file t)))))
   :bind (:map dired-mode-map ("M-<down>" . dired-find-file))
   :init
   (progn
@@ -765,26 +792,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
        ("M-<up>" . dired-jump)
        ([mouse-2] . my-dired-mouse-find-file)
        ("C-x C-j" . dired-jump)))
-    (defun my-dired-mouse-find-file (event)
-      "In Dired, visit the file or directory name you click on."
-      (interactive "e")
-      (let (window pos file)
-        (save-excursion
-          (setq window (posn-window (event-end event))
-                pos (posn-point (event-end event)))
-          (if (not (windowp window))
-              (error "No file chosen"))
-          (set-buffer (window-buffer window))
-          (goto-char pos)
-          (setq file (dired-get-file-for-visit)))
-        (if (file-directory-p file)
-            (or (and (cdr dired-subdir-alist)
-                     (dired-goto-subdir file))
-                (progn
-                  (select-window window)
-                  (dired file)))
-          (select-window window)
-          (find-file (file-name-sans-versions file t)))))
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-alh")
     (setq dired-recursive-deletes 'always)
@@ -795,16 +802,17 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
                         :foreground "gray60")))
 
 (use-package ffap
+  :commands ffap-guesser
+  :preface
+  (defun my-ffap-prompter-noconfirm (fn &optional guess)
+    "Remove confirmation."
+    (and (fboundp 'xref-push-marker-stack) (xref-push-marker-stack))
+    (or guess (ffap-guesser) (funcall fn)))
   :bind
   ("<S-mouse-2>" . ffap-at-mouse)
   :config
-  (progn
-    (my-key-chord-define global-map "fj" 'find-file-at-point)
-    (defun my-ffap-prompter-noconfirm (fn &optional guess)
-      "Remove confirmation."
-      (and (fboundp 'xref-push-marker-stack) (xref-push-marker-stack))
-      (or guess (ffap-guesser) (funcall fn)))
-    (advice-add 'ffap-prompter :around #'my-ffap-prompter-noconfirm)))
+  (my-key-chord-define global-map "fj" 'find-file-at-point)
+  (advice-add 'ffap-prompter :around #'my-ffap-prompter-noconfirm))
 
 ;;; Google search
 (defun my-prompt ()
@@ -844,13 +852,20 @@ if its size is 1 line."
   "social.msdn.microsoft.com/Search/en-US?query=")
 
 (use-package grep
+  :preface
+  (defun my-disable-jump-to-error ()
+    "Disable `compilation-auto-jump-to-next' local variable."
+    (kill-local-variable 'compilation-auto-jump-to-next))
+  (defun my-compile-finish-hook (buf status)
+    (with-current-buffer buf
+      (goto-char (point-min))
+      (and (string= (buffer-name buf) "*compilation*")
+           (string-match "^finished\\b" status)
+           (not (re-search-forward "warning" nil t))
+           (sit-for 0.4)
+           (delete-window (get-buffer-window buf)))))
   :init
-  (progn
-    (defun my-disable-jump-to-error ()
-      "Disable `compilation-auto-jump-to-next' local variable."
-      (kill-local-variable 'compilation-auto-jump-to-next))
-    (add-hook 'grep-mode-hook 'my-disable-jump-to-error))
-
+  (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
   :config
   (progn
     (use-package compile
@@ -868,25 +883,14 @@ if its size is 1 line."
                    (reusable-frames . nil)
                    (side . bottom)
                    (window-height . 0.3)))
-
-    (defun my-compile-finish-hook (buf status)
-      (with-current-buffer buf
-        (goto-char (point-min))
-        (and (string= (buffer-name buf) "*compilation*")
-             (string-match "^finished\\b" status)
-             (not (re-search-forward "warning" nil t))
-             (sit-for 0.4)
-             (delete-window (get-buffer-window buf)))))
-
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)))
 
 (use-package iedit
-  :init
-  (progn
-    (defun my-iedit-occur (&optional nlines)
-      (interactive "p")
-      (when iedit-mode
-        (occur iedit-initial-string-local nlines))))
+  :preface
+  (defun my-iedit-occur (&optional nlines)
+    (interactive "p")
+    (when iedit-mode
+      (occur iedit-initial-string-local nlines)))
   :bind
   (("C-;" . iedit-mode)
    :map iedit-mode-keymap
@@ -914,68 +918,65 @@ if its size is 1 line."
 
 ;;; Mouse
 (use-package mouse
-  :bind
-  (("<S-mouse-1>" . my-acme-search-forward)
-   ("C-c ." . my-delete-mouse-secondary-overlay))
-  :config
-  (progn
-    (defun my-delete-mouse-secondary-overlay ()
-      "Remove the overlay create by `mouse-drag-secondary'."
-      (interactive)
-      (delete-overlay mouse-secondary-overlay))
-    (global-unset-key (kbd "<S-down-mouse-1>"))
-    (global-unset-key (kbd "<S-down-mouse-3>"))
-
-    (setq mouse-drag-copy-region t)
-    (setq mouse-yank-at-point t)
-
-    (defun my-acme-search-forward (click)
-      "Move mouse to the next occurence of either the active region,
+  :commands mouse-set-point
+  :preface
+  (defun my-delete-mouse-secondary-overlay ()
+    "Remove the overlay create by `mouse-drag-secondary'."
+    (interactive)
+    (delete-overlay mouse-secondary-overlay))
+  (defun my-acme-search-forward (click)
+    "Move mouse to the next occurence of either the active region,
 or the symbol at point, and highlight it."
-      (interactive "e")
-      (let ((sym (if (region-active-p)
-                     (buffer-substring (mark) (point))
-                   (mouse-set-point click)
-                   (thing-at-point 'filename))))
-        (cond ((not (and sym (stringp sym))) nil)
-              ((file-readable-p sym)
-               (special-display-popup-frame (find-file-noselect sym nil nil nil)))
-              (t
-               (or (my-acme-search--move sym)
-                   (let ((saved-point (point)))
-                     (message "Wrapped search")
-                     (goto-char (point-min))
-                     (or (my-acme-search--move sym)
-                         (goto-char saved-point))))))
-        ;; Redisplay the screen if we search off the bottom of the window.
-        (unless (posn-at-point)
-          (universal-argument)
-          (recenter))
-        (my-move-mouse-to-point)))
+    (interactive "e")
+    (let ((sym (if (region-active-p)
+                   (buffer-substring (mark) (point))
+                 (mouse-set-point click)
+                 (thing-at-point 'filename))))
+      (cond ((not (and sym (stringp sym))) nil)
+            ((file-readable-p sym)
+             (special-display-popup-frame (find-file-noselect sym nil nil nil)))
+            (t
+             (or (my-acme-search--move sym)
+                 (let ((saved-point (point)))
+                   (message "Wrapped search")
+                   (goto-char (point-min))
+                   (or (my-acme-search--move sym)
+                       (goto-char saved-point))))))
+      ;; Redisplay the screen if we search off the bottom of the window.
+      (unless (posn-at-point)
+        (universal-argument)
+        (recenter))
+      (my-move-mouse-to-point)))
 
-    (defun my-move-mouse-to-point ()
-      "Move the mouse pointer to point in the current window."
-      (let* ((coords (posn-col-row (posn-at-point)))
-             (window-coords (window-inside-edges))
-             (x (+ (car coords) (car window-coords) -1))
-             (y (+ (cdr coords) (cadr window-coords)
-                   (if header-line-format -1 0))))
-        (set-mouse-position (selected-frame) x y)))
+  (defun my-move-mouse-to-point ()
+    "Move the mouse pointer to point in the current window."
+    (let* ((coords (posn-col-row (posn-at-point)))
+           (window-coords (window-inside-edges))
+           (x (+ (car coords) (car window-coords) -1))
+           (y (+ (cdr coords) (cadr window-coords)
+                 (if header-line-format -1 0))))
+      (set-mouse-position (selected-frame) x y)))
 
-    (defun my-acme-search--move (sym)
-      "Search from point for SYM and highlight it.
+  (defun my-acme-search--move (sym)
+    "Search from point for SYM and highlight it.
 
 If there is no match, returns NIL."
-      (push-mark-command nil t)
-      (when (search-forward sym nil t)
-        (my-acme-highlight-search sym)
-        t))
+    (push-mark-command nil t)
+    (when (search-forward sym nil t)
+      (my-acme-highlight-search sym)
+      t))
 
-    (defun my-acme-highlight-search (sym)
-      "Set the region to the current search result."
-      (set-mark (point))
-      (search-backward sym nil t)
-      (exchange-point-and-mark))))
+  (defun my-acme-highlight-search (sym)
+    "Set the region to the current search result."
+    (set-mark (point))
+    (search-backward sym nil t)
+    (exchange-point-and-mark))
+  :bind
+  (("<S-down-mouse-1>" . my-acme-search-forward)
+   ("C-c ." . my-delete-mouse-secondary-overlay))
+  :config
+  (setq mouse-drag-copy-region t)
+  (setq mouse-yank-at-point t))
 
 (use-package mouse-copy
   :bind
@@ -985,13 +986,17 @@ If there is no match, returns NIL."
   (setq mouse-drag-copy-region t))
 
 (use-package recentf
+  :commands (recentf-open-files recentf-mode)
+  :preface
+  (defun my-recentf-open-files ()
+    "Forward to `recentf-open-files' without arguments."
+    (interactive)
+    (recentf-open-files))
   :init
   (recentf-mode +1)
-  :bind
-  (("C-x C-h" . recentf-open-files))
   :config
   (progn
-    (fset 'my-recentf-command 'recentf-open-files)
+    (fset 'my-recentf-command 'my-recentf-open-files)
     (setq recentf-max-saved-items 500)
     (setq recentf-max-menu-items 150)))
 
@@ -1021,6 +1026,58 @@ With prefix argument INVERT, invert `+' and `-'."
 
 ;;; Isearch
 (use-package isearch
+  :commands (isearch-mode isearch-done)
+  :preface
+  (defun my-occur-region ()
+    "Send region to occur when activated."
+    (interactive)
+    (and (my-isearch-region) (call-interactively 'isearch-occur)))
+
+  (defun my-isearch-suspend ()
+    "Invoke the editor command loop recursively, during Isearch.
+Use `\\[exit-recursive-edit]' to end the recursive edit and
+resume searching from there.  Or use `\\[abort-recursive-edit]' to
+exit the recursive edit and cancel the previous search."
+    (interactive)
+    (with-isearch-suspended (recursive-edit)))
+
+  (defun my-isearch-beginning-of-buffer ()
+    "Move isearch point to the beginning of the buffer."
+    (interactive)
+    (goto-char (point-min))
+    (isearch-repeat-forward))
+
+  (defun my-isearch-end-of-buffer ()
+    "Move isearch point to the end of the buffer."
+    (interactive)
+    (goto-char (point-max))
+    (isearch-repeat-backward))
+
+  (defun my-isearch-exit-beginning ()
+    "Go to the start of current isearch match.
+Use in `isearch-mode-end-hook'."
+    (when (and isearch-forward
+               (number-or-marker-p isearch-other-end)
+               (not mark-active)
+               (not isearch-mode-end-hook-quit))
+      (goto-char isearch-other-end)))
+
+  (defun my-isearch-region ()
+    "Send region to isearch when activated.
+
+Returns t if the region was activated, nil otherwise."
+    (when (region-active-p)
+      (deactivate-mark)
+      (kill-ring-save (region-beginning) (region-end))
+      (goto-char (region-beginning))
+      (isearch-mode t)
+      (isearch-yank-pop)
+      t))
+  (defun my-isearch-region-hook (orig-fun &rest args)
+    "Send region to isearch when activated.
+
+Otherwise, apply ORIG-FUN to ARGS."
+    (or (my-isearch-region) (apply orig-fun args)))
   :diminish isearch-mode
   :bind
   (("M-o" . my-occur-region)
@@ -1039,101 +1096,53 @@ With prefix argument INVERT, invert `+' and `-'."
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
   :init
-  (progn
-    (defun my-occur-region ()
-      "Send region to occur when activated."
-      (interactive)
-      (and (my-isearch-region) (call-interactively 'isearch-occur)))
-
-    (defun my-isearch-suspend ()
-      "Invoke the editor command loop recursively, during Isearch.
-Use `\\[exit-recursive-edit]' to end the recursive edit and
-resume searching from there.  Or use `\\[abort-recursive-edit]' to
-exit the recursive edit and cancel the previous search."
-      (interactive)
-      (with-isearch-suspended (recursive-edit)))
-
-    (defun my-isearch-beginning-of-buffer ()
-      "Move isearch point to the beginning of the buffer."
-      (interactive)
-      (goto-char (point-min))
-      (isearch-repeat-forward))
-
-    (defun my-isearch-end-of-buffer ()
-      "Move isearch point to the end of the buffer."
-      (interactive)
-      (goto-char (point-max))
-      (isearch-repeat-backward))
-
-    (defun my-isearch-exit-beginning ()
-      "Go to the start of current isearch match.
-Use in `isearch-mode-end-hook'."
-      (when (and isearch-forward
-                 (number-or-marker-p isearch-other-end)
-                 (not mark-active)
-                 (not isearch-mode-end-hook-quit))
-        (goto-char isearch-other-end)))
-
-    (defun my-isearch-region ()
-      "Send region to isearch when activated.
-
-Returns t if the region was activated, nil otherwise."
-      (when (region-active-p)
-        (deactivate-mark)
-        (kill-ring-save (region-beginning) (region-end))
-        (goto-char (region-beginning))
-        (isearch-mode t)
-        (isearch-yank-pop)
-        t))
-    (defun my-isearch-region-hook (orig-fun &rest args)
-      "Send region to isearch when activated.
-
-Otherwise, apply ORIG-FUN to ARGS."
-      (or (my-isearch-region) (apply orig-fun args)))
-    (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
-    (advice-add 'isearch-forward :around #'my-isearch-region-hook)
-    (advice-add 'isearch-backward :around #'my-isearch-region-hook)
-    (advice-add 'isearch-forward-regexp :around #'my-isearch-region-hook)
-    (advice-add 'isearch-backward-regexp :around #'my-isearch-region-hook)))
+  (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
+  (advice-add 'isearch-forward :around #'my-isearch-region-hook)
+  (advice-add 'isearch-backward :around #'my-isearch-region-hook)
+  (advice-add 'isearch-forward-regexp :around #'my-isearch-region-hook)
+  (advice-add 'isearch-backward-regexp :around #'my-isearch-region-hook))
 
 (use-package shell
+  :preface
+  (defvar my-shell-prompt-pwd-regexp "\\(.*\\)$ "
+    "How to get the $PWD from the shell prompt.
+
+A regexp that captures one match.")
+  (defun my-rename-shell-buffer (name)
+    "Make a new buffer name for the current shell buffer based on NAME."
+    (interactive "sBuffer name: ")
+    (rename-buffer
+     (if (string= "" name) "*shell*" (format "*shell %s*" name))))
+  (defun my-shell-pwd ()
+    "Get the current value of $PWD."
+    (pcase-let ((`(,lo . ,hi) comint-last-prompt))
+      (when (and lo hi)
+        (let* ((last-prompt (buffer-substring-no-properties lo hi))
+               (filename (and (string-match my-shell-prompt-pwd-regexp
+                                            last-prompt)
+                              (match-string 1 last-prompt))))
+          (and (stringp filename) (expand-file-name filename))))))
+  (defun my-shell-dired ()
+    (interactive)
+    "Run dired in $PWD."
+    (dired (my-shell-pwd)))
+  (defun my-end-of-buffer-hook (&rest _)
+    (goto-char (point-max)))
   :init
   (setenv "PAGER" "cat")
   :bind
   (:map shell-mode-map
         ([remap dired] . my-shell-dired)
+        ("C-z" . bury-buffer)
         ("C-l" . comint-clear-buffer)
         ("<f2>" . my-rename-shell-buffer)
         ("<f5>" . comint-previous-input)
         ("<f6>" . compilation-shell-minor-mode))
   :config
   (progn
-    (defun my-rename-shell-buffer (name)
-      "Make a new buffer name for the current shell buffer based on NAME."
-      (interactive "sBuffer name: ")
-      (rename-buffer
-       (if (string= "" name) "*shell*" (format "*shell %s*" name))))
-    (defvar my-shell-prompt-pwd-regexp "\\(.*\\)$ "
-      "How to get the $PWD from the shell prompt.
-
-A cons cell with a regexp that captures one match.")
-    (defun my-shell-pwd ()
-      "Get the current value of $PWD."
-      (pcase-let ((`(,lo . ,hi) comint-last-prompt))
-        (when (and lo hi)
-          (let* ((last-prompt (buffer-substring-no-properties lo hi))
-                 (filename (and (string-match my-shell-prompt-pwd-regexp
-                                              last-prompt)
-                                (match-string 1 last-prompt))))
-            (and (stringp filename) (expand-file-name filename))))))
-    (defun my-shell-dired ()
-      (interactive)
-      "Run dired in $PWD."
-      (dired (my-shell-pwd)))
-    (setq-default comint-input-ignoredups +1)
+    (setq-default comint-input-ignoredups 1)
     (unless window-system
-           (define-key global-map (kbd "C-z") 'suspend-emacs))
-    (defun my-end-of-buffer-hook (&rest _) (goto-char (point-max)))
+      (define-key global-map (kbd "C-z") 'suspend-emacs))
     (advice-add 'comint-previous-input :before #'my-end-of-buffer-hook)
     (advice-add 'comint-next-input :before #'my-end-of-buffer-hook)))
 
@@ -1152,6 +1161,7 @@ A cons cell with a regexp that captures one match.")
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 
 (use-package lispy
+  :commands lispy-set-key-theme
   :defer t
   :init
   (progn (add-hook 'emacs-lisp-mode-hook 'lispy-mode)
@@ -1161,7 +1171,22 @@ A cons cell with a regexp that captures one match.")
     (lispy-set-key-theme '(special))))
 
 (use-package magit
-  :defer 15
+  :preface
+  (defun my-is-dedicated-to-magit (frame)
+    (let ((cell (assq 'dedicated-to (frame-parameters frame))))
+      (and (consp cell) (eq (cdr cell) 'magit))))
+  (use-package eshell
+    :commands eshell-command
+    :preface
+    (defun my-create-tags ()
+      (interactive)
+      (let ((default-directory (or (magit-toplevel)
+                                   (read-directory-name "Directory: "))))
+        (eshell-command
+         (format "find %s -type f -name %S | etags -"
+                 default-directory
+                 (read-string "file extension: " "*.[ch]"))))))
+  :defer t
   :bind
   (("C-x g" . magit-status)
    ("C-x v p" . magit-blame)
@@ -1174,35 +1199,24 @@ A cons cell with a regexp that captures one match.")
                  (reusable-frames . nil)
                  (frame-predicate . my-is-dedicated-to-magit)))
   (setq magit-bury-buffer-function 'bury-buffer)
-  (defun my-is-dedicated-to-magit (frame)
-    (let ((cell (assq 'dedicated-to (frame-parameters frame))))
-      (and (consp cell) (eq (cdr cell) 'magit))))
-
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
   (set-face-foreground 'magit-diff-file-heading "blue")
-  (defun my-create-tags ()
-    (interactive)
-    (let ((default-directory (or (magit-toplevel)
-                                 (read-directory-name "Directory: "))))
-      (eshell-command
-       (format "find %s -type f -name %S | etags -"
-               default-directory
-               (read-string "file extension: " "*.[ch]")))))
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
   (setq magit-commit-ask-to-stage t)
   (setq magit-backup-mode nil))
 
 (use-package rainbow-delimiters
+  :preface
+  (defun my-rainbow-delimiters-disable ()
+    "Disable rainbow-delimiters mode."
+    (rainbow-delimiters-mode -1))
   :config
   (progn
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     (dotimes (i 9)
       (set-face-bold
        (intern (format "rainbow-delimiters-depth-%d-face" (1+ i))) t))
-    (defun my-rainbow-delimiters-disable ()
-      "Disable rainbow-delimiters mode."
-      (rainbow-delimiters-mode -1))
 
     (add-hook 'shell-mode-hook #'my-rainbow-delimiters-disable)
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
@@ -1210,12 +1224,8 @@ A cons cell with a regexp that captures one match.")
                         :box t)))
 
 (use-package company
-  :defer t
-  :bind
-  (:map
-   company-mode-map
-   ("C-\\" . company-complete))
-  :init
+  :commands (company-abort company-complete-number)
+  :preface
   (defun my-company-number ()
     "Forward to `company-complete-number'.
 Unless the number is potentially part of the candidate.
@@ -1234,6 +1244,12 @@ In that case, insert the number."
     (interactive)
     (company-abort)
     (self-insert-command 1))
+  :defer t
+  :bind
+  (:map
+   company-mode-map
+   ("C-\\" . company-complete))
+  :init
   (add-hook 'prog-mode-hook 'company-mode)
   :config
   (progn
@@ -1250,6 +1266,36 @@ In that case, insert the number."
     (setq company-tooltip-flip-when-above t)))
 
 (use-package ivy
+  :preface
+  (defun my-ivy-kill-region-or-whole-line (&rest args)
+    (interactive "p")
+    (if (region-active-p)
+        (kill-region (region-beginning) (region-end))
+      (ivy-kill-whole-line)))
+  (defun ivy-display-function-lv (text)
+    (require 'lv)
+    (let ((lv-force-update t))
+      (lv-message
+       (if (string-match "\\`\n" text)
+           (substring text 1)
+         text))))
+  (defun my-select-shell-buffer (orig-fun &rest args)
+    (let ((buf (get-buffer "*shell*")))
+      (if buf
+          (switch-to-buffer buf)
+        (apply orig-fun args))))
+
+  (defun my-counsel-rg (p)
+    (interactive "P")
+    (let ((directory (if p (read-directory-name "counsel from directory: "))))
+      (counsel-rg (my-prompt) directory)))
+
+  (defun ivy-display-function-popup (text)
+    (require 'popup)
+    (with-ivy-window
+      (popup-tip
+       (substring text 1)
+       :nostrip nil)))
   :demand t
   :diminish ivy-mode
   :bind
@@ -1272,57 +1318,21 @@ In that case, insert the number."
     :if window-system
     :bind
     ("C-z" . counsel-switch-to-shell-buffer))
-  (progn
-    (defun my-ivy-kill-region-or-whole-line (&rest args)
-      (interactive "p")
-      (if (region-active-p)
-          (kill-region (region-beginning) (region-end))
-        (ivy-kill-whole-line)))
-    (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
-    (defun ivy-display-function-lv (text)
-      (require 'lv)
-      (let ((lv-force-update t))
-        (lv-message
-         (if (string-match "\\`\n" text)
-             (substring text 1)
-           text))))
+  (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
+  (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
 
-    (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
-    (defun my-select-shell-buffer (orig-fun &rest args)
-      (let ((buf (get-buffer "*shell*")))
-        (if buf
-            (switch-to-buffer buf)
-          (apply orig-fun args))))
-
-    (defun my-counsel-rg (p)
-      (interactive "P")
-      (let ((directory (if p (read-directory-name "counsel from directory: "))))
-        (counsel-rg (my-prompt) directory)))
-
-    (defun ivy-display-function-popup (text)
-      (require 'popup)
-      (with-ivy-window
-        (popup-tip
-         (substring text 1)
-         :nostrip nil)))
-
-    (setq ivy-display-functions-alist
-          '((ivy-completion-in-region . ivy-display-function-lv)))
-    (use-package shell
-      :bind
-      (:map shell-mode-map
-            ("C-z" . bury-buffer)))
-    (defvar ivy-use-virtual-buffers)
-    (fset 'my-recentf-command 'ivy-switch-buffer)
-    (setq completion-in-region-function #'ivy-completion-in-region)
-    (setq counsel-rg-base-command
-          (concat
-           "rg --no-heading --line-number --vimgrep "
-           "--path-separator / "
-           "--max-columns 120 "
-           "--color never "
-           "%s ."))
-    (setq ivy-use-virtual-buffers t))
+  (setq ivy-display-functions-alist
+        '((ivy-completion-in-region . ivy-display-function-lv)))
+  (fset 'my-recentf-command 'ivy-switch-buffer)
+  (setq completion-in-region-function #'ivy-completion-in-region)
+  (setq counsel-rg-base-command
+        (concat
+         "rg --no-heading --line-number --vimgrep "
+         "--path-separator / "
+         "--max-columns 120 "
+         "--color never "
+         "%s ."))
+  (setq ivy-use-virtual-buffers t)
   :config
   (progn
     (add-to-list 'ivy-initial-inputs-alist
@@ -1350,8 +1360,6 @@ In that case, insert the number."
    ("C-c s" . slime-selector))
   :config
   (progn
-    (defvar common-lisp-hyperspec-root)
-    (defvar inferior-lisp-program)
     (use-package slime-autoloads)
     (setq inferior-lisp-program "sbcl")
     (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
@@ -1375,6 +1383,9 @@ In that case, insert the number."
     (setq flycheck-check-syntax-automatically '(save mode-enable))))
 
 (use-package tuareg
+  :preface
+  (defun my-preserve-comment-style ()
+    (setq comment-style 'indent))
   :mode ("\\.m[lf][ily]?$" . tuareg-mode)
   :bind
   (:map
@@ -1388,7 +1399,6 @@ In that case, insert the number."
                  '(tuareg-font-lock-governing-face (:inherit font-lock-builtin-face)))
     (set-face-foreground tuareg-font-lock-operator-face nil)
     (advice-add 'tuareg-mode :after #'my-preserve-comment-style)
-    (defun my-preserve-comment-style () (setq comment-style 'indent))
     (use-package ocp-indent
       :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))
@@ -1397,23 +1407,22 @@ In that case, insert the number."
         (add-hook 'tuareg-mode-hook 'ocp-setup-indent)))))
 
 (use-package cc-vars
+  :commands compile
+  :preface
+  (defun my-c-setup ()
+    "My setup for C."
+    (setq c-default-style "linux")
+    (setq c-basic-offset 8)
+    (setq indent-tabs-mode nil)
+    (use-package cc-mode
+      :bind
+      (:map
+       c-mode-base-map
+       ("C-c C-c" . compile)
+       ("C-c C-a" . ff-find-other-file))))
   :defer t
   :config
-  (progn
-    (defun my-c-setup ()
-      "My setup for C."
-      (defvar c-default-style)
-      (defvar indent-tabs-mode)
-      (setq c-default-style "linux")
-      (setq c-basic-offset 8)
-      (setq indent-tabs-mode nil)
-      (use-package cc-mode
-        :bind
-        (:map
-         c-mode-base-map
-         ("C-c C-c" . compile)
-         ("C-c C-a" . ff-find-other-file))))
-    (add-hook 'c-initialization-hook #'my-c-setup)))
+  (add-hook 'c-initialization-hook #'my-c-setup))
 
 (use-package image-mode
   :config
@@ -1471,7 +1480,7 @@ In that case, insert the number."
 
 (use-package hi-lock
   :diminish "hl"
-  :init
+  :preface
   (defun my-unhighlight-all ()
     "Unhighlight all hi-lock highlighted symbols."
     (interactive)
@@ -1488,6 +1497,7 @@ In that case, insert the number."
   ("C-c d" . woman))
 
 (use-package battery
+  :commands display-battery-mode
   :demand t
   :config
   (and (functionp battery-status-function)
@@ -1505,16 +1515,16 @@ In that case, insert the number."
 
 (use-package erlang
   :defer 15
+  :preface
+  (defun my-insert-erl-module-stub ()
+    (when (and (= (point-min) (point-max))
+               (buffer-file-name)
+               (string-suffix-p ".erl" (buffer-file-name)))
+      (let ((module-name (file-name-base)))
+        (insert (format "-module(%s).\n-export([]).\n\n"
+                        module-name)))))
   :init
-  (progn
-    (add-hook 'erlang-mode-hook #'my-insert-erl-module-stub)
-    (defun my-insert-erl-module-stub ()
-      (when (and (= (point-min) (point-max))
-                 (buffer-file-name)
-                 (string-suffix-p ".erl" (buffer-file-name)))
-        (let ((module-name (file-name-base)))
-          (insert (format "-module(%s).\n-export([]).\n\n"
-                          module-name)))))))
+  (add-hook 'erlang-mode-hook #'my-insert-erl-module-stub))
 
 (use-package goto-last-change
   :bind ("C-x C-/" . goto-last-change))
@@ -1534,34 +1544,34 @@ In that case, insert the number."
     (set-face-attribute 'hl-todo nil :foreground "deep pink" :background "yellow")))
 
 (use-package hl-line
+  :commands (hl-line-mode global-hl-line-mode)
+  :preface
+  (defun next-error-buffer-hl-line ()
+    "Turn on `hl-line-mode' in buffer `next-error-last-buffer'."
+    (when (and next-error-last-buffer (buffer-live-p next-error-last-buffer))
+      (with-current-buffer next-error-last-buffer
+        (hl-line-mode 1))))
   :init
-  (progn
-    (add-hook 'next-error-hook 'next-error-buffer-hl-line)
-    (defun next-error-buffer-hl-line ()
-      "Turn on `hl-line-mode' in buffer `next-error-last-buffer'."
-      (when (and next-error-last-buffer (buffer-live-p next-error-last-buffer))
-        (with-current-buffer next-error-last-buffer
-          (hl-line-mode 1))))
-    (global-hl-line-mode 1)))
+  (add-hook 'next-error-hook 'next-error-buffer-hl-line)
+  (global-hl-line-mode 1))
 
 (use-package visible-mark
   :preface
-  (progn
-    (defface visible-mark-active
-      '((((type tty) (class mono)))
-        (t (:background "magenta")))
-      "Face for visible-mark."
-      :group 'visible-mark)
-    (setq visible-mark-faces
-          (let ((i 0) faces)
-            (dolist (color '("light green" "yellow" "light blue"))
-              (push (eval `(defface ,(intern (format "visible-mark-face%d" (setq i (1+ i))))
-                             '((((class color) (background light)) :background ,color))
-                             "Face for visible-mark."
-                             :group 'visible-mark))
-                    faces)
-              (message "defined face %s" (format "visible-mark-face%d" (1+ i))))
-            (nreverse faces))))
+  (defface visible-mark-active
+    '((((type tty) (class mono)))
+      (t (:background "magenta")))
+    "Face for visible-mark."
+    :group 'visible-mark)
+  (setq visible-mark-faces
+        (let ((i 0) faces)
+          (dolist (color '("light green" "yellow" "light blue"))
+            (push (eval `(defface ,(intern (format "visible-mark-face%d" (setq i (1+ i))))
+                           '((((class color) (background light)) :background ,color))
+                           "Face for visible-mark."
+                           :group 'visible-mark))
+                  faces)
+            (message "defined face %s" (format "visible-mark-face%d" (1+ i))))
+          (nreverse faces)))
   :init
   (progn
     (setq show-paren-priority -1)
@@ -1574,20 +1584,22 @@ In that case, insert the number."
   :init (which-key-mode +1))
 
 (use-package smartparens
+  :preface
+  (defun my-smartparens-mode-setup ()
+    (add-to-list
+     'sp-pairs
+     (cons t
+           (cl-delete-if
+            (lambda (plist)
+              (and (consp plist)
+                   (member (plist-get plist :open)
+                           '("`" "'"))))
+            (cdr (assoc t sp-pairs)))))
+    (my-electric-pair-mode -1))
   :init
   (progn
     (use-package smartparens-config)
     (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
-    (defun my-smartparens-mode-setup ()
-      (add-to-list 'sp-pairs
-                   (cons t
-                         (cl-delete-if
-                          (lambda (plist)
-                            (and (consp plist)
-                                 (member (plist-get plist :open)
-                                         '("`" "'"))))
-                          (cdr (assoc t sp-pairs)))))
-      (my-electric-pair-mode -1))
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
 (use-package icomplete-mode
@@ -1609,27 +1621,27 @@ In that case, insert the number."
   (setq centi-assign-key (kbd "C-<f3>")))
 
 (use-package sh-script
+  :preface
+  (defun my-sh-quote-or-unquote ()
+    "Wrap or unwrap the sexp at point inside a pair of double quotes."
+    (interactive)
+    (save-excursion
+      (backward-sexp)
+      (if (progn
+            (backward-char 1)
+            (looking-at "\""))
+          (delete-char 1)
+        (forward-char 1)
+        (insert ?\"))
+      (forward-sexp)
+      (if (looking-at "\"") (delete-char 1) (insert ?\"))))
   :bind
   (:map sh-mode-map
         ("C-c C-z" . nil)
         ("C-c q" . my-sh-quote-or-unquote))
   :config
-  (progn
-    (defun my-sh-quote-or-unquote ()
-      "Wrap or unwrap the sexp at point inside a pair of double quotes."
-      (interactive)
-      (save-excursion
-        (backward-sexp)
-        (if (progn
-              (backward-char 1)
-              (looking-at "\""))
-            (delete-char 1)
-          (forward-char 1)
-          (insert ?\"))
-        (forward-sexp)
-        (if (looking-at "\"") (delete-char 1) (insert ?\"))))
-    (setq sh-basic-offset 8)
-    (setq sh-indentation 8)))
+  (setq sh-basic-offset 8)
+  (setq sh-indentation 8))
 
 (use-package move-text
   :bind
@@ -1644,6 +1656,7 @@ In that case, insert the number."
    ("S-<down>"  . windmove-down)))
 
 (use-package mb-depth
+  :commands minibuffer-depth-indicate-mode
   :init
   (progn
     (setq enable-recursive-minibuffers t)
@@ -1655,19 +1668,19 @@ In that case, insert the number."
    ("C-c f" . vimish-fold-delete-all)))
 
 (use-package restart-emacs
-  :bind
-  (([remap save-buffers-kill-terminal] . my-restart-emacs))
-  :init
-  (advice-add 'save-buffers-kill-terminal :around #'my-no-confirm)
-  (advice-add 'restart-emacs :around #'my-no-confirm)
-  :config
+  :preface
   (defun my-restart-emacs (arg)
     (interactive "P")
     (if arg (save-buffers-kill-terminal)
       (condition-case nil
           (restart-emacs)
         ;; XXX on console windows-nt, restart-emacs fails...
-        (error (save-buffers-kill-terminal))))))
+        (error (save-buffers-kill-terminal)))))
+  :bind
+  (([remap save-buffers-kill-terminal] . my-restart-emacs))
+  :init
+  (advice-add 'save-buffers-kill-terminal :around #'my-no-confirm)
+  (advice-add 'restart-emacs :around #'my-no-confirm))
 
 (use-package whitespace
   :config
@@ -1719,21 +1732,22 @@ In that case, insert the number."
   ("C-h j" . javadoc-lookup))
 
 (use-package pager
-  :init
-  (defun my-scroll-up-command-pager (&optional arg)
+  :preface
+  (defun my-scroll-up-command-pager (arg)
     "Apply `pager-page-down'.
 
 If provided, do it ARG times."
-    (interactive)
-    (dotimes (_ (or arg 1))
+    (interactive "P")
+    (dotimes (_ (if (numberp arg) arg 1))
       (pager-page-down)))
-  (defun my-scroll-down-command-pager (&optional arg)
+  (defun my-scroll-down-command-pager (arg)
     "Apply `pager-page-up'.
 
 If provided, do it ARG times."
-    (interactive)
-    (dotimes (_ (or arg 1))
+    (interactive "P")
+    (dotimes (_ (if (numberp arg) arg 1))
       (pager-page-up)))
+  :init
   (fset 'my-scroll-up-command 'my-scroll-up-command-pager)
   (fset 'my-scroll-down-command 'my-scroll-down-command-pager))
 
