@@ -78,20 +78,8 @@
 (my-def-balance-after my-split-window-below split-window-below)
 
 
-;;; MS Windows utilities
-(let ((cygwin-root "c:"))
-  (when (and (eq 'windows-nt system-type)
-             (file-readable-p cygwin-root))
-    (define-key global-map (kbd "C-c u") 'my-dos2unix)
-    (defun my-dos2unix ()
-      (interactive)
-      (and buffer-file-name
-           (shell-command (format "dos2unix %s" buffer-file-name))))
-    (setq shell-file-name "bash")
-    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
-
-
 ;;; Keybindings
+(define-key global-map (kbd "C-c u") 'my-dos2unix)
 (define-key global-map (kbd "C-<f4>") 'my-kmacro-end-or-call-macro-infinity)
 (when (boundp 'mouse-wheel-down-event)
   (let ((down-key (kbd (format "<C-%s>" mouse-wheel-down-event))))
@@ -229,6 +217,11 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
+
+(defun my-dos2unix ()
+  (interactive)
+  (set-buffer-file-coding-system 'unix t)
+  (save-buffer))
 
 (defun my-face-at-point ()
   (let* ((old-hl-line-mode (and (boundp 'hl-line-mode) hl-line-mode))
@@ -1130,6 +1123,11 @@ A regexp that captures one match.")
     (goto-char (point-max)))
   :init
   (setenv "PAGER" "cat")
+  (use-package shell
+    :if (eq system-type 'windows-nt)
+    :init
+    (setq shell-file-name "bash")
+    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m))
   :bind
   (:map shell-mode-map
         ([remap dired] . my-shell-dired)
