@@ -117,7 +117,7 @@
 (define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
 (define-key global-map (kbd "C-c F") 'my-toggle-debug)
 (define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
-(define-key global-map (kbd "C-c (") 'delete-pair)
+(define-key global-map (kbd "C-c (") 'my-delete-pair)
 (define-key global-map (kbd "C-S-u") 'upcase-region)
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
@@ -210,6 +210,20 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
+
+(defun my-delete-pair ()
+  (interactive)
+  (save-excursion
+    (let (char)
+      (cond ((and (setq char (char-after (1- (point))))
+                  (string-match (char-to-string char) ")}]\""))
+             (backward-sexp)
+             (delete-pair))
+            ((and (setq char (char-after (point)))
+                  (string-match (char-to-string char) "({[\""))
+             (delete-pair))
+            (t
+             (error "Not on a parenthesis-like character"))))))
 
 (defun my-dos2unix ()
   (interactive)
