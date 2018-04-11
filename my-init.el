@@ -157,15 +157,11 @@
 
 (defvar my-frame-params
   (when window-system
-    (pcase (list system-type (x-display-pixel-height))
-      (`(darwin ,_)
+    (pcase system-type
+      (`darwin
         '(height 30 font "Menlo 18"))
-      (`(,_ 1080)
-        '(height 40 font "DejaVu Sans Mono 11"))
-      (`(,_ 1620)
-        '(height 45 font "DejaVu Sans Mono 14"))
-      (`,pat
-       (warn "unmatched: %S" pat))))
+      (`,_
+        '(height 45 font "DejaVu Sans Mono 14"))))
   "Configuration for `default-frame-alist'.")
 
 (defvar my-color-theme
