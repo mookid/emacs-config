@@ -2,6 +2,7 @@
 .cask/
 .emacs-custom.el
 .emacs.desktop*
+.signed
 HyperSpec*
 abbrev_defs
 auto-save-list/*
@@ -10,6 +11,7 @@ bookmarks
 elpa/*.txt
 elpa/archives/*
 eshell/*
+places
 private.el
 projectile-bookmarks*
 projectile.cache
