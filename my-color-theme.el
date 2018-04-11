@@ -3,13 +3,17 @@
 (custom-theme-set-faces
  'my-color
  ;; TODO: company?
+ '(compilation-mode-line-fail ((t (:weight bold :inherit error))))
  '(completions-common-part ((t (:foreground "#7C7C7C"))))
  '(completions-first-difference ((t (:foreground "yellow"))))
  '(cursor ((t (:foreground "white"))))
  '(default ((t (:background "black" :foreground "#f6f3e8"))))
- '(diff-added ((t (:foreground "green2"))))
- '(diff-changed ((t (:foreground "blue2"))))
- '(diff-removed ((t (:foreground "red2"))))
+ '(diff-added ((t (:foreground "green4"))))
+ '(diff-changed ((t (:foreground "blue4"))))
+ '(diff-refine-added ((t (:foreground "green2"))))
+ '(diff-refine-changed ((t (:foreground "blue2"))))
+ '(diff-refine-removed ((t (:foreground "red2"))))
+ '(diff-removed ((t (:foreground "red4"))))
  '(error ((t (:foreground "#FF6C60"))))
  '(font-lock-builtin-face ((t (:foreground "#96CBFE"))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
@@ -33,6 +37,7 @@
  '(mode-line-buffer-id ((t (:foreground "red4"))))
  '(mode-line-inactive ((t (:background "#a9a9a9" :foreground "blue4"))))
  '(region ((t :background "#262D51")))
+ '(success ((t (:weight bold :foreground "#A8FF60"))))
  '(whitespace-space ((t))))
 
 (provide-theme 'my-color)
