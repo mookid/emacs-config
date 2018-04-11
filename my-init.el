@@ -69,18 +69,12 @@
        (apply #',orig-fun args)
        (balance-windows))))
 
-(defun my-goto-buffer (buffer-name)
-  "Select buffer named BUFFER-NAME."
-  (select-window (split-window-vertically))
-  (switch-to-buffer-other-window (get-buffer-create buffer-name)))
-
 (my-def-balance-after my-split-window-right split-window-right)
 (my-def-balance-after my-split-window-below split-window-below)
 
 
 ;;; Keybindings
 (define-key global-map (kbd "C-c u") 'my-dos2unix)
-(define-key global-map (kbd "C-<f4>") 'my-kmacro-end-or-call-macro-infinity)
 (when (boundp 'mouse-wheel-down-event)
   (let ((down-key (kbd (format "<C-%s>" mouse-wheel-down-event))))
     (define-key global-map down-key 'text-scale-increase)))
@@ -128,7 +122,6 @@
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
 (define-key global-map (kbd "C-c <f5>") 'revert-buffer)
-(define-key global-map (kbd "<mode-line> <mouse-2>") 'my-goto-*scratch*)
 (define-key global-map (kbd "<f2>") 'rename-buffer)
 (define-key global-map (kbd "M-j") 'my-delete-indentation-forward)
 (define-key global-map (kbd "<insert>") nil)
@@ -309,10 +302,6 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
 (defun my-revert-buffer-noconfirm ()
   (interactive)
   (revert-buffer t t))
-
-(defun my-kmacro-end-or-call-macro-infinity ()
-  (interactive)
-  (kmacro-end-or-call-macro 99))
 
 (defun my-find-init-file ()
   (interactive)
