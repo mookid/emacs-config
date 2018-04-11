@@ -1284,7 +1284,8 @@ In that case, insert the number."
 
   (defun my-counsel-rg (p)
     (interactive "P")
-    (let ((directory (if p (read-directory-name "counsel from directory: "))))
+    (let* ((directory (if p (read-directory-name "counsel from directory: ")))
+           ((current-prefix-arg nil)))
       (counsel-rg (my-prompt) directory)))
 
   (defun ivy-display-function-popup (text)
