@@ -1333,6 +1333,7 @@ In that case, insert the number."
   (setq ivy-use-virtual-buffers t)
   :config
   (progn
+    (setq ivy-height 30)
     (add-to-list 'ivy-initial-inputs-alist
                  '(counsel-switch-to-shell-buffer . "*shell*"))
     (add-to-list 'ivy-initial-inputs-alist
@@ -1751,6 +1752,12 @@ If provided, do it ARG times."
 
 (use-package string-inflection
   :bind ("C-S-u" . string-inflection-all-cycle))
+
+(use-package ivy-posframe
+  :if (>= emacs-major-version 26)
+  :config
+  (setq ivy-display-function #'ivy-posframe-display-at-window-center)
+  (ivy-posframe-enable))
 
 (provide 'my-init)
 ;;; my-init.el ends here
