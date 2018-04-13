@@ -1670,6 +1670,7 @@ In that case, insert the number."
   (setq centi-assign-key (kbd "C-<f3>")))
 
 (use-package sh-script
+  :defer t
   :preface
   (defun my-sh-quote-or-unquote ()
     "Wrap or unwrap the sexp at point inside a pair of double quotes."
@@ -1689,6 +1690,7 @@ In that case, insert the number."
         ("C-c C-z" . nil)
         ("C-c q" . my-sh-quote-or-unquote))
   :config
+  (add-hook 'sh-mode-hook 'my-dos2unix)
   (setq sh-basic-offset 8)
   (setq sh-indentation 8))
 
