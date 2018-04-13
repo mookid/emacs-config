@@ -46,6 +46,9 @@
 (add-to-list 'completion-styles 'partial-completion)
 (add-to-list 'completion-styles 'initials)
 
+(defvar my-undo-command 'undo
+  "A symbol to be funcalled to undo.")
+
 (progn
   (global-visual-line-mode +1)
   (setf (cdr visual-line-mode-map) nil)
@@ -117,7 +120,6 @@
 (define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
 (define-key global-map (kbd "C-c F") 'my-toggle-debug)
 (define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
-(define-key global-map (kbd "C-c (") 'my-delete-pair)
 (define-key global-map (kbd "C-S-u") 'upcase-region)
 (define-key global-map (kbd "C-S-l") 'downcase-region)
 (define-key global-map (kbd "C-S-k") 'my-kill-line-backward)
@@ -207,19 +209,64 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
 
-(defun my-delete-pair ()
+(defvar my-pairs-alist
+  '((?\" . ?\")
+    (?\( . ?\))
+    (?\{ . ?\})
+    (?\[ . ?\]))
+  "Supported delimiters for `my-delete-pair' and `my-cycle-pair'.")
+
+(let (my-delete-pair-last)
+  (defun my-delete-pair ()
+    "Remove the pair of parenthesis around the point, or undo it."
+    (interactive)
+    (cond (my-delete-pair-last
+           (funcall my-undo-command))
+          (t
+           (save-excursion
+             (cond ((rassoc (char-after (1- (point))) my-pairs-alist)
+                    (backward-sexp)
+                    (delete-pair))
+                   ((assoc (char-after (point)) my-pairs-alist)
+                    (delete-pair))
+                   (t
+                    (error "Not on a parenthesis-like character"))))))
+    (cl-callf not my-delete-pair-last)))
+
+(defun my-cycle-pair ()
+  "Toggle the parenthesis pair around the point and set mark at the other end.
+
+The pairs depend on the value of `my-pairs-alist'.  The command
+fails if the point is not either on an opening parenthesis
+character or right after a closing one."
   (interactive)
-  (save-excursion
-    (let (char)
-      (cond ((and (setq char (char-after (1- (point))))
-                  (string-match (char-to-string char) ")}]\""))
-             (backward-sexp)
-             (delete-pair))
-            ((and (setq char (char-after (point)))
-                  (string-match (char-to-string char) "({[\""))
-             (delete-pair))
-            (t
-             (error "Not on a parenthesis-like character"))))))
+  (let ((old-point (point))
+        cell
+        new-mark)
+    (unwind-protect
+        (progn
+          (cond ((setq cell (cl-member (char-after (1- (point))) my-pairs-alist :key 'cdr))
+                 (backward-sexp)
+                 (setq new-mark (point)))
+                ((setq cell (cl-member (char-after (point)) my-pairs-alist :key 'car)))
+                (t
+                 (error "Not on a parenthesis-like character")))
+          (let ((pair (car (or (cdr-safe cell) my-pairs-alist))))
+            (save-excursion
+              (forward-sexp)
+              (unless new-mark
+                (setq new-mark (point)))
+              (delete-char -1)
+              (insert (cdr pair)))
+            (delete-char 1)
+            (insert (car pair))))
+      ;; save excursion does not work because of the buffer mofification
+      (goto-char old-point)
+      (set-mark new-mark))))
+
+(defhydra my-cycle-pair (global-map "C-c")
+  ("(" my-delete-pair nil)
+  (")" my-cycle-pair nil))
 
 (defun my-dos2unix ()
   (interactive)
@@ -1468,8 +1515,11 @@ In that case, insert the number."
      ("C-'" . mc-hide-unmatched-lines-mode))))
 
 (use-package undo-tree
+  :demand t
   :diminish undo-tree-mode
-  :config (global-undo-tree-mode 1))
+  :config
+  (global-undo-tree-mode 1)
+  (setq my-undo-command 'undo-tree-undo))
 
 (use-package wgrep
   :bind
