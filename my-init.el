@@ -1215,21 +1215,19 @@ A regexp that captures one match.")
     (lispy-set-key-theme '(special))))
 
 (use-package magit
+  :commands magit-toplevel
   :preface
   (defun my-is-dedicated-to-magit (frame)
     (let ((cell (assq 'dedicated-to (frame-parameters frame))))
       (and (consp cell) (eq (cdr cell) 'magit))))
-  (use-package eshell
-    :commands eshell-command
-    :preface
-    (defun my-create-tags ()
-      (interactive)
-      (let ((default-directory (or (magit-toplevel)
-                                   (read-directory-name "Directory: "))))
-        (eshell-command
-         (format "find %s -type f -name %S | etags -"
-                 default-directory
-                 (read-string "file extension: " "*.[ch]"))))))
+  (defun my-create-tags ()
+    (interactive)
+    (let ((default-directory (or (magit-toplevel)
+                                 (read-directory-name "Directory: "))))
+      (shell-command
+       (format "find %s -type f -name %S | etags -"
+               default-directory
+               (read-string "file extension: " "*.[ch]")))))
   :defer t
   :bind
   (("C-x g" . magit-status)
