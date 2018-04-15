@@ -264,10 +264,6 @@ character or right after a closing one."
       (goto-char old-point)
       (set-mark new-mark))))
 
-(defhydra my-cycle-pair (global-map "C-c")
-  ("(" my-delete-pair nil)
-  (")" my-cycle-pair nil))
-
 (defun my-dos2unix ()
   (interactive)
   (set-buffer-file-coding-system 'unix t)
@@ -787,7 +783,11 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("2" my-split-window-below "split below")
       ("3" my-split-window-right "split right")
       ("=" balance-windows "balance")
-      ("q" nil "quit"))))
+      ("q" nil "quit"))
+    (defhydra my-cycle-pair (global-map "C-c")
+      "parenthesis"
+      ("(" my-delete-pair "delete")
+      (")" my-cycle-pair "cycle"))))
 
 (use-package dired
   :commands (dired dired-get-file-for-visit)
