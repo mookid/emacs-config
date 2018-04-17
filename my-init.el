@@ -146,15 +146,8 @@
                       mode-line-format))
 
 (defun my-visual-ring-bell ()
-  (let ((face-background (face-background 'mode-line))
-        (face-foreground (face-foreground 'mode-line)))
-    (unwind-protect
-        (progn
-          (set-face-background 'mode-line "DodgerBlue")
-          (set-face-foreground 'mode-line "White")
-          (sit-for 0.1))
-      (set-face-background 'mode-line face-background)
-      (set-face-foreground 'mode-line face-foreground))))
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil 'invert-face 'mode-line))
 (setq ring-bell-function 'my-visual-ring-bell)
 
 (defvar my-frame-params
@@ -901,8 +894,7 @@ if its size is 1 line."
       (and (string= (buffer-name buf) "*compilation*")
            (string-match "^finished\\b" status)
            (not (re-search-forward "warning" nil t))
-           (sit-for 0.4)
-           (delete-window (get-buffer-window buf)))))
+           (run-with-timer 0.4 nil #'delete-window (get-buffer-window buf)))))
   :init
   (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
   :config
