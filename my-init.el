@@ -517,48 +517,32 @@ region (if any) or the next sexp."
 
 (progn
   (defvar my-untabify-this-buffer)
-  (defun my-toggle-untabify-this-buffer ()
-    "Toggle untabification of the current buffer."
-    (interactive)
-    (callf 'not my-untabify-this-buffer)
-    (message "%s %s"
-             (if my-untabify-this-buffer "Untabify" "Don't untabify")
-             (buffer-name)))
-  (defvar my-inhibit-untabification nil)
+  (make-variable-buffer-local 'my-untabify-this-buffer)
 
   (defun my-save-buffers-without-untabification ()
     (interactive)
-    (let ((my-inhibit-untabification t))
+    (let ((my-untabify-this-buffer nil))
       (save-some-buffers t)))
 
   (defun my-untabify-buffer ()
     "Untabify the current buffer and delete trailing whitespaces,
 unless `my-untabify-this-buffer' is nil."
-    (unless my-inhibit-untabification
-      (cond (my-untabify-this-buffer
-             (whitespace-mode -1)
-             (untabify (point-min) (point-max))
-             (delete-trailing-whitespace))
-            (t (whitespace-mode +1)))))
+    (when my-untabify-this-buffer
+      (untabify (point-min) (point-max))
+      (delete-trailing-whitespace)))
 
-  (make-variable-buffer-local 'my-untabify-this-buffer)
   (define-minor-mode my-untabify-mode
     "Untabify buffer on save. When not applicable, turn on `whitespace-mode'.
 
 \\{my-untabify-mode-map}"
-    :lighter (:eval (and my-untabify-this-buffer " untab"))
-    :keymap (let ((map (make-sparse-keymap)))
-              (define-key map (kbd "C-c <tab>") 'my-toggle-untabify-this-buffer)
-              map)
+    :lighter " untab"
     (cond (my-untabify-mode
            (setq my-untabify-this-buffer
                  (not (or (derived-mode-p 'makefile-mode)
                           (re-search-forward "\t" nil t))))
-           (or my-untabify-this-buffer (whitespace-mode 1))
            (add-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
-           (and my-untabify-this-buffer (whitespace-mode -1))
            (remove-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (remove-hook 'before-save-hook #'my-untabify-buffer t))))
   (add-hook 'prog-mode-hook 'my-untabify-mode))
@@ -1724,12 +1708,12 @@ In that case, insert the number."
   (advice-add 'restart-emacs :around #'my-no-confirm))
 
 (use-package whitespace
+  :init (global-whitespace-mode +1)
   :config
-  (progn
-    (set-face-background 'whitespace-space-after-tab nil)
-    (set-face-background 'whitespace-indentation nil)
-    (set-face-foreground 'whitespace-line nil)
-    (set-face-background 'whitespace-line nil)))
+  (set-face-background 'whitespace-space-after-tab nil)
+  (set-face-background 'whitespace-indentation nil)
+  (set-face-foreground 'whitespace-line nil)
+  (set-face-background 'whitespace-line nil))
 
 (use-package ace-link
   :init
