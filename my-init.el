@@ -520,7 +520,7 @@ region (if any) or the next sexp."
   (defun my-toggle-untabify-this-buffer ()
     "Toggle untabification of the current buffer."
     (interactive)
-    (setq-local my-untabify-this-buffer (not my-untabify-this-buffer))
+    (callf 'not my-untabify-this-buffer)
     (message "%s %s"
              (if my-untabify-this-buffer "Untabify" "Don't untabify")
              (buffer-name)))
@@ -1415,8 +1415,7 @@ In that case, insert the number."
   :defer t
   :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error))
   :config
-  (progn
-    (setq flycheck-check-syntax-automatically '(save mode-enable))))
+  (setq flycheck-check-syntax-automatically '(save mode-enable)))
 
 (use-package tuareg
   :preface
@@ -1580,7 +1579,8 @@ In that case, insert the number."
   :config
   (progn
     (hl-todo-set-regexp)
-    (set-face-attribute 'hl-todo nil :foreground "deep pink" :background "yellow")))
+    (set-face-foreground 'hl-todo "red")
+    (set-face-background 'hl-todo "yellow")))
 
 (use-package hl-line
   :commands (hl-line-mode global-hl-line-mode)
