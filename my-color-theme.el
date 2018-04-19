@@ -38,7 +38,7 @@
  '(mode-line-inactive ((t (:background "#a9a9a9" :foreground "blue4"))))
  '(region ((t :background "#262D51")))
  '(success ((t (:weight bold :foreground "#A8FF60"))))
- '(whitespace-space ((t))))
+ '(whitespace-space ((t (:foreground "#303030")))))
 
 (provide-theme 'my-color)
 ;;; my-color-theme.el ends here
