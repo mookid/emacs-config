@@ -1743,10 +1743,6 @@ In that case, insert the number."
   (progn
     (my-key-chord-define global-map "hh" 'helpful-at-point)))
 
-(use-package dired-sidebar
-  :bind
-  ("<f6>" . dired-sidebar-toggle-sidebar))
-
 (use-package saveplace
   :config
   (when (fboundp 'save-place-mode)
