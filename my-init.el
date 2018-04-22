@@ -155,7 +155,7 @@
     (pcase system-type
       (`darwin
         '(height 30 font "Menlo 18"))
-      (`,_
+      (_
         '(height 45 font "DejaVu Sans Mono 14"))))
   "Configuration for `default-frame-alist'.")
 
