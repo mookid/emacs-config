@@ -794,9 +794,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (setq dired-recursive-deletes 'always)
     (setq dired-recursive-copies 'always))
   :config
-  (progn
-    (set-face-attribute 'dired-ignored nil
-                        :foreground "gray60")))
+  (set-face-foreground 'dired-ignored "gray60"))
 
 (use-package ffap
   :commands ffap-guesser
@@ -1183,7 +1181,6 @@ A regexp that captures one match.")
   :config
   (setq magit-bury-buffer-function 'bury-buffer)
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
-  (set-face-foreground 'magit-diff-file-heading "blue")
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
   (setq magit-commit-ask-to-stage t)
