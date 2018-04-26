@@ -634,6 +634,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (fullframe list-packages quit-window))
 
 (use-package vc
+  :defer t
   :commands vc-root-dir
   :preface
   (defun my-vc-add-current-buffer ()
@@ -666,11 +667,13 @@ If non nil, ARG overrides the `back-to-indentation' function."
        ("d" . vc-diff)))))
 
 (use-package ediff-wind
+  :defer t
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally))
 
 (use-package elec-pair
+  :defer t
   :commands electric-pair-mode
   :preface
   (defun my-electric-pair-mode (flag)
@@ -720,6 +723,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (my-key-chord-setup))
 
 (use-package hippie-exp
+  :defer t
   :bind
   (("C-M-/" . my-expand-lines))
   :init
@@ -767,6 +771,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       (")" my-cycle-pair "cycle"))))
 
 (use-package dired
+  :defer t
   :commands (dired dired-get-file-for-visit)
   :preface
   (defun my-dired-mouse-find-file (event)
@@ -884,6 +889,7 @@ if its size is 1 line."
   :config
   (progn
     (use-package compile
+      :defer t
       :init
       (progn
         (setq compilation-ask-about-save nil)
@@ -901,6 +907,7 @@ if its size is 1 line."
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)))
 
 (use-package iedit
+  :defer t
   :preface
   (defun my-iedit-occur (&optional nlines)
     (interactive "p")
@@ -1167,10 +1174,12 @@ A regexp that captures one match.")
     (advice-add 'comint-next-input :before #'my-end-of-buffer-hook)))
 
 (use-package evil-nerd-commenter
+  :defer t
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
          ("C-c c". evilnc-copy-and-comment-lines)))
 
 (use-package anzu
+  :defer t
   :init (global-anzu-mode 1)
   :diminish anzu-mode
   :bind
@@ -1366,7 +1375,7 @@ In that case, insert the number."
 
 (use-package projectile
   :diminish projectile-mode
-  :defer 5
+  :defer t
   :init
   (progn
     (my-key-chord-define global-map "pf" 'projectile-find-file)
@@ -1376,6 +1385,7 @@ In that case, insert the number."
     (projectile-mode +1)))
 
 (use-package slime
+  :defer t
   :bind
   (:map
    slime-mode-map
@@ -1458,6 +1468,7 @@ In that case, insert the number."
   :config (yas-reload-all))
 
 (use-package diff-hl
+  :defer t
   :bind
   (("C-M-[" . diff-hl-previous-hunk)
    ("C-M-]" . diff-hl-next-hunk)
@@ -1474,12 +1485,14 @@ In that case, insert the number."
     (advice-add 'diff-hl-revert-hunk :around #'my-no-confirm)))
 
 (use-package multiple-cursors
+  :defer t
   :bind
   (("C->" . mc/mark-next-like-this)
    ("C-<" . mc/mark-previous-like-this)
    ("C-M-<mouse-1>" . mc/add-cursor-on-click))
   :init
   (use-package mc-mark-more
+    :defer t
     :bind
     (:map
      mc/keymap
@@ -1497,12 +1510,14 @@ In that case, insert the number."
   (setq my-undo-command 'undo-tree-undo))
 
 (use-package wgrep
+  :defer t
   :bind
   (:map grep-mode-map
         ("C-x C-q" . wgrep-change-to-wgrep-mode)
         ("C-c C-c" . wgrep-finish-edit)))
 
 (use-package hi-lock
+  :defer t
   :diminish "hl"
   :preface
   (defun my-unhighlight-all ()
@@ -1517,6 +1532,7 @@ In that case, insert the number."
    ("C-z u" . my-unhighlight-all)))
 
 (use-package woman
+  :defer t
   :bind
   ("C-c d" . woman))
 
@@ -1529,6 +1545,7 @@ In that case, insert the number."
            (display-battery-mode))))
 
 (use-package macrostep
+  :defer t
   :bind
   (:map
    lisp-interaction-mode-map
@@ -1538,7 +1555,7 @@ In that case, insert the number."
    ("C-c e" . macrostep-expand)))
 
 (use-package erlang
-  :defer 15
+  :defer t
   :preface
   (defun my-insert-erl-module-stub ()
     (when (and (= (point-min) (point-max))
@@ -1671,6 +1688,7 @@ In that case, insert the number."
   (setq sh-indentation 8))
 
 (use-package move-text
+  :defer t
   :bind
   (("C-S-<down>" . move-text-down)
    ("C-S-<up>" . move-text-up)))
@@ -1690,6 +1708,7 @@ In that case, insert the number."
     (minibuffer-depth-indicate-mode +1)))
 
 (use-package vimish-fold
+  :defer t
   :bind
   (("C-`" . vimish-fold)
    ("C-c f" . vimish-fold-delete-all)))
@@ -1722,6 +1741,7 @@ In that case, insert the number."
   (ace-link-setup-default))
 
 (use-package rust-mode
+  :defer t
   :mode ("\\.rs?$" . rust-mode)
   :config
   (progn
@@ -1741,6 +1761,7 @@ In that case, insert the number."
         (add-hook 'rust-mode-hook 'racer-mode)))))
 
 (use-package helpful
+  :defer t
   :init
   (progn
     (my-key-chord-define global-map "hh" 'helpful-at-point)))
@@ -1751,10 +1772,12 @@ In that case, insert the number."
     (save-place-mode +1)))
 
 (use-package javadoc-lookup
+  :defer t
   :bind
   ("C-h j" . javadoc-lookup))
 
 (use-package pager
+  :defer t
   :preface
   (defun my-scroll-up-command-pager (arg)
     "Apply `pager-page-down'.
@@ -1775,6 +1798,7 @@ If provided, do it ARG times."
   (fset 'my-scroll-down-command 'my-scroll-down-command-pager))
 
 (use-package string-inflection
+  :defer t
   :bind ("C-S-u" . string-inflection-all-cycle))
 
 (use-package ivy-posframe
