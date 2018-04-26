@@ -909,8 +909,6 @@ if its size is 1 line."
   :bind
   (("C-;" . iedit-mode)
    :map iedit-mode-keymap
-   ("C-s" . iedit-next-occurrence)
-   ("C-r" . iedit-prev-occurrence)
    ("M-o" . my-iedit-occur)))
 
 
@@ -1102,6 +1100,8 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
+   ("<tab>" . isearch-repeat-forward)
+   ("S-<tab>" . isearch-repeat-backward)
    ("<escape>" . my-isearch-suspend)
    ("<f3>" . isearch-repeat-forward)
    ("S-<f3>" . isearch-repeat-backward)
