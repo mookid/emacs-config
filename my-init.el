@@ -1181,13 +1181,7 @@ A regexp that captures one match.")
 (use-package anzu
   :defer t
   :init (global-anzu-mode 1)
-  :diminish anzu-mode
-  :bind
-  (([remap query-replace] . anzu-query-replace)
-   ([remap query-replace-regexp] . anzu-query-replace-regexp)
-   :map isearch-mode-map
-   ([remap isearch-query-replace] . anzu-isearch-query-replace)
-   ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
+  :diminish anzu-mode)
 
 (use-package lispy
   :commands lispy-set-key-theme
