@@ -1320,8 +1320,10 @@ In that case, insert the number."
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
+   ([remap switch-to-buffer] . ivy-switch-buffer)
    ("C-c b" . counsel-bookmark)
    ("<f8>" . my-counsel-rg)
+   ("M-i" . counsel-imenu)
    ("C-S-r" . ivy-resume)
    ("C-M-y". counsel-yank-pop)
    ("C-c M-x" . counsel-M-x)
