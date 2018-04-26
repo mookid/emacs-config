@@ -719,7 +719,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :config
   (my-key-chord-setup))
 
-(use-package hippie-expand
+(use-package hippie-exp
   :bind
   (("C-M-/" . my-expand-lines))
   :init
