@@ -1731,8 +1731,6 @@ In that case, insert the number."
 (use-package whitespace
   :init (global-whitespace-mode +1)
   :config
-  (set-face-background 'whitespace-space-after-tab nil)
-  (set-face-background 'whitespace-indentation nil)
   (set-face-foreground 'whitespace-line nil)
   (set-face-background 'whitespace-line nil))
 
