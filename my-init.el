@@ -882,8 +882,8 @@ if its size is 1 line."
       (goto-char (point-min))
       (and (string= (buffer-name buf) "*compilation*")
            (string-match "^finished\\b" status)
-           (not (re-search-forward "warning" nil t))
-           (run-with-timer 0.4 nil #'delete-window (get-buffer-window buf)))))
+           (not (search-forward "warning" nil t))
+           (run-with-timer 0.4 nil #'kill-buffer buf))))
   :init
   (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
   :config
@@ -897,13 +897,6 @@ if its size is 1 line."
         (setq compilation-scroll-output 'first-error))
       :bind
       (("<f5>" . recompile)))
-
-    (add-to-list 'display-buffer-alist
-                 '("*compilation*\\|*Occur*\\|*xref*\\|*ivy-occur\\|*Cargo"
-                   (display-buffer-reuse-window display-buffer-in-side-window)
-                   (reusable-frames . nil)
-                   (side . bottom)
-                   (window-height . 0.3)))
     (add-hook 'compilation-finish-functions #'my-compile-finish-hook)))
 
 (use-package iedit
@@ -1213,12 +1206,6 @@ A regexp that captures one match.")
    ("C-x v p" . magit-blame)
    ("M-<f7>" . magit-status))
   :config
-  (add-to-list 'display-buffer-alist
-               '("*magit"
-                 (display-buffer-use-some-frame display-buffer-pop-up-frame)
-                 (pop-up-frame-parameters . ((dedicated-to . magit)))
-                 (reusable-frames . nil)
-                 (frame-predicate . my-is-dedicated-to-magit)))
   (setq magit-bury-buffer-function 'bury-buffer)
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
   (set-face-foreground 'magit-diff-file-heading "blue")
