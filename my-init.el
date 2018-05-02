@@ -40,8 +40,6 @@
 (keyboard-translate ?\[ ?\()
 (keyboard-translate ?\) ?\])
 (keyboard-translate ?\] ?\))
-(keyboard-translate ?\C-p ?\C-h)
-(keyboard-translate ?\C-h ?\C-p)
 
 (add-to-list 'completion-styles 'partial-completion)
 (add-to-list 'completion-styles 'initials)
@@ -539,7 +537,7 @@ unless `my-untabify-this-buffer' is nil."
     (cond (my-untabify-mode
            (setq my-untabify-this-buffer
                  (not (or (derived-mode-p 'makefile-mode)
-                          (re-search-forward "\t" nil t))))
+                          (search-forward "\t" nil t))))
            (add-hook 'focus-out-hook #'my-save-buffers-without-untabification)
            (add-hook 'before-save-hook #'my-untabify-buffer nil t))
           (t
@@ -758,7 +756,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("<right>" next-buffer "next")
       ("k" my-kill-buffer "kill")
       ("o" other-window "other window")
-      ("`" other-window "other window")
+      ("`" my-other-window-or-switch-buffer "other window")
       ("0" delete-window "delete window")
       ("1" delete-other-windows "delete other windows")
       ("2" my-split-window-below "split below")
@@ -1781,12 +1779,6 @@ If provided, do it ARG times."
 (use-package string-inflection
   :defer t
   :bind ("C-S-u" . string-inflection-all-cycle))
-
-(use-package ivy-posframe
-  :if (>= emacs-major-version 26)
-  :config
-  (setq ivy-display-function #'ivy-posframe-display-at-window-center)
-  (ivy-posframe-enable))
 
 (provide 'my-init)
 ;;; my-init.el ends here
