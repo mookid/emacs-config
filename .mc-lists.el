@@ -48,6 +48,7 @@
         my-jump-to-char
         my-kill-line-backward
         my-kill-region-or-backward-word
+        my-kill-region-or-whole-line
         my-move-beginning-of-line
         my-next-beginning
         my-previous-end
@@ -144,12 +145,14 @@
         compile
         counsel-describe-variable
         end-of-buffer
+        eval-defun
         handle-switch-frame
         iedit-switch-to-mc-mode
         lispy-cursor-down
         multiple-cursors-hydra/mc/mark-next-like-this
         my-clone-line
         my-goto-*scratch*
+        my-previous-next-buffer-repeat/my-other-window-or-switch-buffer
         my-save-all-buffers
         ocp-indent-buffer
         ocp-index-jump-to-sig-at-point
