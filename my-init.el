@@ -1150,6 +1150,10 @@ A regexp that captures one match.")
     :init
     (setq shell-file-name "bash")
     (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m))
+  (use-package shell
+    :if (not window-system)
+    :bind
+    ("C-z" . suspend-emacs))
   :bind
   (:map shell-mode-map
         ([remap dired] . my-shell-dired)
@@ -1161,8 +1165,6 @@ A regexp that captures one match.")
   :config
   (progn
     (setq-default comint-input-ignoredups 1)
-    (unless window-system
-      (define-key global-map (kbd "C-z") 'suspend-emacs))
     (advice-add 'comint-previous-input :before #'my-end-of-buffer-hook)
     (advice-add 'comint-next-input :before #'my-end-of-buffer-hook)))
 
@@ -1231,43 +1233,42 @@ A regexp that captures one match.")
                         :inherit 'error
                         :box t)))
 
-(use-package company
-  :commands (company-abort company-complete-number)
-  :preface
-  (defun my-company-number ()
-    "Forward to `company-complete-number'.
+(eval
+ `(use-package company
+    :commands (company-abort company-complete-number)
+    :preface
+    (defun my-company-number ()
+      "Forward to `company-complete-number'.
 Unless the number is potentially part of the candidate.
 In that case, insert the number."
-    (interactive)
-    (let* ((k (this-command-keys))
-           (re (concat "^" company-prefix k)))
-      (if (cl-find-if (lambda (s) (string-match re s))
-                      company-candidates)
-          (self-insert-command 1)
-        (company-complete-number
-         (if (equal k "0")
-             10
-           (string-to-number k))))))
-  (defun my-company-abort-with-space ()
-    (interactive)
-    (company-abort)
-    (self-insert-command 1))
-  :defer t
-  :bind
-  (:map
-   company-mode-map
-   ("C-\\" . company-complete))
-  :init
-  (add-hook 'prog-mode-hook 'company-mode)
-  :config
-  (progn
-    (let ((map company-active-map))
-      (dotimes (x 10)
-        (define-key map (format "%d" x) 'my-company-number))
-      (define-key map (kbd " ") 'my-company-abort-with-space)
-      (define-key map (kbd "<return>") nil)
-      (define-key map (kbd "C-n") 'company-select-next)
-      (define-key map (kbd "C-p") 'company-select-previous))
+      (interactive)
+      (let* ((k (this-command-keys))
+             (re (concat "^" company-prefix k)))
+        (if (cl-find-if (lambda (s) (string-match re s))
+                        company-candidates)
+            (self-insert-command 1)
+          (company-complete-number
+           (if (equal k "0")
+               10
+             (string-to-number k))))))
+    (defun my-company-abort-with-space ()
+      (interactive)
+      (company-abort)
+      (self-insert-command 1))
+    :defer t
+    :bind
+    (:map
+     company-mode-map
+     ("C-\\" . company-complete))
+    (:map
+     company-active-map
+     (" " . 'my-company-abort-with-space)
+     ("<return>" . nil)
+     ("C-n" . 'company-select-next)
+     ("C-p" . 'company-select-previous)
+     ,@(cl-loop for i below 10
+                collect `(,(format "%d" i) . my-company-number)))
+    :config
     (setq company-show-numbers t)
     (setq company-idle-delay nil)
     (setq company-minimum-prefix-length 2)
@@ -1439,10 +1440,11 @@ In that case, insert the number."
 (use-package image-mode
   :config
   (use-package image+
-    :init
-    (progn
-      (define-key image-mode-map (kbd "+") 'imagex-sticky-zoom-in)
-      (define-key image-mode-map (kbd "-") 'imagex-sticky-zoom-out))))
+    :bind
+    (:map
+     image-mode-map
+     ("+" . imagex-sticky-zoom-in)
+     ("-" . imagex-sticky-zoom-out))))
 
 (use-package yasnippet
   :defer t
