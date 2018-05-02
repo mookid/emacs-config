@@ -1389,7 +1389,10 @@ In that case, insert the number."
 
 (use-package flycheck
   :defer t
-  :bind (:map flycheck-mode-map ("C-S-<next>" . flycheck-next-error))
+  :bind
+  (:map
+   flycheck-mode-map
+   ("<f6>" . flycheck-list-errors))
   :config
   (setq flycheck-check-syntax-automatically '(save mode-enable)))
 
