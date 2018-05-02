@@ -18,6 +18,7 @@
 (setq set-mark-command-repeat-pop t)
 (setq completion-cycle-threshold 5)
 (setq initial-scratch-message nil)
+(setq initial-major-mode 'fundamental-mode)
 (setq mouse-wheel-progressive-speed nil)
 (setq next-line-add-newlines nil)
 (setq require-final-newline t)
@@ -914,7 +915,6 @@ if its size is 1 line."
 (use-package ielm
   :init
   (progn
-    (setq initial-major-mode 'emacs-lisp-mode)
     (setq eval-expression-print-level nil)
     (use-package elisp-mode
       :bind
