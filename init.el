@@ -9,7 +9,8 @@
       (debug-on-error t))
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (package-initialize)
+  (when (version< emacs-version "27.0")
+    (package-initialize))
 
   (require 'benchmark-init)
 
