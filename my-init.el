@@ -1581,34 +1581,6 @@ In that case, insert the number."
   (add-hook 'next-error-hook 'next-error-buffer-hl-line)
   (global-hl-line-mode 1))
 
-(use-package visible-mark
-  :preface
-  (defface visible-mark-active
-    '((((type tty) (class mono)))
-      (t (:background "magenta")))
-    "Face for visible-mark."
-    :group 'visible-mark)
-  (setq visible-mark-faces
-        (let ((i 0) faces)
-          (dolist (color '("light green" "yellow" "light blue"))
-            (push (eval `(defface ,(intern (format "visible-mark-face%d" (setq i (1+ i))))
-                           '((((class color) (background light)) :background ,color))
-                           "Face for visible-mark."
-                           :group 'visible-mark))
-                  faces)
-            (message "defined face %s" (format "visible-mark-face%d" (1+ i))))
-          (nreverse faces)))
-  :init
-  (progn
-    (setq show-paren-priority -1)
-    (setq visible-mark-max (length visible-mark-faces))
-    (setq visible-mark-forward-max 2)
-    (global-visible-mark-mode 1)))
-
-(use-package which-key
-  :diminish which-key-mode
-  :init (which-key-mode +1))
-
 (use-package smartparens
   :preface
   (defun my-smartparens-mode-setup ()
@@ -1628,23 +1600,11 @@ In that case, insert the number."
     (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
     (add-hook 'prog-mode-hook 'smartparens-mode t)))
 
-(use-package icomplete-mode
-  :disabled t
-  :init (icomplete-mode +1)
-  :bind
-  (:map icomplete-minibuffer-map
-        ("C-s" . icomplete-forward-completions)
-        ("C-r" . icomplete-backward-completions)))
-
 (use-package ispell
   :config
   (progn
     (setq ispell-program-name "hunspell")
     (setq ispell-dictionary "english")))
-
-(use-package centimacro
-  :init
-  (setq centi-assign-key (kbd "C-<f3>")))
 
 (use-package sh-script
   :defer t
