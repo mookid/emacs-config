@@ -882,7 +882,7 @@ if its size is 1 line."
       (and (string= (buffer-name buf) "*compilation*")
            (string-match "^finished\\b" status)
            (not (search-forward "warning" nil t))
-           (run-with-timer 0.4 nil #'kill-buffer buf))))
+           (run-with-timer 0.4 nil #'switch-to-prev-buffer (get-buffer-window buf)))))
   :init
   (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
   :config
