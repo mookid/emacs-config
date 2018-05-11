@@ -597,8 +597,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 
 ;;; Packages
-(use-package fullframe)
-
 (use-package savehist
   :init
   (savehist-mode t)
@@ -623,14 +621,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package ibuffer
   :bind
-  ([remap list-buffers] . ibuffer)
-  :config
-  (fullframe ibuffer quit-window))
-
-(use-package package
-  :commands list-packages
-  :init
-  (fullframe list-packages quit-window))
+  ([remap list-buffers] . ibuffer))
 
 (use-package vc
   :defer t
@@ -657,8 +648,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (advice-add 'vc-diff :before #'my-save-all-buffers)
     (advice-add 'diff-apply-hunk :around #'my-no-confirm)
     (use-package vc-dir
-      :config
-      (fullframe vc-dir quit-window)
       :bind
       (([remap vc-dir] . my-vc-dir-root)
        ("C-M-<f7>" . vc-dir)
