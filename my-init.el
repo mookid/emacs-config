@@ -7,6 +7,7 @@
 (eval-when-compile (require 'cl-lib))
 (require 'use-package)
 (setq use-package-verbose t)
+(setq use-package-hook-name-suffix nil)
 
 
 ;;; Basic configuration
@@ -617,7 +618,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (global-auto-revert-mode +1))
 
 (use-package diff
-  :init (add-hook 'diff-mode-hook 'read-only-mode))
+  :hook (diff-mode-hook . read-only-mode))
 
 (use-package ibuffer
   :bind
@@ -787,13 +788,11 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (progn
     (use-package dired-aux
       :commands (dired-isearch-filenames-mode)
-      :init
-      (add-hook 'dired-mode-hook 'dired-isearch-filenames-mode))
+      :hook (dired-mode-hook . dired-isearch-filenames-mode))
     (setq dired-dwim-target t)
     (use-package dired-x
       :commands (dired-omit-mode dired-jump)
-      :init
-      (add-hook 'dired-mode-hook 'dired-omit-mode)
+      :hook (dired-mode-hook . dired-omit-mode)
       :bind
       (("M-<up>" . dired-jump)
        ("C-x C-j" . dired-jump)
@@ -872,20 +871,17 @@ if its size is 1 line."
            (string-match "^finished\\b" status)
            (not (search-forward "warning" nil t))
            (run-with-timer 0.4 nil #'switch-to-prev-buffer (get-buffer-window buf)))))
-  :init
-  (add-hook 'grep-mode-hook 'my-disable-jump-to-error)
+  :hook (grep-mode-hook . my-disable-jump-to-error)
   :config
-  (progn
-    (use-package compile
-      :defer t
-      :init
-      (progn
-        (setq compilation-ask-about-save nil)
-        (setq compilation-always-kill t)
-        (setq compilation-scroll-output 'first-error))
-      :bind
-      (("<f5>" . recompile)))
-    (add-hook 'compilation-finish-functions #'my-compile-finish-hook)))
+  (use-package compile
+    :defer t
+    :hook (compilation-finish-functions . my-compile-finish-hook)
+    :init
+    (setq compilation-ask-about-save nil)
+    (setq compilation-always-kill t)
+    (setq compilation-scroll-output 'first-error)
+    :bind
+    (("<f5>" . recompile))))
 
 (use-package iedit
   :defer t
@@ -1097,8 +1093,8 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("M-e" . isearch-toggle-symbol)
    ("M-<" . my-isearch-beginning-of-buffer)
    ("M->" . my-isearch-end-of-buffer))
+  :hook (isearch-mode-end-hook . my-isearch-exit-beginning)
   :init
-  (add-hook 'isearch-mode-end-hook #'my-isearch-exit-beginning)
   (advice-add 'isearch-forward :around #'my-isearch-region-hook)
   (advice-add 'isearch-backward :around #'my-isearch-region-hook)
   (advice-add 'isearch-forward-regexp :around #'my-isearch-region-hook)
@@ -1136,7 +1132,7 @@ A regexp that captures one match.")
     :if (eq system-type 'windows-nt)
     :init
     (setq shell-file-name "bash")
-    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m))
+    :hook (comint-output-filter-functions . comint-strip-ctrl-m))
   (use-package shell
     :if (not window-system)
     :bind
@@ -1169,11 +1165,11 @@ A regexp that captures one match.")
   :commands lispy-set-key-theme
   :defer t
   :init
-  (progn (add-hook 'emacs-lisp-mode-hook 'lispy-mode)
-         (add-hook 'lisp-mode-hook 'lispy-mode))
+  :hook
+  ((emacs-lisp-mode-hook . lispy-mode)
+   (lisp-mode-hook . lispy-mode))
   :config
-  (progn
-    (lispy-set-key-theme '(special))))
+  (lispy-set-key-theme '(special)))
 
 (use-package magit
   :commands magit-toplevel
@@ -1208,17 +1204,12 @@ A regexp that captures one match.")
   (defun my-rainbow-delimiters-disable ()
     "Disable rainbow-delimiters mode."
     (rainbow-delimiters-mode -1))
+  :hook ((prog-mode-hook . rainbow-delimiters-mode)
+         (shell-mode-hook . my-rainbow-delimiters-disable))
   :config
-  (progn
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-    (dotimes (i 9)
-      (set-face-bold
-       (intern (format "rainbow-delimiters-depth-%d-face" (1+ i))) t))
-
-    (add-hook 'shell-mode-hook #'my-rainbow-delimiters-disable)
-    (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-                        :inherit 'error
-                        :box t)))
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                      :inherit 'error
+                      :box t))
 
 (eval
  `(use-package company
@@ -1359,11 +1350,11 @@ In that case, insert the number."
   (:map
    slime-mode-map
    ("C-c s" . slime-selector))
+  :hook (comint-mode-hook . rainbow-delimiters-mode)
   :config
   (progn
     (use-package slime-autoloads)
     (setq inferior-lisp-program "sbcl")
-    (add-hook 'comint-mode-hook 'rainbow-delimiters-mode)
     (setq common-lisp-hyperspec-root
           (format "file:///%s"
                   (expand-file-name "HyperSpec/" user-emacs-directory)))))
@@ -1405,9 +1396,7 @@ In that case, insert the number."
     (use-package ocp-indent
       :demand t
       :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))
-      :config
-      (progn
-        (add-hook 'tuareg-mode-hook 'ocp-setup-indent)))))
+      :hook (tuareg-mode-hook . ocp-setup-indent))))
 
 (use-package cc-vars
   :commands compile
@@ -1424,8 +1413,7 @@ In that case, insert the number."
        ("C-c C-c" . compile)
        ("C-c C-a" . ff-find-other-file))))
   :defer t
-  :config
-  (add-hook 'c-initialization-hook #'my-c-setup))
+  :hook (c-initialization-hook . my-c-setup))
 
 (use-package image-mode
   :config
@@ -1447,13 +1435,14 @@ In that case, insert the number."
    ("C-M-]" . diff-hl-next-hunk)
    :map diff-hl-mode-map
    ("S-<f7>" . diff-hl-revert-hunk))
+  :hook
+  ((diff-hl-mode-hook . diff-hl-flydiff-mode)
+   (diff-hl-mode-hook . diff-hl-margin-mode))
   :config
   (progn
     (cl-flet ((my-diff-hl-on (&rest _) (turn-on-diff-hl-mode)))
       (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
         (advice-add fun :before #'my-diff-hl-on)))
-    (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
-    (add-hook 'diff-hl-mode-hook #'diff-hl-margin-mode)
     (advice-add 'diff-hl-diff-goto-hunk :before #'my-save-all-buffers)
     (advice-add 'diff-hl-revert-hunk :around #'my-no-confirm)))
 
@@ -1537,21 +1526,19 @@ In that case, insert the number."
       (let ((module-name (file-name-base)))
         (insert (format "-module(%s).\n-export([]).\n\n"
                         module-name)))))
-  :init
-  (add-hook 'erlang-mode-hook #'my-insert-erl-module-stub))
+  :hook (erlang-mode-hook . 'my-insert-erl-module-stub))
 
 (use-package goto-last-change
   :bind ("C-x C-/" . goto-last-change))
 
 (use-package hl-todo
+  :hook (prog-mode-hook . hl-todo-mode)
   :init
-  (progn
-    (add-hook 'prog-mode-hook 'hl-todo-mode)
-    (setq hl-todo-keyword-faces '(("TODO" . hl-todo)
-                                  ("XXX" . hl-todo)
-                                  ("NOTE" . hl-todo)
-                                  ("HACK" . hl-todo)
-                                  ("FIXME" . hl-todo))))
+  (setq hl-todo-keyword-faces '(("TODO" . hl-todo)
+                                ("XXX" . hl-todo)
+                                ("NOTE" . hl-todo)
+                                ("HACK" . hl-todo)
+                                ("FIXME" . hl-todo)))
   :config
   (progn
     (hl-todo-set-regexp)
@@ -1566,8 +1553,8 @@ In that case, insert the number."
     (when (and next-error-last-buffer (buffer-live-p next-error-last-buffer))
       (with-current-buffer next-error-last-buffer
         (hl-line-mode 1))))
+  :hook (next-error-hook . next-error-buffer-hl-line)
   :init
-  (add-hook 'next-error-hook 'next-error-buffer-hl-line)
   (global-hl-line-mode 1))
 
 (use-package smartparens
@@ -1583,11 +1570,11 @@ In that case, insert the number."
                            '("`" "'"))))
             (cdr (assoc t sp-pairs)))))
     (my-electric-pair-mode -1))
+  :hook
+  ((smartparens-mode-hook . my-smartparens-mode-setup)
+   (prog-mode-hook . smartparens-mode))
   :init
-  (progn
-    (use-package smartparens-config)
-    (add-hook 'smartparens-mode-hook 'my-smartparens-mode-setup)
-    (add-hook 'prog-mode-hook 'smartparens-mode t)))
+  (use-package smartparens-config))
 
 (use-package ispell
   :config
@@ -1615,8 +1602,8 @@ In that case, insert the number."
   (:map sh-mode-map
         ("C-c C-z" . nil)
         ("C-c q" . my-sh-quote-or-unquote))
+  :hook (sh-mode-hook . my-dos2unix)
   :config
-  (add-hook 'sh-mode-hook 'my-dos2unix)
   (setq sh-basic-offset 8)
   (setq sh-indentation 8))
 
@@ -1678,18 +1665,14 @@ In that case, insert the number."
   (progn
     (use-package cargo
       :diminish cargo-minor-mode
+      :hook (rust-mode-hook . cargo-minor-mode)
       :bind
       (:map
        cargo-minor-mode-map
-       ("<f5>" . cargo-process-repeat))
-      :init
-      (progn
-        (add-hook 'rust-mode-hook 'cargo-minor-mode)))
+       ("<f5>" . cargo-process-repeat)))
     (use-package racer
       :diminish racer-mode
-      :init
-      (progn
-        (add-hook 'rust-mode-hook 'racer-mode)))))
+      :hook (rust-mode-hook . racer-mode))))
 
 (use-package helpful
   :defer t
