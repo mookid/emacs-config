@@ -357,13 +357,6 @@ character or right after a closing one."
   (interactive)
   (find-file (expand-file-name ".bashrc" (getenv "HOME"))))
 
-(defun my-bury-buffer (orig-fun &rest args)
-  "Bury *scratch* buffer instead of killing it."
-  (if (string= (buffer-name (current-buffer)) "*scratch*")
-      (bury-buffer)
-    (apply orig-fun args)))
-(advice-add 'kill-buffer :around #'my-bury-buffer)
-
 (defun my-toggle-debug ()
   "Change the value of `debug-on-error'."
   (interactive)
