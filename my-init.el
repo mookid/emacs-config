@@ -126,6 +126,7 @@
 (define-key global-map (kbd "<f2>") 'rename-buffer)
 (define-key global-map (kbd "M-j") 'my-delete-indentation-forward)
 (define-key global-map (kbd "<insert>") nil)
+(define-key global-map (kbd "C-c T") 'my-insert-todo)
 
 
 ;;; Appearance
@@ -200,6 +201,13 @@ See `my-selective-display-toggle' and `my-selective-display-decrease'."
 See `my-selective-display-toggle' and `my-selective-display-increase'."
       (interactive)
       (when (> depth 1) (g -2)))))
+
+(defun my-insert-todo ()
+  (interactive)
+  (beginning-of-line)
+  (open-line 1)
+  (comment-dwim nil)
+  (insert "TODO(NM) "))
 
 (defvar my-pairs-alist
   '((?\" . ?\")
