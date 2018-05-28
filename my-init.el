@@ -923,56 +923,8 @@ if its size is 1 line."
     "Remove the overlay create by `mouse-drag-secondary'."
     (interactive)
     (delete-overlay mouse-secondary-overlay))
-  (defun my-acme-search-forward (click)
-    "Move mouse to the next occurence of either the active region,
-or the symbol at point, and highlight it."
-    (interactive "e")
-    (let ((sym (if (region-active-p)
-                   (buffer-substring (mark) (point))
-                 (mouse-set-point click)
-                 (thing-at-point 'filename))))
-      (cond ((not (and sym (stringp sym))) nil)
-            ((file-readable-p sym)
-             (special-display-popup-frame (find-file-noselect sym nil nil nil)))
-            (t
-             (or (my-acme-search--move sym)
-                 (let ((saved-point (point)))
-                   (message "Wrapped search")
-                   (goto-char (point-min))
-                   (or (my-acme-search--move sym)
-                       (goto-char saved-point))))))
-      ;; Redisplay the screen if we search off the bottom of the window.
-      (unless (posn-at-point)
-        (universal-argument)
-        (recenter))
-      (my-move-mouse-to-point)))
-
-  (defun my-move-mouse-to-point ()
-    "Move the mouse pointer to point in the current window."
-    (let* ((coords (posn-col-row (posn-at-point)))
-           (window-coords (window-inside-edges))
-           (x (+ (car coords) (car window-coords) -1))
-           (y (+ (cdr coords) (cadr window-coords)
-                 (if header-line-format -1 0))))
-      (set-mouse-position (selected-frame) x y)))
-
-  (defun my-acme-search--move (sym)
-    "Search from point for SYM and highlight it.
-
-If there is no match, returns NIL."
-    (push-mark-command nil t)
-    (when (search-forward sym nil t)
-      (my-acme-highlight-search sym)
-      t))
-
-  (defun my-acme-highlight-search (sym)
-    "Set the region to the current search result."
-    (set-mark (point))
-    (search-backward sym nil t)
-    (exchange-point-and-mark))
   :bind
-  (("<S-down-mouse-1>" . my-acme-search-forward)
-   ("C-c ." . my-delete-mouse-secondary-overlay))
+  (("C-c ." . my-delete-mouse-secondary-overlay))
   :config
   (setq mouse-drag-copy-region t)
   (setq mouse-yank-at-point t))
