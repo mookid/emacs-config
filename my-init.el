@@ -150,24 +150,30 @@
   (run-with-timer 0.1 nil 'invert-face 'mode-line))
 (setq ring-bell-function 'my-visual-ring-bell)
 
-(defvar my-frame-params
-  (when window-system
-    (pcase system-type
-      (`darwin
-        '(height 30 font "Menlo 18"))
-      (_
-        '(height 45 font "DejaVu Sans Mono 14"))))
+(defvar my-frame-params nil
   "Configuration for `default-frame-alist'.")
+(setq my-frame-params
+      (when window-system
+        (pcase system-type
+          (`darwin
+           '(height 30 font "Menlo 18"))
+          (_
+           '(height 45 font "DejaVu Sans Mono 14")))))
 
 (defvar my-color-theme
-  'my-color
+  nil
   "The selected color theme.")
+(setq my-color-theme 'my-color)
 
 (with-eval-after-load 'init
-  (dolist (sym '(height font))
-    (let ((value (plist-get my-frame-params sym)))
-      (when value
-        (add-to-list 'default-frame-alist (cons sym value)))))
+  (let ((height (plist-get my-frame-params 'height))
+        (font (plist-get my-frame-params 'font)))
+    (when height
+      (add-to-list 'default-frame-alist `(height . ,height))
+      (set-frame-height nil height))
+    (when font
+      (add-to-list 'default-frame-alist `(font . ,font))
+      (set-face-font 'default font)))
   (add-to-list 'default-frame-alist '(width . 80))
   (add-to-list 'initial-frame-alist '(top . 20))
   (add-to-list 'initial-frame-alist '(left . 120))
