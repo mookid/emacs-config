@@ -659,6 +659,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (setq ediff-split-window-function 'split-window-horizontally))
 
 (use-package elec-pair
+  :commands my-electric-pair-mode
   :defer t
   :commands electric-pair-mode
   :preface
@@ -676,6 +677,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
 
 (use-package paren
+  :defer t
   :commands show-paren-mode
   :init
   (progn
@@ -720,6 +722,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (use-package winner
   :commands winner-mode
+  :defer t
   :init
   (setq winner-dont-bind-my-keys t)
   :config (winner-mode +1)
@@ -805,7 +808,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (set-face-foreground 'dired-ignored "gray60"))
 
 (use-package ffap
-  :commands ffap-guesser
+  :defer t
+  :commands (ffap-guesser find-file-at-point)
   :preface
   (defun my-ffap-prompter-noconfirm (fn &optional guess)
     "Remove confirmation."
@@ -855,6 +859,7 @@ if its size is 1 line."
   "social.msdn.microsoft.com/Search/en-US?query=")
 
 (use-package grep
+  :defer t
   :preface
   (defun my-disable-jump-to-error ()
     "Disable `compilation-auto-jump-to-next' local variable."
@@ -893,6 +898,7 @@ if its size is 1 line."
 
 ;;; elisp
 (use-package ielm
+  :defer t
   :init
   (progn
     (setq initial-major-mode 'emacs-lisp-mode)
@@ -910,6 +916,7 @@ if its size is 1 line."
 
 ;;; Mouse
 (use-package mouse
+  :defer t
   :commands mouse-set-point
   :preface
   (defun my-delete-mouse-secondary-overlay ()
@@ -971,6 +978,7 @@ If there is no match, returns NIL."
   (setq mouse-yank-at-point t))
 
 (use-package mouse-copy
+  :defer t
   :bind
   (("<C-down-mouse-1>" . mouse-drag-secondary-pasting)
    ("<C-S-down-mouse-1>" . mouse-drag-secondary-moving))
@@ -1195,6 +1203,7 @@ A regexp that captures one match.")
   (setq magit-backup-mode nil))
 
 (use-package rainbow-delimiters
+  :defer t
   :preface
   (defun my-rainbow-delimiters-disable ()
     "Disable rainbow-delimiters mode."
@@ -1372,6 +1381,7 @@ In that case, insert the number."
   (setq flycheck-check-syntax-automatically '(save mode-enable)))
 
 (use-package tuareg
+  :defer t
   :preface
   (defun my-preserve-comment-style ()
     (setq comment-style 'indent))
@@ -1553,6 +1563,7 @@ In that case, insert the number."
   (global-hl-line-mode 1))
 
 (use-package smartparens
+  :defer t
   :preface
   (defun my-smartparens-mode-setup ()
     (add-to-list
