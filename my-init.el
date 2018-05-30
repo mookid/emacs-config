@@ -157,6 +157,8 @@
         (pcase system-type
           (`darwin
            '(height 30 font "Menlo 18"))
+          (`window-system
+           '(height 45 font "Consolas 14"))
           (_
            '(height 45 font "DejaVu Sans Mono 14")))))
 
