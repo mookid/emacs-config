@@ -1577,7 +1577,9 @@ In that case, insert the number."
   :defer t
   :bind
   (("C-S-<down>" . move-text-down)
-   ("C-S-<up>" . move-text-up)))
+   ("C-S-n" . move-text-down)
+   ("C-S-<up>" . move-text-up)
+   ("C-S-p" . move-text-up)))
 
 (use-package windmove
   :bind
