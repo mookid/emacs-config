@@ -927,13 +927,10 @@ if its size is 1 line."
   :defer t
   :commands mouse-set-point
   :preface
-  (defun my-delete-mouse-secondary-overlay ()
-    "Remove the overlay create by `mouse-drag-secondary'."
-    (interactive)
-    (delete-overlay mouse-secondary-overlay))
-  :bind
-  (("C-c ." . my-delete-mouse-secondary-overlay))
+  (defun my-delete-mouse-secondary-overlay (&rest _)
+    (run-with-timer 3 nil #'delete-overlay mouse-secondary-overlay))
   :config
+  (advice-add 'mouse-drag-secondary :after #'my-delete-mouse-secondary-overlay)
   (setq mouse-drag-copy-region t)
   (setq mouse-yank-at-point t))
 
