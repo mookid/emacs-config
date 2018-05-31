@@ -1582,6 +1582,7 @@ In that case, insert the number."
    ("C-S-p" . move-text-up)))
 
 (use-package windmove
+  :disabled t
   :bind
   (("S-<left>"  . windmove-left)
    ("S-<right>" . windmove-right)
