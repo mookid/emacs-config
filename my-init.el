@@ -84,6 +84,7 @@
 (when (boundp 'mouse-wheel-up-event)
   (let ((up-key (kbd (format "<C-%s>" mouse-wheel-up-event))))
     (define-key global-map up-key 'text-scale-decrease)))
+(define-key global-map (kbd "<mode-line> <mouse-2>") 'my-kill-buffer)
 (define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
 (define-key global-map (kbd "C-h g") 'my-google-search)
