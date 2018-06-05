@@ -1533,6 +1533,8 @@ In that case, insert the number."
                    (member (plist-get plist :open)
                            '("`" "'"))))
             (cdr (assoc t sp-pairs)))))
+    (sp-with-modes '(rust-mode)
+      (sp-local-pair "|" "|"))
     (my-electric-pair-mode -1))
   :hook
   ((smartparens-mode-hook . my-smartparens-mode-setup)
