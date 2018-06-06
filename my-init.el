@@ -177,7 +177,9 @@
     (when font
       (add-to-list 'default-frame-alist `(font . ,font))
       (set-face-font 'default font)))
-  (add-to-list 'default-frame-alist '(width . 80))
+  (add-to-list 'default-frame-alist '(width . 160))
+  (when (= 1 (count-windows))
+    (split-window-right))
   (add-to-list 'initial-frame-alist '(top . 20))
   (add-to-list 'initial-frame-alist '(left . 120))
   (condition-case nil
