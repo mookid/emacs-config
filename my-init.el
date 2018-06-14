@@ -128,6 +128,8 @@
 (define-key global-map (kbd "M-j") 'my-delete-indentation-forward)
 (define-key global-map (kbd "<insert>") nil)
 (define-key global-map (kbd "C-c T") 'my-insert-todo)
+(define-key global-map (kbd "C-x C-S-<left>") 'my-all-previous-buffer)
+(define-key global-map (kbd "C-x C-S-<right>") 'my-all-next-buffer)
 
 
 ;;; Appearance
@@ -219,6 +221,22 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
   (open-line 1)
   (comment-dwim nil)
   (insert "TODO(NM) "))
+
+(defun my-on-all-visible-windows (fun &rest args)
+  (walk-windows
+   (lambda (window)
+     (with-selected-window window
+       (apply fun args)))
+   nil
+   'visible))
+
+(defun my-all-previous-buffer ()
+  (interactive)
+  (my-on-all-visible-windows 'previous-buffer))
+
+(defun my-all-next-buffer ()
+  (interactive)
+  (my-on-all-visible-windows 'next-buffer))
 
 (defvar my-pairs-alist
   '((?\" . ?\")
