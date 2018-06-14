@@ -89,6 +89,7 @@
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
 (define-key global-map (kbd "C-h g") 'my-google-search)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
+(define-key global-map (kbd "C-x y") 'my-find-init-file)
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
@@ -361,7 +362,6 @@ character or right after a closing one."
     (switch-to-buffer cloned-buffer)))
 (advice-add 'narrow-to-region :around #'my-narrow-to-region-hook)
 
-(defun my-recentf-command () (interactive))
 (cl-flet ((always-yes (&rest _) t))
   (defun my-no-confirm (fun &rest args)
     "Apply FUN to ARGS, skipping user confirmations."
@@ -731,11 +731,9 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :init
   (my-key-chord-define global-map "hv" 'describe-variable)
   (my-key-chord-define global-map "hk" 'describe-key)
-  (my-key-chord-define global-map "hj" 'describe-function)
-  (my-key-chord-define global-map "fy" 'my-find-init-file)
+  (my-key-chord-define global-map "hf" 'describe-function)
   (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
   (my-key-chord-define global-map "fq" 'my-find-project)
-  (my-key-chord-define global-map "fh" 'my-recentf-command)
   :config
   (my-key-chord-setup))
 
@@ -964,6 +962,7 @@ if its size is 1 line."
   (setq mouse-drag-copy-region t))
 
 (use-package recentf
+  :disabled t
   :commands (recentf-open-files recentf-mode)
   :preface
   (defun my-recentf-open-files ()
@@ -974,7 +973,6 @@ if its size is 1 line."
   (recentf-mode +1)
   :config
   (progn
-    (fset 'my-recentf-command 'my-recentf-open-files)
     (setq recentf-max-saved-items 500)
     (setq recentf-max-menu-items 150)))
 
@@ -1295,7 +1293,6 @@ In that case, insert the number."
 
   (setq ivy-display-functions-alist
         '((ivy-completion-in-region . ivy-display-function-lv)))
-  (fset 'my-recentf-command 'ivy-switch-buffer)
   (setq completion-in-region-function #'ivy-completion-in-region)
   (setq counsel-rg-base-command
         (concat
@@ -1318,13 +1315,15 @@ In that case, insert the number."
 (use-package projectile
   :diminish projectile-mode
   :defer t
+  :bind
+  (:map
+   projectile-mode-map
+   ("C-x p" . projectile-find-file))
   :init
-  (progn
-    (my-key-chord-define global-map "pf" 'projectile-find-file)
-    (setq projectile-indexing-method 'alien)
-    (setq projectile-enable-caching t)
-    (setq projectile-completion-system 'ivy)
-    (projectile-mode +1)))
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-enable-caching t)
+  (setq projectile-completion-system 'ivy)
+  (projectile-mode +1))
 
 (use-package slime
   :defer t
