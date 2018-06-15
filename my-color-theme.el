@@ -33,8 +33,6 @@
  '(font-lock-warning-face ((t (:foreground "#FF6C60"))))
  '(highlight ((t (:inherit 'lazy-highlight))))
  '(hl-line ((t (:background "#121212"))))
- '(isearch ((t (:background "#2F2F00" :foreground "white"))))
- '(lazy-highlight ((t (:background "#412b14" :foreground "white"))))
  '(mode-line ((t (:background "gray15" :foreground "light blue"))))
  '(mode-line-buffer-id ((t (:foreground "PaleVioletRed1"))))
  '(mode-line-inactive ((t (:background "gray15" :foreground "light green"))))
