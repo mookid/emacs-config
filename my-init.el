@@ -89,6 +89,7 @@
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
 (define-key global-map (kbd "C-h g") 'my-google-search)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
+(define-key global-map (kbd "C-x C-h") 'find-file-other-window)
 (define-key global-map (kbd "C-x y") 'my-find-init-file)
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
