@@ -95,7 +95,7 @@
 (define-key global-map (kbd "C-c k") 'delete-frame)
 (define-key global-map (kbd "C-c n") 'make-frame)
 (define-key global-map (kbd "M-n") 'my-scroll-up)
-(define-key global-map (kbd "M-h") 'my-scroll-down)
+(define-key global-map (kbd "M-p") 'my-scroll-down)
 (define-key global-map (kbd "S-<next>") 'my-scroll-up-other-window)
 (define-key global-map (kbd "S-<prior>") 'my-scroll-down-other-window)
 (define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
