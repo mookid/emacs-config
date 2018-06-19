@@ -1562,11 +1562,15 @@ In that case, insert the number."
   :init
   (use-package smartparens-config))
 
-(use-package ispell
-  :config
-  (progn
-    (setq ispell-program-name "hunspell")
-    (setq ispell-dictionary "english")))
+(use-package flyspell
+  :init
+  (setq flyspell-issue-message-flag nil)
+  :bind
+  (:map
+   flyspell-mode-map
+   (("C-;" . nil)))
+  :hook
+  ((prog-mode-hook . flyspell-prog-mode)))
 
 (use-package sh-script
   :defer t
