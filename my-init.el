@@ -963,7 +963,6 @@ if its size is 1 line."
   (setq mouse-drag-copy-region t))
 
 (use-package recentf
-  :disabled t
   :commands (recentf-open-files recentf-mode)
   :preface
   (defun my-recentf-open-files ()
