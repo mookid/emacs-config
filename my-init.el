@@ -246,24 +246,20 @@ See `my-selective-display-toggle' and `my-selective-display-increase'."
     (?\{ . ?\})
     (?\[ . ?\]))
   "Supported delimiters for `my-delete-pair' and `my-cycle-pair'.")
-
-(let (my-delete-pair-last)
-  (defun my-delete-pair ()
-    "Remove the pair of parenthesis around the point, or undo it."
-    (interactive)
-    (cond (my-delete-pair-last
-           (funcall my-undo-command))
-          (t
-           (save-excursion
-             (cond ((rassoc (char-after (1- (point))) my-pairs-alist)
-                    (backward-sexp)
-                    (delete-pair))
-                   ((assoc (char-after (point)) my-pairs-alist)
-                    (delete-pair))
-                   (t
-                    (error "Not on a parenthesis-like character"))))))
-    (cl-callf not my-delete-pair-last)))
-
+(defun my-delete-pair ()
+  "Remove the pair of parenthesis around the point, or undo it."
+  (interactive)
+  (cond ((equal last-command this-command)
+         (funcall my-undo-command))
+        (t
+         (save-excursion
+           (cond ((rassoc (char-after (1- (point))) my-pairs-alist)
+                  (backward-sexp)
+                  (delete-pair))
+                 ((assoc (char-after (point)) my-pairs-alist)
+                  (delete-pair))
+                 (t
+                  (error "Not on a parenthesis-like character")))))))
 (let (my-delete-pair-last)
   (defun my-cycle-pair ()
     "Toggle the parenthesis pair around the point and set mark at the other end.
@@ -272,43 +268,33 @@ The pairs depend on the value of `my-pairs-alist'.  The command
 fails if the point is not either on an opening parenthesis
 character or right after a closing one."
     (interactive)
-    (if (equal last-command this-command)
-        (pcase-let* ((`(((,open . ,close) . ,pairs) ,new-mark ,old-point)
-                      my-delete-pair-last)
-                    (next-pairs
-                     (or pairs my-pairs-alist)))
-          (setcar my-delete-pair-last next-pairs)
-          (let ((start-point (point)))
-            (goto-char new-mark) (delete-char 1) (insert open)
-            (goto-char old-point) (delete-char -1) (insert close)
-            (goto-char start-point)))
-
-      (let ((old-point (point))
-            cell
-            new-mark)
-        (unwind-protect
-            (progn
-              (cond ((setq cell (cl-member (char-after (1- (point))) my-pairs-alist :key 'cdr))
-                     (backward-sexp)
-                     (setq new-mark (point)))
-                    ((setq cell (cl-member (char-after (point)) my-pairs-alist :key 'car)))
-                    (t
-                     (error "Not on a parenthesis-like character")))
-              (let* ((pairs (or (cdr-safe cell) my-pairs-alist))
-                     (pair (car pairs)))
-                (save-excursion
-                  (forward-sexp)
-                  (unless new-mark
-                    (setq new-mark (point)))
-                  (delete-char -1)
-                  (insert (cdr pair)))
-                (delete-char 1)
-                (insert (car pair))
-                (setq my-delete-pair-last
-                      (list (or (cdr-safe pairs) my-pairs-alist) new-mark old-point))))
-          ;; save excursion does not work because of the buffer modification
-          (goto-char old-point)
-          (set-mark new-mark))))))
+    (cl-flet ((k (open-pos close-pos pairs end-pos)
+                 (pcase-let ((`((,open . ,close) . ,next-pairs)
+                              (or pairs my-pairs-alist)))
+                   (goto-char open-pos)  (delete-char 1) (insert open)
+                   (goto-char close-pos) (delete-char 1) (insert close)
+                   (goto-char end-pos)
+                   (setq my-delete-pair-last
+                         (list next-pairs open-pos close-pos)))))
+      (if (equal last-command this-command)
+          (pcase-let* ((`(,pairs ,open-pos ,close-pos)
+                        my-delete-pair-last))
+            (k open-pos close-pos pairs (point)))
+        (let ((start-point (point))
+              cell
+              open-pos)
+          (cond ((setq cell (cl-member (char-after (1- (point))) my-pairs-alist :key 'cdr))
+                 (setq close-pos (1- (point)))
+                 (backward-sexp)
+                 (setq open-pos (point)))
+                ((setq cell (cl-member (char-after (point)) my-pairs-alist :key 'car))
+                 (setq open-pos (point))
+                 (forward-sexp)
+                 (setq close-pos (1- (point))))
+                (t
+                 (error "Not on a parenthesis-like character")))
+          (k open-pos close-pos (cdr-safe cell) start-point)
+          (set-mark open-pos))))))
 
 (defun my-dos2unix ()
   (interactive)
