@@ -120,7 +120,7 @@
 (define-key global-map (kbd "C-<return>") (kbd "<return>"))
 (define-key global-map (kbd "M-<return>") (kbd "<return>"))
 (define-key global-map (kbd "C-M-<return>") (kbd "<return>"))
-(define-key global-map (kbd "C-c F") 'my-toggle-debug)
+(define-key global-map (kbd "C-c F") 'toggle-debug-on-error)
 (define-key global-map (kbd "C-c C-r")  'my-revert-buffer-noconfirm)
 (define-key global-map (kbd "C-S-u") 'upcase-region)
 (define-key global-map (kbd "C-S-l") 'downcase-region)
@@ -395,11 +395,6 @@ character or right after a closing one."
 (defun my-find-shell-config-file ()
   (interactive)
   (find-file (expand-file-name ".bashrc" (getenv "HOME"))))
-
-(defun my-toggle-debug ()
-  "Change the value of `debug-on-error'."
-  (interactive)
-  (message "`debug-on-error' set to %S" (cl-callf not debug-on-error)))
 
 (defun my-view-echo-area-messages (arg)
   "With prefix argument, open the buffer in a new frame."
