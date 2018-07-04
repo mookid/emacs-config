@@ -1,0 +1,53 @@
+;;; string-inflection-autoloads.el --- automatically extracted autoloads
+;;
+;;; Code:
+
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
+
+
+;;;### (autoloads nil "string-inflection" "string-inflection.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from string-inflection.el
+
+(autoload 'string-inflection-ruby-style-cycle "string-inflection" "\
+foo_bar => FOO_BAR => FooBar => foo_bar\n\n(fn)" t nil)
+
+(autoload 'string-inflection-python-style-cycle "string-inflection" "\
+foo_bar => FOO_BAR => FooBar => foo_bar\n\n(fn)" t nil)
+
+(autoload 'string-inflection-java-style-cycle "string-inflection" "\
+fooBar => FOO_BAR => FooBar => fooBar\n\n(fn)" t nil)
+
+(autoload 'string-inflection-all-cycle "string-inflection" "\
+foo_bar => FOO_BAR => FooBar => fooBar => foo-bar => foo_bar\n\n(fn)" t nil)
+
+(autoload 'string-inflection-toggle "string-inflection" "\
+toggle foo_bar <=> FooBar\n\n(fn)" t nil)
+
+(autoload 'string-inflection-camelcase "string-inflection" "\
+FooBar format\n\n(fn)" t nil)
+
+(autoload 'string-inflection-lower-camelcase "string-inflection" "\
+fooBar format\n\n(fn)" t nil)
+
+(autoload 'string-inflection-underscore "string-inflection" "\
+foo_bar format\n\n(fn)" t nil)
+
+(autoload 'string-inflection-upcase "string-inflection" "\
+FOO_BAR format\n\n(fn)" t nil)
+
+(autoload 'string-inflection-kebab-case "string-inflection" "\
+foo-bar format\n\n(fn)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "string-inflection" '("string-inflection-")))
+
+;;;***
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; no-update-autoloads: t
+;; coding: utf-8
+;; End:
+;;; string-inflection-autoloads.el ends here
