@@ -1519,7 +1519,6 @@ In that case, insert the number."
                                 ("FIXME" . hl-todo)))
   :config
   (progn
-    (hl-todo-set-regexp)
     (set-face-foreground 'hl-todo "red")
     (set-face-background 'hl-todo "yellow")))
 
