@@ -691,9 +691,11 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :preface
   (defun my-electric-pair-mode (flag)
     (cond ((and (fboundp 'electric-pair-local-mode) (> flag 0))
-           (add-hook 'prog-mode-hook 'electric-pair-local-mode))
+           (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+           (electric-pair-local-mode 1))
           ((fboundp 'electric-pair-local-mode)
-           (remove-hook 'prog-mode-hook 'electric-pair-local-mode))
+           (remove-hook 'prog-mode-hook 'electric-pair-local-mode)
+           (electric-pair-local-mode -1))
           (t
            (electric-pair-mode flag))))
   :config
