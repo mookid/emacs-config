@@ -1301,6 +1301,7 @@ In that case, insert the number."
          "--color never "
          "%s ."))
   (setq ivy-use-virtual-buffers t)
+  (use-package ivy-hydra)
   :config
   (progn
     (setq ivy-height 30)
