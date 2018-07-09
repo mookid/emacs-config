@@ -38,10 +38,10 @@
 (defalias 'display-startup-echo-area-message 'ignore)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(keyboard-translate ?\( ?\[)
-(keyboard-translate ?\[ ?\()
-(keyboard-translate ?\) ?\])
-(keyboard-translate ?\] ?\))
+(define-key key-translation-map [?\(] [?\[])
+(define-key key-translation-map [?\[] [?\(])
+(define-key key-translation-map [?\)] [?\]])
+(define-key key-translation-map [?\]] [?\)])
 
 (add-to-list 'completion-styles 'partial-completion)
 (add-to-list 'completion-styles 'initials)
