@@ -1520,9 +1520,8 @@ In that case, insert the number."
                                 ("HACK" . hl-todo)
                                 ("FIXME" . hl-todo)))
   :config
-  (progn
-    (set-face-foreground 'hl-todo "red")
-    (set-face-background 'hl-todo "yellow")))
+  (set-face-foreground 'hl-todo "red")
+  (set-face-background 'hl-todo "yellow"))
 
 (use-package hl-line
   :commands (hl-line-mode global-hl-line-mode)
