@@ -353,16 +353,16 @@ character or right after a closing one."
         (cl-remove-if-not #'buffer-live-p my-narrowed-buffers)))
 (advice-add 'widen :after #'my-kill-buffer-on-widen)
 
-(defun my-narrow-to-region-hook (fun &rest args)
+(defun my-narrow-to-region (start end)
   (interactive "r")
   (when (region-active-p)
     (deactivate-mark t))
   (let ((cloned-buffer (clone-indirect-buffer nil nil)))
     (with-current-buffer cloned-buffer
-      (apply fun args))
+      (narrow-to-region start end))
     (push cloned-buffer my-narrowed-buffers)
     (switch-to-buffer cloned-buffer)))
-(advice-add 'narrow-to-region :around #'my-narrow-to-region-hook)
+(define-key global-map [remap narrow-to-region] 'my-narrow-to-region)
 
 (cl-flet ((always-yes (&rest _) t))
   (defun my-no-confirm (fun &rest args)
