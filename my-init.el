@@ -132,6 +132,8 @@
 (define-key global-map (kbd "C-c T") 'my-insert-todo)
 (define-key global-map (kbd "C-x C-S-<left>") 'my-all-previous-buffer)
 (define-key global-map (kbd "C-x C-S-<right>") 'my-all-next-buffer)
+(define-key global-map (kbd "`") 'my-other-window-or-switch-buffer)
+(define-key global-map (kbd "C-M-y") 'my-yank-diff)
 
 
 ;;; Appearance
@@ -1272,7 +1274,6 @@ In that case, insert the number."
    ("<f8>" . my-counsel-rg)
    ("M-i" . counsel-imenu)
    ("C-S-r" . ivy-resume)
-   ("C-M-y". counsel-yank-pop)
    ("C-c M-x" . counsel-M-x)
    ("<f10>" . counsel-git-change-worktree)
    :map ivy-minibuffer-map
