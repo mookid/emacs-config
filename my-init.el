@@ -1535,7 +1535,7 @@ In that case, insert the number."
         (hl-line-mode 1))))
   :hook (next-error-hook . next-error-buffer-hl-line)
   :init
-  (global-hl-line-mode 1))
+  (global-hl-line-mode -1))
 
 (use-package smartparens
   :defer t
