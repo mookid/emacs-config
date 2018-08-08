@@ -644,7 +644,17 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (global-auto-revert-mode +1))
 
 (use-package diff
-  :hook (diff-mode-hook . read-only-mode))
+  :preface
+  (defun display-buffer-diff-hook (&rest args)
+    (when (and (string= "*Shell Command Output*"
+                        (buffer-name (current-buffer)))
+               (save-excursion
+                 (goto-char (point-min))
+                 (looking-at "diff\\|commit")))
+      (diff-mode)))
+  :hook (diff-mode-hook . read-only-mode)
+  :init
+  (advice-add 'display-buffer :after #'display-buffer-diff-hook))
 
 (use-package ibuffer
   :bind
