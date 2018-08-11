@@ -1295,7 +1295,8 @@ In that case, insert the number."
   (setq completion-in-region-function #'ivy-completion-in-region)
   (setq counsel-rg-base-command
         (concat
-         "rg --no-heading --line-number --vimgrep "
+         (executable-find "rg")
+         " --no-heading --line-number --vimgrep "
          "--path-separator / "
          "--max-columns 120 "
          "--color never "
