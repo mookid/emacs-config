@@ -31,6 +31,7 @@
 (setq switch-to-visible-buffer nil)
 (setq blink-matching-paren 't)
 (setq dabbrev-case-fold-search nil)
+(setq null-device "/dev/null")
 (set-default-coding-systems 'utf-8)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
