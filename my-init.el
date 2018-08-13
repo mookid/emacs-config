@@ -81,10 +81,10 @@
 (define-key global-map (kbd "C-c u") 'my-dos2unix)
 (when (boundp 'mouse-wheel-down-event)
   (let ((down-key (kbd (format "<C-%s>" mouse-wheel-down-event))))
-    (define-key global-map down-key 'text-scale-increase)))
+    (define-key global-map down-key 'my-selective-display-increase)))
 (when (boundp 'mouse-wheel-up-event)
   (let ((up-key (kbd (format "<C-%s>" mouse-wheel-up-event))))
-    (define-key global-map up-key 'text-scale-decrease)))
+    (define-key global-map up-key 'my-selective-display-decrease)))
 (define-key global-map (kbd "<mode-line> <mouse-2>") 'my-kill-buffer)
 (define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
 (define-key global-map (kbd "C-M-h") 'backward-kill-sexp)
@@ -195,30 +195,24 @@
 
 
 ;;; defuns
-(let ((depth 1))
-  (defun my-selective-display-toggle ()
-    "Hide lines starting with a lot of spaces.
+(defvar my-selective-display-width 1
+  "Last non nil value of `selective-display'.")
 
-See `my-selective-display-increase' to increase the number of spaces.
-See `my-selective-display-decrease' to decrease it."
-    (interactive)
-    (set-selective-display (unless selective-display depth)))
-  (cl-flet ((g (offset)
-               (setq depth (+ depth offset))
-               (set-selective-display depth)))
-    (defun my-selective-display-increase ()
-      "Increase the cap for `toogle-selective-display'.
+(defun my-selective-display--incf (offset)
+  (setq my-selective-display-width (+ my-selective-display-width offset))
+  (set-selective-display my-selective-display-width))
 
-See `my-selective-display-toggle' and `my-selective-display-decrease'."
-      (interactive)
-      (when (< depth 20) (g 2)))
+(defun my-selective-display-increase ()
+  "Increase the cap for selective-display."
+  (interactive)
+  (when (< my-selective-display-width 20)
+    (my-selective-display--incf 2)))
 
-    (defun my-selective-display-decrease ()
-      "Decrease the cap for `toogle-selective-display'.
-
-See `my-selective-display-toggle' and `my-selective-display-increase'."
-      (interactive)
-      (when (> depth 1) (g -2)))))
+(defun my-selective-display-decrease ()
+  "Decrease the cap for selective-display'."
+  (interactive)
+  (when (> my-selective-display-width 1)
+    (my-selective-display--incf -2)))
 
 (defun my-insert-todo ()
   (interactive)
@@ -772,14 +766,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (use-package hydra
   :init
   (progn
-    (defhydra my-selective-display (global-map "C-x")
-      "Selective display"
-      ("$" my-selective-display-toggle nil)
-      ("0" my-selective-display-toggle "on/off" :bind nil)
-      ("+" my-selective-display-increase "more" :bind nil)
-      ("=" my-selective-display-increase nil :bind nil)
-      ("-" my-selective-display-decrease "less" :bind nil)
-      ("q" nil "quit"))
     (defhydra my-previous-next-buffer-repeat (global-map "C-x")
       "Buffers"
       ("<left>" previous-buffer "previous")
