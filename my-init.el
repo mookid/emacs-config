@@ -1386,8 +1386,8 @@ In that case, insert the number."
   :preface
   (defun my-c-setup ()
     "My setup for C."
-    (setq c-default-style "linux")
-    (setq c-basic-offset 8)
+    (setq c-default-style "bsd")
+    (setq c-basic-offset 4)
     (setq indent-tabs-mode nil)
     (use-package cc-mode
       :bind
@@ -1396,7 +1396,8 @@ In that case, insert the number."
        ("C-c C-c" . compile)
        ("C-c C-a" . ff-find-other-file))))
   :defer t
-  :hook (c-initialization-hook . my-c-setup))
+  :hook ((c-initialization-hook . my-c-setup)
+         (c-mode-hook . my-c-setup)))
 
 (use-package image-mode
   :config
