@@ -1296,6 +1296,19 @@ In that case, insert the number."
    ("<right>" . ivy-alt-done))
   :init
   (fset 'my-switch-buffer-command 'ivy-switch-buffer)
+  (use-package ivy-xref
+    :ensure t
+    :init
+    (setq ivy-xref-use-file-path t)
+    (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+  (setq my-switch-buffer-command 'ivy-switch-buffer)
+  (use-package ivy
+    :if window-system
+    :bind
+    ("C-z" . counsel-switch-to-shell-buffer))
+  (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
+  (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
+
   (setq ivy-display-functions-alist
         '((ivy-completion-in-region . ivy-display-function-lv)))
   (setq completion-in-region-function #'ivy-completion-in-region)
