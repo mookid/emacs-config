@@ -804,6 +804,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("3" my-split-window-right "split right")
       ("=" balance-windows "balance")
       ("b" my-switch-buffer-command "buffer" :exit t)
+      ("p" projectile-find-file "project" :exit t)
       ("q" nil "quit"))
     (defhydra my-cycle-pair (global-map "C-c")
       "parenthesis"
