@@ -47,9 +47,6 @@
 (add-to-list 'completion-styles 'partial-completion)
 (add-to-list 'completion-styles 'initials)
 
-(defvar my-undo-command 'undo
-  "A symbol to be funcalled to undo.")
-
 (progn
   (global-visual-line-mode +1)
   (setf (cdr visual-line-mode-map) nil)
@@ -195,6 +192,20 @@
 
 
 ;;; defuns
+(defvar my-undo-command 'undo
+  "A symbol to be funcalled to undo.")
+(defun my-undo-command ()
+  (interactive)
+  (funcall my-undo-command))
+(define-key global-map [remap undo] 'my-undo-command)
+
+(defvar my-switch-buffer-command 'switch-to-buffer
+  "A symbol to be funcalled to switch to another buffer.")
+(defun my-switch-buffer-command ()
+  (interactive)
+  (funcall my-switch-buffer-command))
+(define-key global-map [remap switch-to-buffer] 'my-switch-buffer-command)
+
 (defvar my-selective-display-width 1
   "Last non nil value of `selective-display'.")
 
@@ -778,6 +789,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("2" my-split-window-below "split below")
       ("3" my-split-window-right "split right")
       ("=" balance-windows "balance")
+      ("b" my-switch-buffer-command "buffer" :exit t)
       ("q" nil "quit"))
     (defhydra my-cycle-pair (global-map "C-c")
       "parenthesis"
@@ -1266,7 +1278,6 @@ In that case, insert the number."
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
-   ([remap switch-to-buffer] . ivy-switch-buffer)
    ("C-c b" . counsel-bookmark)
    ("<f8>" . my-counsel-rg)
    ("M-i" . counsel-imenu)
@@ -1280,6 +1291,7 @@ In that case, insert the number."
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
   :init
+  (setq my-switch-buffer-command 'ivy-switch-buffer)
   (use-package ivy
     :if window-system
     :bind
