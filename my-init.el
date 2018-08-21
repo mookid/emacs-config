@@ -876,17 +876,16 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 (defun my-prompt ()
   "A simple prompt with a default value.
 
-The default value for prompt is either the region if activated
-and its size is 1 line, or the word at point."
+The default value for prompt is either the first line of the
+region if activated, or the word at point."
   (cond ((and transient-mark-mode mark-active)
-         (let ((pos1 (region-beginning))
-               (pos2 (region-end)))
-           ;; Check if the start and the end of an active region is on
-           ;; the same line
-           (when (save-excursion
-                   (goto-char pos1)
-                   (<= pos2 (line-end-position)))
-             (buffer-substring-no-properties pos1 pos2))))
+         (let* ((region-beginning (region-beginning))
+                (region-end (region-end))
+                (eol (save-excursion
+                       (goto-char region-beginning)
+                       (line-end-position))))
+           (buffer-substring-no-properties region-beginning
+                                           (min region-end eol))))
         (t
          (current-word))))
 
