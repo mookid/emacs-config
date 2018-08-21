@@ -14,7 +14,7 @@
  '(font-lock-string-face ((t (:bold t))))
  '(font-lock-builtin-face ((t (:foreground nil))))
  '(font-lock-constant-face ((t (:foreground nil))))
- '(font-lock-doc-face ((t (:foreground "green4"))))
+ '(font-lock-doc-face ((t (:foreground "purple4" :bold t))))
  '(font-lock-function-name-face ((t (:foreground nil))))
  '(font-lock-keyword-face ((t (:foreground nil))))
  '(font-lock-preprocessor-face ((t (:foreground nil))))
