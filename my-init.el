@@ -1460,6 +1460,8 @@ In that case, insert the number."
 (use-package undo-tree
   :demand t
   :diminish undo-tree-mode
+  :bind
+  ("C-?" . undo-tree-redo)
   :config
   (global-undo-tree-mode 1)
   (setq my-undo-command 'undo-tree-undo))
