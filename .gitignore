@@ -1,4 +1,5 @@
 *.elc
+.cache/*
 .cask/
 .emacs-custom.el
 .emacs.desktop*
