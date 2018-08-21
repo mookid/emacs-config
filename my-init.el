@@ -30,7 +30,6 @@
 (setq load-prefer-newer t)
 (setq switch-to-visible-buffer nil)
 (setq blink-matching-paren 't)
-(setq dabbrev-case-fold-search nil)
 (setq null-device "/dev/null")
 (set-default-coding-systems 'utf-8)
 (put 'upcase-region 'disabled nil)
@@ -55,6 +54,9 @@
 
 ;;; Windows
 (defun my-delete-side-windows ()
+  "Delete all side windows.
+
+See `window-at-side-p'."
   (interactive)
   (walk-windows (lambda (win)
                   (when (window-at-side-p win)
@@ -63,9 +65,15 @@
                 (selected-frame)))
 
 (defmacro my-def-balance-after (newfun orig-fun)
+  "Define the function NEWFUN from ORIG-FUN.
+
+It just applies ORIG-FUN and then balances windows."
   `(progn
      (define-key global-map [remap ,orig-fun] ',newfun)
      (defun ,newfun (&rest args)
+       ,(format "Apply `%s' and then balances windows.
+
+See `my-def-balance-after'." orig-fun)
        ,(interactive-form orig-fun)
        (apply #',orig-fun args)
        (balance-windows))))
@@ -151,6 +159,7 @@
                       mode-line-format))
 
 (defun my-visual-ring-bell ()
+  "My value for `ring-bell-function'."
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil 'invert-face 'mode-line))
 (setq ring-bell-function 'my-visual-ring-bell)
@@ -191,41 +200,42 @@
     (warn (format "Error during loading of theme %s" my-color-theme))))
 
 
+;;; aliases
+(defmacro my-defalias-and-rebind (name command map)
+  "Define the alias NAME as a synonym for COMMAND and rebind it in MAP."
+  `(progn
+     (defalias ',name ',command)
+     (define-key ,map [remap ,command] ',name)))
+
+(my-defalias-and-rebind my-undo-command undo global-map)
+(my-defalias-and-rebind my-switch-buffer-command switch-to-buffer global-map)
+(my-defalias-and-rebind my-scroll-up-command scroll-up-command global-map)
+(my-defalias-and-rebind my-scroll-down-command scroll-down-command global-map)
+
+
 ;;; defuns
-(defvar my-undo-command 'undo
-  "A symbol to be funcalled to undo.")
-(defun my-undo-command ()
-  (interactive)
-  (funcall my-undo-command))
-(define-key global-map [remap undo] 'my-undo-command)
-
-(defvar my-switch-buffer-command 'switch-to-buffer
-  "A symbol to be funcalled to switch to another buffer.")
-(defun my-switch-buffer-command ()
-  (interactive)
-  (funcall my-switch-buffer-command))
-(define-key global-map [remap switch-to-buffer] 'my-switch-buffer-command)
-
 (defvar my-selective-display-width 1
   "Last non nil value of `selective-display'.")
 
 (defun my-selective-display--incf (offset)
+  "Increments `selective-display' by OFFSET."
   (setq my-selective-display-width (+ my-selective-display-width offset))
   (set-selective-display my-selective-display-width))
 
 (defun my-selective-display-increase ()
-  "Increase the cap for selective-display."
+  "Increase the cap for `selective-display'."
   (interactive)
   (when (< my-selective-display-width 20)
     (my-selective-display--incf 2)))
 
 (defun my-selective-display-decrease ()
-  "Decrease the cap for selective-display'."
+  "Decrease the cap for `selective-display'."
   (interactive)
   (when (> my-selective-display-width 1)
     (my-selective-display--incf -2)))
 
 (defun my-insert-todo ()
+  "Insert a TODO note above the current line."
   (interactive)
   (beginning-of-line)
   (open-line 1)
@@ -233,6 +243,7 @@
   (insert "TODO(NM) "))
 
 (defun my-on-all-visible-windows (fun &rest args)
+  "Apply FUN with ARGS on each visible window."
   (walk-windows
    (lambda (window)
      (with-selected-window window
@@ -241,10 +252,12 @@
    'visible))
 
 (defun my-all-previous-buffer ()
+  "Go to the previous buffer in each visible window."
   (interactive)
   (my-on-all-visible-windows 'previous-buffer))
 
 (defun my-all-next-buffer ()
+  "Go to the next buffer in each visible window."
   (interactive)
   (my-on-all-visible-windows 'next-buffer))
 
@@ -258,7 +271,7 @@
   "Remove the pair of parenthesis around the point, or undo it."
   (interactive)
   (cond ((equal last-command this-command)
-         (funcall my-undo-command))
+         (my-undo-command))
         (t
          (save-excursion
            (cond ((rassoc (char-after (1- (point))) my-pairs-alist)
@@ -290,7 +303,8 @@ character or right after a closing one."
             (k open-pos close-pos pairs (point)))
         (let ((start-point (point))
               cell
-              open-pos)
+              open-pos
+              close-pos)
           (cond ((setq cell (cl-member (char-after (1- (point))) my-pairs-alist :key 'cdr))
                  (setq close-pos (1- (point)))
                  (backward-sexp)
@@ -305,28 +319,21 @@ character or right after a closing one."
           (set-mark open-pos))))))
 
 (defun my-dos2unix ()
+  "Convert the current buffer to unix style eol."
   (interactive)
   (set-buffer-file-coding-system 'unix t)
   (save-buffer))
 
 (defun my-face-at-point ()
-  (let* ((old-hl-line-mode (and (boundp 'hl-line-mode) hl-line-mode))
-         (old-global-hl-line-mode (and (boundp 'global-hl-line-mode) global-hl-line-mode)))
-    (when (and old-hl-line-mode (fboundp 'hl-line-mode))
-      (hl-line-mode -1))
-    (when (and old-global-hl-line-mode (fboundp 'global-hl-line-mode))
-      (global-hl-line-mode -1))
-    (prog1
-        (let* (hl-line-mode global-hl-line-mode
-                            (face (face-at-point)))
-          (when face
-            (format "%S: %s" face (face-documentation face))))
-      (when old-hl-line-mode
-        (hl-line-mode 1))
-      (when old-global-hl-line-mode
-        (global-hl-line-mode 1)))))
+  "Computes the face at point and its documentation.
+
+See `my-face-at-point-mode'."
+  (let ((face (face-at-point)))
+    (when face
+      (format "%S: %s" face (face-documentation face)))))
 
 (defun my-describe-face-at-point ()
+  "Call `describe-face' skipping the interactive prompt."
   (interactive)
   (describe-face (face-at-point)))
 
@@ -341,20 +348,16 @@ character or right after a closing one."
                           #'my-face-at-point))))
 
 (defun my-delete-indentation-forward ()
+  "Implementation of vi's J command."
   (interactive)
   (delete-indentation t))
 
-(defun my-set-indentation (n)
-  (interactive "P")
-  (setq c-basic-offset
-        (cl-etypecase n
-          (null (read-number "set indentation to: " 2))
-          (string (number-to-string n))
-          (number n)))
-  (message "c-basic-offset = %d" c-basic-offset))
-
-(defvar my-narrowed-buffers nil)
+(defvar my-narrowed-buffers nil
+  "Variable that holds the buffers created by `my-narrow-to-region'.")
 (defun my-kill-buffer-on-widen ()
+  "Kill current buffer if it has been created by `my-narrow-to-region.
+
+Also make such killed buffers eligible for GC."
   (when (member (current-buffer) my-narrowed-buffers)
     (kill-buffer))
   (setq my-narrowed-buffers
@@ -362,6 +365,9 @@ character or right after a closing one."
 (advice-add 'widen :after #'my-kill-buffer-on-widen)
 
 (defun my-narrow-to-region (start end)
+  "Narrow the region between START and END in an indirect buffer.
+
+Such indirect buffers are automatically killed on `widen'."
   (interactive "r")
   (when (region-active-p)
     (deactivate-mark t))
@@ -380,6 +386,7 @@ character or right after a closing one."
       (apply fun args))))
 
 (defun my-occur-skip-gribberish-hook (&rest _)
+  "Skip the first line of the results buffer created by `occur-mode'."
   (when isearch-mode (isearch-exit))
   (select-window (get-buffer-window "*Occur*"))
   (goto-char (point-min))
@@ -389,23 +396,27 @@ character or right after a closing one."
 (advice-add 'occur :after #'my-occur-skip-gribberish-hook)
 
 (defun my-revert-buffer-noconfirm ()
+  "Revert current buffer without confirmation."
   (interactive)
   (revert-buffer t t))
 
 (defun my-find-init-file ()
+  "Jump to the file where most of the configuration is defined."
   (interactive)
   (find-file my-main-init-file))
 
 (defun my-find-project ()
+  "Jump to the project directory."
   (interactive)
   (find-file (expand-file-name "projects" (getenv "HOME"))))
 
 (defun my-find-shell-config-file ()
+  "Jump to the .bashrc file."
   (interactive)
   (find-file (expand-file-name ".bashrc" (getenv "HOME"))))
 
 (defun my-view-echo-area-messages (arg)
-  "With prefix argument, open the buffer in a new frame."
+  "With prefix argument ARG, open the buffer in a new frame."
   (interactive "P")
   (and arg (make-frame))
   (view-echo-area-messages))
@@ -413,6 +424,7 @@ character or right after a closing one."
   'my-view-echo-area-messages)
 
 (defun my-name-last-kbd-macro ()
+  "Give a name to the last macro and copy it to the kill ring."
   (interactive)
   (let ((name (read-string "Name for last kbd macro: " "test")))
     (name-last-kbd-macro (intern name))
@@ -447,6 +459,7 @@ Scroll down ARG lines."
     (scroll-down arg)))
 
 (defmacro my-with-other-window (&rest body)
+  "Go to the other window, apply BODY, and go back."
   `(let ((buf-name (buffer-name))
          (orig-window (selected-window)))
      (select-window (next-window))
@@ -457,29 +470,20 @@ Scroll down ARG lines."
          (select-window orig-window)))))
 (put 'my-with-other-window 'lisp-indent-function 0)
 
-(defun my-scroll-up-command (&optional _arg)
-  (interactive))
-
-(defun my-scroll-down-command (&optional _arg)
-  (interactive))
-
-(fset 'my-scroll-up-command 'scroll-up)
-(fset 'my-scroll-down-command 'scroll-down)
-
-(define-key global-map [remap scroll-up-command] 'my-scroll-up-command)
-(define-key global-map [remap scroll-down-command] 'my-scroll-down-command)
-
 (defun my-scroll-down-other-window (&optional arg)
+  "Scroll down in the other window."
   (interactive)
   (my-with-other-window
     (my-scroll-down-command arg)))
 
 (defun my-scroll-up-other-window (&optional arg)
+  "Scroll up in the other window."
   (interactive)
   (my-with-other-window
     (my-scroll-up-command arg)))
 
 (defmacro my-save-column (&rest body)
+  "Apply BODY and restore the current column afterwards."
   `(let ((column (current-column)))
      (unwind-protect
          (progn ,@body)
@@ -487,6 +491,7 @@ Scroll down ARG lines."
 (put 'my-save-column 'lisp-indent-function 0)
 
 (defun my-clone-line ()
+  "Clone the current line."
   (interactive)
   (my-save-column
     (copy-region-as-kill (line-beginning-position)
@@ -502,24 +507,27 @@ Scroll down ARG lines."
 (define-key global-map [remap kill-buffer] 'my-kill-buffer)
 
 (defun my-copy-line (&optional n)
-  "Copy from point to the end of line."
+  "Copy from point to the end of line.
+
+If provided, kill N lines forward."
   (interactive "p")
   (copy-region-as-kill (point) (line-end-position n)))
 
 (defun my-space-and-back ()
+  "Insert a space without moving the point."
   (interactive)
   (insert " ")
   (backward-char 1))
 
 (defun my-other-window-or-switch-buffer ()
-  "Call `other-window' if more than one window is visible, switch
-to next buffer otherwise."
+  "Switch to another window or to the next buffer."
   (interactive)
   (if (one-window-p)
       (switch-to-buffer nil)
     (other-window 1)))
 
 (defun my-kill-region-or-whole-line (&rest args)
+  "Kill either the region if activated or the current line."
   (interactive "p")
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
@@ -527,13 +535,15 @@ to next buffer otherwise."
 (define-key global-map [remap kill-region] 'my-kill-region-or-whole-line)
 
 (defun my-other-window-kill-buffer ()
+  "Kill the buffer in the other window."
   (interactive)
   (my-with-other-window
     (kill-buffer (current-buffer))))
 
 (defun my-yank-clone (orig-fun &rest args)
-  "With C-u C-u as prefix argument ARG, clone either the active
-region (if any) or the next sexp."
+  "Clone either the region if activated or the next sexp.
+
+Do that with C-u C-u as prefix argument."
   (interactive "*P")
   (if (not (equal '((16)) args))
       (apply orig-fun args)
@@ -629,6 +639,10 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 
 ;;; Packages
+(use-package dabbrev
+  :init
+  (setq dabbrev-case-fold-search nil))
+
 (use-package savehist
   :init
   (savehist-mode t)
@@ -650,7 +664,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package diff
   :preface
-  (defun display-buffer-diff-hook (&rest args)
+  (defun display-buffer-diff-hook (&rest _args)
     (when (and (string= "*Shell Command Output*"
                         (buffer-name (current-buffer)))
                (save-excursion
@@ -860,8 +874,10 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 ;;; Google search
 (defun my-prompt ()
-  "Default value for prompt is a current word or active region,
-if its size is 1 line."
+  "A simple prompt with a default value.
+
+The default value for prompt is either the region if activated
+and its size is 1 line, or the word at point."
   (cond ((and transient-mark-mode mark-active)
          (let ((pos1 (region-beginning))
                (pos2 (region-end)))
@@ -874,16 +890,19 @@ if its size is 1 line."
         (t
          (current-word))))
 
-(defmacro my-defweb-search (name engine-url)
-  `(defun ,name (w)
-     ,(format "Search on %s the word at point."
-              (substring engine-url 0 (string-match "/" engine-url)))
+(defmacro my-defweb-search (name template)
+  "Define a web search command named NAME from TEMPLATE."
+  `(defun ,name (query)
+     ,(format "Search QUERY on the engine %s.
+
+When called interactively, QUERY defaults to the word at point."
+              (substring template 0 (string-match "/" template)))
      (interactive (list (read-string "query: " (my-prompt))))
      (browse-url (format "https://%s%s"
-                         ,engine-url
+                         ,template
                          (replace-regexp-in-string search-whitespace-regexp
                                                    "+"
-                                                   w)))))
+                                                   query)))))
 (put 'my-defweb-search 'lisp-indent-function 'defun)
 
 (my-defweb-search my-google-search
@@ -1184,8 +1203,7 @@ A regexp that captures one match.")
   (advice-add 'magit-discard-hunk :around 'my-no-confirm)
   (dolist (command '(magit-commit magit-commit-amend magit-status))
     (advice-add command :before #'my-save-all-buffers))
-  (setq magit-commit-ask-to-stage t)
-  (setq magit-backup-mode nil))
+  (setq magit-commit-ask-to-stage t))
 
 (use-package rainbow-delimiters
   :defer t
@@ -1260,13 +1278,6 @@ In that case, insert the number."
       (if buf
           (switch-to-buffer buf)
         (apply orig-fun args))))
-
-  (defun my-counsel-rg (p)
-    (interactive "P")
-    (let* ((directory (if p (read-directory-name "counsel from directory: ")))
-           (current-prefix-arg nil))
-      (counsel-rg (my-prompt) directory)))
-
   (defun ivy-display-function-popup (text)
     (require 'popup)
     (with-ivy-window
@@ -1276,14 +1287,7 @@ In that case, insert the number."
   :demand t
   :diminish ivy-mode
   :bind
-  (([remap describe-function] . counsel-describe-function)
-   ([remap describe-variable] . counsel-describe-variable)
-   ("C-c b" . counsel-bookmark)
-   ("<f8>" . my-counsel-rg)
-   ("M-i" . counsel-imenu)
-   ("C-S-r" . ivy-resume)
-   ("C-c M-x" . counsel-M-x)
-   ("<f10>" . counsel-git-change-worktree)
+  (("C-S-r" . ivy-resume)
    :map ivy-minibuffer-map
    ([remap kill-region] . my-ivy-kill-region-or-whole-line)
    ("C-o" . ivy-occur)
@@ -1291,36 +1295,57 @@ In that case, insert the number."
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
   :init
-  (setq my-switch-buffer-command 'ivy-switch-buffer)
-  (use-package ivy
-    :if window-system
-    :bind
-    ("C-z" . counsel-switch-to-shell-buffer))
-  (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
-  (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
-
+  (fset 'my-switch-buffer-command 'ivy-switch-buffer)
   (setq ivy-display-functions-alist
         '((ivy-completion-in-region . ivy-display-function-lv)))
   (setq completion-in-region-function #'ivy-completion-in-region)
-  (setq counsel-rg-base-command
-        (concat
-         (executable-find "rg")
-         " --no-heading --line-number --vimgrep "
-         "--path-separator / "
-         "--max-columns 120 "
-         "--color never "
-         "%s ."))
   (setq ivy-use-virtual-buffers t)
   (use-package ivy-hydra)
   :config
   (progn
     (setq ivy-height 30)
     (add-to-list 'ivy-initial-inputs-alist
-                 '(counsel-switch-to-shell-buffer . "*shell*"))
-    (add-to-list 'ivy-initial-inputs-alist
                  '(projectile-completing-read . "/"))
     (setq ivy-virtual-abbreviate 'full)
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
+
+(use-package counsel
+  :preface
+  (defun my-counsel-rg (p)
+    (interactive "P")
+    (let* ((directory (if p (read-directory-name "counsel from directory: ")))
+           (current-prefix-arg nil))
+      (counsel-rg (my-prompt) directory)))
+  :bind
+  (([remap describe-function] . counsel-describe-function)
+   ([remap describe-variable] . counsel-describe-variable)
+   ("C-c b" . counsel-bookmark)
+   ("<f8>" . my-counsel-rg)
+   ("M-i" . counsel-imenu)
+   ("C-c M-x" . counsel-M-x)
+   ("<f10>" . counsel-git-change-worktree))
+  :init
+  (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
+  :config
+  (add-to-list 'ivy-initial-inputs-alist
+               '(counsel-switch-to-shell-buffer . "*shell*"))
+  (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
+  (setq counsel-rg-base-command
+        (mapconcat
+         'identity
+         (list
+          (executable-find "rg")
+          "--no-heading --line-number --vimgrep "
+          "--path-separator /"
+          "--max-columns 120"
+          "--color never"
+          "%s .")
+         " ")))
+
+(use-package counsel
+  :if window-system
+  :bind
+  ("C-z" . counsel-switch-to-shell-buffer))
 
 (use-package projectile
   :diminish projectile-mode
@@ -1393,6 +1418,15 @@ In that case, insert the number."
 (use-package cc-vars
   :commands compile
   :preface
+  (defun my-set-indentation (n)
+    "Set indentation for c-like modes according to N."
+    (interactive "P")
+    (setq c-basic-offset
+          (cl-etypecase n
+            (null (read-number "set indentation to: " 2))
+            (string (number-to-string n))
+            (number n)))
+    (message "c-basic-offset = %d" c-basic-offset))
   (defun my-c-setup ()
     "My setup for C."
     (setq c-default-style "bsd")
@@ -1464,7 +1498,7 @@ In that case, insert the number."
   ("C-?" . undo-tree-redo)
   :config
   (global-undo-tree-mode 1)
-  (setq my-undo-command 'undo-tree-undo))
+  (fset 'my-undo-command 'undo-tree-undo))
 
 (use-package wgrep
   :defer t
@@ -1601,8 +1635,7 @@ In that case, insert the number."
         ("C-c q" . my-sh-quote-or-unquote))
   :hook (sh-mode-hook . my-dos2unix)
   :config
-  (setq sh-basic-offset 8)
-  (setq sh-indentation 8))
+  (setq sh-basic-offset 8))
 
 (use-package move-text
   :defer t
