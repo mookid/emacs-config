@@ -134,12 +134,16 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "C-c <f5>") 'revert-buffer)
 (define-key global-map (kbd "<f2>") 'rename-buffer)
 (define-key global-map (kbd "M-j") 'my-delete-indentation-forward)
-(define-key global-map (kbd "<insert>") nil)
 (define-key global-map (kbd "C-c T") 'my-insert-todo)
 (define-key global-map (kbd "C-x C-S-<left>") 'my-all-previous-buffer)
 (define-key global-map (kbd "C-x C-S-<right>") 'my-all-next-buffer)
 (define-key global-map (kbd "`") 'my-other-window-or-switch-buffer)
 (define-key global-map (kbd "C-M-y") 'my-yank-diff)
+
+
+;;; Unbound keys
+(define-key global-map (kbd "<insert>") nil)
+(define-key global-map (kbd "C-\\") nil)
 
 
 ;;; Appearance
