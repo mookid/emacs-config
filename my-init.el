@@ -170,11 +170,11 @@ See `my-def-balance-after'." orig-fun)
       (when window-system
         (pcase system-type
           (`darwin
-           '(height 30 font "Menlo 18"))
+           '(font "Menlo 18"))
           (`windows-nt
-           '(height 45 font "Consolas 14"))
+           '(font "Consolas 14"))
           (_
-           '(height 45 font "DejaVu Sans Mono 14")))))
+           '(font "DejaVu Sans Mono 14")))))
 
 (defvar my-color-theme
   nil
@@ -182,22 +182,30 @@ See `my-def-balance-after'." orig-fun)
 (setq my-color-theme 'my-color)
 
 (with-eval-after-load 'init
-  (let ((height (plist-get my-frame-params 'height))
-        (font (plist-get my-frame-params 'font)))
-    (when height
-      (add-to-list 'default-frame-alist `(height . ,height))
-      (set-frame-height nil height))
-    (when font
-      (add-to-list 'default-frame-alist `(font . ,font))
-      (set-face-font 'default font)))
-  (add-to-list 'default-frame-alist '(width . 160))
-  (when (= 1 (count-windows))
-    (split-window-right))
-  (add-to-list 'initial-frame-alist '(top . 20))
-  (add-to-list 'initial-frame-alist '(left . 120))
-  (condition-case nil
-      (load-theme my-color-theme t)
-    (warn (format "Error during loading of theme %s" my-color-theme))))
+  (let ((font (plist-get my-frame-params 'font)))
+    (add-to-list 'default-frame-alist `(font . ,font))
+    (set-face-font 'default font))
+  (pcase-let* ((`(_ ,ofs-x _ ,display-pixel-width ,display-pixel-height)
+                (assoc 'workarea (car (display-monitor-attributes-list))))
+               (column-pixel-width 80)
+               (max-height (/ display-pixel-height (window-font-height)))
+               (height (- max-height 4))
+               (columns-to-display
+                (/ (- display-pixel-width (* 2 ofs-x))
+                   (* column-pixel-width (window-font-width))))
+               (width (* column-pixel-width columns-to-display)))
+    (add-to-list 'default-frame-alist `(height . ,height))
+    (add-to-list 'default-frame-alist `(width . ,width))
+    (set-frame-height nil height)
+    (set-frame-width nil width)
+    (dotimes (_ (- columns-to-display (count-windows)))
+      (split-window-right))
+    (balance-windows)
+    (add-to-list 'initial-frame-alist `(top . ,(window-font-height)))
+    (add-to-list 'initial-frame-alist `(left . ,(* 2 ofs-x)))
+    (condition-case nil
+        (load-theme my-color-theme t)
+      (warn (format "Error during loading of theme %s" my-color-theme)))))
 
 
 ;;; aliases
