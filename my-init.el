@@ -1523,9 +1523,6 @@ In that case, insert the number."
                         module-name)))))
   :hook (erlang-mode-hook . 'my-insert-erl-module-stub))
 
-(use-package goto-last-change
-  :bind ("C-x C-/" . goto-last-change))
-
 (use-package hl-todo
   :hook (prog-mode-hook . hl-todo-mode)
   :init
