@@ -1364,7 +1364,7 @@ In that case, insert the number."
         (mapconcat
          'identity
          (list
-          (executable-find "rg")
+          "rg"
           "--no-heading --line-number --vimgrep "
           "--path-separator /"
           "--max-columns 120"
