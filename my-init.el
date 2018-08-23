@@ -701,9 +701,15 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (interactive)
     (when-let (root (vc-root-dir))
       (vc-dir root)))
+  (defun my-vc-switch-to-buffer-other-window ()
+    (interactive)
+    (let* ((buffer-name "*vc-diff*")
+           (buffer-window (get-buffer-window buffer-name)))
+      (if buffer-window
+          (select-window buffer-window)
+        (switch-to-buffer-other-window buffer-name))))
   :bind
-  (("<f7>" . vc-diff)
-   ("C-<f7>" . vc-root-diff)
+  (("<f7>" . my-vc-switch-to-buffer-other-window)
    :map
    vc-prefix-map
    ("q" . my-vc-add-current-buffer))
@@ -714,7 +720,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (use-package vc-dir
       :bind
       (([remap vc-dir] . my-vc-dir-root)
-       ("C-M-<f7>" . vc-dir)
        :map vc-dir-mode-map
        ("d" . vc-diff)))))
 
