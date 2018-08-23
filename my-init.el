@@ -532,7 +532,8 @@ If provided, kill N lines forward."
   (interactive)
   (if (one-window-p)
       (switch-to-buffer nil)
-    (other-window 1)))
+    (other-window 1)
+    (fit-window-to-buffer)))
 
 (defun my-kill-region-or-whole-line (&rest args)
   "Kill either the region if activated or the current line."
@@ -992,7 +993,7 @@ When called interactively, QUERY defaults to the word at point."
     (run-with-timer 3 nil #'delete-overlay mouse-secondary-overlay))
   :config
   (advice-add 'mouse-drag-secondary :after #'my-delete-mouse-secondary-overlay)
-  (setq mouse-drag-copy-region t)
+  ;; (setq mouse-drag-copy-region t)
   (setq mouse-yank-at-point t))
 
 (use-package mouse-copy
@@ -1153,6 +1154,7 @@ A regexp that captures one match.")
     :if (eq system-type 'windows-nt)
     :init
     (setq shell-file-name "bash")
+    ;; (setq shell-file-name "cmd")
     :hook (comint-output-filter-functions . comint-strip-ctrl-m))
   (use-package shell
     :if (not window-system)
@@ -1310,7 +1312,7 @@ In that case, insert the number."
   :init
   (fset 'my-switch-buffer-command 'ivy-switch-buffer)
   (use-package ivy-xref
-    :ensure t
+    :load-path "~/projects/ivy-xref"
     :init
     (setq ivy-xref-use-file-path t)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
@@ -1357,16 +1359,13 @@ In that case, insert the number."
                '(counsel-switch-to-shell-buffer . "*shell*"))
   (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
   (setq counsel-rg-base-command
-        (mapconcat
-         'identity
-         (list
-          (executable-find "rg")
-          "--no-heading --line-number --vimgrep "
-          "--path-separator /"
-          "--max-columns 120"
-          "--color never"
-          "%s .")
-         " ")))
+        (concat
+         "rg"
+         " --no-heading --line-number --vimgrep "
+         "--path-separator / "
+         "--max-columns 120 "
+         "--color never "
+         "%s .")))
 
 (use-package counsel
   :if window-system
@@ -1635,7 +1634,8 @@ In that case, insert the number."
   :bind
   (:map
    flyspell-mode-map
-   (("C-;" . nil)))
+   (("C-;" . nil)
+    ("<mouse-2>" . nil)))
   :hook
   ((prog-mode-hook . flyspell-prog-mode)))
 
@@ -1776,3 +1776,23 @@ If provided, do it ARG times."
 
 (provide 'my-init)
 ;;; my-init.el ends here
+
+(delete-selection-mode 1)
+
+
+;; debug omnisharp-mode
+
+
+(defun pop-to-buffer-*omnisharp-log* ()
+  (pop-to-buffer "*omnisharp-log*"))
+
+(use-package omnisharp
+  :load-path "~/projects/omnisharp"
+  :config
+  (eval-after-load
+      'company
+    '(add-to-list 'company-backends 'company-omnisharp))
+  (add-hook 'omnisharp-mode-hook #'company-mode)
+  (add-hook 'omnisharp-mode-hook #'pop-to-buffer-*omnisharp-log*))
+
+(menu-bar-mode 1)
