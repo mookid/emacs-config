@@ -144,6 +144,7 @@
         cargo-process-repeat
         compile
         counsel-describe-variable
+        describe-key
         end-of-buffer
         eval-defun
         handle-switch-frame
