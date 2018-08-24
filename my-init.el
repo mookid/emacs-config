@@ -1315,7 +1315,6 @@ In that case, insert the number."
     :init
     (setq ivy-xref-use-file-path t)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-  (setq my-switch-buffer-command 'ivy-switch-buffer)
   (use-package ivy
     :if window-system
     :bind
