@@ -655,6 +655,10 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :init
   (setq dabbrev-case-fold-search nil))
 
+(use-package delsel
+  :init
+  (delete-selection-mode 1))
+
 (use-package savehist
   :init
   (savehist-mode t)
