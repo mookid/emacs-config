@@ -1277,6 +1277,12 @@ In that case, insert the number."
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-flip-when-above t)))
 
+(use-package company-posframe
+  :diminish company-posframe-mode
+  :defer t
+  :init
+  (company-posframe-mode 1))
+
 (use-package ivy
   :preface
   (defun my-ivy-kill-region-or-whole-line (&rest args)
