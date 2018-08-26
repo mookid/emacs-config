@@ -1265,7 +1265,7 @@ In that case, insert the number."
      ("C-\\" . company-complete))
     (:map
      company-active-map
-     (" " . 'my-company-abort-with-space)
+     ("SPC" . 'my-company-abort-with-space)
      ("<return>" . nil)
      ("C-n" . 'company-select-next)
      ("C-p" . 'company-select-previous)
