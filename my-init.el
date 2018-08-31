@@ -833,6 +833,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
 
 (use-package dired
   :defer t
+  :hook (dired-mode-hook . dired-hide-details-mode)
   :commands (dired dired-get-file-for-visit)
   :preface
   (defun my-dired-mouse-find-file (event)
