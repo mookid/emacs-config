@@ -158,6 +158,8 @@ See `my-def-balance-after'." orig-fun)
               (mapcar (lambda (elt)
                         (if (and (stringp elt) (string-match "  +" elt)) " " elt))
                       mode-line-format))
+(when (version<= "26.1" emacs-version)
+  (setq mode-line-percent-position '(6 "%q")))
 
 (defun my-visual-ring-bell ()
   "My value for `ring-bell-function'."
