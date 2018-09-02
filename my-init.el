@@ -43,8 +43,8 @@
 (define-key key-translation-map [?\)] [?\]])
 (define-key key-translation-map [?\]] [?\)])
 
-(add-to-list 'completion-styles 'partial-completion)
-(add-to-list 'completion-styles 'initials)
+(unless (member 'initials completion-styles)
+  (setq completion-styles (append completion-styles (list 'initials))))
 
 (progn
   (global-visual-line-mode +1)
