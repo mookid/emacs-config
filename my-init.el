@@ -766,6 +766,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   :init
   (my-key-chord-define global-map "hv" 'describe-variable)
   (my-key-chord-define global-map "hk" 'describe-key)
+  (my-key-chord-define global-map "hl" 'find-library)
   (my-key-chord-define global-map "hf" 'describe-function)
   :config
   (my-key-chord-setup))
