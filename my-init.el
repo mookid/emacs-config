@@ -1462,6 +1462,8 @@ In that case, insert the number."
        c-mode-base-map
        ("C-c C-c" . compile)
        ("C-c C-a" . ff-find-other-file))))
+  :init
+  (setq-default c-basic-offset 4)
   :defer t
   :hook ((c-initialization-hook . my-c-setup)
          (c-mode-hook . my-c-setup)))
