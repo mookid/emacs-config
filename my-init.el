@@ -1452,7 +1452,7 @@ In that case, insert the number."
             (number n)))
     (message "c-basic-offset = %d" c-basic-offset))
   (defun my-c-setup ()
-    "My setup for C."
+    "My setup for C/C++/C#."
     (setq c-default-style "bsd")
     (setq c-basic-offset 4)
     (setq indent-tabs-mode nil)
@@ -1466,6 +1466,7 @@ In that case, insert the number."
   (setq-default c-basic-offset 4)
   :defer t
   :hook ((c-initialization-hook . my-c-setup)
+         (c++-mode-hook . my-c-setup)
          (c-mode-hook . my-c-setup)))
 
 (use-package image-mode
