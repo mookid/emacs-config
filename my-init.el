@@ -96,6 +96,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "C-h g") 'my-google-search)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
 (define-key global-map (kbd "C-x C-h") 'find-file-other-window)
+(define-key global-map (kbd "C-x y") 'my-find-init-file)
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
@@ -410,6 +411,21 @@ Such indirect buffers are automatically killed on `widen'."
   "Revert current buffer without confirmation."
   (interactive)
   (revert-buffer t t))
+
+(defun my-find-init-file ()
+  "Jump to the file where most of the configuration is defined."
+  (interactive)
+  (find-file my-main-init-file))
+
+(defun my-find-project ()
+  "Jump to the project directory."
+  (interactive)
+  (find-file (expand-file-name "projects" (getenv "HOME"))))
+
+(defun my-find-shell-config-file ()
+  "Jump to the .bashrc file."
+  (interactive)
+  (find-file (expand-file-name ".bashrc" (getenv "HOME"))))
 
 (defun my-view-echo-area-messages (arg)
   "With prefix argument ARG, open the buffer in a new frame."
@@ -770,6 +786,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (my-key-chord-define global-map "hk" 'describe-key)
   (my-key-chord-define global-map "hl" 'find-library)
   (my-key-chord-define global-map "hf" 'describe-function)
+  (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
+  (my-key-chord-define global-map "fq" 'my-find-project)
   :config
   (my-key-chord-setup))
 
