@@ -4,13 +4,13 @@
  'my-color
  ;; TODO: company?
  '(compilation-mode-line-fail ((t (:weight bold :inherit error))))
- '(completions-common-part ((t (:foreground "#7C7C7C"))))
+ '(completions-common-part ((t (:foreground "#DDDDDD"))))
  '(completions-first-difference ((t (:background "green" :bold t))))
  '(cursor ((t (:background "black"))))
  '(default ((t (:background "#FFFFEA" :foreground "black"))))
  '(error ((t (:foreground "red2" :bold t))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
- '(font-lock-comment-face ((t (:foreground "gray70"))))
+ '(font-lock-comment-face ((t (:foreground "#999999"))))
  '(font-lock-string-face ((t (:bold t))))
  '(font-lock-builtin-face ((t (:foreground nil))))
  '(font-lock-constant-face ((t (:foreground nil))))
@@ -28,6 +28,7 @@
  '(lazy-highlight ((t (:background "yellow"))))
  '(highlight ((t (:inherit 'lazy-highlight))))
  '(hl-line ((t (:background "#EAFFFF"))))
+ '(match ((t (:background "cyan"))))
  '(mode-line ((t (:background "#EAFFFF" :foreground "black"))))
  '(mode-line-buffer-id ((t (:inherit mode-line :bold t))))
  '(mode-line-inactive ((t (:inherit mode-line :foreground "grey50"))))
