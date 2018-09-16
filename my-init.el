@@ -356,12 +356,11 @@ See `my-face-at-point-mode'."
 (define-minor-mode my-face-at-point-mode
   "Instruments `eldoc-mode' to describe the face at point."
   :lighter " face"
-  (cond (my-face-at-point-mode
-         (add-function :before-until (local 'eldoc-documentation-function)
-                       #'my-face-at-point))
-        (t
-         (remove-function (local 'eldoc-documentation-function)
-                          #'my-face-at-point))))
+  (remove-function (local 'eldoc-documentation-function)
+                   #'my-face-at-point)
+  (when my-face-at-point-mode
+    (add-function :before-until (local 'eldoc-documentation-function)
+                  #'my-face-at-point)))
 
 (defun my-delete-indentation-forward ()
   "Implementation of vi's J command."
@@ -593,16 +592,15 @@ unless `my-untabify-this-buffer' is nil."
 
 \\{my-untabify-mode-map}"
     :lighter " untab"
-    (cond (my-untabify-mode
-           (setq my-untabify-this-buffer
-                 (not (or (derived-mode-p 'makefile-mode)
-                          (search-forward "\t" nil t))))
-           (add-hook 'focus-out-hook #'my-save-buffers-without-untabification)
-           (add-hook 'before-save-hook #'my-untabify-buffer nil t))
-          (t
-           (remove-hook 'focus-out-hook #'my-save-buffers-without-untabification)
-           (remove-hook 'before-save-hook #'my-untabify-buffer t))))
-  (add-hook 'prog-mode-hook 'my-untabify-mode))
+    (remove-hook 'focus-out-hook #'my-save-buffers-without-untabification)
+    (remove-hook 'before-save-hook #'my-untabify-buffer t)
+    (setq my-untabify-this-buffer
+          (not (or (derived-mode-p 'makefile-mode)
+                   (search-forward "\t" nil t))))
+    (when my-untabify-mode
+      (add-hook 'focus-out-hook #'my-save-buffers-without-untabification)
+      (add-hook 'before-save-hook #'my-untabify-buffer nil t)))
+(add-hook 'prog-mode-hook 'my-untabify-mode))
 
 (defun my-save-all-buffers (&rest _)
   "Save all buffers."
