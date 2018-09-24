@@ -1212,6 +1212,8 @@ A regexp that captures one match.")
    (lisp-mode-hook . lispy-mode))
   :bind
   (:map lispy-mode-map-special
+        ("N" . nil)
+        ("W" . nil)
         ("~" . nil))
   :config
   (lispy-set-key-theme '(special)))
