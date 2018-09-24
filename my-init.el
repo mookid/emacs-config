@@ -136,6 +136,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "C-x C-S-<left>") 'my-all-previous-buffer)
 (define-key global-map (kbd "C-x C-S-<right>") 'my-all-next-buffer)
 (define-key global-map (kbd "`") 'my-other-window-or-switch-buffer)
+(define-key global-map (kbd "~") 'my-toggle-capitalization)
 (define-key global-map (kbd "C-M-y") 'my-yank-diff)
 
 
@@ -249,6 +250,13 @@ See `my-def-balance-after'." orig-fun)
   (interactive)
   (when (> my-selective-display-width 1)
     (my-selective-display--incf -2)))
+
+(defun my-toggle-capitalization ()
+  (interactive)
+  (let ((case-fold-search nil))
+    (cond
+     ((looking-at "[[:lower:]]") (upcase-region (point) (1+ (point))))
+     ((looking-at "[[:upper:]]") (downcase-region (point) (1+ (point)))))))
 
 (defun my-insert-todo ()
   "Insert a TODO note above the current line."
@@ -1202,6 +1210,9 @@ A regexp that captures one match.")
   :hook
   ((emacs-lisp-mode-hook . lispy-mode)
    (lisp-mode-hook . lispy-mode))
+  :bind
+  (:map lispy-mode-map-special
+        ("~" . nil))
   :config
   (lispy-set-key-theme '(special)))
 
