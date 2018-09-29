@@ -138,6 +138,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "`") 'my-other-window-or-switch-buffer)
 (define-key global-map (kbd "~") 'my-toggle-capitalization)
 (define-key global-map (kbd "C-M-y") 'my-yank-diff)
+(define-key global-map (kbd "C-x M-o") 'occur)
 
 
 ;;; Unbound keys
