@@ -991,15 +991,18 @@ When called interactively, QUERY defaults to the word at point."
 (use-package ielm
   :defer t
   :init
-  (progn
-    (setq initial-major-mode 'emacs-lisp-mode)
-    (setq eval-expression-print-level nil)
-    (use-package elisp-mode
-      :bind
-      ("C-c C-z" . ielm)
-      (:map
-       emacs-lisp-mode-map
-       ("C-c C-k" . eval-buffer))))
+  (defun my-eval-command ()
+    (interactive)
+    (if (region-active-p) (eval-region (region-beginning) (region-end))
+      (eval-buffer)))
+  (setq initial-major-mode 'emacs-lisp-mode)
+  (setq eval-expression-print-level nil)
+  (use-package elisp-mode
+    :bind
+    ("C-c C-z" . ielm)
+    (:map
+     emacs-lisp-mode-map
+     ("C-c C-k" . my-eval-command)))
   :bind
   (:map ielm-map
         ("C-c C-z" . bury-buffer)))
