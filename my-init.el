@@ -1812,5 +1812,16 @@ If provided, do it ARG times."
   :defer t
   :bind ("C-S-u" . string-inflection-all-cycle))
 
+(use-package bm
+  :bind
+  (("<C-f2>" . bm-toggle)
+   ("<f2>" . bm-next)
+   ("<S-f2>" . bm-previous))
+  :init
+  (setq bm-cycle-all-buffers t)
+  :config
+  (set-face-foreground bm-face nil)
+  (set-face-background bm-face "#FFEAFF"))
+
 (provide 'my-init)
 ;;; my-init.el ends here
