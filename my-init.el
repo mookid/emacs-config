@@ -1823,5 +1823,9 @@ If provided, do it ARG times."
   (set-face-foreground bm-face nil)
   (set-face-background bm-face "#FFEAFF"))
 
+(use-package csharp-mode
+  :load-path "~/projects/csharp-mode"
+  :hook ((csharp-mode-hook . my-c-setup)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
