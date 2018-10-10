@@ -890,9 +890,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-alh")
     (setq dired-recursive-deletes 'always)
-    (setq dired-recursive-copies 'always))
-  :config
-  (set-face-foreground 'dired-ignored "gray60"))
+    (setq dired-recursive-copies 'always)))
 
 (use-package ffap
   :defer t
@@ -1746,10 +1744,7 @@ In that case, insert the number."
   (advice-add 'restart-emacs :around #'my-no-confirm))
 
 (use-package whitespace
-  :init (global-whitespace-mode +1)
-  :config
-  (set-face-foreground 'whitespace-line nil)
-  (set-face-background 'whitespace-line nil))
+  :init (global-whitespace-mode +1))
 
 (use-package ace-link
   :init
