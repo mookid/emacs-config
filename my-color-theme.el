@@ -34,6 +34,7 @@
  '(mode-line-buffer-id ((t (:inherit mode-line :bold t))))
  '(mode-line-inactive ((t (:inherit mode-line :foreground "grey50"))))
  '(region ((t :background "#EEEE9E")))
+ '(sh-heredoc ((t :background nil :foreground "dark blue")))
  '(whitespace-empty ((t (:foreground "#E0E0E0"))))
  '(whitespace-hspace ((t (:foreground "#E0E0E0"))))
  '(whitespace-line ((t (:foreground nil :background nil))))
