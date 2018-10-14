@@ -1220,32 +1220,6 @@ A regexp that captures one match.")
   :config
   (lispy-set-key-theme '(special)))
 
-(use-package magit
-  :commands magit-toplevel
-  :preface
-  (defun my-is-dedicated-to-magit (frame)
-    (let ((cell (assq 'dedicated-to (frame-parameters frame))))
-      (and (consp cell) (eq (cdr cell) 'magit))))
-  (defun my-create-tags ()
-    (interactive)
-    (let ((default-directory (or (magit-toplevel)
-                                 (read-directory-name "Directory: "))))
-      (shell-command
-       (format "find %s -type f -name %S | etags -"
-               default-directory
-               (read-string "file extension: " "*.[ch]")))))
-  :defer t
-  :bind
-  (("C-x g" . magit-status)
-   ("C-x v p" . magit-blame)
-   ("M-<f7>" . magit-status))
-  :config
-  (setq magit-bury-buffer-function 'bury-buffer)
-  (advice-add 'magit-discard-hunk :around 'my-no-confirm)
-  (dolist (command '(magit-commit magit-commit-amend magit-status))
-    (advice-add command :before #'my-save-all-buffers))
-  (setq magit-commit-ask-to-stage t))
-
 (use-package rainbow-delimiters
   :defer t
   :preface
@@ -1418,21 +1392,6 @@ In that case, insert the number."
   (setq projectile-enable-caching t)
   (setq projectile-completion-system 'ivy)
   (projectile-mode +1))
-
-(use-package slime
-  :defer t
-  :bind
-  (:map
-   slime-mode-map
-   ("C-c s" . slime-selector))
-  :hook (comint-mode-hook . rainbow-delimiters-mode)
-  :config
-  (progn
-    (use-package slime-autoloads)
-    (setq inferior-lisp-program "sbcl")
-    (setq common-lisp-hyperspec-root
-          (format "file:///%s"
-                  (expand-file-name "HyperSpec/" user-emacs-directory)))))
 
 (use-package expand-region
   :defer t
