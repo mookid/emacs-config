@@ -441,10 +441,15 @@ Such indirect buffers are automatically killed on `widen'."
   (find-file (expand-file-name ".bashrc" (getenv "HOME"))))
 
 (defun my-view-echo-area-messages (arg)
-  "With prefix argument ARG, open the buffer in a new frame."
+  "View the log of recent echo-area messages: the `*Messages*' buffer.
+
+With prefix argument ARG, open the buffer in another window;
+otherwise, in a new frame."
   (interactive "P")
-  (and arg (make-frame))
-  (view-echo-area-messages))
+  (let ((frame (if arg (selected-frame) (make-frame))))
+    (save-excursion
+      (select-frame frame)
+      (view-echo-area-messages))))
 (define-key global-map [remap view-echo-area-messages]
   'my-view-echo-area-messages)
 
