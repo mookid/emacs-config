@@ -256,6 +256,7 @@ See `my-def-balance-after'." orig-fun)
   (interactive)
   (let ((case-fold-search nil))
     (cond
+     ((minibufferp) (self-insert-command 1))
      ((looking-at "[[:lower:]]") (upcase-region (point) (1+ (point))))
      ((looking-at "[[:upper:]]") (downcase-region (point) (1+ (point)))))))
 
