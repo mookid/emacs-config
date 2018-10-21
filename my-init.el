@@ -22,7 +22,6 @@
 (setq mouse-wheel-progressive-speed nil)
 (setq next-line-add-newlines nil)
 (setq require-final-newline t)
-(setq inhibit-startup-message t)
 (setq auto-save-default nil)
 (setq frame-title-format (list mode-line-modified " %b -- %f  " '(:eval vc-mode)))
 (setq minibuffer-depth-indicate-mode t)
