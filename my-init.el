@@ -1787,5 +1787,8 @@ If provided, do it ARG times."
   :load-path "~/projects/csharp-mode"
   :hook ((csharp-mode-hook . my-c-setup)))
 
+(use-package subword
+  :init (global-subword-mode 1))
+
 (provide 'my-init)
 ;;; my-init.el ends here
