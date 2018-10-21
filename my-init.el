@@ -1484,20 +1484,9 @@ In that case, insert the number."
 (use-package diff-hl
   :defer t
   :bind
-  (("C-M-[" . diff-hl-previous-hunk)
-   ("C-M-]" . diff-hl-next-hunk)
-   :map diff-hl-mode-map
-   ("S-<f7>" . diff-hl-revert-hunk))
-  :hook
-  ((diff-hl-mode-hook . diff-hl-flydiff-mode)
-   (diff-hl-mode-hook . diff-hl-margin-mode))
+  ([remap vc-diff] . diff-hl-diff-goto-hunk)
   :config
-  (progn
-    (cl-flet ((my-diff-hl-on (&rest _) (turn-on-diff-hl-mode)))
-      (dolist (fun '(diff-hl-previous-hunk diff-hl-next-hunk vc-diff))
-        (advice-add fun :before #'my-diff-hl-on)))
-    (advice-add 'diff-hl-diff-goto-hunk :before #'my-save-all-buffers)
-    (advice-add 'diff-hl-revert-hunk :around #'my-no-confirm)))
+  (advice-add 'diff-hl-diff-goto-hunk :before #'my-save-all-buffers))
 
 (use-package multiple-cursors
   :defer t
