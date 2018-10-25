@@ -1359,7 +1359,7 @@ In that case, insert the number."
    ("<f8>" . my-counsel-rg)
    ("M-i" . counsel-imenu)
    ("C-c M-x" . counsel-M-x)
-   ("<f10>" . counsel-git-change-worktree))
+   ("<f10>" . counsel-git-checkout))
   :init
   (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
   :config
