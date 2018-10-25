@@ -1763,6 +1763,7 @@ If provided, do it ARG times."
   :hook ((csharp-mode-hook . my-c-setup)))
 
 (use-package subword
+  :diminish subword-mode
   :init (global-subword-mode 1))
 
 (provide 'my-init)
