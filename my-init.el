@@ -1332,8 +1332,6 @@ In that case, insert the number."
     :bind
     ("C-z" . counsel-switch-to-shell-buffer))
   (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
-  (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
-
   (setq ivy-display-functions-alist
         '((ivy-completion-in-region . ivy-display-function-lv)))
   (setq completion-in-region-function #'ivy-completion-in-region)
