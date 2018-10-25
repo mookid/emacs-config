@@ -1367,18 +1367,7 @@ In that case, insert the number."
   :config
   (add-to-list 'ivy-initial-inputs-alist
                '(counsel-switch-to-shell-buffer . "*shell*"))
-  (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
-  (setq counsel-rg-base-command
-        (mapconcat
-         'identity
-         (list
-          "rg"
-          "--no-heading --line-number --vimgrep "
-          "--path-separator /"
-          "--max-columns 120"
-          "--color never"
-          "%s .")
-         " ")))
+  (setq counsel-describe-function-preselect 'ivy-function-called-at-point))
 
 (use-package counsel
   :if window-system
