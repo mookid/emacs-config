@@ -138,6 +138,9 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "~") 'my-toggle-capitalization)
 (define-key global-map (kbd "C-M-y") 'my-yank-diff)
 (define-key global-map (kbd "C-x M-o") 'occur)
+(define-key global-map (kbd "M-u") 'upcase-dwim)
+(define-key global-map (kbd "M-l") 'downcase-dwim)
+(define-key global-map (kbd "M-c") 'capitalize-dwim)
 
 
 ;;; Unbound keys
