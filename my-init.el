@@ -1342,6 +1342,7 @@ In that case, insert the number."
         '((ivy-completion-in-region . ivy-display-function-lv)))
   (setq completion-in-region-function #'ivy-completion-in-region)
   (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
   (use-package ivy-hydra)
   :config
   (progn
