@@ -229,6 +229,7 @@ See `my-def-balance-after'." orig-fun)
 
 (my-defalias-and-rebind my-undo-command undo global-map)
 (my-defalias-and-rebind my-switch-buffer-command switch-to-buffer global-map)
+(my-defalias-and-rebind my-switch-buffer-other-window-command switch-to-buffer-other-window global-map)
 (my-defalias-and-rebind my-scroll-up-command scroll-up-command global-map)
 (my-defalias-and-rebind my-scroll-down-command scroll-down-command global-map)
 
@@ -846,6 +847,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("3" my-split-window-right "split right")
       ("=" balance-windows "balance")
       ("b" my-switch-buffer-command "buffer" :exit t)
+      ("B" my-switch-buffer-other-window-command "buffer" :exit t)
       ("p" projectile-find-file "project" :exit t)
       ("q" nil "quit"))
     (defhydra my-cycle-pair (global-map "C-c")
@@ -1325,6 +1327,7 @@ In that case, insert the number."
    ("<right>" . ivy-alt-done))
   :init
   (fset 'my-switch-buffer-command 'ivy-switch-buffer)
+  (fset 'my-switch-buffer-other-window-command 'ivy-switch-buffer-other-window)
   (use-package ivy-xref
     :ensure t
     :init
