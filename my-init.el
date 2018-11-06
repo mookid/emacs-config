@@ -1389,7 +1389,9 @@ In that case, insert the number."
   (setq projectile-indexing-method 'alien)
   (setq projectile-enable-caching t)
   (setq projectile-completion-system 'ivy)
-  (projectile-mode +1))
+  :config
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package expand-region
   :defer t
