@@ -821,16 +821,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
          '(try-expand-line
            try-expand-line-all-buffers))))
 
-(use-package winner
-  :commands winner-mode
-  :defer t
-  :init
-  (setq winner-dont-bind-my-keys t)
-  :config (winner-mode +1)
-  :bind
-  (("C-," . winner-undo)
-   ("C-." . winner-redo)))
-
 (use-package hydra
   :init
   (progn
