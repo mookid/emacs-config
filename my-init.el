@@ -1765,5 +1765,22 @@ If provided, do it ARG times."
   :diminish subword-mode
   :init (global-subword-mode 1))
 
+(use-package view
+  :bind
+  (:map view-mode-map
+        ("w" . forward-word)
+        ("b" . backward-word)
+        ("(" . backward-paragraph)
+	(")" . forward-paragraph)
+        ("N" . View-search-last-regexp-backward)
+        ("G" . View-goto-percent)
+        ("<return>" . view-mode)
+        ("i" . view-mode)
+        ("j" . next-line)
+        ("k" . previous-line)
+        ("?" . View-search-regexp-backward))
+  :init
+  (setq view-read-only t))
+
 (provide 'my-init)
 ;;; my-init.el ends here
