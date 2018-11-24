@@ -1323,10 +1323,6 @@ In that case, insert the number."
     :init
     (setq ivy-xref-use-file-path t)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-  (use-package ivy
-    :if window-system
-    :bind
-    ("C-z" . counsel-switch-to-shell-buffer))
   (setq counsel-describe-function-preselect 'ivy-function-called-at-point)
   (setq ivy-display-functions-alist
         '((ivy-completion-in-region . ivy-display-function-lv)))
