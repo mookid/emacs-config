@@ -1232,7 +1232,7 @@ A regexp that captures one match.")
   :config
   (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                       :inherit 'error
-                      :box t))
+                      :reverse-video t))
 
 (eval
  `(use-package company
