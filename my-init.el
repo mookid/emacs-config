@@ -31,6 +31,7 @@
 (setq blink-matching-paren 't)
 (setq null-device "/dev/null")
 (set-default-coding-systems 'utf-8)
+(setq require-final-newline 'ask)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
