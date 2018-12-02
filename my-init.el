@@ -1679,9 +1679,6 @@ In that case, insert the number."
   (advice-add 'save-buffers-kill-terminal :around #'my-no-confirm)
   (advice-add 'restart-emacs :around #'my-no-confirm))
 
-(use-package whitespace
-  :init (global-whitespace-mode +1))
-
 (use-package ace-link
   :init
   (ace-link-setup-default))
