@@ -806,7 +806,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (my-key-chord-define global-map "hv" 'describe-variable)
   (my-key-chord-define global-map "hk" 'describe-key)
   (my-key-chord-define global-map "hl" 'find-library)
-  (my-key-chord-define global-map "hf" 'describe-function)
+  (my-key-chord-define global-map "hf" 'my-switch-buffer-command)
   (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
   (my-key-chord-define global-map "fq" 'my-find-project)
   :config
