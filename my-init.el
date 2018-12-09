@@ -167,10 +167,16 @@ See `my-def-balance-after'." orig-fun)
 (when (version<= "26.1" emacs-version)
   (setq mode-line-percent-position '(6 "%q")))
 
+(defvar my-ring-bell-timer nil
+  "Timer used for the ring-bell.")
+
 (defun my-visual-ring-bell ()
   "My value for `ring-bell-function'."
-  (invert-face 'mode-line)
-  (run-with-timer 0.1 nil 'invert-face 'mode-line))
+  (when my-ring-bell-timer
+    (cancel-timer my-ring-bell-timer))
+  (set-face-inverse-video 'mode-line t)
+  (setq my-ring-bell-timer (run-with-timer 0.1 nil 'set-face-inverse-video 'mode-line nil)))
+
 (setq ring-bell-function 'my-visual-ring-bell)
 
 (defvar my-frame-params nil
