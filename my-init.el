@@ -268,7 +268,8 @@ See `my-def-balance-after'." orig-fun)
     (cond
      ((minibufferp) (self-insert-command 1))
      ((looking-at "[[:lower:]]") (upcase-region (point) (1+ (point))))
-     ((looking-at "[[:upper:]]") (downcase-region (point) (1+ (point)))))))
+     ((looking-at "[[:upper:]]") (downcase-region (point) (1+ (point))))
+     (t (self-insert-command 1)))))
 
 (defun my-insert-todo ()
   "Insert a TODO note above the current line."
