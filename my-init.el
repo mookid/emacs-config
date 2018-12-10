@@ -1782,5 +1782,13 @@ If provided, do it ARG times."
    ("k" . previous-line)
    ("?" . View-search-regexp-backward)))
 
+(use-package go-mode
+  :hook
+  ((before-save-hook . gofmt-before-save)
+   (go-mode . go-eldoc-setup))
+  :bind
+  (:map go-mode-map
+        ("C-c C-c" . compile)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
