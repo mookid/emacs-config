@@ -1767,7 +1767,6 @@ If provided, do it ARG times."
   (set-face-background bm-face "#FFEAFF"))
 
 (use-package csharp-mode
-  :load-path "~/projects/csharp-mode"
   :hook ((csharp-mode-hook . my-c-setup)))
 
 (use-package subword
