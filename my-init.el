@@ -1290,6 +1290,13 @@ In that case, insert the number."
 
 (use-package ivy
   :preface
+  (defun my-ivy-abort ()
+    "Wipe the minibuffer if not empty, otherwise quit."
+    (interactive)
+    (cond ((> (length ivy-text) 0)
+           (delete-minibuffer-contents))
+          (t
+           (minibuffer-keyboard-quit))))
   (defun my-ivy-kill-region-or-whole-line (&rest args)
     (interactive "p")
     (if (region-active-p)
@@ -1319,6 +1326,7 @@ In that case, insert the number."
   (("C-S-r" . ivy-resume)
    :map ivy-minibuffer-map
    ([remap kill-region] . my-ivy-kill-region-or-whole-line)
+   ("C-g" . my-ivy-abort)
    ("C-o" . ivy-occur)
    ("<next>" . ivy-scroll-up-command)
    ("<prior>" . ivy-scroll-down-command)
