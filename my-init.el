@@ -53,17 +53,6 @@
 
 
 ;;; Windows
-(defun my-delete-side-windows ()
-  "Delete all side windows.
-
-See `window-at-side-p'."
-  (interactive)
-  (walk-windows (lambda (win)
-                  (when (window-at-side-p win)
-                    (delete-window win)))
-                nil
-                (selected-frame)))
-
 (defmacro my-def-balance-after (newfun orig-fun)
   "Define the function NEWFUN from ORIG-FUN.
 
@@ -91,7 +80,6 @@ See `my-def-balance-after'." orig-fun)
   (let ((up-key (kbd (format "<C-%s>" mouse-wheel-up-event))))
     (define-key global-map up-key 'my-selective-display-decrease)))
 (define-key global-map (kbd "<mode-line> <mouse-2>") 'my-kill-buffer)
-(define-key global-map (kbd "<escape> <escape>") 'my-delete-side-windows)
 (define-key global-map (kbd "C-M-;") 'backward-kill-sexp)
 (define-key global-map (kbd "C-h g") 'my-google-search)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
