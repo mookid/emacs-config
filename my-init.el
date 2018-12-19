@@ -429,11 +429,6 @@ Such indirect buffers are automatically killed on `widen'."
   (interactive)
   (find-file my-main-init-file))
 
-(defun my-find-project ()
-  "Jump to the project directory."
-  (interactive)
-  (find-file (expand-file-name "projects" (getenv "HOME"))))
-
 (defun my-find-shell-config-file ()
   "Jump to the .bashrc file."
   (interactive)
@@ -803,7 +798,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
   (my-key-chord-define global-map "hl" 'find-library)
   (my-key-chord-define global-map "hf" 'my-switch-buffer-command)
   (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
-  (my-key-chord-define global-map "fq" 'my-find-project)
   :config
   (my-key-chord-setup))
 
