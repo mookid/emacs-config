@@ -1704,9 +1704,8 @@ In that case, insert the number."
 
 (use-package helpful
   :defer t
-  :init
-  (progn
-    (my-key-chord-define global-map "hh" 'helpful-at-point)))
+  :bind
+  (("C-h h" . helpful-symbol)))
 
 (use-package saveplace
   :config
