@@ -130,6 +130,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "M-u") 'upcase-dwim)
 (define-key global-map (kbd "M-l") 'downcase-dwim)
 (define-key global-map (kbd "M-c") 'capitalize-dwim)
+(define-key global-map (kbd "C-h l") 'find-library)
 
 
 ;;; Unbound keys
@@ -793,9 +794,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       (dolist (mapping my-key-chords-alist)
         (apply #'key-chord-define mapping))))
   :init
-  (my-key-chord-define global-map "hv" 'describe-variable)
-  (my-key-chord-define global-map "hk" 'describe-key)
-  (my-key-chord-define global-map "hl" 'find-library)
   (my-key-chord-define global-map "hf" 'my-switch-buffer-command)
   (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
   :config
