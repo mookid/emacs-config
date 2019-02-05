@@ -826,7 +826,7 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
       ("=" balance-windows "balance")
       ("b" my-switch-buffer-command "buffer" :exit t)
       ("B" my-switch-buffer-other-window-command "buffer" :exit t)
-      ("p" projectile-find-file "project" :exit t)
+      ("p" counsel-git "project" :exit t)
       ("q" nil "quit"))
     (defhydra my-cycle-pair (global-map "C-c")
       "parenthesis"
@@ -1329,8 +1329,6 @@ In that case, insert the number."
   :config
   (progn
     (setq ivy-height 30)
-    (add-to-list 'ivy-initial-inputs-alist
-                 '(projectile-completing-read . "/"))
     (setq ivy-virtual-abbreviate 'full)
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
@@ -1345,6 +1343,7 @@ In that case, insert the number."
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
    ("C-c b" . counsel-bookmark)
+   ("C-x p" . counsel-git)
    ("<f8>" . my-counsel-rg)
    ("M-i" . counsel-imenu)
    ("C-c M-x" . counsel-M-x)
@@ -1362,6 +1361,7 @@ In that case, insert the number."
   ("C-z" . counsel-switch-to-shell-buffer))
 
 (use-package projectile
+  :disabled t
   :diminish projectile-mode
   :defer t
   :bind
