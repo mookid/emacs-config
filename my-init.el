@@ -1315,7 +1315,7 @@ In that case, insert the number."
   (fset 'my-switch-buffer-command 'ivy-switch-buffer)
   (fset 'my-switch-buffer-other-window-command 'ivy-switch-buffer-other-window)
   (use-package ivy-xref
-    :ensure t
+    :defer t
     :init
     (setq ivy-xref-use-file-path t)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
