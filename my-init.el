@@ -171,7 +171,7 @@ See `my-def-balance-after'." orig-fun)
 (defvar my-frame-params nil
   "Configuration for `default-frame-alist'.")
 (setq my-frame-params
-      (when window-system
+      (when (display-graphic-p)
         (pcase system-type
           (`darwin
            '(font "Menlo 18"))
@@ -1166,7 +1166,7 @@ A regexp that captures one match.")
     (setq shell-file-name "bash")
     :hook (comint-output-filter-functions . comint-strip-ctrl-m))
   (use-package shell
-    :if (not window-system)
+    :if (not (display-graphic-p))
     :bind
     ("C-z" . suspend-emacs))
   :bind
@@ -1356,7 +1356,7 @@ In that case, insert the number."
   (setq counsel-describe-function-preselect 'ivy-function-called-at-point))
 
 (use-package counsel
-  :if window-system
+  :if (display-graphic-p)
   :bind
   ("C-z" . counsel-switch-to-shell-buffer))
 
