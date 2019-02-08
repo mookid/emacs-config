@@ -1656,7 +1656,7 @@ In that case, insert the number."
 (use-package vimish-fold
   :defer t
   :bind
-  (("C-`" . vimish-fold)
+  (("C-=" . vimish-fold)
    ("C-c f" . vimish-fold-delete-all)))
 
 (use-package restart-emacs
