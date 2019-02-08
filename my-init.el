@@ -172,13 +172,10 @@ See `my-def-balance-after'." orig-fun)
   "Configuration for `default-frame-alist'.")
 (setq my-frame-params
       (when (display-graphic-p)
-        (pcase system-type
-          (`darwin
-           '(font "Menlo 18"))
-          (`windows-nt
-           '(font "Consolas 14"))
-          (_
-           '(font "DejaVu Sans Mono 14")))))
+        (cond
+         ((eq system-type 'darwin) '(:font "Menlo 18"))
+         ((eq system-type 'windows-nt) '(:font "Consolas 14"))
+         (t '(:font "DejaVu Sans Mono 14")))))
 
 (defvar my-color-theme
   nil
@@ -186,34 +183,35 @@ See `my-def-balance-after'." orig-fun)
 (setq my-color-theme 'my-color)
 
 (with-eval-after-load 'init
-  (let ((font (plist-get my-frame-params 'font)))
+  (cl-destructuring-bind (&key font) my-frame-params
     (add-to-list 'default-frame-alist `(font . ,font))
     (set-face-font 'default font))
-  (pcase-let* ((`(_ ,ofs-x _ ,display-pixel-width ,display-pixel-height)
-                (assoc 'workarea (car (display-monitor-attributes-list))))
-               (column-pixel-width 80)
-               (max-height (/ display-pixel-height (window-font-height)))
-               (height (- max-height 4))
-               (columns-to-display
-                (/ (- display-pixel-width (* 2 ofs-x))
-                   (* column-pixel-width (window-font-width))))
-               (width (* column-pixel-width columns-to-display)))
-    (cond ((< 1 columns-to-display)
-           (add-to-list 'default-frame-alist `(height . ,height))
-           (add-to-list 'default-frame-alist `(width . ,width))
-           (set-frame-height nil height)
-           (set-frame-width nil width)
-           (add-to-list 'initial-frame-alist `(top . ,(window-font-height)))
-           (add-to-list 'initial-frame-alist `(left . ,(* 2 ofs-x))))
-          (t
-           (setq columns-to-display 2)
-           (set-frame-parameter nil 'fullscreen 'maximized)))
-    (dotimes (_ (- columns-to-display (count-windows)))
-      (split-window-right))
-    (balance-windows)
-    (condition-case nil
-        (load-theme my-color-theme t)
-      (warn (format "Error during loading of theme %s" my-color-theme)))))
+  (cl-destructuring-bind
+      (_ ofs-x _ display-pixel-width display-pixel-height)
+      (assoc 'workarea (car (display-monitor-attributes-list)))
+    (let* ((column-pixel-width 80)
+           (max-height (/ display-pixel-height (window-font-height)))
+           (height (- max-height 4))
+           (columns-to-display
+            (/ (- display-pixel-width (* 2 ofs-x))
+               (* column-pixel-width (window-font-width))))
+           (width (* column-pixel-width columns-to-display)))
+      (cond ((< 1 columns-to-display)
+             (add-to-list 'default-frame-alist `(height . ,height))
+             (add-to-list 'default-frame-alist `(width . ,width))
+             (set-frame-height nil height)
+             (set-frame-width nil width)
+             (add-to-list 'initial-frame-alist `(top . ,(window-font-height)))
+             (add-to-list 'initial-frame-alist `(left . ,(* 2 ofs-x))))
+            (t
+             (setq columns-to-display 2)
+             (set-frame-parameter nil 'fullscreen 'maximized)))
+      (dotimes (_ (- columns-to-display (count-windows)))
+        (split-window-right))
+      (balance-windows)
+      (condition-case nil
+          (load-theme my-color-theme t)
+        (warn (format "Error during loading of theme %s" my-color-theme))))))
 
 
 ;;; aliases
@@ -316,16 +314,18 @@ fails if the point is not either on an opening parenthesis
 character or right after a closing one."
     (interactive)
     (cl-flet ((k (open-pos close-pos pairs end-pos)
-                 (pcase-let ((`((,open . ,close) . ,next-pairs)
-                              (or pairs my-pairs-alist)))
-                   (goto-char open-pos)  (delete-char 1) (insert open)
+                 (cl-destructuring-bind
+                     ((open . close) . next-pairs)
+                     (or pairs my-pairs-alist)
+                   (goto-char open-pos) (delete-char 1) (insert open)
                    (goto-char close-pos) (delete-char 1) (insert close)
                    (goto-char end-pos)
                    (setq my-delete-pair-last
                          (list next-pairs open-pos close-pos)))))
       (if (equal last-command this-command)
-          (pcase-let* ((`(,pairs ,open-pos ,close-pos)
-                        my-delete-pair-last))
+          (cl-destructuring-bind
+              (pairs open-pos close-pos)
+              my-delete-pair-last
             (k open-pos close-pos pairs (point)))
         (let ((start-point (point))
               cell
@@ -1145,7 +1145,7 @@ A regexp that captures one match.")
      (if (string= "" name) "*shell*" (format "*shell %s*" name))))
   (defun my-shell-pwd ()
     "Get the current value of $PWD."
-    (pcase-let ((`(,lo . ,hi) comint-last-prompt))
+    (cl-destructuring-bind (lo . hi) comint-last-prompt
       (when (and lo hi)
         (let* ((last-prompt (buffer-substring-no-properties lo hi))
                (filename (and (string-match my-shell-prompt-pwd-regexp
