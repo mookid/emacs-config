@@ -1264,7 +1264,7 @@ In that case, insert the number."
 
 (use-package company-posframe
   :diminish company-posframe-mode
-  :defer t
+  :disabled t
   :init
   (company-posframe-mode 1))
 
@@ -1360,22 +1360,6 @@ In that case, insert the number."
   :bind
   ("C-z" . counsel-switch-to-shell-buffer))
 
-(use-package projectile
-  :disabled t
-  :diminish projectile-mode
-  :defer t
-  :bind
-  (:map
-   projectile-mode-map
-   ("C-x p" . projectile-find-file))
-  :init
-  (setq projectile-indexing-method 'alien)
-  (setq projectile-enable-caching t)
-  (setq projectile-completion-system 'ivy)
-  :config
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-
 (use-package expand-region
   :defer t
   :bind (([remap mark-sexp] . er/expand-region))
@@ -1392,29 +1376,6 @@ In that case, insert the number."
    ("<f6>" . flycheck-list-errors))
   :config
   (setq flycheck-check-syntax-automatically '(save mode-enable)))
-
-(use-package tuareg
-  :defer t
-  :preface
-  (defun my-preserve-comment-style ()
-    (setq comment-style 'indent))
-  :mode ("\\.m[lf][ily]?$" . tuareg-mode)
-  :bind
-  (:map
-   tuareg-mode-map
-   ("M-;" . nil)
-   ("C-c ." . nil)
-   ("C-c /" . nil))
-  :config
-  (progn
-    (add-to-list 'face-remapping-alist
-                 '(tuareg-font-lock-governing-face (:inherit font-lock-builtin-face)))
-    (set-face-foreground tuareg-font-lock-operator-face nil)
-    (advice-add 'tuareg-mode :after #'my-preserve-comment-style)
-    (use-package ocp-indent
-      :demand t
-      :bind (:map tuareg-mode-map ("C-=" . ocp-indent-buffer))
-      :hook (tuareg-mode-hook . ocp-setup-indent))))
 
 (use-package cc-vars
   :commands compile
@@ -1537,18 +1498,6 @@ In that case, insert the number."
    :map
    emacs-lisp-mode-map
    ("C-c e" . macrostep-expand)))
-
-(use-package erlang
-  :defer t
-  :preface
-  (defun my-insert-erl-module-stub ()
-    (when (and (= (point-min) (point-max))
-               (buffer-file-name)
-               (string-suffix-p ".erl" (buffer-file-name)))
-      (let ((module-name (file-name-base)))
-        (insert (format "-module(%s).\n-export([]).\n\n"
-                        module-name)))))
-  :hook (erlang-mode-hook . 'my-insert-erl-module-stub))
 
 (use-package hl-todo
   :hook (prog-mode-hook . hl-todo-mode)
