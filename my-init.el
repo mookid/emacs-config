@@ -1776,5 +1776,14 @@ If provided, do it ARG times."
   (:map go-mode-map
         ("C-c C-c" . compile)))
 
+(use-package profiler
+  :bind
+  ("C-c p s" . my-profile-start)
+  ("C-c p RET" . profiler-report)
+  :init
+  (defun my-profile-start ()
+    (interactive)
+    (ignore-errors (profiler-start 'cpu+mem))))
+
 (provide 'my-init)
 ;;; my-init.el ends here
