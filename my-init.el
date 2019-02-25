@@ -1734,5 +1734,9 @@ If provided, do it ARG times."
     (interactive)
     (ignore-errors (profiler-start 'cpu+mem))))
 
+(use-package vc-msg
+  :bind
+  ("C-x v c" . vc-msg-show))
+
 (provide 'my-init)
 ;;; my-init.el ends here
