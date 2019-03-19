@@ -1004,6 +1004,7 @@ When called interactively, QUERY defaults to the word at point."
   :config
   (advice-add 'mouse-drag-secondary :after #'my-delete-mouse-secondary-overlay)
   (setq mouse-drag-copy-region t)
+  (setq mouse-drag-and-drop-region t)
   (setq mouse-yank-at-point t))
 
 (use-package mouse-copy
