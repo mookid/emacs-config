@@ -1327,10 +1327,9 @@ In that case, insert the number."
   (setq ivy-count-format "(%d/%d) ")
   (use-package ivy-hydra)
   :config
-  (progn
-    (setq ivy-height 30)
-    (setq ivy-virtual-abbreviate 'full)
-    (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
+  (setq ivy-height 10)
+  (setq ivy-virtual-abbreviate 'full)
+  (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy))
 
 (use-package counsel
   :preface
