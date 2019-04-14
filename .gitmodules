@@ -7,3 +7,6 @@
 [submodule "lispy"]
 	path = lispy
 	url = https://github.com/mookid/lispy
+[submodule "expand-region.el"]
+	path = expand-region.el
+	url = https://github.com/mookid/expand-region.el

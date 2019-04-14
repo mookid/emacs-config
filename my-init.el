@@ -1381,6 +1381,7 @@ In that case, insert the number."
   ("C-z" . counsel-switch-to-shell-buffer))
 
 (use-package expand-region
+  :load-path "~/.emacs.d/expand-region.el"
   :defer t
   :bind (([remap mark-sexp] . er/expand-region))
   :config
