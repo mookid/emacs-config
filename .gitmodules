@@ -1,0 +1,9 @@
+[submodule "swiper"]
+	path = swiper
+	url = https://github.com/mookid/swiper
+[submodule "ivy-xref"]
+	path = ivy-xref
+	url = https://github.com/mookid/ivy-xref
+[submodule "lispy"]
+	path = lispy
+	url = https://github.com/mookid/lispy

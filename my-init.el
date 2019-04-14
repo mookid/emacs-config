@@ -1203,6 +1203,7 @@ A regexp that captures one match.")
          ("C-c c". evilnc-copy-and-comment-lines)))
 
 (use-package lispy
+  :load-path "~/.emacs.d/lispy"
   :commands lispy-set-key-theme
   :defer t
   :init
@@ -1278,6 +1279,7 @@ In that case, insert the number."
   (company-posframe-mode 1))
 
 (use-package ivy
+  :load-path "~/.emacs.d/swiper"
   :preface
   (defun my-ivy-abort ()
     "Wipe the minibuffer if not empty, otherwise quit."
@@ -1322,6 +1324,8 @@ In that case, insert the number."
    ("<right>" . ivy-alt-done))
   :init
   (use-package ivy-xref
+    :load-path "~/.emacs.d/ivy-xref"
+    :commands ivy-xref-show-xrefs
     :defer t
     :init
     (setq ivy-xref-use-file-path t)
@@ -1332,7 +1336,8 @@ In that case, insert the number."
   (setq completion-in-region-function #'ivy-completion-in-region)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
-  (use-package ivy-hydra)
+  (use-package ivy-hydra
+    :load-path "~/.emacs.d/swiper")
   :config
   (fset 'my-switch-buffer-command 'ivy-switch-buffer)
   (fset 'my-switch-buffer-other-window-command 'ivy-switch-buffer-other-window)
@@ -1343,6 +1348,8 @@ In that case, insert the number."
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
 (use-package counsel
+  :load-path "~/.emacs.d/swiper"
+  :commands counsel-rg
   :preface
   (defun my-counsel-rg (p)
     (interactive "P")
@@ -1368,6 +1375,7 @@ In that case, insert the number."
   (setq counsel-describe-function-preselect 'ivy-function-called-at-point))
 
 (use-package counsel
+  :load-path "~/.emacs.d/swiper"
   :if (display-graphic-p)
   :bind
   ("C-z" . counsel-switch-to-shell-buffer))
