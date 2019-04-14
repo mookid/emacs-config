@@ -167,14 +167,14 @@ See `my-def-balance-after'." orig-fun)
 
 (setq ring-bell-function 'my-visual-ring-bell)
 
-(defvar my-frame-params nil
-  "Configuration for `default-frame-alist'.")
-(setq my-frame-params
-      (when (display-graphic-p)
-        (cond
-         ((eq system-type 'darwin) '(:font "Menlo 18"))
-         ((eq system-type 'windows-nt) '(:font "Consolas 14"))
-         (t '(:font "DejaVu Sans Mono 14")))))
+(defvar my-font-list nil
+  "Font configuration for `default-frame-alist'.")
+
+(setq my-font-list
+      '((:font-name "Fira Code" :font-size 12)
+        (:font-name "Menlo" :font-size 18)
+        (:font-name "Consolas" :font-size 14)
+        (:font-name "DejaVu Sans Mono" :font-size 14)))
 
 (defvar my-color-theme
   nil
@@ -182,9 +182,14 @@ See `my-def-balance-after'." orig-fun)
 (setq my-color-theme 'my-color)
 
 (with-eval-after-load 'init
-  (cl-destructuring-bind (&key font) my-frame-params
-    (add-to-list 'default-frame-alist `(font . ,font))
-    (set-face-font 'default font))
+  (let ((font-spec my-font-list) (font))
+    (while
+        (cl-destructuring-bind (&key font-name font-size) (pop font-spec)
+          (when (and font-spec (find-font (font-spec :name font-name)))
+            (setq font (concat font-name " " (prin1-to-string font-size))))))
+    (when font
+      (add-to-list 'default-frame-alist `(font . ,font))
+      (set-face-font 'default font)))
   (cl-destructuring-bind
       (_ ofs-x _ display-pixel-width display-pixel-height)
       (assoc 'workarea (car (display-monitor-attributes-list)))
