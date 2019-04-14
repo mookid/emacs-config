@@ -1317,8 +1317,6 @@ In that case, insert the number."
    ("<prior>" . ivy-scroll-down-command)
    ("<right>" . ivy-alt-done))
   :init
-  (fset 'my-switch-buffer-command 'ivy-switch-buffer)
-  (fset 'my-switch-buffer-other-window-command 'ivy-switch-buffer-other-window)
   (use-package ivy-xref
     :defer t
     :init
@@ -1332,6 +1330,8 @@ In that case, insert the number."
   (setq ivy-count-format "(%d/%d) ")
   (use-package ivy-hydra)
   :config
+  (fset 'my-switch-buffer-command 'ivy-switch-buffer)
+  (fset 'my-switch-buffer-other-window-command 'ivy-switch-buffer-other-window)
   (setq ivy-height 10)
   (setq ivy-virtual-abbreviate 'full)
   (use-package avy
@@ -1357,6 +1357,7 @@ In that case, insert the number."
   :init
   (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
   :config
+  (fset 'my-switch-buffer-command 'counsel-switch-buffer)
   (add-to-list 'ivy-initial-inputs-alist
                '(counsel-switch-to-shell-buffer . "*shell*"))
   (setq counsel-describe-function-preselect 'ivy-function-called-at-point))
