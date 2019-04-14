@@ -1746,5 +1746,13 @@ If provided, do it ARG times."
   :bind
   ("C-x v c" . vc-msg-show))
 
+(use-package highlight-symbol-mode
+  :bind
+  ("C-S-<up>" . highlight-symbol-prev)
+  ("C-S-<down>" . highlight-symbol-next)
+  :init
+  (highlight-symbol-mode 1)
+  (setq highlight-symbol-idle-delay 0.2))
+
 (provide 'my-init)
 ;;; my-init.el ends here
