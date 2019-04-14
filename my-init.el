@@ -1129,6 +1129,7 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("TAB" . isearch-complete)
    ("M-e" . isearch-toggle-symbol)
    ("M-<" . my-isearch-beginning-of-buffer)
+   ("C-M-o" . swiper-from-isearch)
    ("M->" . my-isearch-end-of-buffer))
   :hook (isearch-mode-end-hook . my-isearch-exit-beginning)
   :init
@@ -1192,11 +1193,6 @@ A regexp that captures one match.")
   :defer t
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
          ("C-c c". evilnc-copy-and-comment-lines)))
-
-(use-package anzu
-  :defer t
-  :init (global-anzu-mode 1)
-  :diminish anzu-mode)
 
 (use-package lispy
   :commands lispy-set-key-theme
