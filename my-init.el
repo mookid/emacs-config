@@ -130,6 +130,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "M-l") 'downcase-dwim)
 (define-key global-map (kbd "M-c") 'capitalize-dwim)
 (define-key global-map (kbd "C-h l") 'find-library)
+(define-key global-map (kbd "C-c g") 'my-gitk)
 
 
 ;;; Unbound keys
@@ -269,6 +270,10 @@ See `my-def-balance-after'." orig-fun)
   (open-line 1)
   (comment-dwim nil)
   (insert "TODO(NM) "))
+
+(defun my-gitk ()
+  (interactive)
+  (start-process "gitk" nil "gitk" "--all"))
 
 (defun my-on-all-visible-windows (fun &rest args)
   "Apply FUN with ARGS on each visible window."
