@@ -182,15 +182,19 @@ See `my-def-balance-after'." orig-fun)
   "The selected color theme.")
 (setq my-color-theme 'my-color)
 
+(defvar my-font nil
+  "The selected font.")
+
 (with-eval-after-load 'init
-  (let ((font-spec my-font-list) (font))
-    (while
-        (cl-destructuring-bind (&key font-name font-size) (pop font-spec)
-          (when (and font-spec (find-font (font-spec :name font-name)))
-            (setq font (concat font-name " " (prin1-to-string font-size))))))
+  (let ((font-specs my-font-list) (font))
+    (while (and font-specs (not font))
+      (cl-destructuring-bind (&key font-name font-size) (pop font-specs)
+        (when (and font-name (find-font (font-spec :name font-name)))
+          (setq font (concat font-name " " (prin1-to-string font-size))))))
     (when font
       (add-to-list 'default-frame-alist `(font . ,font))
-      (set-face-font 'default font)))
+      (set-face-font 'default font)
+      (setq my-font font)))
   (cl-destructuring-bind
       (_ ofs-x _ display-pixel-width display-pixel-height)
       (assoc 'workarea (car (display-monitor-attributes-list)))
