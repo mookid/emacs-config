@@ -19,3 +19,6 @@
 [submodule "cargo.el"]
 	path = cargo.el
 	url = https://github.com/mookid/cargo.el
+[submodule "evil-nerd-commenter"]
+	path = evil-nerd-commenter
+	url = https://github.com/mookid/evil-nerd-commenter

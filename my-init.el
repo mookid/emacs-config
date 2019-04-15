@@ -1198,6 +1198,7 @@ A regexp that captures one match.")
     (advice-add 'comint-next-input :before #'my-end-of-buffer-hook)))
 
 (use-package evil-nerd-commenter
+  :load-path "~/.emacs.d/evil-nerd-commenter"
   :defer t
   :bind (("M-;" . evilnc-comment-or-uncomment-lines)
          ("C-c c". evilnc-copy-and-comment-lines)))
