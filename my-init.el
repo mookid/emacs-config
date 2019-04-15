@@ -304,6 +304,7 @@ See `my-def-balance-after'." orig-fun)
     (?\[ . ?\]))
   "Supported delimiters for `my-delete-pair' and `my-cycle-pair'.")
 (defun my-delete-pair ()
+  ;; TODO(NM): should calling that twice redo?
   "Remove the pair of parenthesis around the point, or undo it."
   (interactive)
   (cond ((equal last-command this-command)
@@ -849,7 +850,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
            try-expand-line-all-buffers))))
 
 (use-package hydra
-  :init
+  :load-path "~/.emacs.d/hydra"
+  :config
   (progn
     (defhydra my-previous-next-buffer-repeat (global-map "C-x")
       "Buffers"

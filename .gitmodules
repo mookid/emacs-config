@@ -43,3 +43,6 @@
 [submodule "helpful"]
 	path = helpful
 	url = https://github.com/mookid/helpful
+[submodule "hydra"]
+	path = hydra
+	url = https://github.com/mookid/hydra
