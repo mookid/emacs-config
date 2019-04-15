@@ -1649,11 +1649,13 @@ In that case, insert the number."
   (ace-link-setup-default))
 
 (use-package rust-mode
+  :load-path "~/.emacs.d/rust-mode"
   :defer t
   :mode ("\\.rs?$" . rust-mode)
   :config
   (progn
     (use-package cargo
+      :load-path "~/.emacs.d/cargo.el"
       :diminish cargo-minor-mode
       :hook (rust-mode-hook . cargo-minor-mode)
       :bind
@@ -1661,6 +1663,7 @@ In that case, insert the number."
        cargo-minor-mode-map
        ("<f5>" . cargo-process-repeat)))
     (use-package racer
+      :load-path "~/.emacs.d/emacs-racer"
       :diminish racer-mode
       :hook (rust-mode-hook . racer-mode))))
 

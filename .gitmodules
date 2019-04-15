@@ -10,3 +10,12 @@
 [submodule "expand-region.el"]
 	path = expand-region.el
 	url = https://github.com/mookid/expand-region.el
+[submodule "rust-mode"]
+	path = rust-mode
+	url = https://github.com/mookid/rust-mode
+[submodule "emacs-racer"]
+	path = emacs-racer
+	url = https://github.com/mookid/emacs-racer
+[submodule "cargo.el"]
+	path = cargo.el
+	url = https://github.com/mookid/cargo.el
