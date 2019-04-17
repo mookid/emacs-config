@@ -12,7 +12,10 @@
   (when (version< emacs-version "27.0")
     (package-initialize))
 
-  (require 'benchmark-init)
+  (add-to-list 'load-path "~/.emacs.d/benchmark-init-el")
+  (require 'benchmark-init-loaddefs)
+  (benchmark-init/activate)
+  (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
   ;; The configuration directories
   (defvar custom-file)

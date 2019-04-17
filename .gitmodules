@@ -61,3 +61,6 @@
 [submodule "bm"]
 	path = bm
 	url = https://github.com/mookid/bm
+[submodule "benchmark-init-el"]
+	path = benchmark-init-el
+	url = https://github.com/mookid/benchmark-init-el
