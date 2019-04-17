@@ -58,3 +58,6 @@
 [submodule "vimish-fold"]
 	path = vimish-fold
 	url = https://github.com/mookid/vimish-fold
+[submodule "bm"]
+	path = bm
+	url = https://github.com/mookid/bm

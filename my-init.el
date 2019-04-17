@@ -1743,6 +1743,8 @@ If provided, do it ARG times."
   :bind ("C-S-u" . string-inflection-all-cycle))
 
 (use-package bm
+  :load-path "~/.emacs.d/bm"
+  :defer t
   :bind
   (("<C-f2>" . bm-toggle)
    ("<f2>" . bm-next)
