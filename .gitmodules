@@ -55,3 +55,6 @@
 [submodule "ace-link"]
 	path = ace-link
 	url = https://github.com/mookid/ace-link
+[submodule "vimish-fold"]
+	path = vimish-fold
+	url = https://github.com/mookid/vimish-fold

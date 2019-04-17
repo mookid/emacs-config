@@ -1654,6 +1654,7 @@ In that case, insert the number."
     (minibuffer-depth-indicate-mode +1)))
 
 (use-package vimish-fold
+  :load-path "~/.emacs.d/vimish-fold"
   :defer t
   :bind
   (("C-=" . vimish-fold)
