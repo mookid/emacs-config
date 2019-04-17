@@ -1631,11 +1631,10 @@ In that case, insert the number."
   (setq sh-basic-offset 8))
 
 (use-package move-text
+  :load-path "~/.emacs.d/move-text"
   :defer t
   :bind
-  (("C-S-<down>" . move-text-down)
-   ("C-S-n" . move-text-down)
-   ("C-S-<up>" . move-text-up)
+  (("C-S-n" . move-text-down)
    ("C-S-p" . move-text-up)))
 
 (use-package windmove

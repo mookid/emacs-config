@@ -46,3 +46,6 @@
 [submodule "hydra"]
 	path = hydra
 	url = https://github.com/mookid/hydra
+[submodule "move-text"]
+	path = move-text
+	url = https://github.com/mookid/move-text
