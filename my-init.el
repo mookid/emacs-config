@@ -1374,6 +1374,7 @@ In that case, insert the number."
   (setq ivy-height 10)
   (setq ivy-virtual-abbreviate 'full)
   (use-package avy
+    :load-path "~/.emacs.d/avy"
     :init
     (my-key-chord-define ivy-minibuffer-map "fh" 'ivy-avy)))
 
@@ -1674,6 +1675,8 @@ In that case, insert the number."
   (advice-add 'restart-emacs :around #'my-no-confirm))
 
 (use-package ace-link
+  :load-path "~/.emacs.d/ace-link"
+  :commands (ace-link-setup-default)
   :init
   (ace-link-setup-default))
 

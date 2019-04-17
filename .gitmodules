@@ -49,3 +49,9 @@
 [submodule "move-text"]
 	path = move-text
 	url = https://github.com/mookid/move-text
+[submodule "avy"]
+	path = avy
+	url = https://github.com/mookid/avy
+[submodule "ace-link"]
+	path = ace-link
+	url = https://github.com/mookid/ace-link
