@@ -1543,6 +1543,7 @@ In that case, insert the number."
            (display-battery-mode))))
 
 (use-package macrostep
+  :load-path "~/.emacs.d/macrostep"
   :defer t
   :bind
   (:map
