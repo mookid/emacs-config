@@ -100,3 +100,6 @@
 [submodule "iedit"]
 	path = iedit
 	url = https://github.com/mookid/iedit
+[submodule "key-chord"]
+	path = key-chord
+	url = https://github.com/mookid/key-chord

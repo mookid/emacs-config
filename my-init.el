@@ -823,6 +823,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (show-paren-mode 1)))
 
 (use-package key-chord
+  :load-path "~/.emacs.d/key-chord"
   :preface
   (defvar my-key-chords-alist nil
     "A list of key chords bindings.
