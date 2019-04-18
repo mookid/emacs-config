@@ -79,3 +79,6 @@
 [submodule "highlight-symbol.el"]
 	path = highlight-symbol.el
 	url = https://github.com/mookid/highlight-symbol.el
+[submodule "use-package"]
+	path = use-package
+	url = https://github.com/mookid/use-package

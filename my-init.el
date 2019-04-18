@@ -4,7 +4,9 @@
 ;; My Emacs config, with simple options.
 
 ;;; Code:
-(eval-when-compile (require 'cl-lib))
+(eval-when-compile
+  (require 'cl-lib))
+(add-to-list 'load-path "~/.emacs.d/use-package")
 (require 'use-package)
 (setq use-package-verbose t)
 (setq use-package-hook-name-suffix nil)
