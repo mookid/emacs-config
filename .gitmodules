@@ -73,3 +73,6 @@
 [submodule "macrostep"]
 	path = macrostep
 	url = https://github.com/mookid/macrostep
+[submodule "hl-todo"]
+	path = hl-todo
+	url = https://github.com/mookid/hl-todo

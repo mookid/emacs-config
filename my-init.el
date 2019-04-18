@@ -1554,6 +1554,7 @@ In that case, insert the number."
    ("C-c e" . macrostep-expand)))
 
 (use-package hl-todo
+  :load-path "~/.emacs.d/hl-todo"
   :hook (prog-mode-hook . hl-todo-mode)
   :init
   (setq hl-todo-keyword-faces '(("TODO" . hl-todo)
