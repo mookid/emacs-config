@@ -85,3 +85,12 @@
 [submodule "diminish.el"]
 	path = diminish.el
 	url = https://github.com/mookid/diminish.el
+[submodule "go-mode.el"]
+	path = go-mode.el
+	url = https://github.com/mookid/go-mode.el
+[submodule "emacs-go-eldoc"]
+	path = emacs-go-eldoc
+	url = https://github.com/mookid/emacs-go-eldoc
+[submodule "lint"]
+	path = lint
+	url = https://github.com/mookid/lint

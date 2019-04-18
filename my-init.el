@@ -1786,7 +1786,18 @@ If provided, do it ARG times."
    ("k" . previous-line)
    ("?" . View-search-regexp-backward)))
 
+(use-package go-eldoc
+  :load-path "~/.emacs.d/emacs-go-eldoc"
+  :commands go-eldoc-setup)
+
+(use-package golint
+  :load-path "~/.emacs.d/lint/misc/emacs"
+  :bind
+  (:map go-mode-map
+        ("C-c C-l" . golint)))
+
 (use-package go-mode
+  :load-path "~/.emacs.d/go-mode.el"
   :hook
   ((before-save-hook . gofmt-before-save)
    (go-mode . go-eldoc-setup))
