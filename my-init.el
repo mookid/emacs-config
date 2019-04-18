@@ -1006,6 +1006,7 @@ When called interactively, QUERY defaults to the word at point."
     (("<f5>" . recompile))))
 
 (use-package iedit
+  :load-path "~/.emacs.d/iedit"
   :defer t
   :preface
   (defun my-iedit-occur (&optional nlines)

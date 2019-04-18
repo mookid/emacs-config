@@ -97,3 +97,6 @@
 [submodule "restart-emacs"]
 	path = restart-emacs
 	url = https://github.com/mookid/restart-emacs
+[submodule "iedit"]
+	path = iedit
+	url = https://github.com/mookid/iedit
