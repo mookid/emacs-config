@@ -7,7 +7,9 @@
 (eval-when-compile
   (require 'cl-lib))
 (add-to-list 'load-path "~/.emacs.d/use-package")
+(add-to-list 'load-path "~/.emacs.d/diminish.el")
 (require 'use-package)
+(require 'diminish)
 (setq use-package-verbose t)
 (setq use-package-hook-name-suffix nil)
 

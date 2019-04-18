@@ -82,3 +82,6 @@
 [submodule "use-package"]
 	path = use-package
 	url = https://github.com/mookid/use-package
+[submodule "diminish.el"]
+	path = diminish.el
+	url = https://github.com/mookid/diminish.el
