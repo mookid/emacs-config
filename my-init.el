@@ -1803,7 +1803,9 @@ If provided, do it ARG times."
   :bind
   ("C-x v c" . vc-msg-show))
 
-(use-package highlight-symbol-mode
+(use-package highlight-symbol
+  :load-path "~/.emacs.d/highlight-symbol.el"
+  :commands highlight-symbol-mode
   :bind
   ("C-S-<up>" . highlight-symbol-prev)
   ("C-S-<down>" . highlight-symbol-next)
