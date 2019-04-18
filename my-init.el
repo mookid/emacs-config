@@ -1672,6 +1672,7 @@ In that case, insert the number."
 
 (use-package restart-emacs
   :load-path "~/.emacs.d/restart-emacs"
+  :demand t
   :preface
   (defun my-restart-emacs (arg)
     (interactive "P")
