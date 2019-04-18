@@ -94,3 +94,6 @@
 [submodule "lint"]
 	path = lint
 	url = https://github.com/mookid/lint
+[submodule "restart-emacs"]
+	path = restart-emacs
+	url = https://github.com/mookid/restart-emacs

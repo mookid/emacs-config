@@ -1668,6 +1668,7 @@ In that case, insert the number."
    ("C-c f" . vimish-fold-delete-all)))
 
 (use-package restart-emacs
+  :load-path "~/.emacs.d/restart-emacs"
   :preface
   (defun my-restart-emacs (arg)
     (interactive "P")
