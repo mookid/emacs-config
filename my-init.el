@@ -1507,6 +1507,7 @@ In that case, insert the number."
   (fset 'my-undo-command 'undo-tree-undo))
 
 (use-package wgrep
+  :load-path "~/.emacs.d/Emacs-wgrep"
   :defer t
   :bind
   (:map grep-mode-map

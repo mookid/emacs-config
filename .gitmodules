@@ -67,3 +67,6 @@
 [submodule "string-inflection"]
 	path = string-inflection
 	url = https://github.com/mookid/string-inflection
+[submodule "Emacs-wgrep"]
+	path = Emacs-wgrep
+	url = https://github.com/mookid/Emacs-wgrep/
