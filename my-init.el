@@ -1479,6 +1479,7 @@ In that case, insert the number."
   :config (yas-reload-all))
 
 (use-package diff-hl
+  :load-path "~/.emacs.d/diff-hl"
   :defer t
   :bind
   ([remap vc-diff] . diff-hl-diff-goto-hunk)

@@ -103,3 +103,6 @@
 [submodule "key-chord"]
 	path = key-chord
 	url = https://github.com/mookid/key-chord
+[submodule "diff-hl"]
+	path = diff-hl
+	url = https://github.com/mookid/diff-hl
