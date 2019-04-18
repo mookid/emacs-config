@@ -64,3 +64,6 @@
 [submodule "benchmark-init-el"]
 	path = benchmark-init-el
 	url = https://github.com/mookid/benchmark-init-el
+[submodule "string-inflection"]
+	path = string-inflection
+	url = https://github.com/mookid/string-inflection

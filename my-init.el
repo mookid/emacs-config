@@ -1739,6 +1739,7 @@ If provided, do it ARG times."
   (fset 'my-scroll-down-command 'my-scroll-down-command-pager))
 
 (use-package string-inflection
+  :load-path "~/.emacs.d/string-inflection"
   :defer t
   :bind ("C-S-u" . string-inflection-all-cycle))
 
