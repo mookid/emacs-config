@@ -106,3 +106,6 @@
 [submodule "diff-hl"]
 	path = diff-hl
 	url = https://github.com/mookid/diff-hl
+[submodule "pager"]
+	path = pager
+	url = https://github.com/mookid/pager

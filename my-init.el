@@ -1730,6 +1730,8 @@ In that case, insert the number."
   ("C-h j" . javadoc-lookup))
 
 (use-package pager
+  :commands (pager-page-down pager-page-up)
+  :load-path "~/.emacs.d/pager"
   :defer t
   :preface
   (defun my-scroll-up-command-pager (arg)
