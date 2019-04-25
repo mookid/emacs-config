@@ -1268,6 +1268,11 @@ A regexp that captures one match.")
                       :inherit 'error
                       :reverse-video t))
 
+(use-package rainbow-mode
+  :load-path "~/.emacs.d/rainbow-mode"
+  :commands (rainbow-mode)
+  :defer t)
+
 (eval
  `(use-package company
     :commands (company-abort company-complete-number)

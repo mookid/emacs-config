@@ -121,3 +121,6 @@
 [submodule "rainbow-delimiters"]
 	path = rainbow-delimiters
 	url = https://github.com/mookid/rainbow-delimiters
+[submodule "rainbow-mode"]
+	path = rainbow-mode
+	url = https://github.com/mookid/rainbow-mode
