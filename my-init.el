@@ -707,6 +707,15 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :defer t
   :load-path "~/.emacs.d/loop.el")
 
+(use-package epl
+  :defer t
+  :load-path "~/.emacs.d/epl")
+
+(use-package pkg-info
+  :defer t
+  :commands pkg-info-version-info
+  :load-path "~/.emacs.d/pkg-info.el")
+
 (use-package dabbrev
   :init
   (setq dabbrev-case-fold-search nil))
@@ -1433,6 +1442,8 @@ In that case, insert the number."
         expand-region-fast-keys-enabled t))
 
 (use-package flycheck
+  :load-path "~/.emacs.d/flycheck"
+  :commands (flycheck-mode)
   :defer t
   :bind
   (:map

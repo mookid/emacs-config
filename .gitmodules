@@ -124,3 +124,15 @@
 [submodule "rainbow-mode"]
 	path = rainbow-mode
 	url = https://github.com/mookid/rainbow-mode
+[submodule "epl"]
+	path = epl
+	url = https://github.com/mookid/epl
+[submodule "pkg-info.el"]
+	path = pkg-info.el
+	url = https://github.com/mookid/pkg-info.el
+[submodule "flycheck"]
+	path = flycheck
+	url = https://github.com/mookid/flycheck
+[submodule "flycheck-rust"]
+	path = flycheck-rust
+	url = https://github.com/mookid/flycheck-rust
