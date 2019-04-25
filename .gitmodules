@@ -115,3 +115,6 @@
 [submodule "markdown-mode"]
 	path = markdown-mode
 	url = https://github.com/mookid/markdown-mode
+[submodule "multiple-cursors.el"]
+	path = multiple-cursors.el
+	url = https://github.com/mookid/multiple-cursors.el

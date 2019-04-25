@@ -1487,6 +1487,7 @@ In that case, insert the number."
   (advice-add 'diff-hl-diff-goto-hunk :before #'my-save-all-buffers))
 
 (use-package multiple-cursors
+  :load-path "~/.emacs.d/multiple-cursors.el"
   :defer t
   :bind
   (("C->" . mc/mark-next-like-this)
