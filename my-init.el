@@ -1445,6 +1445,10 @@ In that case, insert the number."
   :load-path "~/.emacs.d/flycheck"
   :commands (flycheck-mode)
   :defer t
+  :preface
+  (defun my-rust-flycheck-setup ()
+    (flycheck-select-checker 'rust))
+  :hook (rust-mode-hook . my-rust-flycheck-setup)
   :bind
   (:map
    flycheck-mode-map
