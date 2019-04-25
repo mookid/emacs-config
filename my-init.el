@@ -1523,12 +1523,14 @@ In that case, insert the number."
      ("C-'" . mc-hide-unmatched-lines-mode))))
 
 (use-package undo-tree
+  :load-path "~/.emacs.d/undo-tree"
+  :commands (global-undo-tree-mode undo-tree-undo undo-tree-redo)
   :demand t
   :diminish undo-tree-mode
   :bind
   ("C-?" . undo-tree-redo)
-  :config
-  (global-undo-tree-mode 1)
+  :hook (prog-mode-hook . undo-tree-mode)
+  :init
   (fset 'my-undo-command 'undo-tree-undo))
 
 (use-package wgrep

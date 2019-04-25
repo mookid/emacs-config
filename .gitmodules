@@ -136,3 +136,6 @@
 [submodule "flycheck-rust"]
 	path = flycheck-rust
 	url = https://github.com/mookid/flycheck-rust
+[submodule "undo-tree"]
+	path = undo-tree
+	url = https://github.com/mookid/undo-tree
