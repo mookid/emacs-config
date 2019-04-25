@@ -9,8 +9,7 @@ abbrev_defs
 auto-save-list/*
 backups/*
 bookmarks
-elpa/*.txt
-elpa/archives/*
+elpa/*
 eshell/*
 places
 private.el
