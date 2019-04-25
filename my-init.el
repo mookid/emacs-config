@@ -1586,6 +1586,7 @@ In that case, insert the number."
   (global-hl-line-mode -1))
 
 (use-package smartparens
+  :load-path "~/.emacs.d/smartparens"
   :defer t
   :preface
   (defun my-smartparens-mode-setup ()

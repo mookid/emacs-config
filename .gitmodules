@@ -109,3 +109,6 @@
 [submodule "pager"]
 	path = pager
 	url = https://github.com/mookid/pager
+[submodule "smartparens"]
+	path = smartparens
+	url = https://github.com/mookid/smartparens
