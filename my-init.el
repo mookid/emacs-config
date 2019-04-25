@@ -675,6 +675,33 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 
 ;;; Packages
+(use-package dash
+  :load-path "~/.emacs.d/dash.el")
+
+(use-package dash-functional
+  :load-path "~/.emacs.d/dash.el")
+
+(use-package s
+  :defer t
+  :load-path "~/.emacs.d/s.el")
+
+(use-package f
+  :defer t
+  :load-path "~/.emacs.d/f.el")
+
+(use-package elisp-refs
+  :after loop
+  :defer t
+  :load-path "~/.emacs.d/elisp-refs")
+
+(use-package shut-up
+  :defer t
+  :load-path "~/.emacs.d/shut-up")
+
+(use-package loop
+  :defer t
+  :load-path "~/.emacs.d/loop.el")
+
 (use-package dabbrev
   :init
   (setq dabbrev-case-fold-search nil))
@@ -1669,6 +1696,8 @@ In that case, insert the number."
       :hook (rust-mode-hook . racer-mode))))
 
 (use-package helpful
+  :load-path "~/.emacs.d/helpful"
+  :commands (helpful-symbol)
   :defer t
   :bind
   (("C-h h" . helpful-symbol)))
