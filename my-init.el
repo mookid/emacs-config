@@ -1836,5 +1836,8 @@ If provided, do it ARG times."
   (highlight-symbol-mode 1)
   (setq highlight-symbol-idle-delay 0.2))
 
+(use-package markdown-mode
+  :load-path "~/.emacs.d/markdown-mode")
+
 (provide 'my-init)
 ;;; my-init.el ends here

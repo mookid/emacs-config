@@ -112,3 +112,6 @@
 [submodule "smartparens"]
 	path = smartparens
 	url = https://github.com/mookid/smartparens
+[submodule "markdown-mode"]
+	path = markdown-mode
+	url = https://github.com/mookid/markdown-mode
