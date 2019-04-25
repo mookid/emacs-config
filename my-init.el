@@ -1255,6 +1255,7 @@ A regexp that captures one match.")
   (lispy-set-key-theme '(special)))
 
 (use-package rainbow-delimiters
+  :load-path "~/.emacs.d/rainbow-delimiters"
   :defer t
   :preface
   (defun my-rainbow-delimiters-disable ()

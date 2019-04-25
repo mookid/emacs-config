@@ -118,3 +118,6 @@
 [submodule "multiple-cursors.el"]
 	path = multiple-cursors.el
 	url = https://github.com/mookid/multiple-cursors.el
+[submodule "rainbow-delimiters"]
+	path = rainbow-delimiters
+	url = https://github.com/mookid/rainbow-delimiters
