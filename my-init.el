@@ -1447,7 +1447,8 @@ In that case, insert the number."
   :defer t
   :preface
   (defun my-rust-flycheck-setup ()
-    (flycheck-select-checker 'rust))
+    (with-eval-after-load 'flycheck
+      (flycheck-select-checker 'rust)))
   :hook (rust-mode-hook . my-rust-flycheck-setup)
   :bind
   (:map
