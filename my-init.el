@@ -1323,12 +1323,6 @@ In that case, insert the number."
     (setq company-minimum-prefix-length 2)
     (setq company-tooltip-flip-when-above t)))
 
-(use-package company-posframe
-  :diminish company-posframe-mode
-  :disabled t
-  :init
-  (company-posframe-mode 1))
-
 (use-package ivy
   :load-path "~/.emacs.d/swiper"
   :preface
@@ -1633,16 +1627,6 @@ In that case, insert the number."
   :init
   (use-package smartparens-config))
 
-(use-package flyspell
-  :init
-  (setq flyspell-issue-message-flag nil)
-  :bind
-  (:map
-   flyspell-mode-map
-   (("C-;" . nil)))
-  :hook
-  ((prog-mode-hook . flyspell-prog-mode)))
-
 (use-package sh-script
   :defer t
   :preface
@@ -1673,14 +1657,6 @@ In that case, insert the number."
   :bind
   (("C-S-n" . move-text-down)
    ("C-S-p" . move-text-up)))
-
-(use-package windmove
-  :disabled t
-  :bind
-  (("S-<left>"  . windmove-left)
-   ("S-<right>" . windmove-right)
-   ("S-<up>"    . windmove-up)
-   ("S-<down>"  . windmove-down)))
 
 (use-package mb-depth
   :commands minibuffer-depth-indicate-mode
