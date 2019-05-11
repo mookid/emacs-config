@@ -831,6 +831,8 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (setq show-paren-delay 0)
     (show-paren-mode 1)))
 
+(use-package benchmark-init-modes)
+
 (use-package key-chord
   :load-path "~/.emacs.d/key-chord"
   :preface

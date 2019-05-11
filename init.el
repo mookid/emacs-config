@@ -13,7 +13,7 @@
     (package-initialize))
 
   (add-to-list 'load-path "~/.emacs.d/benchmark-init-el")
-  (require 'benchmark-init-loaddefs)
+  (require 'benchmark-init)
   (benchmark-init/activate)
   (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
