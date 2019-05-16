@@ -1531,7 +1531,8 @@ In that case, insert the number."
   :bind
   ("C-?" . undo-tree-redo)
   :hook (prog-mode-hook . undo-tree-mode)
-  :init
+  :config
+  (global-undo-tree-mode)
   (fset 'my-undo-command 'undo-tree-undo))
 
 (use-package wgrep
