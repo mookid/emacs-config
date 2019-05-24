@@ -14,6 +14,7 @@
 	c-electric-semi&comma
 	c-electric-star
 	c-indent-line-or-region
+	capitalize-dwim
 	complete-symbol
 	completion-at-point
 	composable-indent-region
@@ -23,6 +24,7 @@
 	dabbrev-expand
 	delete-indentation
 	down-list
+	downcase-dwim
 	downcase-region
 	electric-newline-and-maybe-indent
 	electric-pair-delete-pair
