@@ -1708,6 +1708,8 @@ In that case, insert the number."
       :load-path "~/.emacs.d/cargo.el"
       :diminish cargo-minor-mode
       :hook (rust-mode-hook . cargo-minor-mode)
+      :init
+      (advice-add 'cargo-process--start :before #'my-save-all-buffers)
       :bind
       (:map
        cargo-minor-mode-map
