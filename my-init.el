@@ -1232,8 +1232,6 @@ A regexp that captures one match.")
   (setenv "PAGER" "cat")
   (use-package shell
     :if (eq system-type 'windows-nt)
-    :init
-    (setq shell-file-name "bash")
     :hook (comint-output-filter-functions . comint-strip-ctrl-m))
   (use-package shell
     :if (not (display-graphic-p))
