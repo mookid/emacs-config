@@ -1719,6 +1719,7 @@ In that case, insert the number."
       :diminish cargo-minor-mode
       :hook (rust-mode-hook . cargo-minor-mode)
       :init
+      (setq cargo-process--command-check "check --tests")
       (advice-add 'cargo-process--start :before #'my-save-all-buffers)
       :bind
       (:map
