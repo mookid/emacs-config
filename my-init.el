@@ -135,6 +135,8 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "M-c") 'capitalize-dwim)
 (define-key global-map (kbd "C-h l") 'find-library)
 (define-key global-map (kbd "C-c g") 'my-gitk)
+(define-key global-map (kbd "<C-next>") 'my-scroll-up-3lines)
+(define-key global-map (kbd "<C-prior>") 'my-scroll-down-3lines)
 
 
 ;;; Unbound keys
@@ -499,6 +501,14 @@ Scroll down ARG lines."
   (interactive "P")
   (let ((arg (or arg 1)))
     (scroll-down arg)))
+
+(defun my-scroll-up-3lines ()
+  (interactive)
+  (scroll-up-line 3))
+
+(defun my-scroll-down-3lines ()
+  (interactive)
+  (scroll-down-line 3))
 
 (defmacro my-with-other-window (&rest body)
   "Go to the other window, apply BODY, and go back."
