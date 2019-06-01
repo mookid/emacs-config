@@ -29,6 +29,8 @@
 	electric-newline-and-maybe-indent
 	electric-pair-delete-pair
 	erlang-electric-comma
+	evilnc-comment-or-uncomment-lines
+	evilnc-copy-and-comment-lines
 	forward-sexp
 	indent-for-tab-command
 	kill-region
@@ -151,6 +153,7 @@
 	end-of-buffer
 	eval-defun
 	handle-switch-frame
+	help-for-help
 	iedit-switch-to-mc-mode
 	lispy-cursor-down
 	multiple-cursors-hydra/mc/mark-next-like-this
