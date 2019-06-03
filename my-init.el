@@ -756,7 +756,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package diff
   :preface
-  (defun display-buffer-diff-hook (&rest _args)
+  (defun my-display-buffer-diff-hook (&rest _args)
     (when (and (string= "*Shell Command Output*"
                         (buffer-name (current-buffer)))
                (save-excursion
@@ -765,7 +765,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
       (diff-mode)))
   :hook (diff-mode-hook . read-only-mode)
   :init
-  (advice-add 'display-buffer :after #'display-buffer-diff-hook))
+  (advice-add 'display-buffer :after #'my-display-buffer-diff-hook))
 
 (use-package ibuffer
   :bind
