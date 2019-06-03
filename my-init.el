@@ -1538,9 +1538,12 @@ In that case, insert the number."
   :diminish undo-tree-mode
   :bind
   ("C-?" . undo-tree-redo)
-  :hook (prog-mode-hook . undo-tree-mode)
   :config
   (global-undo-tree-mode)
+  (defun my-turn-on-undo-tree-mode (&rest _)
+    (interactive)
+    (undo-tree-mode 1))
+  (fset 'turn-on-undo-tree-mode 'my-turn-on-undo-tree-mode)
   (fset 'my-undo-command 'undo-tree-undo))
 
 (use-package wgrep
