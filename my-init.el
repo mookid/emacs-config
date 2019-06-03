@@ -751,7 +751,8 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :commands 'global-auto-revert-mode
   :diminish auto-revert-mode
   :init
-  (global-auto-revert-mode +1))
+  (global-auto-revert-mode +1)
+  (advice-add 'revert-buffer :before #'my-save-all-buffers))
 
 (use-package diff
   :preface
