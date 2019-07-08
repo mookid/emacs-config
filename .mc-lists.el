@@ -65,6 +65,7 @@
 	org-self-insert-command
 	raise-sexp
 	sh-assignment
+	sp-remove-active-pair-overlay
 	special-digit-argument
 	special-lh-knight/body
 	special-lispy-ace-char
@@ -161,6 +162,7 @@
 	my-goto-*scratch*
 	my-previous-next-buffer-repeat/my-other-window-or-switch-buffer
 	my-save-all-buffers
+	my-switch-buffer-command
 	ocp-indent-buffer
 	ocp-index-jump-to-sig-at-point
 	recompile
