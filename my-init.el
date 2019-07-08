@@ -1722,6 +1722,7 @@ In that case, insert the number."
       :hook (rust-mode-hook . cargo-minor-mode)
       :init
       (setq cargo-process--command-check "check --tests")
+      (setq cargo-process--command-build "build --release")
       (advice-add 'cargo-process--start :before #'my-save-all-buffers)
       :bind
       (:map
