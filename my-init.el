@@ -1194,6 +1194,7 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("C-S-s" . isearch-forward-symbol-at-point)
    :map
    minibuffer-local-isearch-map
+   ("C-r" . counsel-minibuffer-history)
    ("TAB" . isearch-complete-edit)
    :map
    isearch-mode-map
