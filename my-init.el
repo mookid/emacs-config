@@ -730,6 +730,18 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :init
   (setq dabbrev-case-fold-search nil))
 
+(use-package re-builder
+  :preface
+  (defun my-re-builder-kill-buffer-hook (orig-fun &rest args)
+    (let ((reb-win (when (eq major-mode 'reb-mode)
+		     (kill-new (string-trim (buffer-string)))
+		     (selected-window))))
+      (apply orig-fun args)
+      (when reb-win
+	(delete-window reb-win))))
+  :init
+  (advice-add 'kill-buffer :around #'my-re-builder-kill-buffer-hook))
+
 (use-package delsel
   :init
   (delete-selection-mode 1))
