@@ -734,11 +734,11 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :preface
   (defun my-re-builder-kill-buffer-hook (orig-fun &rest args)
     (let ((reb-win (when (eq major-mode 'reb-mode)
-		     (kill-new (string-trim (buffer-string)))
-		     (selected-window))))
+                     (kill-new (string-trim (buffer-string)))
+                     (selected-window))))
       (apply orig-fun args)
       (when reb-win
-	(delete-window reb-win))))
+        (delete-window reb-win))))
   :init
   (advice-add 'kill-buffer :around #'my-re-builder-kill-buffer-hook))
 
