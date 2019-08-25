@@ -691,9 +691,11 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 ;;; Packages
 (use-package dash
+  :defer t
   :load-path "~/.emacs.d/dash.el")
 
 (use-package dash-functional
+  :defer t
   :load-path "~/.emacs.d/dash.el")
 
 (use-package s
@@ -731,6 +733,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (setq dabbrev-case-fold-search nil))
 
 (use-package re-builder
+  :defer t
   :preface
   (defun my-re-builder-kill-buffer-hook (orig-fun &rest args)
     (let ((reb-win (when (eq major-mode 'reb-mode)
@@ -1505,15 +1508,6 @@ In that case, insert the number."
          (c++-mode-hook . my-c-setup)
          (c-mode-hook . my-c-setup)))
 
-(use-package image-mode
-  :config
-  (use-package image+
-    :bind
-    (:map
-     image-mode-map
-     ("+" . imagex-sticky-zoom-in)
-     ("-" . imagex-sticky-zoom-out))))
-
 (use-package yasnippet
   :defer t
   :config (yas-reload-all))
@@ -1701,14 +1695,16 @@ In that case, insert the number."
    ("C-c f" . vimish-fold-delete-all)))
 
 (use-package restart-emacs
+  :defer t
   :load-path "~/.emacs.d/restart-emacs"
-  :demand t
   :preface
   (defun my-restart-emacs (arg)
     (interactive "P")
     (if arg (save-buffers-kill-terminal)
       (condition-case nil
-          (restart-emacs)
+	  (progn
+	    (require 'restart-emacs)
+	    (restart-emacs))
         ;; XXX on console windows-nt, restart-emacs fails...
         (error (save-buffers-kill-terminal)))))
   :bind
