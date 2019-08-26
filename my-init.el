@@ -1141,6 +1141,19 @@ With prefix argument INVERT, invert `+' and `-'."
 (use-package isearch
   :commands (isearch-mode isearch-done)
   :preface
+  (unless (fboundp 'isearch-yank-until-char)
+    (defun isearch-yank-until-char (char)
+      "Pull everything until next instance of CHAR from buffer into search string.
+Interactively, prompt for CHAR."
+      (interactive "cYank until character: ")
+      (isearch-yank-internal
+       (lambda () (let ((inhibit-field-text-motion t))
+		    (search-forward (char-to-string char))
+		    (forward-char -1)
+		    (point)))))
+
+    (define-key isearch-mode-map "\M-\C-c" 'isearch-yank-until-char))
+
   (defun my-occur-region ()
     "Send region to occur when activated."
     (interactive)
