@@ -1843,7 +1843,10 @@ If provided, do it ARG times."
         ("C-c C-l" . golint)))
 
 (use-package go-mode
+  :mode "\\.go\\'"
   :load-path "~/.emacs.d/go-mode.el"
+  :init
+  (setq gofmt-command "goimports")
   :hook
   ((before-save-hook . gofmt-before-save)
    (go-mode . go-eldoc-setup))
