@@ -827,7 +827,6 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package elec-pair
   :commands my-electric-pair-mode
-  :defer t
   :commands electric-pair-mode
   :preface
   (defun my-electric-pair-mode (flag)
@@ -839,9 +838,10 @@ If non nil, ARG overrides the `back-to-indentation' function."
            (electric-pair-local-mode -1))
           (t
            (electric-pair-mode flag))))
+  :init
+  (my-electric-pair-mode 1)
   :config
   (progn
-    (my-electric-pair-mode 1)
     (add-to-list 'electric-pair-pairs '(?\{ . ?\}))
     (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)))
 
@@ -1636,6 +1636,7 @@ In that case, insert the number."
   (global-hl-line-mode -1))
 
 (use-package smartparens
+  :disabled t
   :load-path "~/.emacs.d/smartparens"
   :defer t
   :preface
