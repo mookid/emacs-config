@@ -2,7 +2,6 @@
 
 (custom-theme-set-faces
  'my-color
- ;; TODO: company?
  '(compilation-mode-line-fail ((t (:weight bold :inherit error))))
  '(completions-common-part ((t (:foreground "#DDDDDD"))))
  '(completions-first-difference ((t (:background "green" :bold t))))
@@ -11,11 +10,11 @@
  '(dired-ignored ((t (:foreground "gray60"))))
  '(error ((t (:foreground "red2" :bold t))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
- '(font-lock-comment-face ((t (:foreground "#808080"))))
- '(font-lock-string-face ((t (:bold t :foreground "#7bc29f"))))
+ '(font-lock-comment-face ((t (:foreground "#800"))))
+ '(font-lock-string-face ((t (:bold t :foreground "#080"))))
  '(font-lock-builtin-face ((t (:foreground nil))))
  '(font-lock-constant-face ((t (:foreground nil))))
- '(font-lock-doc-face ((t (:foreground "#7B7BC2" :bold t))))
+ '(font-lock-doc-face ((t (:foreground "#008" :bold t))))
  '(font-lock-function-name-face ((t (:foreground nil))))
  '(font-lock-keyword-face ((t (:foreground nil))))
  '(font-lock-preprocessor-face ((t (:foreground nil))))
@@ -24,7 +23,6 @@
  '(font-lock-type-face ((t (:foreground nil))))
  '(font-lock-variable-name-face ((t (:foreground nil))))
  '(font-lock-warning-face ((t (:foreground nil))))
- '(fringe ((t (:background "dark green"))))
  '(isearch ((t (:background "#FED4A4"))))
  '(lazy-highlight ((t (:background "#FBFEA4"))))
  '(highlight ((t (:background "light green"))))
