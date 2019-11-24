@@ -1450,7 +1450,6 @@ In that case, insert the number."
   :init
   (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
   :config
-  (fset 'my-switch-buffer-command 'counsel-switch-buffer)
   (fset 'my-switch-buffer-other-window-command 'counsel-switch-buffer-other-window)
   (add-to-list 'ivy-initial-inputs-alist
                '(counsel-switch-to-shell-buffer . "*shell*"))
