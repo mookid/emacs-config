@@ -1881,6 +1881,9 @@ If provided, do it ARG times."
 (use-package markdown-mode
   :load-path "~/.emacs.d/markdown-mode"
   :commands markdown-mode
+  :config
+  (set-face-attribute 'markdown-code-face nil :inherit nil
+		      :background "#FFEEEE")
   :defer t)
 
 (provide 'my-init)
