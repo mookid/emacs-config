@@ -1144,9 +1144,9 @@ Interactively, prompt for CHAR."
       (interactive "cYank until character: ")
       (isearch-yank-internal
        (lambda () (let ((inhibit-field-text-motion t))
-		    (search-forward (char-to-string char))
-		    (forward-char -1)
-		    (point)))))
+                    (search-forward (char-to-string char))
+                    (forward-char -1)
+                    (point)))))
 
     (define-key isearch-mode-map "\M-\C-c" 'isearch-yank-until-char))
 
@@ -1711,9 +1711,9 @@ In that case, insert the number."
     (interactive "P")
     (if arg (save-buffers-kill-terminal)
       (condition-case nil
-	  (progn
-	    (require 'restart-emacs)
-	    (restart-emacs))
+          (progn
+            (require 'restart-emacs)
+            (restart-emacs))
         ;; XXX on console windows-nt, restart-emacs fails...
         (error (save-buffers-kill-terminal)))))
   :bind
@@ -1882,7 +1882,7 @@ If provided, do it ARG times."
   :commands markdown-mode
   :config
   (set-face-attribute 'markdown-code-face nil :inherit nil
-		      :background "#FFEEEE")
+                      :background "#FFEEEE")
   :defer t)
 
 (provide 'my-init)
