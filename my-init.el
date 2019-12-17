@@ -178,7 +178,8 @@ See `my-def-balance-after'." orig-fun)
   "Font configuration for `default-frame-alist'.")
 
 (setq my-font-list
-      '((:font-name "Menlo" :font-size 18)
+      '((:font-name "SF Mono" :font-size 13)
+        (:font-name "Menlo" :font-size 18)
         (:font-name "Consolas" :font-size 14)
         (:font-name "DejaVu Sans Mono" :font-size 14)))
 
