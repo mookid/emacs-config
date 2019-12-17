@@ -1729,9 +1729,16 @@ In that case, insert the number."
   (ace-link-setup-default))
 
 (use-package rust-mode
+  :preface
+  (defun my-rustup-doc ()
+    (interactive)
+    (shell-command "rustup doc --std"))
   :load-path "~/.emacs.d/rust-mode"
   :defer t
   :mode ("\\.rs?$" . rust-mode)
+  :bind
+  (:map rust-mode-map
+        ("C-c d" . my-rustup-doc))
   :config
   (progn
     (use-package cargo
