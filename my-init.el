@@ -1437,7 +1437,7 @@ In that case, insert the number."
     (interactive "P")
     (let* ((directory (if p (read-directory-name "counsel from directory: ")))
            (current-prefix-arg nil))
-      (counsel-rg (my-prompt) directory)))
+      (counsel-git-grep (my-prompt) directory)))
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
