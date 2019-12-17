@@ -17,7 +17,7 @@
 ;;; Basic configuration
 (setq line-number-mode t)
 (setq column-number-mode t)
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 (setq echo-keystrokes 0.3)
 (setq recenter-positions '(top middle bottom))
 (setq set-mark-command-repeat-pop t)
