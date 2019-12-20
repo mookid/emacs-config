@@ -1432,9 +1432,9 @@ In that case, insert the number."
 
 (use-package counsel
   :load-path "~/.emacs.d/swiper"
-  :commands counsel-rg
+  :commands counsel-git-grep
   :preface
-  (defun my-counsel-rg (p)
+  (defun my-counsel-gg (p)
     (interactive "P")
     (let* ((directory (if p (read-directory-name "counsel from directory: ")))
            (current-prefix-arg nil))
@@ -1444,7 +1444,7 @@ In that case, insert the number."
    ([remap describe-variable] . counsel-describe-variable)
    ("C-c b" . counsel-bookmark)
    ("C-x p" . counsel-git)
-   ("<f8>" . my-counsel-rg)
+   ("<f8>" . my-counsel-gg)
    ("M-i" . counsel-imenu)
    ("C-c M-x" . counsel-M-x)
    ("<f10>" . counsel-git-checkout))
