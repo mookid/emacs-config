@@ -1432,13 +1432,15 @@ In that case, insert the number."
 
 (use-package counsel
   :load-path "~/.emacs.d/swiper"
-  :commands counsel-git-grep
+  :commands counsel-rg counsel-git-grep
   :preface
   (defun my-counsel-gg (p)
     (interactive "P")
     (let* ((directory (if p (read-directory-name "counsel from directory: ")))
            (current-prefix-arg nil))
-      (counsel-git-grep (my-prompt) directory)))
+           ;; (counsel-rg-base-command "rg -n --path-separator / -M 120 %s ."))
+      ;; (counsel-git-grep (my-prompt) directory)))
+      (counsel-rg (my-prompt) directory)))
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
