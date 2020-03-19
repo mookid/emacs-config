@@ -1896,5 +1896,10 @@ If provided, do it ARG times."
                       :background "#FFEEEE")
   :defer t)
 
+;; open grep.grep if it exists
+(let ((grep-results "grep.grep"))
+  (when (file-exists-p grep-results)
+    (find-file grep-results)))
+
 (provide 'my-init)
 ;;; my-init.el ends here
