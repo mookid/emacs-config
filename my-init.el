@@ -1017,7 +1017,7 @@ When called interactively, QUERY defaults to the word at point."
   "social.msdn.microsoft.com/Search/en-US?query=")
 
 (use-package grep
-  :defer t
+  :mode ("\\.grep?$" . grep-mode)
   :preface
   (defun my-disable-jump-to-error ()
     "Disable `compilation-auto-jump-to-next' local variable."
