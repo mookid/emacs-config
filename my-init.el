@@ -1019,6 +1019,7 @@ When called interactively, QUERY defaults to the word at point."
 (use-package grep
   :mode ("\\.grep?$" . grep-mode)
   :preface
+  (advice-add 'recompile :before #'my-save-all-buffers)
   (defun my-disable-jump-to-error ()
     "Disable `compilation-auto-jump-to-next' local variable."
     (kill-local-variable 'compilation-auto-jump-to-next))
