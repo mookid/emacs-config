@@ -1902,5 +1902,7 @@ If provided, do it ARG times."
   (when (file-exists-p grep-results)
     (find-file grep-results)))
 
+(fset 'org-mode 'fundamental-mode)
+
 (provide 'my-init)
 ;;; my-init.el ends here
