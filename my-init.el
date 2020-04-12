@@ -1410,7 +1410,7 @@ In that case, insert the number."
   (use-package ivy-xref
     :load-path "~/.emacs.d/ivy-xref"
     :commands ivy-xref-show-xrefs
-    :defer t
+    :demand t
     :init
     (setq ivy-xref-use-file-path t)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
