@@ -46,8 +46,9 @@
 (define-key key-translation-map [?\)] [?\]])
 (define-key key-translation-map [?\]] [?\)])
 
-(unless (member 'initials completion-styles)
-  (setq completion-styles (append completion-styles (list 'initials))))
+(dolist (style '(initials flex))
+  (unless (member style completion-styles)
+    (setq completion-styles (append completion-styles (list style)))))
 
 (progn
   (global-visual-line-mode +1)
