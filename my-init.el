@@ -1277,6 +1277,7 @@ A regexp that captures one match.")
   :config
   (progn
     (setq-default comint-input-ignoredups 1)
+    (advice-add 'comint-send-input :before #'my-save-all-buffers)
     (advice-add 'comint-previous-input :before #'my-end-of-buffer-hook)
     (advice-add 'comint-next-input :before #'my-end-of-buffer-hook)))
 
