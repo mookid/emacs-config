@@ -89,6 +89,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "C-x K") 'my-other-window-kill-buffer)
 (define-key global-map (kbd "C-x C-h") 'find-file-other-window)
 (define-key global-map (kbd "C-x y") 'my-find-init-file)
+(define-key global-map (kbd "C-x c") 'my-find-color-theme-file)
 (define-key global-map (kbd "C-h C-k") 'describe-key)
 (define-key global-map (kbd "C-c C-v") 'my-insert-buffer-name)
 (define-key global-map (kbd "C-c k") 'delete-frame)
@@ -187,6 +188,22 @@ See `my-def-balance-after'." orig-fun)
 (defvar my-color-theme
   nil
   "The selected color theme.")
+
+(defvar my-last-loaded-theme
+  nil
+  "The last loaded color theme.")
+
+(advice-add 'load-theme :before #'my-notify-load-theme)
+
+(defun my-notify-load-theme (&rest args)
+  (setq my-last-loaded-theme (car args)))
+
+(defun my-reload-theme ()
+  (interactive)
+  (my-save-all-buffers)
+  (disable-theme my-last-loaded-theme)
+  (load-theme my-color-theme t))
+
 (setq my-color-theme 'my-color)
 
 (defvar my-font nil
@@ -450,6 +467,11 @@ Such indirect buffers are automatically killed on `widen'."
   "Jump to the file where most of the configuration is defined."
   (interactive)
   (find-file my-main-init-file))
+
+(defun my-find-color-theme-file ()
+  "Jump to the file where my color theme is defined."
+  (interactive)
+  (find-file my-theme-file))
 
 (defun my-find-shell-config-file ()
   "Jump to the .bashrc file."

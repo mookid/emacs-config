@@ -20,9 +20,11 @@
   ;; The configuration directories
   (defvar custom-file)
   (defvar my-main-init-file)
+  (defvar my-theme-file)
   (defvar savehist-file)
   (setq custom-file (expand-file-name ".emacs-custom.el" user-emacs-directory))
   (setq my-main-init-file (expand-file-name "my-init.el" user-emacs-directory))
+  (setq my-theme-file (expand-file-name "my-color-theme.el" user-emacs-directory))
   (setq savehist-file (expand-file-name "savehist" user-emacs-directory))
   (setq backup-directory-alist
         `(("." . ,(expand-file-name "backups" user-emacs-directory))))
