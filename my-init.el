@@ -139,6 +139,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "C-c g") 'my-gitk)
 (define-key global-map (kbd "<C-next>") 'my-scroll-up-3lines)
 (define-key global-map (kbd "<C-prior>") 'my-scroll-down-3lines)
+(define-key global-map (kbd "C-S-SPC") 'my-set-mark-whole-line)
 
 
 ;;; Unbound keys
@@ -711,6 +712,12 @@ If non nil, ARG overrides the `back-to-indentation' function."
   "Insert the previous buffer name.  Useful for compilation."
   (interactive)
   (insert (buffer-name (my-previous-buffer))))
+
+(defun my-set-mark-whole-line (&optional n)
+  (interactive "P")
+  (beginning-of-line)
+  (set-mark-command nil)
+  (beginning-of-line (1+ (if (numberp n) n 1))))
 
 
 ;;; Packages
