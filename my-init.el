@@ -1918,7 +1918,7 @@ If provided, do it ARG times."
   ("C-S-<up>" . highlight-symbol-prev)
   ("C-S-<down>" . highlight-symbol-next)
   :init
-  (highlight-symbol-mode 1)
+  (highlight-symbol-mode -1)
   (setq highlight-symbol-idle-delay 0.2))
 
 (use-package markdown-mode
