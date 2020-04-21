@@ -1477,6 +1477,7 @@ In that case, insert the number."
   :bind
   (([remap describe-function] . counsel-describe-function)
    ([remap describe-variable] . counsel-describe-variable)
+   ([remap find-library] . counsel-find-library)
    ("C-c b" . counsel-bookmark)
    ("C-x p" . counsel-git)
    ("<f8>" . my-counsel-gg)
