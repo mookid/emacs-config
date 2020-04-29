@@ -817,6 +817,9 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :defer t
   :commands vc-root-dir
   :preface
+  (defun my-resolve-indirect-buffer-base (orig-fun &rest args)
+    (with-current-buffer (or (buffer-base-buffer) (current-buffer))
+      (apply orig-fun args)))
   (defun my-vc-add-current-buffer ()
     (interactive)
     (when (and buffer-file-name (stringp buffer-file-name))
@@ -842,6 +845,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
    ("q" . my-vc-add-current-buffer))
   :config
   (progn
+    (advice-add 'vc-diff :around #'my-resolve-indirect-buffer-base)
     (advice-add 'vc-diff :before #'my-save-all-buffers)
     (advice-add 'diff-apply-hunk :around #'my-no-confirm)
     (use-package vc-dir
@@ -1563,6 +1567,7 @@ In that case, insert the number."
   :bind
   ([remap vc-diff] . diff-hl-diff-goto-hunk)
   :config
+  (advice-add 'diff-hl-diff-goto-hunk :around #'my-resolve-indirect-buffer-base)
   (advice-add 'diff-hl-diff-goto-hunk :before #'my-save-all-buffers))
 
 (use-package multiple-cursors
