@@ -140,6 +140,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "<C-next>") 'my-scroll-up-3lines)
 (define-key global-map (kbd "<C-prior>") 'my-scroll-down-3lines)
 (define-key global-map (kbd "C-S-SPC") 'my-set-mark-whole-line)
+(define-key global-map (kbd "C-c K") 'my-close-repo)
 
 
 ;;; Unbound keys
@@ -718,6 +719,15 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (beginning-of-line)
   (set-mark-command nil)
   (beginning-of-line (1+ (if (numberp n) n 1))))
+
+(defun my-close-directory (directory)
+  (interactive "DChoose directory to close: ")
+  (setq directory (expand-file-name directory))
+  (dolist (buf (buffer-list))
+    (let* ((bfn (buffer-file-name buf))
+           (bfn (and bfn (expand-file-name bfn))))
+      (when (string-prefix-p directory bfn)
+        (kill-buffer buf)))))
 
 
 ;;; Packages
