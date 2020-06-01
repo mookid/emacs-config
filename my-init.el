@@ -1876,6 +1876,10 @@ If provided, do it ARG times."
   :init (global-subword-mode 1))
 
 (use-package view
+  :preface
+  (defun my-view-mode-occur ()
+    (interactive)
+    (occur view-last-regexp))
   :bind
   (("C-c q" . view-mode)
    :map view-mode-map
@@ -1889,6 +1893,9 @@ If provided, do it ARG times."
    ("i" . view-mode)
    ("j" . next-line)
    ("k" . previous-line)
+   ("v" . my-scroll-up-command)
+   ("V" . my-scroll-down-command)
+   ("o" . my-view-mode-occur)
    ("?" . View-search-regexp-backward)))
 
 (use-package go-eldoc
