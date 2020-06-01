@@ -1499,6 +1499,7 @@ In that case, insert the number."
    ("C-c M-x" . counsel-M-x)
    ("<f10>" . counsel-git-checkout))
   :init
+  (setq ivy-case-fold-search-default t)
   (advice-add 'counsel-switch-to-shell-buffer :around 'my-select-shell-buffer)
   :config
   (fset 'my-switch-buffer-other-window-command 'counsel-switch-buffer-other-window)
