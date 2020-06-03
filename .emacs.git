@@ -1,0 +1,29 @@
+;;; my-init.el ---  -*- mode: emacs-lisp -*-
+
+(set-face-background 'default "#FFEAFF")
+(cond ((eq system-type 'windows-nt)
+       (set-face-font 'default "Consolas 18"))
+      (t
+       (set-face-attribute 'default nil :height 140)))
+(set-frame-height nil 24)
+(set-frame-width nil 80)
+
+(defun subword-setup ()
+  (require 'subword)
+  (subword-mode +1))
+
+(run-with-idle-timer 2 nil (function subword-setup))
+(modify-syntax-entry ?/ ".")
+
+(defun do-commit ()
+  (interactive)
+  (save-buffer)
+  (kill-emacs))
+
+(defun no-commit ()
+  (interactive)
+  (erase-buffer)
+  (do-commit))
+
+(global-set-key (kbd "C-c C-c") (quote do-commit))
+(global-set-key (kbd "C-c C-k") (quote no-commit))
