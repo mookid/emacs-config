@@ -856,6 +856,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :config
   (progn
     (advice-add 'vc-diff :around #'my-resolve-indirect-buffer-base)
+    (advice-add 'vc-revert :around #'my-resolve-indirect-buffer-base)
     (advice-add 'vc-diff :before #'my-save-all-buffers)
     (advice-add 'diff-apply-hunk :around #'my-no-confirm)
     (use-package vc-dir
