@@ -1806,7 +1806,8 @@ In that case, insert the number."
       :bind
       (:map
        cargo-minor-mode-map
-       ("<f5>" . cargo-process-repeat)))
+       ("<f5>" . cargo-process-repeat)
+       ("C-c C-c C-c" . compile)))
     (use-package racer
       :load-path "~/.emacs.d/emacs-racer"
       :diminish racer-mode
