@@ -1897,7 +1897,9 @@ If provided, do it ARG times."
    ("j" . next-line)
    ("k" . previous-line)
    ("v" . my-scroll-up-command)
+   ("<tab>" . my-scroll-up-command)
    ("V" . my-scroll-down-command)
+   ("<backtab>" . my-scroll-down-command)
    ("o" . my-view-mode-occur)
    ("?" . View-search-regexp-backward)))
 
