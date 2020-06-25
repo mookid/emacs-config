@@ -140,7 +140,7 @@ See `my-def-balance-after'." orig-fun)
 (define-key global-map (kbd "<C-next>") 'my-scroll-up-3lines)
 (define-key global-map (kbd "<C-prior>") 'my-scroll-down-3lines)
 (define-key global-map (kbd "C-S-SPC") 'my-set-mark-whole-line)
-(define-key global-map (kbd "C-c K") 'my-close-repo)
+(define-key global-map (kbd "C-c K") 'my-close-directory)
 
 
 ;;; Unbound keys
