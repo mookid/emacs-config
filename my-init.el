@@ -836,6 +836,20 @@ If non nil, ARG overrides the `back-to-indentation' function."
       (let ((filename (file-name-nondirectory buffer-file-name)))
         (vc-git--call nil "add" "--" filename)
         (message "Added %s!" filename))))
+  (defun my-vc-git-show ()
+    (interactive)
+    (let* ((cmd "git rev-parse --show-toplevel")
+           (dir (string-trim (shell-command-to-string cmd)))
+           (buf (get-buffer-create (format "*git show %s*" dir))))
+      (with-current-buffer buf
+        (setq-local default-directory dir)
+        (setq-local revert-buffer-function
+                    (lambda (&rest _)
+                      (shell-command "git show" buf)
+                      (diff-mode)
+                      (setq buffer-read-only t)))
+        (revert-buffer))
+      (pop-to-buffer buf)))
   (defun my-vc-dir-root ()
     (interactive)
     (when-let (root (vc-root-dir))
@@ -852,7 +866,8 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (("<f7>" . my-vc-switch-to-buffer-other-window)
    :map
    vc-prefix-map
-   ("q" . my-vc-add-current-buffer))
+   ("q" . my-vc-add-current-buffer)
+   ("/" . my-vc-git-show))
   :config
   (progn
     (advice-add 'vc-diff :around #'my-resolve-indirect-buffer-base)
