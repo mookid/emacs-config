@@ -1869,7 +1869,8 @@ If provided, do it ARG times."
   (setq bm-cycle-all-buffers t)
   :config
   (set-face-foreground bm-face nil)
-  (set-face-background bm-face "#FFEAFF"))
+  (set-face-background bm-face "#FFEAFF")
+  (set-face-extend bm-face t))
 
 (use-package csharp-mode
   :hook ((csharp-mode-hook . my-c-setup)))
