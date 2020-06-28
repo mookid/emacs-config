@@ -868,6 +868,9 @@ If non nil, ARG overrides the `back-to-indentation' function."
    vc-prefix-map
    ("q" . my-vc-add-current-buffer)
    ("/" . my-vc-git-show))
+  :init
+  (set-face-foreground 'vc-edited-state "red")
+  (set-face-bold 'vc-edited-state t)
   :config
   (progn
     (advice-add 'vc-diff :around #'my-resolve-indirect-buffer-base)
@@ -1484,6 +1487,11 @@ In that case, insert the number."
   (use-package ivy-hydra
     :load-path "~/.emacs.d/swiper")
   :config
+  (set-face-bold 'ivy-minibuffer-match-face-2 nil)
+  (set-face-background 'ivy-minibuffer-match-face-2 "#FFEAFF")
+  (set-face-bold 'ivy-minibuffer-match-face-3 nil)
+  (set-face-bold 'ivy-minibuffer-match-face-4 nil)
+  (set-face-bold 'ivy-grep-info nil)
   (fset 'my-switch-buffer-command 'ivy-switch-buffer)
   (fset 'my-switch-buffer-other-window-command 'ivy-switch-buffer-other-window)
   (setq ivy-height 10)
