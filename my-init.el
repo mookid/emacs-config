@@ -1094,9 +1094,8 @@ When called interactively, QUERY defaults to the word at point."
            (not (search-forward "warning" nil t))
            (run-with-timer 0.4 nil #'switch-to-prev-buffer (get-buffer-window buf)))))
   :hook (grep-mode-hook . my-disable-jump-to-error)
-  :config
+  :init
   (use-package compile
-    :defer t
     :hook (compilation-finish-functions . my-compile-finish-hook)
     :init
     (setq compilation-ask-about-save nil)
