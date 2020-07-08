@@ -453,12 +453,14 @@ Such indirect buffers are automatically killed on `widen'."
 (defun my-occur-skip-gribberish-hook (&rest _)
   "Skip the first line of the results buffer created by `occur-mode'."
   (when isearch-mode (isearch-exit))
-  (select-window (get-buffer-window "*Occur*"))
-  (goto-char (point-min))
-  (next-logical-line 1)
-  (recenter 0)
-  (select-window (next-window)))
-(advice-add 'occur :after #'my-occur-skip-gribberish-hook)
+  (let ((window (get-buffer-window "*Occur*")))
+    (when (window-live-p window)
+      (select-window window)
+      (goto-char (point-min))
+      (next-logical-line 1)
+      (recenter 0)
+      (select-window (next-window)))))
+(add-hook 'occur-hook 'my-occur-skip-gribberish-hook)
 
 (defun my-revert-buffer-noconfirm ()
   "Revert current buffer without confirmation."
