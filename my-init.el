@@ -939,7 +939,6 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
         (apply #'key-chord-define mapping))))
   :init
   (my-key-chord-define global-map "hf" 'my-switch-buffer-command)
-  (my-key-chord-define global-map "fb" 'my-find-shell-config-file)
   :config
   (my-key-chord-setup))
 
