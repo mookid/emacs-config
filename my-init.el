@@ -40,6 +40,7 @@
 (put 'narrow-to-region 'disabled nil)
 (defalias 'display-startup-echo-area-message 'ignore)
 (defalias 'yes-or-no-p 'y-or-n-p)
+(advice-add 'help-mode-revert-buffer :around #'my-no-confirm)
 
 (define-key key-translation-map [?\(] [?\[])
 (define-key key-translation-map [?\[] [?\(])
