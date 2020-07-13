@@ -75,6 +75,23 @@ See `my-def-balance-after'." orig-fun)
 (my-def-balance-after my-split-window-right split-window-right)
 (my-def-balance-after my-split-window-below split-window-below)
 
+(defmacro my-def-active-region (newfun orig-fun)
+  "Define the function NEWFUN from ORIG-FUN.
+
+It applies ORIG-FUN only when the region is active."
+  `(progn
+     (defun ,newfun ()
+       ,(format "Apply `%s' when the region is active.
+
+See `my-def-active-region'." orig-fun)
+       (interactive)
+       (when (region-active-p)
+         (,orig-fun (region-beginning) (region-end))))
+     (define-key global-map [remap ,orig-fun] ',newfun)))
+
+(my-def-active-region my-downcase-region downcase-region)
+(my-def-active-region my-upcase-region upcase-region)
+
 
 ;;; Keybindings
 (define-key global-map (kbd "C-c u") 'my-dos2unix)
