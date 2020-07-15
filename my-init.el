@@ -755,11 +755,9 @@ If non nil, ARG overrides the `back-to-indentation' function."
   (interactive "p")
   (if (not (region-active-p))
       (insert last-input-event)
-    (let ((delete-selection-mode nil))
+    (let ((deactivate-mark nil))
       (save-mark-and-excursion
-        (indent-rigidly (region-beginning) (region-end) arg)
-        (print (list (mark) (point)))))
-    (activate-region)))
+        (indent-rigidly (region-beginning) (region-end) arg)))))
 
 (defun my-unindent-active-region (arg)
   (interactive "p")
