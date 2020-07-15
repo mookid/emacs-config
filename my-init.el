@@ -159,6 +159,8 @@ See `my-def-active-region'." orig-fun)
 (define-key global-map (kbd "<C-prior>") 'my-scroll-down-3lines)
 (define-key global-map (kbd "C-S-SPC") 'my-set-mark-whole-line)
 (define-key global-map (kbd "C-c K") 'my-close-directory)
+(define-key global-map (kbd "<") 'my-unindent-active-region)
+(define-key global-map (kbd ">") 'my-indent-active-region)
 
 
 ;;; Unbound keys
@@ -748,6 +750,20 @@ If non nil, ARG overrides the `back-to-indentation' function."
            (bfn (and bfn (expand-file-name bfn))))
       (when (string-prefix-p directory bfn)
         (kill-buffer buf)))))
+
+(defun my-indent-active-region (arg)
+  (interactive "p")
+  (if (not (region-active-p))
+      (insert last-input-event)
+    (let ((delete-selection-mode nil))
+      (save-mark-and-excursion
+        (indent-rigidly (region-beginning) (region-end) arg)
+        (print (list (mark) (point)))))
+    (activate-region)))
+
+(defun my-unindent-active-region (arg)
+  (interactive "p")
+  (my-indent-active-region (- arg)))
 
 
 ;;; Packages
