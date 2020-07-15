@@ -56,6 +56,16 @@
   (setf (cdr visual-line-mode-map) nil)
   (diminish 'visual-line-mode))
 
+;;; Debug
+(defmacro pprint (&rest syms)
+  `(print (list ,@(cl-mapcan (lambda (sym)
+                               (unless (symbolp sym)
+                                 (error "not a symbol: %S" sym))
+                               ;; (print (format "%S" sym))
+                               (list (intern (concat ":" (symbol-name sym)))
+                                     sym))
+                             syms))))
+
 
 ;;; Windows
 (defmacro my-def-balance-after (newfun orig-fun)
