@@ -1882,6 +1882,7 @@ In that case, insert the number."
       (:map
        cargo-minor-mode-map
        ("<f5>" . cargo-process-repeat)
+       ("C-c C-c C-l" . nil) ;; cargo clean
        ("C-c C-c C-c" . compile)))
     (use-package racer
       :load-path "~/.emacs.d/emacs-racer"
