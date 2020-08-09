@@ -846,9 +846,18 @@ If non nil, ARG overrides the `back-to-indentation' function."
 (use-package autorevert
   :commands 'global-auto-revert-mode
   :diminish auto-revert-mode
+  :preface
+  (defun my-restore-compilation-mode (orig-fun &rest args)
+    (let ((had-compilation-mode
+           (eq major-mode 'compilation-mode)))
+      (unwind-protect
+          (apply orig-fun args)
+        (when had-compilation-mode
+          (compilation-mode)))))
   :init
   (global-auto-revert-mode +1)
-  (advice-add 'revert-buffer :before #'my-save-all-buffers))
+  (advice-add 'revert-buffer :before #'my-save-all-buffers)
+  (advice-add 'revert-buffer :around #'my-restore-compilation-mode))
 
 (use-package diff
   :preface
