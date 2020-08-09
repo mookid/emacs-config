@@ -830,6 +830,10 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :init
   (delete-selection-mode 1))
 
+(use-package nxml-mode
+  :mode ("\\.csproj$" . xml-mode)
+  :mode ("\\.props$" . xml-mode))
+
 (use-package savehist
   :init
   (savehist-mode t)
@@ -1148,6 +1152,7 @@ When called interactively, QUERY defaults to the word at point."
   :hook (grep-mode-hook . my-disable-jump-to-error)
   :init
   (use-package compile
+    :mode ("log" . compilation-mode)
     :hook (compilation-finish-functions . my-compile-finish-hook)
     :init
     (setq compilation-ask-about-save nil)
@@ -1613,6 +1618,9 @@ In that case, insert the number."
    ("<f6>" . flycheck-list-errors))
   :config
   (setq flycheck-check-syntax-automatically '(save mode-enable)))
+
+(use-package cc-mode
+  :mode ("\\.cs$" . c++-mode))
 
 (use-package cc-vars
   :commands compile
