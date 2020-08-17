@@ -792,13 +792,8 @@ If non nil, ARG overrides the `back-to-indentation' function."
   :load-path "~/.emacs.d/f.el")
 
 (use-package elisp-refs
-  :after loop
   :defer t
   :load-path "~/.emacs.d/elisp-refs")
-
-(use-package loop
-  :defer t
-  :load-path "~/.emacs.d/loop.el")
 
 (use-package epl
   :defer t

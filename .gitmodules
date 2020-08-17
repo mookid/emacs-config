@@ -34,9 +34,6 @@
 [submodule "elisp-refs"]
 	path = elisp-refs
 	url = https://github.com/mookid/elisp-refs
-[submodule "loop.el"]
-	path = loop.el
-	url = https://github.com/mookid/loop.el
 [submodule "helpful"]
 	path = helpful
 	url = https://github.com/mookid/helpful
