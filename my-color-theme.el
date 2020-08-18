@@ -10,7 +10,7 @@
  '(dired-ignored ((t (:foreground "gray60"))))
  '(error ((t (:foreground "red2" :bold t))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
- '(font-lock-comment-face ((t (:foreground "#66B"))))
+ '(font-lock-comment-face ((t (:foreground "#080"))))
  '(font-lock-string-face ((t (:foreground "#C00"))))
  '(font-lock-builtin-face ((t (:foreground nil))))
  '(font-lock-constant-face ((t (:foreground nil))))
