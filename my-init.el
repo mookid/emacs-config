@@ -700,7 +700,9 @@ unless `my-untabify-this-buffer' is nil."
 (defun my-save-all-buffers (&rest _)
   "Save all buffers."
   (interactive)
-  (save-some-buffers t))
+  (condition-case nil
+      (save-some-buffers t)
+    (file-error nil)))
 (define-key global-map [remap save-some-buffers] 'my-save-all-buffers)
 
 (defun my-kill-line-backward (&optional arg)
