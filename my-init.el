@@ -1284,18 +1284,6 @@ exit the recursive edit and cancel the previous search."
     (interactive)
     (with-isearch-suspended (recursive-edit)))
 
-  (defun my-isearch-beginning-of-buffer ()
-    "Move isearch point to the beginning of the buffer."
-    (interactive)
-    (goto-char (point-min))
-    (isearch-repeat-forward))
-
-  (defun my-isearch-end-of-buffer ()
-    "Move isearch point to the end of the buffer."
-    (interactive)
-    (goto-char (point-max))
-    (isearch-repeat-backward))
-
   (defun my-isearch-exit-beginning ()
     "Go to the start of current isearch match.
 Use in `isearch-mode-end-hook'."
@@ -1339,9 +1327,9 @@ Otherwise, apply ORIG-FUN to ARGS."
    ("M-o" . isearch-occur)
    ("TAB" . isearch-complete)
    ("M-e" . isearch-toggle-symbol)
-   ("M-<" . my-isearch-beginning-of-buffer)
+   ("M-<" . isearch-beginning-of-buffer)
    ("C-M-o" . swiper-from-isearch)
-   ("M->" . my-isearch-end-of-buffer))
+   ("M->" . isearch-end-of-buffer))
   :hook (isearch-mode-end-hook . my-isearch-exit-beginning)
   :init
   (advice-add 'isearch-forward :around #'my-isearch-region-hook)
