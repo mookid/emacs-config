@@ -1065,6 +1065,8 @@ KEYS is string of length 2; KEYMAP defaults to the global map.")
     (use-package dired-x
       :commands (dired-omit-mode dired-jump)
       :hook (dired-mode-hook . dired-omit-mode)
+      :config
+      (add-to-list 'dired-omit-extensions ".exe")
       :bind
       (("M-<up>" . dired-jump)
        ("C-x C-j" . dired-jump)
