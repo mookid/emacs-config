@@ -1343,6 +1343,12 @@ Otherwise, apply ORIG-FUN to ARGS."
     "How to get the $PWD from the shell prompt.
 
 A regexp that captures one match.")
+
+  (defun my-comint-previous-input (arg)
+    (interactive "p")
+    (comint-previous-input arg)
+    (comint-send-input))
+
   (defun my-rename-shell-buffer (name)
     "Make a new buffer name for the current shell buffer based on NAME."
     (interactive "sBuffer name: ")
@@ -1378,7 +1384,7 @@ A regexp that captures one match.")
         ("C-z" . bury-buffer)
         ("C-l" . comint-clear-buffer)
         ("<f2>" . my-rename-shell-buffer)
-        ("<f5>" . comint-previous-input)
+        ("<f5>" . my-comint-previous-input)
         ("<f6>" . compilation-shell-minor-mode))
   :config
   (progn
