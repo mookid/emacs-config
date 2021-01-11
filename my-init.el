@@ -125,7 +125,9 @@ See `my-def-active-region'." orig-fun)
 (define-key global-map (kbd "M-n") 'next-error)
 (define-key global-map (kbd "M-p") 'previous-error)
 (define-key global-map (kbd "S-<next>") 'my-scroll-up-other-window)
+(define-key global-map (kbd "C-S-v") 'my-scroll-up-other-window)
 (define-key global-map (kbd "S-<prior>") 'my-scroll-down-other-window)
+(define-key global-map (kbd "M-V") 'my-scroll-down-other-window)
 (define-key global-map (kbd "C-M-<backspace>") 'my-clone-line)
 (define-key global-map (kbd "C-c C-M-<up>") 'raise-sexp)
 (define-key global-map (kbd "C-c C-M-u") 'raise-sexp)
@@ -232,16 +234,18 @@ See `my-def-active-region'." orig-fun)
 
 (defun my-reload-theme ()
   (interactive)
-  (my-save-all-buffers)
-  (disable-theme my-last-loaded-theme)
-  (load-theme my-color-theme t))
+  (when my-color-theme
+    (my-save-all-buffers)
+    (disable-theme my-last-loaded-theme)
+    (load-theme my-color-theme t)))
 
 (setq my-color-theme 'my-color)
 
 (defvar my-font nil
   "The selected font.")
 
-(with-eval-after-load 'init
+(defun my-init-display-settings ()
+  (interactive)
   (let ((font-specs my-font-list) (font))
     (while (and font-specs (not font))
       (cl-destructuring-bind (&key font-name font-size) (pop font-specs)
@@ -275,8 +279,11 @@ See `my-def-active-region'." orig-fun)
         (split-window-right))
       (balance-windows)
       (condition-case nil
-          (load-theme my-color-theme t)
+          (when (and my-color-theme (display-graphic-p))
+            (load-theme my-color-theme t))
         (warn (format "Error during loading of theme %s" my-color-theme))))))
+
+(my-init-display-settings)
 
 
 ;;; aliases
@@ -829,6 +836,7 @@ If non nil, ARG overrides the `back-to-indentation' function."
 
 (use-package nxml-mode
   :mode ("\\.csproj$" . xml-mode)
+  :mode ("\\.targets$" . xml-mode)
   :mode ("\\.props$" . xml-mode))
 
 (use-package savehist
@@ -908,17 +916,8 @@ If non nil, ARG overrides the `back-to-indentation' function."
     (interactive)
     (when-let (root (vc-root-dir))
       (vc-dir root)))
-  (defun my-vc-switch-to-buffer-other-window ()
-    (interactive)
-    (let* ((buffer-name "*vc-diff*")
-           (buffer-window (get-buffer-window buffer-name)))
-      (if buffer-window
-          (select-window buffer-window)
-        (switch-to-buffer-other-window buffer-name)
-        (diff-mode))))
   :bind
-  (("<f7>" . my-vc-switch-to-buffer-other-window)
-   :map
+  (:map
    vc-prefix-map
    ("q" . my-vc-add-current-buffer)
    ("/" . my-vc-git-show))
